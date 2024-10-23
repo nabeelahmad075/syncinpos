@@ -3,6 +3,9 @@ using Abp.Zero.EntityFrameworkCore;
 using syncinpos.Authorization.Roles;
 using syncinpos.Authorization.Users;
 using syncinpos.MultiTenancy;
+using syncinpos.Entities.LocationTypes;
+using syncinpos.Entities.Regions;
+using syncinpos.Entities.Locations;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -14,5 +17,8 @@ namespace syncinpos.EntityFrameworkCore
             : base(options)
         {
         }
+        public DbSet<LocationType> tblLocationTypes { get; set; }
+        public DbSet<Region> tblRegions { get; set; }
+        public DbSet<Location> tblLocations { get; set; }
     }
 }

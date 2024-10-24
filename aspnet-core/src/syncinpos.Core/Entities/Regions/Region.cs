@@ -11,8 +11,6 @@ namespace syncinpos.Entities.Regions
 {
     public class Region : Entity
     {
-        //[Key]
-        //public int Id { get; set; }
         [MaxLength(50)]
         public string Title { get; set; }
     }

@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace syncinpos.Entities.LocationTypes
+namespace syncinpos.Entities.HR.Designations
 {
-    public class LocationType : Entity
+    public class Designation : Entity, IMustHaveTenant
     {
-        [MaxLength(50)]
+        public int TenantId { get; set; }
+        [MaxLength(150)]
         public string Title { get; set; }
     }
 }

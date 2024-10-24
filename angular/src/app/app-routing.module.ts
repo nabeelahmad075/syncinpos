@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { AppComponent } from './app.component';
+import { LocationHistoryComponent } from "./locations/location-history.component";
+import { AddEditLocComponent } from "./locations/create-edit-location/add-edit-loc.component";
 
 @NgModule({
     imports: [
@@ -10,6 +12,16 @@ import { AppComponent } from './app.component';
                 path: '',
                 component: AppComponent,
                 children: [
+                    {
+                        path: "locationhistory",
+                        component: LocationHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "newlocation",
+                        component: AddEditLocComponent,
+                        canActivate: [AppRouteGuard]
+                    },
                     {
                         path: 'home',
                         loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),

@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from '@shared/shared.module';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
+import { DropdownModule} from 'primeng/dropdown';
 // layout
 import { HeaderComponent } from './layout/header.component';
 import { HeaderLeftNavbarComponent } from './layout/header-left-navbar.component';
@@ -22,6 +23,8 @@ import { SidebarComponent } from './layout/sidebar.component';
 import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
+import { LocationHistoryComponent } from './locations/location-history.component';  
+import { AddEditLocComponent } from './locations/create-edit-location/add-edit-loc.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +38,9 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
         SidebarComponent,
         SidebarLogoComponent,
         SidebarUserPanelComponent,
-        SidebarMenuComponent
+        SidebarMenuComponent,
+        LocationHistoryComponent,
+        AddEditLocComponent
     ],
     imports: [
         AppRoutingModule,
@@ -50,7 +55,8 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
         TabsModule,
         ServiceProxyModule,
         NgxPaginationModule,
-        SharedModule
+        SharedModule,
+        DropdownModule
     ],
     providers: []
 })

@@ -1,5 +1,5 @@
-<form class="form-horizontal" autocomplete="off" #createAccountForm="ngForm">
-  <abp-modal-header [title]="'CreateNewRole' | localize"></abp-modal-header>
+<form class="form-horizontal" autocomplete="off" #createAccountForm="ngForm" (ngSubmit)="save()">
+  <abp-modal-header [title]="'Add New Location' | localize" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
   <div class="modal-body">
     <tabset>
       <tab [heading]="'Location Details' | localize" class="pt-3 px-2">
@@ -8,7 +8,7 @@
             <label for="company">
               {{ "Company Name" | localize }}
             </label>
-            <input type="text" class="form-control" name="company" id="company" readonly />
+        <input type="text" class="form-control" name="company" id="company" value={{tenantName}} readonly />
           </div>
           <div class="col-md-4 required">
             <label for="region">
@@ -16,8 +16,8 @@
             </label>
             <div class="form-control pdropdown">
               <p-dropdown [style]="{ width: '100%'}" name="region" required
-              placeholder="Region" [options]="regions"
-              [(ngModel)]="location.regionId">
+              placeholder="Region" [options]="tblRegions"
+              [(ngModel)]="tblLocation.regionId" [filter]="true">
               </p-dropdown>
             </div>
           </div>
@@ -25,11 +25,12 @@
             <label for="locationtype">
               {{ "Location Type" | localize }}
             </label>
-            <select class="form-control" name="locationtype" id="locationtype">
-              <option value="">Select Location Type</option>
-            </select>
-            <!-- <input type="text" class="form-control" name="name" id="name" /> -->
-            
+            <div class="form-control pdropdown">
+              <p-dropdown [style]="{ width: '100%'}" name="locationtype" required
+              placeholder="Location Type" [options]="tblLocationType"
+              [(ngModel)]="tblLocation.locationTypeId">
+              </p-dropdown>
+            </div>
           </div>
         </div>
         <div class="form-row">
@@ -37,13 +38,16 @@
             <label for="locationCode">
               {{ "Location Code" | localize }}
             </label>
-            <input type="text" class="form-control" name="locationCode" id="locationCode" />
+            <input type="text" class="form-control" name="locationCode" id="locationCode" required minlength="2"
+               maxlength="500" [(ngModel)]="tblLocation.locationCode" />
+            <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
           </div>
           <div class="form-group col-md-8 required">
             <label for="locationName">
               {{ "Location Name" | localize }}
             </label>
-            <input type="text" class="form-control" name="locationName" id="locationName" />
+            <input type="text" class="form-control" name="locationName" id="locationName" required minlength="2"
+               maxlength="500" [(ngModel)]="tblLocation.locationName" />
           </div>
         </div>
         <div class="form-row">
@@ -51,7 +55,8 @@
             <label for="address">
               {{ "Address" | localize }}
             </label>
-            <input type="text" class="form-control" name="address" id="address" />
+            <input type="text" class="form-control" name="address" id="address" minlength="2"
+               maxlength="500" [(ngModel)]="tblLocation.address" />
           </div>
         </div>
         <div class="form-row form-group">
@@ -59,13 +64,15 @@
             <label for="person">
               {{ "Contact Person" | localize }}
             </label>
-            <input type="text" class="form-control" name="person" id="person" />
+            <input type="text" class="form-control" name="person" id="person" minlength="2"
+               maxlength="500" [(ngModel)]="tblLocation.contactPerson" />
           </div>
           <div class="col-md-4">
             <label for="number">
               {{ "Contact Number" | localize }}
             </label>
-            <input type="text" class="form-control" name="number" id="number" />
+            <input type="text" class="form-control" name="number" id="number" minlength="2"
+               maxlength="500" [(ngModel)]="tblLocation.contactNumber" />
           </div>
           <div class="">
             <label for="status">
@@ -86,102 +93,14 @@
       <tab [heading]="'Tax Details' | localize" class="pt-3 px-2"></tab>
     </tabset>
   </div>
-  <!-- <abp-modal-footer> -->
+  <abp-modal-footer [cancelDisabled]="saving" [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
+    [saveDisabled]="!createAccountForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
+  <!-- <abp-modal-footer>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" >Close</button>
       <button type="button" class="btn btn-outline-primary">Save changes</button>
+
     </div>
-  <!-- </abp-modal-footer> -->
+  </abp-modal-footer> -->
 </form>
-<!-- <tabset>
-      <tab [heading]="'Details' | localize" class="pt-3 px-2">
-        <div class="form-group row required">
-          <label class="col-md-3 col-form-label" for="name">
-            {{ "Name" | localize }}
-          </label>
-          <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="name"
-              id="name"
-              required
-              minlength="2"
-              maxlength="32"
-              [(ngModel)]="role.name"
-              #nameModel="ngModel"
-              #nameEl
-              />
-              <abp-validation-summary
-                [control]="nameModel"
-                [controlEl]="nameEl"
-              ></abp-validation-summary>
-            </div>
-          </div>
-          <div class="form-group row required">
-            <label class="col-md-3 col-form-label" for="displayName">
-              {{ "DisplayName" | localize }}
-            </label>
-            <div class="col-md-9">
-              <input
-                type="text"
-                class="form-control"
-                name="displayName"
-                id="displayName"
-                required
-                minlength="2"
-                maxlength="32"
-                [(ngModel)]="role.displayName"
-                #displayNameModel="ngModel"
-                #displayNameEl
-                />
-                <abp-validation-summary
-                  [control]="displayNameModel"
-                  [controlEl]="displayNameEl"
-                ></abp-validation-summary>
-              </div>
-            </div>
-            <div class="form-group row mb-0">
-              <label class="col-md-3 col-form-label" for="description">
-                {{ "RoleDescription" | localize }}
-              </label>
-              <div class="col-md-9">
-                <textarea
-                  type="text"
-                  class="form-control"
-                  name="description"
-                  id="description"
-                  [(ngModel)]="role.description"
-                  >
-                </textarea>
-              </div>
-            </div>
-          </tab>
-          <tab [heading]="'Permissions' | localize" class="pt-3 px-2">
-            <div class="form-group row mb-0">
-              @for (permission of permissions; track permission; let i = $index) {
-                <div class="col-md-6">
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      [id]="'permission_' + i"
-                      [checked]="isPermissionChecked(permission.name)"
-                      (change)="onPermissionChange(permission, $event)"
-                      />
-                      <label class="custom-control-label" [for]="'permission_' + i">
-                        {{ permission.displayName }}
-                      </label>
-                    </div>
-                  </div>
-                }
-              </div>
-            </tab>
-          </tabset>
-        </div>
-        <abp-modal-footer
-          [cancelDisabled]="saving"
-          [saveDisabled]="!createRoleForm.form.valid || saving"
-          (onCancelClick)="bsModalRef.hide()"
-        ></abp-modal-footer>
-      </form> -->

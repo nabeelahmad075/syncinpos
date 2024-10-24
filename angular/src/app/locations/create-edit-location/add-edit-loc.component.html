@@ -8,16 +8,15 @@
             <label for="company">
               {{ "Company Name" | localize }}
             </label>
-        <input type="text" class="form-control" name="company" id="company" value={{tenantName}} readonly />
+            <input type="text" class="form-control" name="company" id="company" value={{tenantName}} readonly />
           </div>
           <div class="col-md-4 required">
             <label for="region">
               {{ "Region" | localize }}
             </label>
             <div class="form-control pdropdown">
-              <p-dropdown [style]="{ width: '100%'}" name="region" required
-              placeholder="Region" [options]="tblRegions"
-              [(ngModel)]="tblLocation.regionId" [filter]="true">
+              <p-dropdown [style]="{ width: '100%'}" name="region" required placeholder="Region" [options]="tblRegions"
+                [(ngModel)]="tblLocation.regionId" [filter]="true">
               </p-dropdown>
             </div>
           </div>
@@ -26,9 +25,8 @@
               {{ "Location Type" | localize }}
             </label>
             <div class="form-control pdropdown">
-              <p-dropdown [style]="{ width: '100%'}" name="locationtype" required
-              placeholder="Location Type" [options]="tblLocationType"
-              [(ngModel)]="tblLocation.locationTypeId">
+              <p-dropdown [style]="{ width: '100%'}" name="locationtype" required placeholder="Location Type"
+                [options]="tblLocationType" [(ngModel)]="tblLocation.locationTypeId">
               </p-dropdown>
             </div>
           </div>
@@ -39,7 +37,7 @@
               {{ "Location Code" | localize }}
             </label>
             <input type="text" class="form-control" name="locationCode" id="locationCode" required minlength="2"
-               maxlength="500" [(ngModel)]="tblLocation.locationCode" />
+              maxlength="500" [(ngModel)]="tblLocation.locationCode" />
             <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
           </div>
           <div class="form-group col-md-8 required">
@@ -47,7 +45,7 @@
               {{ "Location Name" | localize }}
             </label>
             <input type="text" class="form-control" name="locationName" id="locationName" required minlength="2"
-               maxlength="500" [(ngModel)]="tblLocation.locationName" />
+              maxlength="500" [(ngModel)]="tblLocation.locationName" />
           </div>
         </div>
         <div class="form-row">
@@ -55,8 +53,8 @@
             <label for="address">
               {{ "Address" | localize }}
             </label>
-            <input type="text" class="form-control" name="address" id="address" minlength="2"
-               maxlength="500" [(ngModel)]="tblLocation.address" />
+            <input type="text" class="form-control" name="address" id="address" minlength="2" maxlength="500"
+              [(ngModel)]="tblLocation.address" />
           </div>
         </div>
         <div class="form-row form-group">
@@ -64,15 +62,15 @@
             <label for="person">
               {{ "Contact Person" | localize }}
             </label>
-            <input type="text" class="form-control" name="person" id="person" minlength="2"
-               maxlength="500" [(ngModel)]="tblLocation.contactPerson" />
+            <input type="text" class="form-control" name="person" id="person" minlength="2" maxlength="500"
+              [(ngModel)]="tblLocation.contactPerson" />
           </div>
           <div class="col-md-4">
             <label for="number">
               {{ "Contact Number" | localize }}
             </label>
-            <input type="text" class="form-control" name="number" id="number" minlength="2"
-               maxlength="500" [(ngModel)]="tblLocation.contactNumber" />
+            <input type="text" class="form-control" name="number" id="number" minlength="2" maxlength="500"
+              [(ngModel)]="tblLocation.contactNumber" />
           </div>
           <div class="">
             <label for="status">
@@ -94,8 +92,7 @@
     </tabset>
   </div>
   <abp-modal-footer [cancelDisabled]="saving" [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
-    [saveDisabled]="!createAccountForm.form.valid || saving"
-    (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
+    [saveDisabled]="!createAccountForm.form.valid || saving" (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
   <!-- <abp-modal-footer>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" >Close</button>

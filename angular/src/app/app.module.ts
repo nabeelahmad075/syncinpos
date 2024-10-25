@@ -25,6 +25,8 @@ import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { LocationHistoryComponent } from './locations/location-history.component';  
 import { AddEditLocComponent } from './locations/create-edit-location/add-edit-loc.component';
+import { EmployeeHistoryComponent } from './employees/employee-history.component';
+import { AddEditEmpComponent } from './employees/create-edit-employee/add-edit-emp.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +42,9 @@ import { AddEditLocComponent } from './locations/create-edit-location/add-edit-l
         SidebarUserPanelComponent,
         SidebarMenuComponent,
         LocationHistoryComponent,
-        AddEditLocComponent
+        AddEditLocComponent,
+        EmployeeHistoryComponent,
+        AddEditEmpComponent
     ],
     imports: [
         AppRoutingModule,

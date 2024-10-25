@@ -1,14 +1,14 @@
-import {Component, Injector, OnInit} from '@angular/core';
-import {AppComponentBase} from '@shared/app-component-base';
+import { Component, Injector, OnInit } from '@angular/core';
+import { AppComponentBase } from '@shared/app-component-base';
 import {
     Router,
     RouterEvent,
     NavigationEnd,
     PRIMARY_OUTLET
 } from '@angular/router';
-import {BehaviorSubject} from 'rxjs';
-import {filter} from 'rxjs/operators';
-import {MenuItem} from '@shared/layout/menu-item';
+import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { MenuItem } from '@shared/layout/menu-item';
 
 @Component({
     selector: 'sidebar-menu',
@@ -31,19 +31,25 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
 
         this.router.events.subscribe((event: NavigationEnd) => {
             const currentUrl = event.url !== '/' ? event.url : this.homeRoute;
-                const primaryUrlSegmentGroup = this.router.parseUrl(currentUrl).root
-                    .children[PRIMARY_OUTLET];
-                if (primaryUrlSegmentGroup) {
-                    this.activateMenuItems('/' + primaryUrlSegmentGroup.toString());
-                }
+            const primaryUrlSegmentGroup = this.router.parseUrl(currentUrl).root
+                .children[PRIMARY_OUTLET];
+            if (primaryUrlSegmentGroup) {
+                this.activateMenuItems('/' + primaryUrlSegmentGroup.toString());
+            }
         });
     }
 
     getMenuItems(): MenuItem[] {
         return [
             new MenuItem(this.l('Setup'), '', 'fas fa-circle', '', [
-                new MenuItem('Location', '/app/locationhistory', 'fas fa-info-circle'),
+                new MenuItem('Configuration', '', 'fas fa-dot-circle', '', [
+                    new MenuItem('Location', '/app/locationhistory', 'fas fa-info-circle'),
+                ]),
+                new MenuItem('HR Management', '', 'fas fa-dot-circle', '', [
+                    new MenuItem('Add Employee', '/app/employeehistory', 'fas fa-info-circle'),
+                ]),
             ]),
+            
             new MenuItem(this.l('About'), '/app/about', 'fas fa-info-circle'),
             new MenuItem(this.l('HomePage'), '/app/home', 'fas fa-home'),
             new MenuItem(

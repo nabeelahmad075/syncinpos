@@ -8,8 +8,6 @@ import { result } from 'lodash-es';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { SelectItem } from "primeng/api";
 
-
-
 @Component({
   selector: 'app-add-edit-loc',
   //standalone: true,

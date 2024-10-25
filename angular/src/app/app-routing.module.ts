@@ -4,6 +4,8 @@ import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { AppComponent } from './app.component';
 import { LocationHistoryComponent } from "./locations/location-history.component";
 import { AddEditLocComponent } from "./locations/create-edit-location/add-edit-loc.component";
+import { EmployeeHistoryComponent } from "./employees/employee-history.component";
+import { AddEditEmpComponent } from "./employees/create-edit-employee/add-edit-emp.component";
 
 @NgModule({
     imports: [
@@ -20,6 +22,16 @@ import { AddEditLocComponent } from "./locations/create-edit-location/add-edit-l
                     {
                         path: "newlocation",
                         component: AddEditLocComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "employeehistory",
+                        component: EmployeeHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "createemp",
+                        component: AddEditEmpComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {

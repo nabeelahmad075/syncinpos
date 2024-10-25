@@ -14,7 +14,7 @@
             <label for="region">
               {{ "Region" | localize }}
             </label>
-            <div class="form-control pdropdown">
+            <div class="form-control">
               <p-dropdown [style]="{ width: '100%'}" name="region" required placeholder="Region" [options]="tblRegions"
                 [(ngModel)]="tblLocation.regionId" [filter]="true">
               </p-dropdown>

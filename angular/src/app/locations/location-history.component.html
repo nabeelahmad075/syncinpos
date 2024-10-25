@@ -49,13 +49,24 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @for (
+                                    loc of locationHistory
+                                    | paginate
+                                    : {
+                                    id: 'server',
+                                    itemsPerPage: pageSize,
+                                    currentPage: pageNumber,
+                                    totalItems: totalItems
+                                  }
+                                  ; track
+                                  loc.id) {
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{loc.regionName}}</td>
+                                    <td>{{loc.locationName}}</td>
+                                    <td>{{loc.locationType}}</td>
+                                    <td>{{loc.address}}</td>
+                                    <td>{{loc.contactPerson}}</td>
+                                    <td>{{loc.contactNumber}}</td>
                                     <td></td>
                                     <td style="text-align: center;">
                                         <button type="button" class="btn btn-sm bg-secondary">
@@ -63,6 +74,7 @@
                                         </button>
                                     </td>
                                 </tr>
+                            }
                             </tbody>
                         </table>
                     </div>

@@ -1,11 +1,19 @@
-import { Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, ViewChild } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AddEditLocComponent } from './create-edit-location/add-edit-loc.component';
 import { extend } from 'lodash-es';
 import { AppComponentBase } from '@shared/app-component-base';
-import { LocationServiceProxy } from '@shared/service-proxies/service-proxies';
+import { LocationServiceProxy, LocationHistoryDtoPagedResultDto, 
+  LocationHistoryDto,
+  LocationDtoPagedResultDto,
+  LocationDto,  } from '@shared/service-proxies/service-proxies';
+import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
+import { finalize } from 'rxjs/operators';
 
+class PagedLocationHistoryRequestDto extends PagedRequestDto {
+  keyword: string;
+}
 @Component({
   selector: 'app-location-history',
   // standalone: true,
@@ -15,41 +23,61 @@ import { LocationServiceProxy } from '@shared/service-proxies/service-proxies';
   animations: [appModuleAnimation()]
 })
 
-export class LocationHistoryComponent extends AppComponentBase {
+export class LocationHistoryComponent extends PagedListingComponentBase<LocationHistoryDto> {
+
+  locationHistory: LocationHistoryDto[] = [];
+  keyword = '';
+
 
   constructor(
     injector: Injector,
     private _modalService: BsModalService,
     private _locationService: LocationServiceProxy,
+    cd: ChangeDetectorRef
   ) {
-    super(injector);
+    super(injector, cd);
   }
 
-  // getHistory(event?: LazyLoadEvent) {
-  //   if (this.primengTableHelper.shouldResetPaging(event)) {
-  //     this.paginator.changePage(0);
-  //     return;
-  //   }
-  //   if (this.eventClone && !event.filters)
-  //     event.filters = this.eventClone.filters;
-  //   if (this.eventClone && this.eventClone.sortField && !event.sortField) {
-  //     event.sortField = this.eventClone.sortField
-  //     event.sortOrder = this.eventClone.sortOrder
-  //   }
-  //   abp.ui.setBusy();
-  //   this._detailAccountService
-  //     .getHistory(
-  //       event && event.filters && event.filters["global"] ? event.filters["global"].value : undefined,
-  //       "",
-  //       this.primengTableHelper.getSkipCount(this.paginator, event),
-  //       this.primengTableHelper.getMaxResultCount(this.paginator, event)
-  //     )
-  //     .subscribe((result) => {
-  //       this.primengTableHelper.records = result.items;
-  //       this.primengTableHelper.totalRecordsCount = result.totalCount;
-  //     })
-  //     .add(() => abp.ui.clearBusy());
-  // }
+  list(
+    request: PagedLocationHistoryRequestDto,
+    pageNumber: number,
+    finishedCallback: Function
+  ): void {
+    request.keyword = this.keyword;
+
+    this._locationService
+      .getHistory(request.keyword, undefined, request.skipCount, request.maxResultCount)
+      .pipe(
+        finalize(() => {
+          finishedCallback();
+        })
+      )
+      .subscribe((result: LocationHistoryDtoPagedResultDto) => {
+        this.locationHistory = result.items;
+        this.showPaging(result, pageNumber);
+        this.cd.detectChanges();
+      });
+  }
+
+  delete(locationHistory: LocationHistoryDto): void {
+    // abp.message.confirm(
+    //   this.l('RoleDeleteWarningMessage', role.displayName),
+    //   undefined,
+    //   (result: boolean) => {
+    //     if (result) {
+    //       this._rolesService
+    //         .delete(role.id)
+    //         .pipe(
+    //           finalize(() => {
+    //             abp.notify.success(this.l('SuccessfullyDeleted'));
+    //             this.refresh();
+    //           })
+    //         )
+    //         .subscribe(() => {});
+    //     }
+    //   }
+    // );
+  }
 
   createLocation(): void {
     this.showCreateOrEditLocDialog();
@@ -61,19 +89,24 @@ export class LocationHistoryComponent extends AppComponentBase {
       createOrEditLocDialog = this._modalService.show(
         AddEditLocComponent,
         {
-          class: 'modal-lg',
+          class: 'modal-xl',
         }
       );
     }
     else {
       createOrEditLocDialog = this._modalService.show(
         AddEditLocComponent, {
-        class: 'modal-lg',
+        class: 'modal-xl',
         initialState: {
           id: id,
         },
       }
       );
     }
+    // createOrEditLocDialog.content.onSave.subscribe((value) => {
+    //   if(value){
+    //     this.list();
+    //   }
+    // });
   }
 }

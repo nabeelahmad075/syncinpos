@@ -3370,6 +3370,218 @@ export interface ICreateUserDto {
     password: string;
 }
 
+export class DepartmentsDto implements IDepartmentsDto {
+    id: number;
+    tenantId: number;
+    title: string | undefined;
+
+    constructor(data?: IDepartmentsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.tenantId = _data["tenantId"];
+            this.title = _data["title"];
+        }
+    }
+
+    static fromJS(data: any): DepartmentsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DepartmentsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["tenantId"] = this.tenantId;
+        data["title"] = this.title;
+        return data;
+    }
+
+    clone(): DepartmentsDto {
+        const json = this.toJSON();
+        let result = new DepartmentsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDepartmentsDto {
+    id: number;
+    tenantId: number;
+    title: string | undefined;
+}
+
+export class DepartmentsDtoPagedResultDto implements IDepartmentsDtoPagedResultDto {
+    items: DepartmentsDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IDepartmentsDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(DepartmentsDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): DepartmentsDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DepartmentsDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): DepartmentsDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new DepartmentsDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDepartmentsDtoPagedResultDto {
+    items: DepartmentsDto[] | undefined;
+    totalCount: number;
+}
+
+export class DesignationsDto implements IDesignationsDto {
+    id: number;
+    tenantId: number;
+    title: string | undefined;
+
+    constructor(data?: IDesignationsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.tenantId = _data["tenantId"];
+            this.title = _data["title"];
+        }
+    }
+
+    static fromJS(data: any): DesignationsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DesignationsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["tenantId"] = this.tenantId;
+        data["title"] = this.title;
+        return data;
+    }
+
+    clone(): DesignationsDto {
+        const json = this.toJSON();
+        let result = new DesignationsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDesignationsDto {
+    id: number;
+    tenantId: number;
+    title: string | undefined;
+}
+
+export class DesignationsDtoPagedResultDto implements IDesignationsDtoPagedResultDto {
+    items: DesignationsDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IDesignationsDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(DesignationsDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): DesignationsDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DesignationsDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): DesignationsDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new DesignationsDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDesignationsDtoPagedResultDto {
+    items: DesignationsDto[] | undefined;
+    totalCount: number;
+}
+
 export class FlatPermissionDto implements IFlatPermissionDto {
     name: string | undefined;
     displayName: string | undefined;

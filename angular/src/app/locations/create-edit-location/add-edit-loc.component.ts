@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, Injector, OnInit, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
   RegionServiceProxy, RegionDto, LocationDto, LocationServiceProxy,
@@ -7,6 +7,7 @@ import {
 import { result } from 'lodash-es';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { SelectItem } from "primeng/api";
+import { Dropdown } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-add-edit-loc',
@@ -31,22 +32,26 @@ export class AddEditLocComponent extends AppComponentBase implements OnInit {
     private _regionService: RegionServiceProxy,
     private _locationTypeService: LocationTypeServiceProxy,
     private _locationService: LocationServiceProxy,
-    public bsModalRef: BsModalRef
+    public bsModalRef: BsModalRef,
+    private cdr: ChangeDetectorRef
   ) {
     super(injector);
   }
   ngOnInit(): void {
     this.tenantName = this.appSession.tenant.name;
-    this.getRegionsDropdown();
-    this.getLocationTypeDropdown();
+
     if (this.id > 0){
       this.getLocationById();
     }
+    this.getRegionsDropdown();
+    this.getLocationTypeDropdown();
   }
 
   getRegionsDropdown() {
+    this.tblRegions = [];
     this._regionService.getRegionsDropDown().subscribe(
       (result) => {
+        debugger
         console.log(result)
         this.tblRegions = result;
       }
@@ -111,8 +116,12 @@ export class AddEditLocComponent extends AppComponentBase implements OnInit {
   }
 
   getLocationById (){
+    debugger
     this._locationService.get (this.id).subscribe((result) => {
+      debugger
+      console.log(result);
       this.tblLocation= result;
+      this.cdr.detectChanges();
     })
   }
 }

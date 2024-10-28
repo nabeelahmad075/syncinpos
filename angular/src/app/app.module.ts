@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from '@shared/shared.module';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { DropdownModule} from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
 // layout
 import { HeaderComponent } from './layout/header.component';
 import { HeaderLeftNavbarComponent } from './layout/header-left-navbar.component';
@@ -60,7 +61,8 @@ import { AddEditEmpComponent } from './employees/create-edit-employee/add-edit-e
         ServiceProxyModule,
         NgxPaginationModule,
         SharedModule,
-        DropdownModule
+        DropdownModule,
+        TableModule
     ],
     providers: []
 })

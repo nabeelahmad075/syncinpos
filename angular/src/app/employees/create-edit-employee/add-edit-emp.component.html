@@ -1,1 +1,138 @@
-<p>add-edit-emp works!</p>
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createAccountForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Employee Information' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+        <div class="form-row form-group">
+          <div class="col-md-4 required">
+            <label for="location">
+              {{ "Location" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{ width: '100%', height: '38px', lineHeight: '1' }"
+                name="location"
+                required
+                placeholder="Select Location"
+                [options]="tblLocation"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [(ngModel)]="tblEmployee.locationId"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-4 required">
+            <label for="designation">
+              {{ "Designation" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{ width: '100%', height: '38px', lineHeight: '1' }"
+                name="designation"
+                required
+                placeholder="Select Designation"
+                [options]="tblDesignation"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [(ngModel)]="tblEmployee.designationId"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-4 required">
+            <label for="department">
+              {{ "Department" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{ width: '100%', height: '38px', lineHeight: '1' }"
+                name="department"
+                required
+                placeholder="Select Department"
+                [options]="tblDepartment"
+                [(ngModel)]="tblEmployee.departmentId"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="empName">
+              {{ "Employee Name" | localize }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              name="empName"
+              id="empName"
+              required
+              minlength="2"
+              maxlength="500"
+              [(ngModel)]="tblEmployee.employeeName"
+            />
+          </div>
+          <div class="form-group col-md-8 required">
+            <label for="empMob">
+              {{ "Mobile No." | localize }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              name="empMob"
+              id="empMob"
+              required
+              minlength="2"
+              maxlength="500"
+              [(ngModel)]="tblEmployee.mobileNo"
+            />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12 required">
+            <label for="address">
+              {{ "Address" | localize }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              name="address"
+              id="address"
+              minlength="2"
+              maxlength="500"
+              [(ngModel)]="tblEmployee.address"
+            />
+          </div>
+        </div>
+        <div class="form-row form-group">
+          <div class="form-group col-md-4">
+            <label class="col-md-3">
+              {{ "" }}
+            </label>
+            <div class="col-md-9">
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  name="isActive"
+                  id="isActive"
+                  [(ngModel)]="tblEmployee.isActive"
+                />
+                <label class="custom-control-label mt-2" for="isActive">Active</label>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
+    [saveDisabled]="!createAccountForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

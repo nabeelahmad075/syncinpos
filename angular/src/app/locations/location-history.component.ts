@@ -16,9 +16,6 @@ import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
 import { Paginator, PaginatorModule } from 'primeng/paginator';
 import { LazyLoadEvent } from 'primeng/api';
 
-class PagedLocationHistoryRequestDto extends PagedRequestDto {
-  keyword: string;
-}
 @Component({
   selector: 'app-location-history',
   // standalone: true,
@@ -38,19 +35,17 @@ primengTableHelper: PrimengTableHelper = new PrimengTableHelper();
 @ViewChild('paginator', { static: true }) paginator: Paginator;
 eventClone: LazyLoadEvent;
 
-requestDto: PagedLocationHistoryRequestDto;
   constructor(
     injector: Injector,
     private _modalService: BsModalService,
-    private _locationService: LocationServiceProxy
+    private _locationService: LocationServiceProxy,
+    private cd: ChangeDetectorRef
   ) {
     super(injector);
-    this.requestDto = new PagedLocationHistoryRequestDto();
   }
   
 
   getHistory(event?: LazyLoadEvent) {
-    debugger
     if (this.primengTableHelper.shouldResetPaging(event)) {
       this.paginator.changePage(0);
       return;
@@ -70,9 +65,9 @@ requestDto: PagedLocationHistoryRequestDto;
         this.primengTableHelper.getMaxResultCount(this.paginator, event)
       )
       .subscribe((result) => {
-        debugger
         this.primengTableHelper.records = result.items;
         this.primengTableHelper.totalRecordsCount = result.totalCount;
+        this.cd.detectChanges();
       })
       .add(() => abp.ui.clearBusy());
   }
@@ -138,6 +133,8 @@ requestDto: PagedLocationHistoryRequestDto;
         AddEditLocComponent,
         {
           class: 'modal-lg',
+          backdrop: "static",
+          ignoreBackdropClick: true
         }
       );
     }
@@ -145,14 +142,17 @@ requestDto: PagedLocationHistoryRequestDto;
       createOrEditLocDialog = this._modalService.show(
         AddEditLocComponent, {
         class: 'modal-lg',
+        backdrop: "static",
+        ignoreBackdropClick: true,
         initialState: {
           id: id,
         },
       }
       );
     }
-
+debugger
     createOrEditLocDialog.content.onSave.subscribe((value) => {
+      debugger
       if(value){
         this.getHistory();
       }

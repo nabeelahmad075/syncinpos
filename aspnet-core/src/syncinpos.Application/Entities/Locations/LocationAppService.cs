@@ -49,7 +49,10 @@ namespace syncinpos.Entities.Locations
         {
             var sqlQuery = CreateFilteredQuery(input)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
-                    a => a.LocationCode.Contains(input.Keyword) || a.LocationName.Contains(input.Keyword)
+                    a => a.LocationCode.Contains(input.Keyword) || 
+                    a.LocationName.Contains(input.Keyword) || 
+                    a.LocationType.Title.Contains(input.Keyword) ||
+                    a.Region.Title.Contains(input.Keyword)
                 )
                 .Select(x => new LocationHistoryDto
                 {
@@ -75,6 +78,7 @@ namespace syncinpos.Entities.Locations
         public async Task<List<SelectItemDto>> GetLocationDropDown()
         {
             var locations = await Repository.GetAll()
+                                            .Where(a => a.IsActive == true)
                                             .Select(a => new SelectItemDto
                                             {
                                                 Label = a.LocationName,

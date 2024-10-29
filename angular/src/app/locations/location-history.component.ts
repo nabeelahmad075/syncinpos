@@ -10,7 +10,11 @@ import { LocationServiceProxy, LocationHistoryDtoPagedResultDto,
   LocationDto,  } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
-import { TableModule } from 'primeng/table';
+import { TableModule, Table } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
+import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
+import { Paginator, PaginatorModule } from 'primeng/paginator';
+import { LazyLoadEvent } from 'primeng/api';
 
 class PagedLocationHistoryRequestDto extends PagedRequestDto {
   keyword: string;
@@ -24,55 +28,77 @@ class PagedLocationHistoryRequestDto extends PagedRequestDto {
   animations: [appModuleAnimation()]
 })
 
-export class LocationHistoryComponent extends PagedListingComponentBase<LocationHistoryDto> {
+export class LocationHistoryComponent extends AppComponentBase {
 
   locationHistory: LocationHistoryDto[] = [];
   keyword = '';
 maxResultCount: number = 5;
+primengTableHelper: PrimengTableHelper = new PrimengTableHelper();
+@ViewChild('dataTable', { static: true }) dataTable: Table;
+@ViewChild('paginator', { static: true }) paginator: Paginator;
+eventClone: LazyLoadEvent;
 
 requestDto: PagedLocationHistoryRequestDto;
   constructor(
     injector: Injector,
     private _modalService: BsModalService,
-    private _locationService: LocationServiceProxy,
-    cd: ChangeDetectorRef
+    private _locationService: LocationServiceProxy
   ) {
-    super(injector, cd);
+    super(injector);
     this.requestDto = new PagedLocationHistoryRequestDto();
   }
   
 
-  onPageChange(event: any): void {
+  getHistory(event?: LazyLoadEvent) {
     debugger
-    const pageNumber = (event.page ?? 0) + 1; // p-table uses 0-based index for pages
-    this.list(this.requestDto, pageNumber, () => {
-      // Optional: Any additional logic after loading is finished
-    });
-    
-  }
-
-  list(
-    request: PagedLocationHistoryRequestDto,
-    pageNumber: number,
-    finishedCallback: Function
-  ): void {
-    request.keyword = this.keyword;
-    request.maxResultCount=this.maxResultCount;
-    request.skipCount=(pageNumber-1)*request.maxResultCount;
-
+    if (this.primengTableHelper.shouldResetPaging(event)) {
+      this.paginator.changePage(0);
+      return;
+    }
+    if (this.eventClone && !event.filters)
+      event.filters = this.eventClone.filters;
+    if (this.eventClone && this.eventClone.sortField && !event.sortField) {
+      event.sortField = this.eventClone.sortField
+      event.sortOrder = this.eventClone.sortOrder
+    }
+    abp.ui.setBusy();
     this._locationService
-      .getHistory(request.keyword, undefined, request.skipCount, request.maxResultCount)
-      .pipe(
-        finalize(() => {
-          finishedCallback();
-        })
+      .getHistory(
+        event && event.filters && event.filters["global"] ? event.filters["global"].value : undefined,
+        "",
+        this.primengTableHelper.getSkipCount(this.paginator, event),
+        this.primengTableHelper.getMaxResultCount(this.paginator, event)
       )
-      .subscribe((result: LocationHistoryDtoPagedResultDto) => {
-        this.locationHistory = result.items;
-        this.showPaging(result, pageNumber);
-        this.cd.detectChanges();
-      });
+      .subscribe((result) => {
+        debugger
+        this.primengTableHelper.records = result.items;
+        this.primengTableHelper.totalRecordsCount = result.totalCount;
+      })
+      .add(() => abp.ui.clearBusy());
   }
+
+  // list(
+  //   request: PagedLocationHistoryRequestDto,
+  //   pageNumber: number,
+  //   finishedCallback: Function
+  // ): void {
+  //   request.keyword = this.keyword;
+  //   request.maxResultCount=this.maxResultCount;
+  //   request.skipCount=(pageNumber-1)*request.maxResultCount;
+
+  //   this._locationService
+  //     .getHistory(request.keyword, undefined, request.skipCount, request.maxResultCount)
+  //     .pipe(
+  //       finalize(() => {
+  //         finishedCallback();
+  //       })
+  //     )
+  //     .subscribe((result: LocationHistoryDtoPagedResultDto) => {
+  //       this.locationHistory = result.items;
+  //       this.showPaging(result, pageNumber);
+  //       this.cd.detectChanges();
+  //     });
+  // }
 
   delete(locationHistory: LocationHistoryDto): void {
     // abp.message.confirm(
@@ -126,13 +152,10 @@ requestDto: PagedLocationHistoryRequestDto;
       );
     }
 
-    createOrEditLocDialog.content.onSave.subscribe(() => {
-      this.refresh();
+    createOrEditLocDialog.content.onSave.subscribe((value) => {
+      if(value){
+        this.getHistory();
+      }
     });
-    // createOrEditLocDialog.content.onSave.subscribe((value) => {
-    //   if(value){
-    //     this.list();
-    //   }
-    // });
   }
 }

@@ -10,7 +10,8 @@
     "lint": "tslint --force --project src/tsconfig.json src/**/*.ts -t verbose",
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 4200",
-    "test": "ng test"
+    "test": "ng test",
+    "nswag": "cd nswag/ && refresh.bat"
   },
   "dependencies": {
     "@angular/animations": "^18.1.2",
@@ -33,6 +34,8 @@
     "moment-timezone": "0.5.45",
     "ngx-bootstrap": "^18.0.2",
     "ngx-pagination": "^6.0.3",
+    "primeflex": "^3.3.1",
+    "primeicons": "^7.0.0",
     "primeng": "^17.18.11",
     "push.js": "1.0.12",
     "rxjs": "^7.8.1",

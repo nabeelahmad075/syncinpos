@@ -1,5 +1,5 @@
 <form class="form-horizontal" autocomplete="off" #createAccountForm="ngForm" (ngSubmit)="save()">
-  <abp-modal-header [title]="'Add New Location' | localize" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
+  <abp-modal-header [title]="'Location Information' | localize" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
   <div class="modal-body">
     <tabset>
       <tab [heading]="'Location Details' | localize" class="pt-3 px-2">
@@ -15,8 +15,8 @@
               {{ "Region" | localize }}
             </label>
             <div class="">
-              <p-dropdown [style]="{ width: '100%', height: '38px'}" name="region" required 
-              placeholder="Region" [options]="tblRegions"
+              <p-dropdown [style]="{ width: '100%', height: '38px', lineHeight:'1'}" name="region" required 
+              placeholder="Select Region" [options]="tblRegions" [styleClass]="'prm-dropdown prm-filter-dropdown'"
                 [(ngModel)]="tblLocation.regionId" [filter]="true">
               </p-dropdown>
             </div>
@@ -26,8 +26,14 @@
               {{ "Location Type" | localize }}
             </label>
             <div class="">
-              <p-dropdown [style]="{ width: '100%', height: '38px'}" name="locationtype" required placeholder="Location Type"
-                [options]="tblLocationType" [(ngModel)]="tblLocation.locationTypeId">
+              <p-dropdown 
+              [style]="{ width: '100%', height:'38px', lineHeight:'1'}" 
+              name="locationtype" 
+              required 
+              placeholder="Location Type" 
+              [options]="tblLocationType" 
+              [(ngModel)]="tblLocation.locationTypeId" 
+              >
               </p-dropdown>
             </div>
           </div>
@@ -73,11 +79,23 @@
             <input type="text" class="form-control" name="number" id="number" minlength="2" maxlength="500"
               [(ngModel)]="tblLocation.contactNumber" />
           </div>
-          <div class="">
+          <!-- <div class="">
             <label for="status">
               {{ "Is Active" | localize }}
             </label>
             <input type="checkbox" class="form-control" name="status" id="status" />
+          </div> -->
+          <div class="form-group col-md-4">
+            <label class="col-md-3">
+              {{ "" }}
+            </label>
+            <div class="col-md-9">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="isActive" id="isActive"
+                       [(ngModel)]="tblLocation.isActive" [disabled]="!tblLocation.isActive" />
+                <label class="custom-control-label mt-2" for="isActive">Active</label>
+              </div>
+            </div>
           </div>
         </div>
         <!-- <div class="form-row form-group ">

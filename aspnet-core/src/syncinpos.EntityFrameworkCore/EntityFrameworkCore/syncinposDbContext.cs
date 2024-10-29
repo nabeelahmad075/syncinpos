@@ -8,6 +8,7 @@ using syncinpos.Entities.Regions;
 using syncinpos.Entities.Locations;
 using syncinpos.Entities.HR.Departments;
 using syncinpos.Entities.HR.Designations;
+using syncinpos.Entities.HR.Employees;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -24,5 +25,6 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<Location> tblLocations { get; set; }
         public DbSet<Department> tblDepartments { get; set; }
         public DbSet<Designation> tblDesignations { get; set; }
+        public DbSet<Employee> tblEmployees { get; set; }
     }
 }

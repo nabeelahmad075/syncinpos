@@ -5,6 +5,7 @@ using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using syncinpos.Entities.Locations.Dto;
+using syncinpos.Utility.SelectItemDto;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -48,8 +49,7 @@ namespace syncinpos.Entities.Locations
         {
             var sqlQuery = CreateFilteredQuery(input)
                 .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
-                    a => a.LocationCode.Contains(input.Keyword) ||
-                       a.LocationCode.Contains(input.Keyword)
+                    a => a.LocationCode.Contains(input.Keyword) || a.LocationName.Contains(input.Keyword)
                 )
                 .Select(x => new LocationHistoryDto
                 {
@@ -71,6 +71,16 @@ namespace syncinpos.Entities.Locations
                 Items = await pageQuery.ToListAsync(),
                 TotalCount = sqlQuery.Count()
             };
+        }
+        public async Task<List<SelectItemDto>> GetLocationDropDown()
+        {
+            var locations = await Repository.GetAll()
+                                            .Select(a => new SelectItemDto
+                                            {
+                                                Label = a.LocationName,
+                                                Value = a.Id
+                                            }).ToListAsync();
+            return locations;
         }
     }
 }

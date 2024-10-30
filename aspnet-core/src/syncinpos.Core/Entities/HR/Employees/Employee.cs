@@ -28,5 +28,6 @@ namespace syncinpos.Entities.HR.Employees
         [MaxLength(256)]
         public string Address { get; set; }
         public bool IsActive { get; set; }
+        public DateTime JoiningDate { get; set; }
     }
 }

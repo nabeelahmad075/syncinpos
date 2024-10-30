@@ -18,5 +18,6 @@ namespace syncinpos.Entities.HR.Employees.Dto
         public bool IsActive { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
+        public DateTime JoiningDate { get; set; }
     }
 }

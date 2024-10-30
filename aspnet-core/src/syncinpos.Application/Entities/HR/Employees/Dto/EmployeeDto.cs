@@ -12,7 +12,6 @@ namespace syncinpos.Entities.HR.Employees.Dto
     [AutoMapFrom(typeof(Employee)), AutoMapTo(typeof(Employee))]
     public class EmployeeDto : EntityDto
     {
-        public int Id { get; set; }
         public int TenantId { get; set; }
         public int LocationId { get; set; }
         public string EmployeeName { get; set; }
@@ -21,5 +20,6 @@ namespace syncinpos.Entities.HR.Employees.Dto
         public string MobileNo { get; set; }
         public string Address { get; set; }
         public bool IsActive { get; set; }
+        public DateTime JoiningDate { get; set; }
     }
 }

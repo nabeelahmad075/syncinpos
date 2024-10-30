@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace syncinpos.Entities.HR.Employees
 {
@@ -35,7 +36,8 @@ namespace syncinpos.Entities.HR.Employees
                                 Address = x.Address,
                                 IsActive = x.IsActive,
                                 CreationTime = x.CreationTime,
-                                LastModificationTime = x.LastModificationTime
+                                LastModificationTime = x.LastModificationTime,
+                                JoiningDate = x.JoiningDate
                             });
             var sortedQuery = sqlQuery.OrderBy(x => input.Sorting);
             var pageQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);

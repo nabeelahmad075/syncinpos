@@ -38,8 +38,6 @@ export class EmployeeHistoryComponent extends AppComponentBase {
   @ViewChild("dataTable", { static: true }) dataTable: Table;
   @ViewChild("paginator", { static: true }) paginator: Paginator;
   eventClone: LazyLoadEvent;
-  initialPage: boolean =  false;
-  initialrecordcount: number = 1;
 
   constructor(
     injector: Injector,
@@ -71,14 +69,7 @@ export class EmployeeHistoryComponent extends AppComponentBase {
         this.primengTableHelper.getSkipCount(this.paginator, event),
         this.primengTableHelper.getMaxResultCount(this.paginator, event)
       )
-      .subscribe((result) => {
-        if(result.totalCount == 0){
-          result.totalCount = result.totalCount + 1;
-          this.initialPage = true;
-          this.initialrecordcount = -1;
-        }
-        this.initialPage = false;
-          
+      .subscribe((result) => {          
         this.primengTableHelper.records = result.items;
         this.primengTableHelper.totalRecordsCount = result.totalCount;
         this.cd.detectChanges();
@@ -89,14 +80,12 @@ export class EmployeeHistoryComponent extends AppComponentBase {
   showCreateOrEditDialog(id?: number): void {
     let createOrEditDialog: BsModalRef;
     if (!id) {
-      debugger
       createOrEditDialog = this._modalService.show(AddEditEmpComponent, {
         class: "modal-lg",
         backdrop: "static",
         ignoreBackdropClick: true
       });
     } else {
-      debugger
       createOrEditDialog = this._modalService.show(AddEditEmpComponent, {
         class: "modal-lg",
         backdrop: "static",
@@ -106,11 +95,9 @@ export class EmployeeHistoryComponent extends AppComponentBase {
         },
       });
     }
-    debugger
     createOrEditDialog.content.onSave.subscribe((value) => {
-      debugger
       if (value) {
-        this.getHistory();
+        this.getHistory({});
       }
     });
   }

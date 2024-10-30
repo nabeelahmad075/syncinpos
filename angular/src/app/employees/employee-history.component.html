@@ -86,12 +86,12 @@
   
           <div
             class="card-footer table-card-footer text-center my-2"
-            *ngIf="initialPage ===  false ? primengTableHelper.totalRecordsCount === 0 : true"
+            *ngIf="primengTableHelper.totalRecordsCount == 0"
           >
             <p class="p-0 m-0">No Data</p>
           </div>
           <span class="" style="margin-left: 15px;">
-              {{ (primengTableHelper.totalRecordsCount - (initialPage ? 1 : 0)) | number : "2." }} records
+              {{ primengTableHelper.totalRecordsCount | number : "2." }} records
               found!
             </span>
           <div class="">

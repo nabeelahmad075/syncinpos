@@ -154,7 +154,7 @@ debugger
     createOrEditLocDialog.content.onSave.subscribe((value) => {
       debugger
       if(value){
-        this.getHistory();
+        this.getHistory({});
       }
     });
   }

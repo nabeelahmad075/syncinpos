@@ -11,6 +11,8 @@ using syncinpos.Entities.HR.Designations;
 using syncinpos.Entities.HR.Employees;
 using System.Security.AccessControl;
 using syncinpos.Entities.Inventory.Sections;
+using syncinpos.Entities.Inventory.ItemTypes;
+using syncinpos.Entities.Inventory.ItemCategories;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -29,5 +31,7 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<Designation> tblDesignations { get; set; }
         public DbSet<Employee> tblEmployees { get; set; }
         public DbSet<Section> tblSections { get; set; }
+        public DbSet<ItemType> tblItemTypes { get; set; }
+        public DbSet<ItemCategory> tblItemCategories { get; set; }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
+using syncinpos.Entities.HR.Departments.Dto;
 using syncinpos.Entities.HR.Designations.Dto;
 using syncinpos.Utility.SelectItemDto;
 using System;
@@ -26,6 +29,25 @@ namespace syncinpos.Entities.HR.Designations
                                                     Value = a.Id
                                                 }).ToListAsync();
             return designations;
+        }
+        public async Task<PagedResultDto<DesignationHistoryDto>> GetHistoryAsync(DesignationHistoryPagedAndSortedResultRequestDto input)
+        {
+            var sqlQuery = CreateFilteredQuery(input)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
+                    a => a.Title.Contains(input.Keyword)
+                )
+                .Select(x => new DesignationHistoryDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                });
+            var sortedQuery = sqlQuery.OrderBy(x => input.Sorting);
+            var pageQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);
+            return new PagedResultDto<DesignationHistoryDto>()
+            {
+                Items = await pageQuery.ToListAsync(),
+                TotalCount = sqlQuery.Count()
+            };
         }
     }
 }

@@ -11,7 +11,6 @@ namespace syncinpos.Entities.HR.Departments.Dto
     [AutoMapFrom(typeof(Department)), AutoMapTo(typeof(Department))]
     public class DepartmentsDto : EntityDto
     {
-        public int Id { get; set; }
         public int TenantId { get; set; }
         public string Title { get; set; }
     }

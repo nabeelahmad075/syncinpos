@@ -3,6 +3,7 @@ import {
   Component,
   Injector,
   ViewChild,
+  ViewEncapsulation,
 } from "@angular/core";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
@@ -23,14 +24,16 @@ import { DropdownModule } from "primeng/dropdown";
 import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
 import { Paginator, PaginatorModule } from "primeng/paginator";
 import { LazyLoadEvent } from "primeng/api";
+import { CreateDesignationDepartmentComponent } from "@app/designation-department/create-designation-department.component";
 
 @Component({
   selector: "app-employee-history",
   // standalone: true,
   // imports: [],
   templateUrl: "./employee-history.component.html",
-  styleUrl: "./employee-history.component.css",
+  styleUrl: "./employee-history.component.scss",
   animations: [appModuleAnimation()],
+  encapsulation: ViewEncapsulation.Emulated,
 })
 export class EmployeeHistoryComponent extends AppComponentBase {
   employeeHistory: EmployeeHistoryDto[] = [];
@@ -69,7 +72,7 @@ export class EmployeeHistoryComponent extends AppComponentBase {
         this.primengTableHelper.getSkipCount(this.paginator, event),
         this.primengTableHelper.getMaxResultCount(this.paginator, event)
       )
-      .subscribe((result) => {          
+      .subscribe((result) => {
         this.primengTableHelper.records = result.items;
         this.primengTableHelper.totalRecordsCount = result.totalCount;
         this.cd.detectChanges();
@@ -81,13 +84,13 @@ export class EmployeeHistoryComponent extends AppComponentBase {
     let createOrEditDialog: BsModalRef;
     if (!id) {
       createOrEditDialog = this._modalService.show(AddEditEmpComponent, {
-        class: "modal-lg",
+        class: "modal-lg modal-dialog-centered",
         backdrop: "static",
-        ignoreBackdropClick: true
+        ignoreBackdropClick: true,
       });
     } else {
       createOrEditDialog = this._modalService.show(AddEditEmpComponent, {
-        class: "modal-lg",
+        class: "modal-lg modal-dialog-centered",
         backdrop: "static",
         ignoreBackdropClick: true,
         initialState: {
@@ -108,5 +111,22 @@ export class EmployeeHistoryComponent extends AppComponentBase {
 
   edit(empHistory: EmployeeHistoryDto): void {
     this.showCreateOrEditDialog(empHistory.id);
+  }
+
+  showDesignationDepartmentDialog(): void {
+    let createDesignationDepartmentDialog: BsModalRef;
+    createDesignationDepartmentDialog = this._modalService.show(
+      CreateDesignationDepartmentComponent,
+      {
+        class: "modal-lg modal-dialog-centered",
+        backdrop: "static",
+        ignoreBackdropClick: true,
+      }
+    );
+    createDesignationDepartmentDialog.content.onSave.subscribe((value) => {
+      if (value) {
+        this.getHistory({});
+      }
+    });
   }
 }

@@ -1,9 +1,10 @@
-<div class="modal-footer justify-content-between" style="margin-top: -2rem;">
+<div class="modal-footer" style="margin-top: -2rem;">
   <button
     type="button"
     class="btn btn-default"
     [disabled]="cancelDisabled()"
     (click)="onCancelClick.emit($event)"
+    hidden="true"
   >
     {{ cancelLabel() }}
   </button>

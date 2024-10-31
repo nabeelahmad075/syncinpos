@@ -1,18 +1,18 @@
 <div [@routerTransition]>
     <section class="content-header" style="padding: 1px .5rem;">
-      <div class="container-fluid">
+      <div class="container-fluid" style="width: 97%;">
         <div class="row">
           <div class="col-6">
             <h4>Employee Information</h4>
           </div>
           <div class="col-6 text-right">
-            <a class="btn bg-blue btnNav" (click)="create()">
+            <!-- <a class="btn bg-blue btnNav" (click)="create()">
               <i class="fa fa-plus-square"></i>
               Designation
-            </a>
-            <a class="btn bg-blue btnNav" (click)="create()">
+            </a> -->
+            <a class="btn bg-blue btnNav" (click)="showDesignationDepartmentDialog()">
               <i class="fa fa-plus-square"></i>
-              Department
+              Designation | Department
             </a>
             <a class="btn bg-blue btnNav" (click)="create()">
               <i class="fa fa-plus-square"></i>
@@ -22,15 +22,15 @@
         </div>
       </div>
     </section>
-    <div class="container-fluid">
+    <div class="container-fluid" style="width: 97%;">
       <div class="card main-content rounded">
-        <div class="card-content">
+        <div class="card-content table-bordered" >
           <p-table
             #dataTable
             [value]="primengTableHelper.records"
             [lazy]="true"
             [scrollable]="true"
-            [style]="{ width: '100%'}"
+            [style]="{ width: '100%', fontSize:'0.8rem'}"
             (onLazyLoad)="getHistory($event)"
             class="p-table-page table-sm table-hover"
             [rows]="primengTableHelper.defaultRecordsCountPerPage"
@@ -80,13 +80,13 @@
                   </div>
                 </td>
                 <td style="text-align: center">
-                  <button
-                    type="button"
-                    class="btn btn-sm bg-secondary"
+                  <a
+                  type="button"
+                    class="mx-2 edit-btn"
                     (click)="edit(history)"
                   >
-                    <i class="fas fa-pencil-alt"></i>
-                  </button>
+                    <i class="fa fa-pencil"></i>
+                </a>
                 </td>
               </tr>
             </ng-template>
@@ -98,18 +98,19 @@
           >
             <p class="p-0 m-0">No Data</p>
           </div>
-          <span class="" style="margin-left: 15px;">
+          <span class="" style="margin-left: 15px; font-size: 0.9rem;">
               {{ primengTableHelper.totalRecordsCount | number : "2." }} records
               found!
             </span>
-          <div class="">
+          <div class="" >
             <p-paginator
               [rows]="primengTableHelper.defaultRecordsCountPerPage"
               #paginator
               (onPageChange)="getHistory($event)"
               [totalRecords]="primengTableHelper.totalRecordsCount"
               [rowsPerPageOptions]="
-                primengTableHelper.predefinedRecordsCountPerPage">
+                primengTableHelper.predefinedRecordsCountPerPage"
+                >
             </p-paginator>
   
           </div>

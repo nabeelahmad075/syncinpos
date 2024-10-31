@@ -3,18 +3,4 @@
     color: red;
 }
 
-/* .input-group .p-dropdown {
-    width: 100%;
-  } */
-  
-  .cust {
-    margin-left: 0.2rem;/* Add space between dropdown and button */
-    height: 38px; /* Match dropdown height */
-    width: 38px; /* Fixed button width */
-    margin-top: -0.5rem;
-    font-weight: bolder;
-    font-size: larger; 
-    line-height: 1rem;
-  }
 
-  

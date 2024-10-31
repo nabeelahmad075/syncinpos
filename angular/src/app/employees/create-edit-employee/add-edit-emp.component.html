@@ -36,46 +36,40 @@
         <label for="designation">
           {{ "Designation" | localize }}
         </label>
-        <div class="input-group">
-          <p-dropdown
-            [style]="{
-              width: '200px',
-              height: '38px',
-              lineHeight: '1',
-              marginTop: '-1rem'
-            }"
-            name="designation"
-            required
-            placeholder="Select Designation"
-            [options]="tblDesignation"
-            [styleClass]="'prm-dropdown prm-filter-dropdown'"
-            [(ngModel)]="tblEmployee.designationId"
-          >
-          </p-dropdown>
-          <button type="button" class="btn btn-primary cust">+</button>
-        </div>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-1rem'
+          }"
+          name="designation"
+          required
+          placeholder="Select Designation"
+          [options]="tblDesignation"
+          [styleClass]="'prm-dropdown prm-filter-dropdown'"
+          [(ngModel)]="tblEmployee.designationId"
+        >
+        </p-dropdown>
       </div>
       <div class="col-md-4 required">
         <label for="department">
           {{ "Department" | localize }}
         </label>
-        <div class="input-group">
-          <p-dropdown
-            [style]="{
-              width: '200px',
-              height: '38px',
-              lineHeight: '1',
-              marginTop: '-1rem'
-            }"
-            name="department"
-            required
-            placeholder="Select Department"
-            [options]="tblDepartment"
-            [(ngModel)]="tblEmployee.departmentId"
-          >
-          </p-dropdown>
-          <button type="button" class="btn btn-primary cust">+</button>
-        </div>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-1rem'
+          }"
+          name="department"
+          required
+          placeholder="Select Department"
+          [options]="tblDepartment"
+          [(ngModel)]="tblEmployee.departmentId"
+        >
+        </p-dropdown>
       </div>
     </div>
     <div class="form-row">
@@ -117,7 +111,7 @@
           name="joiningDate"
           id="joiningDate"
           autoWidth="false"
-          [style]="{ width: '100%', height: '38px', marginTop: '-8px'}"
+          [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
           placeholder="Joining Date"
           [dateFormat]="'dd/mm/yy'"
           [showIcon]="true"

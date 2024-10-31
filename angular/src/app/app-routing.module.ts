@@ -6,6 +6,7 @@ import { LocationHistoryComponent } from "./locations/location-history.component
 import { AddEditLocComponent } from "./locations/create-edit-location/add-edit-loc.component";
 import { EmployeeHistoryComponent } from "./employees/employee-history.component";
 import { AddEditEmpComponent } from "./employees/create-edit-employee/add-edit-emp.component";
+import { CreateDesignationDepartmentComponent } from './designation-department/create-designation-department.component';
 
 @NgModule({
     imports: [
@@ -32,6 +33,11 @@ import { AddEditEmpComponent } from "./employees/create-edit-employee/add-edit-e
                     {
                         path: "createemp",
                         component: AddEditEmpComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "createdesignationdepartment",
+                        component: CreateDesignationDepartmentComponent ,
                         canActivate: [AppRouteGuard]
                     },
                     {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, ViewChild, ViewEncapsulation } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AddEditLocComponent } from './create-edit-location/add-edit-loc.component';
@@ -21,8 +21,9 @@ import { LazyLoadEvent } from 'primeng/api';
   // standalone: true,
   // imports: [TableModule],
   templateUrl: './location-history.component.html',
-  styleUrl: './location-history.component.css',
-  animations: [appModuleAnimation()]
+  styleUrl: './location-history.component.scss',
+  animations: [appModuleAnimation()],
+  encapsulation: ViewEncapsulation.Emulated
 })
 
 export class LocationHistoryComponent extends AppComponentBase {
@@ -131,7 +132,7 @@ eventClone: LazyLoadEvent;
       createOrEditLocDialog = this._modalService.show(
         AddEditLocComponent,
         {
-          class: 'modal-lg',
+          class: 'modal-lg modal-dialog-centered',
           backdrop: "static",
           ignoreBackdropClick: true
         }
@@ -140,7 +141,7 @@ eventClone: LazyLoadEvent;
     else {
       createOrEditLocDialog = this._modalService.show(
         AddEditLocComponent, {
-        class: 'modal-lg',
+        class: 'modal-lg modal-dialog-centered',
         backdrop: "static",
         ignoreBackdropClick: true,
         initialState: {

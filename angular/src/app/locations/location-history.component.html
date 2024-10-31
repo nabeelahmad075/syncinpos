@@ -1,6 +1,6 @@
 <div [@routerTransition]>
   <section class="content-header" style="padding: 1px .5rem;">
-    <div class="container-fluid">
+    <div class="container-fluid" style="width: 97%;">
       <div class="row">
         <div class="col-6">
           <h4>Locations</h4>
@@ -14,15 +14,15 @@
       </div>
     </div>
   </section>
-  <div class="container-fluid">
+  <div class="container-fluid" style="width: 97%;">
     <div class="card main-content rounded">
-      <div class="card-content">
+      <div class="card-content table-bordered">
         <p-table
           #dataTable
           [value]="primengTableHelper.records"
           [lazy]="true"
           [scrollable]="true"
-          [style]="{ width: '100%' }"
+          [style]="{ width: '100%', fontSize:'0.8rem'}"
           (onLazyLoad)="getHistory($event)"
           class="p-table-page table-sm table-hover"
           [rows]="primengTableHelper.defaultRecordsCountPerPage"
@@ -31,19 +31,18 @@
             <div class="d-flex flex-row-reverse">
               <span>
                 <input
+                [style]="{width:'100%', fontSize:'0.8rem'}"
                   pInputText
                   type="text"
                   class="table-search-input form-control w-100"
-                  (input)="
-                    dataTable.filterGlobal($event.target.value, 'contains')
-                  "
+                  (input)="dataTable.filterGlobal($event.target.value, 'contains')"
                   placeholder="Search"
                 />
               </span>
             </div>
           </ng-template>
           <ng-template pTemplate="header">
-            <tr class="table-secondary">
+            <tr>
               <th>Region Name</th>
               <th>Location Name</th>
               <th>Type</th>
@@ -74,13 +73,13 @@
                 </div>
               </td>
               <td style="text-align: center">
-                <button
-                  type="button"
-                  class="btn btn-sm bg-secondary"
+                <a
+                type="button"
+                  class="mx-2 edit-btn"
                   (click)="editLocation(locationHistory)"
                 >
-                  <i class="fas fa-pencil-alt"></i>
-                </button>
+                  <i class="fa fa-pencil"></i>
+              </a>
               </td>
             </tr>
           </ng-template>
@@ -92,7 +91,7 @@
         >
           <p class="p-0 m-0">No Data</p>
         </div>
-        <span class="" style="margin-left: 15px;">
+        <span class="" style="margin-left: 15px; font-size: 0.9rem;">
             {{ primengTableHelper.totalRecordsCount | number : "2." }} records
             found!
           </span>

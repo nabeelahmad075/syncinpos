@@ -30,6 +30,7 @@ import { LocationHistoryComponent } from './locations/location-history.component
 import { AddEditLocComponent } from './locations/create-edit-location/add-edit-loc.component';
 import { EmployeeHistoryComponent } from './employees/employee-history.component';
 import { AddEditEmpComponent } from './employees/create-edit-employee/add-edit-emp.component';
+import { CreateDesignationDepartmentComponent } from './designation-department/create-designation-department.component';
 
 @NgModule({
     declarations: [
@@ -47,7 +48,8 @@ import { AddEditEmpComponent } from './employees/create-edit-employee/add-edit-e
         LocationHistoryComponent,
         AddEditLocComponent,
         EmployeeHistoryComponent,
-        AddEditEmpComponent
+        AddEditEmpComponent,
+        CreateDesignationDepartmentComponent
     ],
     imports: [
         AppRoutingModule,

@@ -1,14 +1,22 @@
 <div [@routerTransition]>
-    <section class="content-header">
+    <section class="content-header" style="padding: 1px .5rem;">
       <div class="container-fluid">
         <div class="row">
           <div class="col-6">
-            <h1>Employee Information</h1>
+            <h4>Employee Information</h4>
           </div>
           <div class="col-6 text-right">
-            <a class="btn bg-blue" (click)="create()">
+            <a class="btn bg-blue btnNav" (click)="create()">
               <i class="fa fa-plus-square"></i>
-              Create
+              Designation
+            </a>
+            <a class="btn bg-blue btnNav" (click)="create()">
+              <i class="fa fa-plus-square"></i>
+              Department
+            </a>
+            <a class="btn bg-blue btnNav" (click)="create()">
+              <i class="fa fa-plus-square"></i>
+              Employee
             </a>
           </div>
         </div>
@@ -22,7 +30,7 @@
             [value]="primengTableHelper.records"
             [lazy]="true"
             [scrollable]="true"
-            [style]="{ width: '100%' }"
+            [style]="{ width: '100%'}"
             (onLazyLoad)="getHistory($event)"
             class="p-table-page table-sm table-hover"
             [rows]="primengTableHelper.defaultRecordsCountPerPage"

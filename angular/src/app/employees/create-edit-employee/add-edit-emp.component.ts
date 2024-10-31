@@ -18,6 +18,7 @@ import {
   EmployeeServiceProxy
 } from "@shared/service-proxies/service-proxies";
 import { result } from "lodash-es";
+import * as moment from "moment";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { SelectItem } from "primeng/api";
 import { Dropdown } from "primeng/dropdown";
@@ -38,6 +39,7 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
   tblDepartment: SelectItem[]=[];
   tblEmployee: EmployeeDto = new EmployeeDto();
   @Output() onSave = new EventEmitter<any>();
+  joiningDate: Date = new Date();
 
   constructor(
     injector: Injector,
@@ -58,6 +60,7 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
     this.getLocationDropdown();
     this.getDepartmentDropdown();
     this.getDesignationDropdown();
+    this.joiningDate = new Date();
   }
 
   getLocationDropdown() {
@@ -92,6 +95,7 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
 
   save(): void {
     this.saving = true;
+    this.tblEmployee.joiningDate = moment(this.joiningDate);
     if (this.id) {
       this.update();
     } else
@@ -141,11 +145,12 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
         this.saving = false;
       }
     })
-  }
+  } 
 
   getById (){
     this._empService.get (this.id).subscribe((result) => {
-      this.tblEmployee= result;
+      this.tblEmployee = result;
+      this.joiningDate = this.tblEmployee.joiningDate.toDate();
       this.cdr.detectChanges();
     })
   }

@@ -127,7 +127,6 @@ eventClone: LazyLoadEvent;
 
   showCreateOrEditLocDialog(id?: number): void {
     let createOrEditLocDialog: BsModalRef;
-    debugger
     if (!id) {
       createOrEditLocDialog = this._modalService.show(
         AddEditLocComponent,
@@ -150,9 +149,8 @@ eventClone: LazyLoadEvent;
       }
       );
     }
-debugger
+    
     createOrEditLocDialog.content.onSave.subscribe((value) => {
-      debugger
       if(value){
         this.getHistory({});
       }

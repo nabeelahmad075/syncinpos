@@ -4731,6 +4731,7 @@ export class EmployeeDto implements IEmployeeDto {
     mobileNo: string | undefined;
     address: string | undefined;
     isActive: boolean;
+    joiningDate: moment.Moment;
 
     constructor(data?: IEmployeeDto) {
         if (data) {
@@ -4752,6 +4753,7 @@ export class EmployeeDto implements IEmployeeDto {
             this.mobileNo = _data["mobileNo"];
             this.address = _data["address"];
             this.isActive = _data["isActive"];
+            this.joiningDate = _data["joiningDate"] ? moment(_data["joiningDate"].toString()) : <any>undefined;
         }
     }
 
@@ -4773,6 +4775,7 @@ export class EmployeeDto implements IEmployeeDto {
         data["mobileNo"] = this.mobileNo;
         data["address"] = this.address;
         data["isActive"] = this.isActive;
+        data["joiningDate"] = this.joiningDate ? this.joiningDate.toISOString() : <any>undefined;
         return data;
     }
 
@@ -4794,6 +4797,7 @@ export interface IEmployeeDto {
     mobileNo: string | undefined;
     address: string | undefined;
     isActive: boolean;
+    joiningDate: moment.Moment;
 }
 
 export class EmployeeDtoPagedResultDto implements IEmployeeDtoPagedResultDto {
@@ -4862,6 +4866,7 @@ export class EmployeeHistoryDto implements IEmployeeHistoryDto {
     isActive: boolean;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
+    joiningDate: moment.Moment;
 
     constructor(data?: IEmployeeHistoryDto) {
         if (data) {
@@ -4884,6 +4889,7 @@ export class EmployeeHistoryDto implements IEmployeeHistoryDto {
             this.isActive = _data["isActive"];
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
             this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.joiningDate = _data["joiningDate"] ? moment(_data["joiningDate"].toString()) : <any>undefined;
         }
     }
 
@@ -4906,6 +4912,7 @@ export class EmployeeHistoryDto implements IEmployeeHistoryDto {
         data["isActive"] = this.isActive;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["joiningDate"] = this.joiningDate ? this.joiningDate.toISOString() : <any>undefined;
         return data;
     }
 
@@ -4928,6 +4935,7 @@ export interface IEmployeeHistoryDto {
     isActive: boolean;
     creationTime: moment.Moment;
     lastModificationTime: moment.Moment | undefined;
+    joiningDate: moment.Moment;
 }
 
 export class EmployeeHistoryDtoPagedResultDto implements IEmployeeHistoryDtoPagedResultDto {

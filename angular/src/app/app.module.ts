@@ -31,6 +31,12 @@ import { AddEditLocComponent } from './locations/create-edit-location/add-edit-l
 import { EmployeeHistoryComponent } from './employees/employee-history.component';
 import { AddEditEmpComponent } from './employees/create-edit-employee/add-edit-emp.component';
 import { CreateDesignationDepartmentComponent } from './designation-department/create-designation-department.component';
+import { SectionHistoryComponent} from './sections/section-history.component';
+import { ItemCategoryHistoryComponent} from './item-category/item-category-history.component';
+import { AddEditItemCategoryComponent} from './item-category/create-edit-item-category/add-edit-item-category.component';
+import { ItemDefinationHistoryComponent } from './item-defination/item-defination-history.component';
+import { AddEditItemDefinationComponent } from './item-defination/create-edit-item-defination/add-edit-item-defination.component';
+
 
 @NgModule({
     declarations: [
@@ -49,7 +55,12 @@ import { CreateDesignationDepartmentComponent } from './designation-department/c
         AddEditLocComponent,
         EmployeeHistoryComponent,
         AddEditEmpComponent,
-        CreateDesignationDepartmentComponent
+        CreateDesignationDepartmentComponent,
+        SectionHistoryComponent,
+        ItemCategoryHistoryComponent,
+        AddEditItemCategoryComponent,
+        ItemDefinationHistoryComponent,
+        AddEditItemDefinationComponent
     ],
     imports: [
         AppRoutingModule,

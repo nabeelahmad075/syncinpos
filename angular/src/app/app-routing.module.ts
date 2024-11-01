@@ -7,6 +7,11 @@ import { AddEditLocComponent } from "./locations/create-edit-location/add-edit-l
 import { EmployeeHistoryComponent } from "./employees/employee-history.component";
 import { AddEditEmpComponent } from "./employees/create-edit-employee/add-edit-emp.component";
 import { CreateDesignationDepartmentComponent } from './designation-department/create-designation-department.component';
+import { SectionHistoryComponent} from './sections/section-history.component';
+import { ItemCategoryHistoryComponent} from './item-category/item-category-history.component';
+import { AddEditItemCategoryComponent} from './item-category/create-edit-item-category/add-edit-item-category.component';
+import { ItemDefinationHistoryComponent } from './item-defination/item-defination-history.component';
+import { AddEditItemDefinationComponent } from './item-defination/create-edit-item-defination/add-edit-item-defination.component';
 
 @NgModule({
     imports: [
@@ -38,6 +43,36 @@ import { CreateDesignationDepartmentComponent } from './designation-department/c
                     {
                         path: "createdesignationdepartment",
                         component: CreateDesignationDepartmentComponent ,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "section-history",
+                        component: SectionHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    // {
+                    //     path: "newsection",
+                    //     component: AddEditSectionComponent,
+                    //     canActivate: [AppRouteGuard]
+                    // },
+                    {
+                        path: "categoryhistory",
+                        component: ItemCategoryHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "newcategory",
+                        component: AddEditItemCategoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "itemdefinationhistory",
+                        component: ItemDefinationHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "newitemdefination",
+                        component: AddEditItemDefinationComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {

@@ -28,7 +28,8 @@ namespace syncinpos.Entities.Inventory.Sections
                 .Select(x => new SectionHistoryDto
                 {
                     Id = x.Id,
-                    Title = x.Title
+                    Title = x.Title,
+                    IsActive = x.IsActive
                 });
             var sortedQuery = sqlQuery.OrderBy(x => input.Sorting);
             var pageQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);

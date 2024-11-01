@@ -13,6 +13,8 @@ using System.Security.AccessControl;
 using syncinpos.Entities.Inventory.Sections;
 using syncinpos.Entities.Inventory.ItemTypes;
 using syncinpos.Entities.Inventory.ItemCategories;
+using syncinpos.Entities.Inventory.Units;
+using syncinpos.Entities.Inventory.Items;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -33,5 +35,7 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<Section> tblSections { get; set; }
         public DbSet<ItemType> tblItemTypes { get; set; }
         public DbSet<ItemCategory> tblItemCategories { get; set; }
+        public DbSet<UnitOfMeasurement> tblUnitOfMeasurements { get; set; }
+        public DbSet<Item> tblItemDefinitions { get; set; }
     }
 }

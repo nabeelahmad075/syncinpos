@@ -14,5 +14,6 @@ namespace syncinpos.Entities.Inventory.Sections
         public int TenantId { get; set; }
         [MaxLength(64)]
         public string Title { get; set; }
+        public bool IsActive { get; set; }
     }
 }

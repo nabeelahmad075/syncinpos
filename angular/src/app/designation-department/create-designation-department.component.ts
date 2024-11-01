@@ -245,11 +245,14 @@ debugger
     this.tblDesignation = new DesignationsDto();
   }
 
-   // This method is called when switching tabs
-   onTabChange(event: any) {
-    debugger
-    console.log('Tab changed:', event);
-    this.flgDesignation = event.nextId === 'designation'; // Adjust based on your tab IDs
-  }
+ getMeTab(tabId: number){
+
+  if(tabId == 0)
+    this.flgDesignation = true;
+  
+  else
+    this.flgDesignation = false;
+
+ }
 
 }

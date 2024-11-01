@@ -1,0 +1,22 @@
+.p-datatable .p-datatable-header {
+    background: #0679ec;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    border-width: 1px 0 1px 0;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+}
+
+.table-bordered thead td, .table-bordered thead th {
+    border-bottom-width: 2px;
+    background: rgb(3, 246, 214);
+    border: 1px solid black;
+}
+
+.table-bordered tbody td, .table-bordered tbody th {
+    border: 1px solid rgb(150, 147, 147);
+}
+
+tabset{
+    font-size: 0.8rem;
+}

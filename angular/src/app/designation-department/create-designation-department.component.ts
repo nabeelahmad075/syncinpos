@@ -81,7 +81,7 @@ export class CreateDesignationDepartmentComponent extends AppComponentBase imple
     this.saving = true;
     if (this.id) {
 
-debugger
+
 
       if(this.flgDesignation)
       this.updateDesignation();
@@ -91,12 +91,8 @@ debugger
 
     } else{
 
-      debugger
-
       if(this.flgDesignation)
       this.createDesignation();
-
-      debugger
 
       if(!this.flgDesignation)
       this.createDepartment();
@@ -105,14 +101,14 @@ debugger
   }
 
   updateDesignation(): void {
-    debugger
+    
     if (!this.tblDesignation.title) {
       abp.notify.error("Please Enter Designation.")
       return
     }
     this._designationService.update(this.tblDesignation).subscribe({
       next: (value:any) => {
-        debugger
+        
         this.notify.info("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
@@ -141,7 +137,7 @@ debugger
   }
 
   createDesignation(): void {
-    debugger
+    
     if (!this.tblDesignation.title) {
       abp.notify.error("Please Enter Designation.")
       return
@@ -149,7 +145,7 @@ debugger
     this._designationService.create(this.tblDesignation).subscribe({
       
       next: () => {
-        debugger
+        
         this.notify.info("Saved Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
@@ -242,7 +238,7 @@ debugger
 
   newDepartment(){
     this.id = 0;
-    this.tblDesignation = new DesignationsDto();
+    this.tblDepartment = new DepartmentsDto();
   }
 
  getMeTab(tabId: number){

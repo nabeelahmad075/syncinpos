@@ -13,5 +13,6 @@ namespace syncinpos.Entities.Inventory.Sections.Dto
     {
         public int TenantId { get; set; }
         public string Title { get; set; }
+        public bool IsActive { get; set; }
     }
 }

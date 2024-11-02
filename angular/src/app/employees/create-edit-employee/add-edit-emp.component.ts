@@ -6,6 +6,7 @@ import {
   Output,
   ChangeDetectorRef,
 } from "@angular/core";
+import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
   DepartmentServiceProxy,
@@ -20,7 +21,7 @@ import {
 import { result } from "lodash-es";
 import * as moment from "moment";
 import { BsModalRef } from "ngx-bootstrap/modal";
-import { SelectItem } from "primeng/api";
+import { LazyLoadEvent, SelectItem } from "primeng/api";
 import { Dropdown } from "primeng/dropdown";
 
 @Component({
@@ -29,6 +30,7 @@ import { Dropdown } from "primeng/dropdown";
   // imports: [],
   templateUrl: "./add-edit-emp.component.html",
   styleUrl: "./add-edit-emp.component.css",
+  animations: [appModuleAnimation()]
 })
 export class AddEditEmpComponent extends AppComponentBase implements OnInit {
 
@@ -40,6 +42,7 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
   tblEmployee: EmployeeDto = new EmployeeDto();
   @Output() onSave = new EventEmitter<any>();
   joiningDate: Date = new Date();
+  eventClone: LazyLoadEvent;
 
   constructor(
     injector: Injector,
@@ -51,6 +54,7 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     super(injector);
+    this.tblEmployee.isActive = true;
   }
 
   ngOnInit(): void {
@@ -112,7 +116,6 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
     if (!this.tblEmployee.mobileNo) {
       abp.notify.error("Please Enter Mobile No.")
     }
-    debugger
     this._empService.update(this.tblEmployee).subscribe({
       next: (value:any) => {
         this.notify.info("Update Successfuly");

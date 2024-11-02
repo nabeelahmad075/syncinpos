@@ -1,24 +1,38 @@
-import { Component, Injector, OnInit, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
-import { AppComponentBase } from '@shared/app-component-base';
 import {
-  RegionServiceProxy, RegionDto, LocationDto, LocationServiceProxy,
-  LocationTypeDto, LocationTypeServiceProxy
-} from '@shared/service-proxies/service-proxies';
-import { result } from 'lodash-es';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+  Component,
+  Injector,
+  OnInit,
+  EventEmitter,
+  Output,
+  ChangeDetectorRef,
+} from "@angular/core";
+import { AppComponentBase } from "@shared/app-component-base";
+import {
+  RegionServiceProxy,
+  RegionDto,
+  LocationDto,
+  LocationServiceProxy,
+  LocationTypeDto,
+  LocationTypeServiceProxy,
+} from "@shared/service-proxies/service-proxies";
+import { result } from "lodash-es";
+import { BsModalRef } from "ngx-bootstrap/modal";
 import { SelectItem } from "primeng/api";
-import { Dropdown } from 'primeng/dropdown';
+import { Dropdown } from "primeng/dropdown";
 
 @Component({
-  selector: 'app-add-edit-loc',
+  selector: "app-add-edit-loc",
   //standalone: true,
   //imports: [ DropdownModule ],
-  templateUrl: './add-edit-loc.component.html',
-  styleUrl: './add-edit-loc.component.css',
-  providers: [RegionServiceProxy, LocationTypeServiceProxy, LocationServiceProxy]
+  templateUrl: "./add-edit-loc.component.html",
+  styleUrl: "./add-edit-loc.component.css",
+  providers: [
+    RegionServiceProxy,
+    LocationTypeServiceProxy,
+    LocationServiceProxy,
+  ],
 })
 export class AddEditLocComponent extends AppComponentBase implements OnInit {
-
   saving = false;
   id: number;
   tblRegions: SelectItem[] = [];
@@ -40,7 +54,7 @@ export class AddEditLocComponent extends AppComponentBase implements OnInit {
   ngOnInit(): void {
     this.tenantName = this.appSession.tenant.name;
 
-    if (this.id > 0){
+    if (this.id > 0) {
       this.getLocationById();
     }
     this.getRegionsDropdown();
@@ -49,22 +63,15 @@ export class AddEditLocComponent extends AppComponentBase implements OnInit {
 
   getRegionsDropdown() {
     this.tblRegions = [];
-    this._regionService.getRegionsDropDown().subscribe(
-      (result) => {
-        debugger
-        console.log(result)
-        this.tblRegions = result;
-      }
-    );
+    this._regionService.getRegionsDropDown().subscribe((result) => {
+      this.tblRegions = result;
+    });
   }
 
   getLocationTypeDropdown() {
-    this._locationTypeService.getLocationTypesDropDown().subscribe(
-      (result) => {
-        console.log(result)
-        this.tblLocationType = result;
-      }
-    );
+    this._locationTypeService.getLocationTypesDropDown().subscribe((result) => {
+      this.tblLocationType = result;
+    });
   }
 
   save(): void {
@@ -72,35 +79,34 @@ export class AddEditLocComponent extends AppComponentBase implements OnInit {
 
     if (this.id) {
       this.update();
-    } else
-      this.create();
+    } else this.create();
   }
 
   update(): void {
     if (!this.tblLocation.locationCode) {
-      abp.notify.error("Please Enter Location Code.")
+      abp.notify.error("Please Enter Location Code.");
     }
     if (!this.tblLocation.locationName) {
-      abp.notify.error("Please Enter Location Name.")
+      abp.notify.error("Please Enter Location Name.");
     }
     this._locationService.update(this.tblLocation).subscribe({
-      next: (value:any) => {
+      next: (value: any) => {
         this.notify.info("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
       error: (err) => {
         this.saving = false;
-      }
-    })
+      },
+    });
   }
 
   create(): void {
     if (!this.tblLocation.locationCode) {
-      abp.notify.error("Please Enter Location Code.")
+      abp.notify.error("Please Enter Location Code.");
     }
     if (!this.tblLocation.locationName) {
-      abp.notify.error("Please Enter Location Name.")
+      abp.notify.error("Please Enter Location Name.");
     }
     this.tblLocation.isActive = false;
     this._locationService.create(this.tblLocation).subscribe({
@@ -111,17 +117,14 @@ export class AddEditLocComponent extends AppComponentBase implements OnInit {
       },
       error: (err) => {
         this.saving = false;
-      }
-    })
+      },
+    });
   }
 
-  getLocationById (){
-    debugger
-    this._locationService.get (this.id).subscribe((result) => {
-      debugger
-      console.log(result);
-      this.tblLocation= result;
+  getLocationById() {
+    this._locationService.get(this.id).subscribe((result) => {
+      this.tblLocation = result;
       this.cdr.detectChanges();
-    })
+    });
   }
 }

@@ -1,3 +1,4 @@
+
 .p-datatable .p-datatable-header {
     background: #0679ec;
     color: #374151;
@@ -19,4 +20,26 @@
 
 tabset{
     font-size: 0.8rem;
+}
+
+ .p-paginator {
+    font-size: 0.8em; 
+    padding: 2px;     
+}
+ .p-paginator .p-paginator-page {
+    width: 0px;    
+    height: 30px;   
+    margin: 0 2px;   
+}
+ .p-dropdown {
+    font-size: 0.5rem; 
+    padding: 2px;     
+    height: 30px;
+    line-height: 0.1rem;
+    width: auto;
+}
+
+ .p-button {
+    padding: 1px 2px; 
+    font-size: 0.8em;  
 }

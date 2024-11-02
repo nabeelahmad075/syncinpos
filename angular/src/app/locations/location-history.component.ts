@@ -21,7 +21,7 @@ import { LazyLoadEvent } from 'primeng/api';
   // standalone: true,
   // imports: [TableModule],
   templateUrl: './location-history.component.html',
-  styleUrl: './location-history.component.scss',
+  styleUrl: './location-history.component.css',
   animations: [appModuleAnimation()],
   encapsulation: ViewEncapsulation.Emulated
 })

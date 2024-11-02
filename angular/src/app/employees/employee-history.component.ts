@@ -31,7 +31,7 @@ import { CreateDesignationDepartmentComponent } from "@app/designation-departmen
   // standalone: true,
   // imports: [],
   templateUrl: "./employee-history.component.html",
-  styleUrl: "./employee-history.component.scss",
+  styleUrl: "./employee-history.component.css",
   animations: [appModuleAnimation()],
   encapsulation: ViewEncapsulation.Emulated,
 })

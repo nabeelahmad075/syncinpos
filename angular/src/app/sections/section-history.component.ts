@@ -83,7 +83,7 @@ export class SectionHistoryComponent extends AppComponentBase {
     let createOrEditDialog: BsModalRef;
     if (!id) {
       createOrEditDialog = this._modalService.show(AddEditSectionComponent, {
-        class: "modal-lg modal-dialog-centered",
+        class: "mymodal modal-dialog-centered",
         backdrop: "static",
         ignoreBackdropClick: true,
       });

@@ -9,7 +9,7 @@ import { Dropdown } from 'primeng/dropdown';
 import { PrimengTableHelper } from '@shared/helpers/primengTableHelper';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
-
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
   selector: 'app-create-designation-department',
@@ -17,6 +17,7 @@ import { Paginator } from 'primeng/paginator';
   // imports: [],
   templateUrl: './create-designation-department.component.html',
   styleUrl: './create-designation-department.component.css',
+  animations: [appModuleAnimation()],
   providers: [DesignationServiceProxy, DepartmentServiceProxy]
 })
 export class CreateDesignationDepartmentComponent extends AppComponentBase implements OnInit{

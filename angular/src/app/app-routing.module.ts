@@ -2,18 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { AppComponent } from './app.component';
-import { LocationHistoryComponent } from "./locations/location-history.component";
-import { AddEditLocComponent } from "./locations/create-edit-location/add-edit-loc.component";
-import { EmployeeHistoryComponent } from "./employees/employee-history.component";
-import { AddEditEmpComponent } from "./employees/create-edit-employee/add-edit-emp.component";
-import { CreateDesignationDepartmentComponent } from './designation-department/create-designation-department.component';
-import { SectionHistoryComponent} from './sections/section-history.component';
-import { AddEditSectionComponent } from './sections/create-edit-sections/add-edit-section.component';
-import { ItemCategoryHistoryComponent} from './item-category/item-category-history.component';
-import { AddEditItemCategoryComponent} from './item-category/create-edit-item-category/add-edit-item-category.component';
-import { ItemDefinationHistoryComponent } from './item-defination/item-defination-history.component';
-import { AddEditItemDefinationComponent } from './item-defination/create-edit-item-defination/add-edit-item-defination.component';
-
+import { LocationHistoryComponent } from "./setup/locations/location-history.component";
+import { AddEditLocComponent } from "./setup/locations/create-edit-location/add-edit-loc.component";
+import { EmployeeHistoryComponent } from "./hr/employees/employee-history.component";
+import { AddEditEmpComponent } from "./hr/employees/create-edit-employee/add-edit-emp.component";
+import { CreateDesignationDepartmentComponent } from './hr/designation-department/create-designation-department.component';
+import { SectionHistoryComponent} from './menu-operations/sections/section-history.component';
+import { AddEditSectionComponent } from './menu-operations/sections/create-edit-sections/add-edit-section.component';
+import { ItemCategoryHistoryComponent} from './menu-operations/item-category/item-category-history.component';
+import { AddEditItemCategoryComponent} from './menu-operations/item-category/create-edit-item-category/add-edit-item-category.component';
+import { ItemDefinitionHistoryComponent } from './menu-operations/item/item-definition/item-definition-history.component';
+import { AddEditItemDefinitionComponent } from './menu-operations/item/create-edit-item-definition/add-edit-item-definition.component';
 @NgModule({
     imports: [
         RouterModule.forChild([
@@ -72,13 +71,13 @@ import { AddEditItemDefinationComponent } from './item-defination/create-edit-it
                         canActivate: [AppRouteGuard]
                     },
                     {
-                        path: "itemdefinationhistory",
-                        component: ItemDefinationHistoryComponent,
+                        path: "itemdefinitionhistory",
+                        component: ItemDefinitionHistoryComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {
-                        path: "newitemdefination",
-                        component: AddEditItemDefinationComponent,
+                        path: "newitemdefinition",
+                        component: AddEditItemDefinitionComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {

@@ -1,0 +1,74 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createAccountForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Item Category' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="container-fluid">
+    <div class="form-row form-group">
+      <div class="col-md-4 required">
+        <label for="location">
+          {{ "Item Type" | localize }}
+        </label>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-1rem'
+          }"
+          name="location"
+          required
+          placeholder="Select Item Type"
+          [options]="tblItemTypes"
+          [styleClass]="'prm-dropdown prm-filter-dropdown'"
+          [(ngModel)]="tblItemCategories.itemTypeId"
+        >
+        </p-dropdown>
+      </div>
+      <div class="col-md-4 required">
+        <label for="designation">
+          {{ "Category" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="empName"
+          id="empName"
+          required
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblItemCategories.title"
+        />
+        </div>
+        <div class="col-md-4">
+          <div class="custom-control custom-checkbox" style="padding: 1.2rem;">
+            <input
+
+              type="checkbox"
+              class="custom-control-input"
+              name="isActive"
+              id="isActive"
+              [(ngModel)]="tblItemCategories.isActive"
+            />
+            <label class="custom-control-label mt-2" for="isActive"
+              >Active</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
+    [saveDisabled]="!createAccountForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

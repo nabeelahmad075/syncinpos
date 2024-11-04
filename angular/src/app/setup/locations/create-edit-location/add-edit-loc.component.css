@@ -1,0 +1,23 @@
+/* Custom styles for dropdown */
+.ui-dropdown {
+    border: 1px solid #ced4da; /* Bootstrap border color */
+    border-radius: 0.25rem; /* Bootstrap border radius */
+    padding: 0.375rem 0.75rem; /* Bootstrap padding */
+}
+
+.ui-dropdown .ui-dropdown-label {
+    display: flex;
+    align-items: center;
+}
+
+/* Align items in dropdown list */
+.ui-dropdown .ui-dropdown-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.custom-check-box
+{
+    vertical-align: text-bottom;
+    margin-top: 2.8rem;
+}

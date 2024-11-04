@@ -1,49 +1,81 @@
-
 .p-datatable .p-datatable-header {
-    background: #0679ec;
-    color: #374151;
-    border: 1px solid #e5e7eb;
-    border-width: 1px 0 1px 0;
-    padding: 0.5rem 1rem;
-    font-weight: 700;
+  background: #0679ec;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  border-width: 1px 0 1px 0;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
 }
 
-.table-bordered thead td, .table-bordered thead th {
-    border-bottom-width: 2px;
-    background: rgb(3, 246, 214);
-    border: 1px solid black;
+.table-bordered thead td,
+.table-bordered thead th {
+  border-bottom-width: 2px;
+  background: rgb(3, 246, 214);
+  border: 1px solid black;
 }
 
-.table-bordered tbody td, .table-bordered tbody th {
-    border: 1px solid rgb(150, 147, 147);
+.table-bordered tbody td,
+.table-bordered tbody th {
+  border: 1px solid rgb(150, 147, 147);
 }
 
-tabset{
-    font-size: 0.8rem;
+tabset {
+  font-size: 0.8rem;
 }
 
- .p-paginator {
-    font-size: 0.8em; 
-    padding: 2px;     
-}
- .p-paginator .p-paginator-page {
-    width: 0px;    
-    height: 30px;   
-    margin: 0 2px;   
-}
- .p-dropdown {
-    font-size: 0.5rem; 
-    padding: 2px;     
-    height: 30px;
-    line-height: 0.1rem;
-    width: auto;
+.p-paginator {
+  font-size: 0.8em;
+  padding: 2px;
 }
 
- .p-button {
-    padding: 1px 2px; 
-    font-size: 0.8em;  
+.p-paginator .p-paginator-page {
+  width: 0px;
+  height: 30px;
+  margin: 0 2px;
 }
 
-label{
-    font-size: 0.8rem;
+.p-dropdown {
+  padding: 2px;
+  height: 30px;
+  line-height: 0.1rem;
+  width: 100%;
+}
+
+.p-dropdown .p-dropdown-label {
+  font-size: 0.8rem;
+  color: #000000;
+}
+
+.p-dropdown-panel .p-dropdown-header {
+  padding: 0.2rem 0.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+  background: #f9fafb;
+  margin: 0;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.p-button {
+  padding: 1px 2px;
+  font-size: 0.8em;
+}
+
+input {
+  height: 38px;
+  color: #000000;
+}
+
+label {
+  font-size: 0.8rem;
+  margin-bottom: 0rem;
+  color: #000000;
+}
+
+.p-dropdown-panel .p-dropdown-items {
+  padding: 0.75rem 0;
+  font-size: 0.8rem;
+  line-height: 0rem;
+  margin: 0rem 0rem 0rem -1rem;
 }

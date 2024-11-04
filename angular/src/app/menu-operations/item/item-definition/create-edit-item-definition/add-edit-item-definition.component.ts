@@ -9,7 +9,8 @@ import {
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
-  ItemDto, ItemServiceProxy,
+  ItemDto,
+  ItemServiceProxy,
   ItemTypeDto,
   ItemTypeServiceProxy,
   ItemCategoryDto,
@@ -31,16 +32,18 @@ import { Dropdown } from "primeng/dropdown";
   // imports: [],
   templateUrl: "./add-edit-item-definition.component.html",
   styleUrl: "./add-edit-item-definition.component.css",
-  animations: [appModuleAnimation()]
+  animations: [appModuleAnimation()],
 })
-
-export class AddEditItemDefinitionComponent extends AppComponentBase implements OnInit {
-
+export class AddEditItemDefinitionComponent
+  extends AppComponentBase
+  implements OnInit
+{
   saving = false;
   id: number;
   tblItemTypes: SelectItem[] = [];
   tblItemCategories: SelectItem[] = [];
-  tblSections: SelectItem[]=[];
+  tblSections: SelectItem[] = [];
+  tblUnitOfMeasurements: SelectItem[] = [];
   tblItemDefinitions: ItemDto = new ItemDto();
   @Output() onSave = new EventEmitter<any>();
   joiningDate: Date = new Date();
@@ -51,6 +54,7 @@ export class AddEditItemDefinitionComponent extends AppComponentBase implements 
     private _itemTypeService: ItemTypeServiceProxy,
     private _itemCategoryService: ItemCategoryServiceProxy,
     private _sectionService: SectionsServiceProxy,
+    private _uomService: UnitOfMeasurementServiceProxy,
     private _itemDefinitionService: ItemServiceProxy,
     public bsModalRef: BsModalRef,
     private cdr: ChangeDetectorRef
@@ -60,22 +64,21 @@ export class AddEditItemDefinitionComponent extends AppComponentBase implements 
   }
 
   ngOnInit(): void {
-    if (this.id > 0){
+    if (this.id > 0) {
       this.getById();
     }
     this.getItemTypeDropdown();
     this.getItemCategoryDropdown();
     this.getSectionsDropdown();
+    this.getUnitDropdown();
   }
 
   getItemTypeDropdown() {
     this.tblItemTypes = [];
-    this._itemTypeService.getItemTypeDropdown().subscribe(
-      (result) => {
-        this.tblItemTypes = result;
-        this.cdr.detectChanges();
-      }
-    );
+    this._itemTypeService.getItemTypeDropdown().subscribe((result) => {
+      this.tblItemTypes = result;
+      this.cdr.detectChanges();
+    });
   }
 
   getItemCategoryDropdown() {
@@ -87,7 +90,7 @@ export class AddEditItemDefinitionComponent extends AppComponentBase implements 
     //   }
     // );
   }
-  
+
   getSectionsDropdown() {
     // this.tblSections = [];
     // this._sectionService.getSectionsDropdown().subscribe(
@@ -98,45 +101,52 @@ export class AddEditItemDefinitionComponent extends AppComponentBase implements 
     // );
   }
 
+  getUnitDropdown() {
+    this.tblUnitOfMeasurements = [];
+    this._uomService.getUnitDropdown().subscribe((result) => {
+      this.tblUnitOfMeasurements = result;
+      this.cdr.detectChanges();
+    });
+  }
+
   save(): void {
     this.saving = true;
     if (this.id) {
       this.update();
-    } else
-      this.create();
+    } else this.create();
   }
 
   update(): void {
     if (!this.tblItemDefinitions.itemTypeId) {
-      abp.notify.error("Please Select Item Type.")
+      abp.notify.error("Please Select Item Type.");
     }
     if (!this.tblItemDefinitions.itemCategoryId) {
-      abp.notify.error("Please Select Category.")
+      abp.notify.error("Please Select Category.");
     }
     if (!this.tblItemDefinitions.sectionId) {
-      abp.notify.error("Please Select Section.")
+      abp.notify.error("Please Select Section.");
     }
     this._itemDefinitionService.update(this.tblItemDefinitions).subscribe({
-      next: (value:any) => {
+      next: (value: any) => {
         this.notify.info("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
       error: (err) => {
         this.saving = false;
-      }
-    })
+      },
+    });
   }
 
   create(): void {
     if (!this.tblItemDefinitions.itemTypeId) {
-      abp.notify.error("Please Select Item Type.")
+      abp.notify.error("Please Select Item Type.");
     }
     if (!this.tblItemDefinitions.itemCategoryId) {
-      abp.notify.error("Please Select Category.")
+      abp.notify.error("Please Select Category.");
     }
     if (!this.tblItemDefinitions.sectionId) {
-      abp.notify.error("Please Select Section.")
+      abp.notify.error("Please Select Section.");
     }
     this._itemDefinitionService.create(this.tblItemDefinitions).subscribe({
       next: () => {
@@ -146,15 +156,14 @@ export class AddEditItemDefinitionComponent extends AppComponentBase implements 
       },
       error: (err) => {
         this.saving = false;
-      }
-    })
-  } 
-
-  getById (){
-    this._itemDefinitionService.get (this.id).subscribe((result) => {
-      this.tblItemDefinitions = result;
-      this.cdr.detectChanges();
-    })
+      },
+    });
   }
 
+  getById() {
+    this._itemDefinitionService.get(this.id).subscribe((result) => {
+      this.tblItemDefinitions = result;
+      this.cdr.detectChanges();
+    });
+  }
 }

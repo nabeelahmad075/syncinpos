@@ -106,22 +106,23 @@
       </div>
       <div class="form-group col-md-4">
         <label for="uom">
-            {{ "UOM" | localize }}
-          </label>
-          <p-dropdown
-            [style]="{
-              width: '100%',
-              height: '38px',
-              lineHeight: '1',
-              marginTop: '-0.5rem'
-            }"
-            name="uom"
-            required
-            placeholder="Select UOM"
-            [options]="tblSections"
-            [(ngModel)]="tblItemDefinitions.uomId"
-          >
-          </p-dropdown>
+          {{ "UOM" | localize }}
+        </label>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-0.5rem'
+          }"
+          [filter]="true"
+          name="uom"
+          required
+          placeholder="Select UOM"
+          [options]="tblUnitOfMeasurements"
+          [(ngModel)]="tblItemDefinitions.uomId"
+        >
+        </p-dropdown>
       </div>
     </div>
     <div class="form-row form-group">

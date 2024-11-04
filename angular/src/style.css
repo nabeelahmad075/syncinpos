@@ -43,3 +43,7 @@ tabset{
     padding: 1px 2px; 
     font-size: 0.8em;  
 }
+
+label{
+    font-size: 0.8rem;
+}

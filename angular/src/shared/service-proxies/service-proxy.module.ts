@@ -22,6 +22,8 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.SectionsServiceProxy,
         ApiServiceProxies.ItemCategoryServiceProxy,
         ApiServiceProxies.ItemTypeServiceProxy,
+        ApiServiceProxies.ItemServiceProxy,
+        ApiServiceProxies.UnitOfMeasurementServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })

@@ -5,14 +5,14 @@
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'Employee Information' | localize"
+    [title]="'Item Definition' | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
     <div class="form-row form-group">
       <div class="col-md-4 required">
-        <label for="location">
-          {{ "Location" | localize }}
+        <label for="itemType">
+          {{ "Item Type" | localize }}
         </label>
         <div class="">
           <p-dropdown
@@ -22,19 +22,19 @@
               lineHeight: '1',
               marginTop: '-0.5rem'
             }"
-            name="location"
+            name="itemType"
             required
-            placeholder="Select Location"
-            [options]="tblLocation"
+            placeholder="Select Item Type"
+            [options]="tblItemTypes"
             [styleClass]="'prm-dropdown prm-filter-dropdown'"
-            [(ngModel)]="tblEmployee.locationId"
+            [(ngModel)]="tblItemDefinitions.itemTypeId"
           >
           </p-dropdown>
         </div>
       </div>
       <div class="col-md-4 required">
-        <label for="designation">
-          {{ "Designation" | localize }}
+        <label for="itemCategory">
+          {{ "Category" | localize }}
         </label>
         <p-dropdown
           [style]="{
@@ -43,18 +43,18 @@
             lineHeight: '1',
             marginTop: '-0.5rem'
           }"
-          name="designation"
+          name="itemCategory"
           required
-          placeholder="Select Designation"
-          [options]="tblDesignation"
+          placeholder="Select Category"
+          [options]="tblItemCategories"
           [styleClass]="'prm-dropdown prm-filter-dropdown'"
-          [(ngModel)]="tblEmployee.designationId"
+          [(ngModel)]="tblItemDefinitions.itemCategoryId"
         >
         </p-dropdown>
       </div>
       <div class="col-md-4 required">
-        <label for="department">
-          {{ "Department" | localize }}
+        <label for="section">
+          {{ "Section" | localize }}
         </label>
         <p-dropdown
           [style]="{
@@ -63,76 +63,65 @@
             lineHeight: '1',
             marginTop: '-0.5rem'
           }"
-          name="department"
+          name="section"
           required
-          placeholder="Select Department"
-          [options]="tblDepartment"
-          [(ngModel)]="tblEmployee.departmentId"
+          placeholder="Select Section"
+          [options]="tblSections"
+          [(ngModel)]="tblItemDefinitions.sectionId"
         >
         </p-dropdown>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <label for="empName">
-          {{ "Employee Name" | localize }}
+        <label for="itemName">
+          {{ "Item Name" | localize }}
         </label>
         <input
           style="margin-top: -8px"
           type="text"
           class="form-control"
-          name="empName"
-          id="empName"
+          name="itemName"
+          id="itemName"
           required
           minlength="2"
           maxlength="500"
-          [(ngModel)]="tblEmployee.employeeName"
+          [(ngModel)]="tblItemDefinitions.itemName"
         />
       </div>
       <div class="form-group col-md-4 required">
-        <label for="empMob">
-          {{ "Mobile No." | localize }}
+        <label for="barcode">
+          {{ "Barcode" | localize }}
         </label>
         <input
           style="margin-top: -8px"
           type="text"
           class="form-control"
-          name="empMob"
-          id="empMob"
+          name="barcode"
+          id="barcode"
           minlength="2"
           maxlength="500"
-          [(ngModel)]="tblEmployee.mobileNo"
+          [(ngModel)]="tblItemDefinitions.barcode"
         />
       </div>
       <div class="form-group col-md-4">
-        <label for="joiningDate"> Joining Date </label>
-        <p-calendar
-          [(ngModel)]="joiningDate"
-          name="joiningDate"
-          id="joiningDate"
-          autoWidth="false"
-          [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
-          placeholder="Joining Date"
-          [dateFormat]="'dd/mm/yy'"
-          [showIcon]="true"
-        ></p-calendar>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-12 required">
-        <label for="address">
-          {{ "Address" | localize }}
-        </label>
-        <input
-          style="margin-top: -8px"
-          type="text"
-          class="form-control"
-          name="address"
-          id="address"
-          minlength="2"
-          maxlength="500"
-          [(ngModel)]="tblEmployee.address"
-        />
+        <label for="uom">
+            {{ "UOM" | localize }}
+          </label>
+          <p-dropdown
+            [style]="{
+              width: '100%',
+              height: '38px',
+              lineHeight: '1',
+              marginTop: '-0.5rem'
+            }"
+            name="uom"
+            required
+            placeholder="Select UOM"
+            [options]="tblSections"
+            [(ngModel)]="tblItemDefinitions.uomId"
+          >
+          </p-dropdown>
       </div>
     </div>
     <div class="form-row form-group">
@@ -148,7 +137,7 @@
               class="custom-control-input"
               name="isActive"
               id="isActive"
-              [(ngModel)]="tblEmployee.isActive"
+              [(ngModel)]="tblItemDefinitions.isActive"
             />
             <label class="custom-control-label mt-2" for="isActive"
               >Active</label

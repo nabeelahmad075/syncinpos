@@ -12,7 +12,7 @@ import { AddEditSectionComponent } from './menu-operations/sections/create-edit-
 import { ItemCategoryHistoryComponent} from './menu-operations/item-category/item-category-history.component';
 import { AddEditItemCategoryComponent} from './menu-operations/item-category/create-edit-item-category/add-edit-item-category.component';
 import { ItemDefinitionHistoryComponent } from './menu-operations/item/item-definition/item-definition-history.component';
-import { AddEditItemDefinitionComponent } from './menu-operations/item/create-edit-item-definition/add-edit-item-definition.component';
+import { AddEditItemDefinitionComponent } from './menu-operations/item/item-definition/create-edit-item-definition/add-edit-item-definition.component';
 @NgModule({
     imports: [
         RouterModule.forChild([

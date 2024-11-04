@@ -96,7 +96,7 @@ eventClone: LazyLoadEvent;
   //     });
   // }
 
-  delete(locationHistory: LocationHistoryDto): void {
+  // delete(locationHistory: LocationHistoryDto): void {
     // abp.message.confirm(
     //   this.l('RoleDeleteWarningMessage', role.displayName),
     //   undefined,
@@ -114,7 +114,7 @@ eventClone: LazyLoadEvent;
     //     }
     //   }
     // );
-  }
+  // }
 
   createLocation(): void {
     this.showCreateOrEditLocDialog();

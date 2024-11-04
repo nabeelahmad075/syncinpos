@@ -69,7 +69,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
           ),
           new MenuItem(
             "Item Defination",
-            "/app/itemdefinationhistory",
+            "/app/itemdefinitionhistory",
             "fas fa-info-circle"
           ),
         ]),

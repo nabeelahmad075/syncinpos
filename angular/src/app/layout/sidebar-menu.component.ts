@@ -28,6 +28,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
   ngOnInit(): void {
     this.menuItems = this.getMenuItems();
     this.patchMenuItems(this.menuItems);
+    this.deactivateMenuItems(this.menuItems);
 
     this.router.events.subscribe((event: NavigationEnd) => {
       const currentUrl = event.url !== "/" ? event.url : this.homeRoute;
@@ -57,11 +58,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
           ),
         ]),
         new MenuItem("Menu Operations", "", "fas fa-dot-circle", "", [
-          new MenuItem(
-            "Section", 
-            "/app/section-history", 
-            "fas fa-info-circle"
-          ),
+          new MenuItem("Section", "/app/section-history", "fas fa-info-circle"),
           new MenuItem(
             "Category",
             "/app/categoryhistory",
@@ -149,7 +146,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
   activateMenuItem(item: MenuItem): void {
     item.isActive = true;
     if (item.children) {
-      item.isCollapsed = false;
+      item.isCollapsed = true;
     }
     this.activatedMenuItems.push(item);
     if (item.parentId) {
@@ -162,5 +159,18 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       return true;
     }
     return this.permission.isGranted(item.permissionName);
+  }
+
+  toggleMenuItem(item: any) {
+    // Toggle the collapsed state of the current menu item
+    item.isCollapsed = !item.isCollapsed;
+
+    // Optionally collapse other menu items, depending on your design
+    // For example, collapse all other menu items when one is expanded
+    this.menuItems.forEach((menu) => {
+      if (menu !== item) {
+        menu.isCollapsed = false;
+      }
+    });
   }
 }

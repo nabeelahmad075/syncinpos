@@ -15,6 +15,7 @@ export class HeaderLeftNavbarComponent implements OnInit {
     this._layoutStore.sidebarExpanded.subscribe((value) => {
       this.sidebarExpanded = value;
     });
+    this.toggleSidebar();
   }
 
   toggleSidebar(): void {

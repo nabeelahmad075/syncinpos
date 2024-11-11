@@ -42,7 +42,7 @@ namespace syncinpos.Entities.Inventory.Items
                            .Select(x => new ItemHistoryDto
                            {
                                Id = x.Id,
-                               ItemType = x.ItemType.Title,
+                               ItemType = x.ItemType.Alias,
                                ItemName = x.ItemName,
                                ItemCategory = x.ItemCategory.Title,
                                Section = x.Section.Title,

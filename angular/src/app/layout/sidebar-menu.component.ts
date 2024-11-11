@@ -42,32 +42,32 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
 
   getMenuItems(): MenuItem[] {
     return [
-      new MenuItem(this.l("Setup"), "", "fas fa-circle", "", [
-        new MenuItem("Configuration", "", "fas fa-dot-circle", "", [
+      new MenuItem(this.l("Setup"), "", "fa-solid fa-gear", "", [
+        new MenuItem("Configuration", "", "fa-solid fa-sliders", "", [
           new MenuItem(
             "Location",
             "/app/locationhistory",
-            "fas fa-info-circle"
+            "fa-solid fa-map-pin"
           ),
         ]),
-        new MenuItem("HR Management", "", "fas fa-dot-circle", "", [
+        new MenuItem("HR Management", "", "fa-solid fa-user", "", [
           new MenuItem(
             "Add Employee",
             "/app/employeehistory",
-            "fas fa-info-circle"
+            "fa-solid fa-user-plus"
           ),
         ]),
-        new MenuItem("Menu Operations", "", "fas fa-dot-circle", "", [
-          new MenuItem("Section", "/app/section-history", "fas fa-info-circle"),
+        new MenuItem("Menu Operations", "", "fa-solid fa-utensils", "", [
+          new MenuItem("Section", "/app/section-history", "fa-solid fa-puzzle-piece"),
           new MenuItem(
             "Category",
             "/app/categoryhistory",
-            "fas fa-info-circle"
+            "fa-solid fa-list"
           ),
           new MenuItem(
             "Item Defination",
             "/app/itemdefinitionhistory",
-            "fas fa-info-circle"
+            "fa-solid fa-drumstick-bite"
           ),
         ]),
       ]),

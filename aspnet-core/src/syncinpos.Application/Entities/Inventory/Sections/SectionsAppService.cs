@@ -5,6 +5,7 @@ using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
 using syncinpos.Entities.Inventory.Sections.Dto;
 using syncinpos.Entities.Locations.Dto;
+using syncinpos.Utility.SelectItemDto;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -38,6 +39,17 @@ namespace syncinpos.Entities.Inventory.Sections
                 Items = await pageQuery.ToListAsync(),
                 TotalCount = sqlQuery.Count()
             };
+        }
+        public async Task<List<SelectItemDto>> GetSectionsDropdownAsync(int? ItemId, int? SectionId)
+        {
+            var Sections = await Repository.GetAll()
+                                      .Where(a => (a.IsActive == true && ItemId == 0) || ((a.IsActive == true && ItemId != 0) || a.Id == SectionId))
+                                      .Select(a => new SelectItemDto
+                                      {
+                                          Label = a.Title,
+                                          Value = a.Id
+                                      }).ToListAsync();
+            return Sections;
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using syncinpos.Utility.SelectItemDto;
 
 namespace syncinpos.Entities.Inventory.ItemCategories
 {
@@ -37,6 +38,17 @@ namespace syncinpos.Entities.Inventory.ItemCategories
                 Items = await pageQuery.ToListAsync(),
                 TotalCount = sqlQuery.Count()
             };
+        }
+        public async Task<List<SelectItemDto>> GetSectionsDropdownAsync(int? ItemId, int? ItemCategoryId)
+        {
+            var Category = await Repository.GetAll()
+                                      .Where(a => (a.IsActive == true && ItemId == 0) || ((a.IsActive == true && ItemId != 0) || a.Id == ItemCategoryId))
+                                      .Select(a => new SelectItemDto
+                                      {
+                                          Label = a.Title,
+                                          Value = a.Id
+                                      }).ToListAsync();
+            return Category;
         }
     }
 }

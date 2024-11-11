@@ -39,7 +39,9 @@ export class AddEditItemDefinitionComponent
   implements OnInit
 {
   saving = false;
-  id: number;
+  id: number = 0;
+  itemTypeIdd: number;
+  itemCatId: number;
   tblItemTypes: SelectItem[] = [];
   tblItemCategories: SelectItem[] = [];
   tblSections: SelectItem[] = [];
@@ -64,41 +66,67 @@ export class AddEditItemDefinitionComponent
   }
 
   ngOnInit(): void {
+
     if (this.id > 0) {
       this.getById();
     }
+
     this.getItemTypeDropdown();
-    this.getItemCategoryDropdown();
     this.getSectionsDropdown();
     this.getUnitDropdown();
+    // this.getItemCategoryDropdown();
+  }
+
+  ngAfterViewInit(): void {
+    // Call detectChanges to ensure any asynchronous updates are reflected in the view
+    this.cdr.detectChanges();
+
+    // Log values for debugging
+    console.log("ngAfterViewInit - tblItemDefinitions:", this.tblItemDefinitions);
+    console.log("ngAfterViewInit - itemTypeIdd:", this.itemTypeIdd);
+    console.log("ngAfterViewInit - itemCatId:", this.itemCatId);
   }
 
   getItemTypeDropdown() {
     this.tblItemTypes = [];
+    debugger
     this._itemTypeService.getItemTypeDropdown().subscribe((result) => {
       this.tblItemTypes = result;
+      if (this.tblItemTypes && this.tblItemTypes.length && this.id == 0) {
+        debugger
+        this.itemTypeIdd = this.tblItemTypes[0].value;
+      } // Assuming tblItemTypes has 'value' field
       this.cdr.detectChanges();
     });
   }
 
-  getItemCategoryDropdown() {
-    // this.tblItemCategories = [];
-    // this._itemCategoryService.getItemCategoryDropdown().subscribe(
-    //   (result) => {
-    //     this.tblItemCategories = result;
-    //     this.cdr.detectChanges();
-    //   }
-    // );
+  getItemCategoryDropdown(editMode: boolean = false) {
+    this.tblItemCategories = [];
+    debugger;
+    this._itemCategoryService
+      .getItemCategoryDropdown(
+        this.id,
+        this.tblItemDefinitions.itemCategoryId,
+        this.itemTypeIdd
+      )
+      .subscribe((result) => {
+        this.tblItemCategories = result;
+        if (this.tblItemCategories && this.tblItemCategories.length && editMode == false) {
+          debugger
+          this.itemCatId = this.tblItemCategories[0].value;
+        } // Assuming tblItemTypes has 'value' field
+        this.cdr.detectChanges();
+      });
   }
 
   getSectionsDropdown() {
-    // this.tblSections = [];
-    // this._sectionService.getSectionsDropdown().subscribe(
-    //   (result) => {
-    //     this.tblSections = result;
-    //     this.cdr.detectChanges();
-    //   }
-    // );
+    this.tblSections = [];
+    this._sectionService
+      .getSectionsDropdown(this.id, this.tblItemDefinitions.sectionId)
+      .subscribe((result) => {
+        this.tblSections = result;
+        this.cdr.detectChanges();
+      });
   }
 
   getUnitDropdown() {
@@ -111,6 +139,8 @@ export class AddEditItemDefinitionComponent
 
   save(): void {
     this.saving = true;
+    this.tblItemDefinitions.itemTypeId = this.itemTypeIdd;
+    this.tblItemDefinitions.itemCategoryId = this.itemCatId;
     if (this.id) {
       this.update();
     } else this.create();
@@ -161,8 +191,16 @@ export class AddEditItemDefinitionComponent
   }
 
   getById() {
+    this.itemTypeIdd = undefined;
     this._itemDefinitionService.get(this.id).subscribe((result) => {
+      debugger;
       this.tblItemDefinitions = result;
+
+      this.itemTypeIdd = result.itemTypeId;
+
+      this.getItemCategoryDropdown(true);
+      this.itemCatId = result.itemCategoryId;
+
       this.cdr.detectChanges();
     });
   }

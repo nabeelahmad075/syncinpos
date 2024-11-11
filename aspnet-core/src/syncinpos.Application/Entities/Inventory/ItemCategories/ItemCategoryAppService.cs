@@ -39,10 +39,10 @@ namespace syncinpos.Entities.Inventory.ItemCategories
                 TotalCount = sqlQuery.Count()
             };
         }
-        public async Task<List<SelectItemDto>> GetItemCategoryDropdownAsync(int? ItemId, int? ItemCategoryId)
+        public async Task<List<SelectItemDto>> GetItemCategoryDropdownAsync(int? ItemId, int? ItemCategoryId, int? ItemTypeId)
         {
             var Category = await Repository.GetAll()
-                                      .Where(a => (a.IsActive == true && ItemId == 0) || ((a.IsActive == true && ItemId != 0) || a.Id == ItemCategoryId))
+                                      .Where(a => ((a.IsActive == true && ItemId == 0) || ((a.IsActive == true && ItemId != 0) || a.Id == ItemCategoryId)) && a.ItemTypeId == ItemTypeId)
                                       .Select(a => new SelectItemDto
                                       {
                                           Label = a.Title,

@@ -19,14 +19,15 @@ namespace syncinpos.Entities.Setups.Floor
         public FloorEntityAppService(
             IRepository<FloorEntity, int> repository
             ) : base(repository) { }
-        public async Task<List<SelectItemDto>> GetFloorDropdownAsync()
+        public async Task<List<SelectItemDto>> GetFloorDropdownAsync(int? LocationId)
         {
             var floors = await Repository.GetAll()
-                                        .Select(a => new SelectItemDto
-                                        {
-                                            Label = a.Title,
-                                            Value = a.Id
-                                        }).ToListAsync();
+                                         .Where(a => a.IsActive == true && a.LocationId == LocationId)
+                                         .Select(a => new SelectItemDto
+                                         {
+                                             Label = a.Title,
+                                             Value = a.Id
+                                         }).ToListAsync();
             return floors;
         }
 

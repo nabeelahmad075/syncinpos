@@ -18,14 +18,15 @@ namespace syncinpos.Entities.Setups.Tables
         public TableEntityAppService(
             IRepository<TableEntity, int> repository
             ) : base(repository) { }
-        public async Task<List<SelectItemDto>> GetTableDropdownAsync()
+        public async Task<List<SelectItemDto>> GetTableDropdownAsync(int? LocationId)
         {
             var floors = await Repository.GetAll()
-                                        .Select(a => new SelectItemDto
-                                        {
-                                            Label = a.Title,
-                                            Value = a.Id
-                                        }).ToListAsync();
+                                         .Where(a => a.IsActive == true && a.LocationId == LocationId)
+                                         .Select(a => new SelectItemDto
+                                         {
+                                             Label = a.Title,
+                                             Value = a.Id
+                                         }).ToListAsync();
             return floors;
         }
 

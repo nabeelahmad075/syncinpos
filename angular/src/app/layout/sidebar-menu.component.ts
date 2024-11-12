@@ -49,6 +49,11 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             "/app/locationhistory",
             "fa-solid fa-map-pin"
           ),
+          new MenuItem(
+            "Add Tables",
+            "/app/tables",
+            "fa-solid fa-dumpster"
+          ),
         ]),
         new MenuItem("HR Management", "", "fa-solid fa-user", "", [
           new MenuItem(

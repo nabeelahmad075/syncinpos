@@ -3,12 +3,16 @@
     <div class="container-fluid" style="width: 97%">
       <div class="row">
         <div class="col-6">
-          <h4>Item Definition</h4>
+          <h4>Tables</h4>
         </div>
         <div class="col-6 text-right">
+          <a class="btn bg-blue btnNav" (click)="showFloorDialog()">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Floor
+          </a>
           <a class="btn bg-blue btnNav" (click)="create()">
-            <i class="fa fa-plus"></i>
-            Create
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Tables
           </a>
         </div>
       </div>
@@ -31,9 +35,9 @@
             <div class="d-flex flex-row-reverse">
               <span>
                 <input
-                  [style]="{ width: '100%', fontSize: '0.8rem' }"
                   pInputText
                   type="text"
+                  style="font-size: 0.9rem"
                   class="table-search-input form-control w-100"
                   (input)="
                     dataTable.filterGlobal($event.target.value, 'contains')
@@ -44,38 +48,34 @@
             </div>
           </ng-template>
           <ng-template pTemplate="header">
-            <tr>
-              <th>Type</th>
-              <th>Category</th>
-              <th>Item Name</th>
-              <th>Section</th>
+            <tr class="">
+              <th>Location</th>
+              <th>Floor</th>
+              <th>Table Name</th>
+              <th>Remarks</th>
               <th style="text-align: center">Status</th>
               <th style="text-align: center">Action</th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-itemHistory>
+          <ng-template pTemplate="body" let-table>
             <tr>
-              <td>{{ itemHistory.itemType }}</td>
-              <td>{{ itemHistory.itemCategory }}</td>
-              <td>{{ itemHistory.itemName }}</td>
-              <td>{{ itemHistory.section }}</td>
-              <td style="text-align: center"> 
+              <td>{{ table.locationName }}</td>
+              <td>{{ table.floorTitle }}</td>
+              <td>{{ table.tableTitle }}</td>
+              <td>{{ table.remarks }}</td>
+              <td style="text-align: center">
                 <div class="custom-control custom-checkbox">
                   <input
                     type="checkbox"
                     class="custom-control-input"
                     disabled
-                    [checked]="itemHistory.isActive"
+                    [checked]="table.isActive"
                   />
                   <label class="custom-control-label"></label>
                 </div>
               </td>
               <td style="text-align: center">
-                <a
-                  type="button"
-                  class="mx-2 edit-btn"
-                  (click)="edit(itemHistory)"
-                >
+                <a type="button" class="mx-2 edit-btn" (click)="edit(table)">
                   <i class="fa fa-pencil"></i>
                 </a>
               </td>

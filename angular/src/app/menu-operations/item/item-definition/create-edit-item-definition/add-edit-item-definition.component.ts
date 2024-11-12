@@ -41,7 +41,6 @@ export class AddEditItemDefinitionComponent
   saving = false;
   id: number = 0;
   itemTypeIdd: number;
-  itemCatId: number;
   tblItemTypes: SelectItem[] = [];
   tblItemCategories: SelectItem[] = [];
   tblSections: SelectItem[] = [];
@@ -84,7 +83,6 @@ export class AddEditItemDefinitionComponent
     // Log values for debugging
     console.log("ngAfterViewInit - tblItemDefinitions:", this.tblItemDefinitions);
     console.log("ngAfterViewInit - itemTypeIdd:", this.itemTypeIdd);
-    console.log("ngAfterViewInit - itemCatId:", this.itemCatId);
   }
 
   getItemTypeDropdown() {
@@ -111,10 +109,10 @@ export class AddEditItemDefinitionComponent
       )
       .subscribe((result) => {
         this.tblItemCategories = result;
-        if (this.tblItemCategories && this.tblItemCategories.length && editMode == false) {
-          debugger
-          this.itemCatId = this.tblItemCategories[0].value;
-        } // Assuming tblItemTypes has 'value' field
+        // if (this.tblItemCategories && this.tblItemCategories.length && editMode == false) {
+        //   debugger
+        //   this.tblItemDefinitions.itemCategoryId = this.tblItemCategories[0].value;
+        // } // Assuming tblItemTypes has 'value' field
         this.cdr.detectChanges();
       });
   }
@@ -140,7 +138,6 @@ export class AddEditItemDefinitionComponent
   save(): void {
     this.saving = true;
     this.tblItemDefinitions.itemTypeId = this.itemTypeIdd;
-    this.tblItemDefinitions.itemCategoryId = this.itemCatId;
     if (this.id) {
       this.update();
     } else this.create();
@@ -199,7 +196,6 @@ export class AddEditItemDefinitionComponent
       this.itemTypeIdd = result.itemTypeId;
 
       this.getItemCategoryDropdown(true);
-      this.itemCatId = result.itemCategoryId;
 
       this.cdr.detectChanges();
     });

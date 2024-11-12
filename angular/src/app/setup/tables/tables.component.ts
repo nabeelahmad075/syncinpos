@@ -2,16 +2,17 @@ import {
   ChangeDetectorRef,
   Component,
   Injector,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation,
 } from "@angular/core";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { AddEditSectionComponent } from "./create-edit-sections/add-edit-section.component";
+import { AddEditTablesComponent } from "./add-edit-tables/add-edit-tables.component";
 import { extend, sortBy } from "lodash-es";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
-  SectionHistoryDto,
-  SectionsServiceProxy,
+  TableHistoryDto,
+  TableEntityServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import {
   PagedListingComponentBase,
@@ -23,19 +24,16 @@ import { DropdownModule } from "primeng/dropdown";
 import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
 import { Paginator, PaginatorModule } from "primeng/paginator";
 import { LazyLoadEvent } from "primeng/api";
+import { FloorComponent } from "./floor/floor.component";
 
 @Component({
-  selector: 'app-section-history',
-  // standalone: true,
-  // imports: [],
-  templateUrl: './section-history.component.html',
-  styleUrl: './section-history.component.css',
-  animations: [appModuleAnimation()]
-
+  selector: "app-tables",
+  templateUrl: "./tables.component.html",
+  styleUrls: ["./tables.component.css"],
+  animations: [appModuleAnimation()],
 })
-export class SectionHistoryComponent extends AppComponentBase {
-
-  sectionHistory: SectionHistoryDto[] = [];
+export class TablesComponent extends AppComponentBase {
+  tableHistory: TableHistoryDto[] = [];
   primengTableHelper: PrimengTableHelper = new PrimengTableHelper();
   @ViewChild("dataTable", { static: true }) dataTable: Table;
   @ViewChild("paginator", { static: true }) paginator: Paginator;
@@ -44,7 +42,7 @@ export class SectionHistoryComponent extends AppComponentBase {
   constructor(
     injector: Injector,
     private _modalService: BsModalService,
-    private _sectionService: SectionsServiceProxy,
+    private _tableService: TableEntityServiceProxy,
     private cd: ChangeDetectorRef
   ) {
     super(injector);
@@ -62,8 +60,8 @@ export class SectionHistoryComponent extends AppComponentBase {
       event.sortOrder = this.eventClone.sortOrder;
     }
     abp.ui.setBusy();
-    this._sectionService
-      .getSectionsHistory(
+    this._tableService
+      .getTableHistory(
         event && event.filters && event.filters["global"]
           ? event.filters["global"].value
           : undefined,
@@ -82,18 +80,18 @@ export class SectionHistoryComponent extends AppComponentBase {
   showCreateOrEditDialog(id?: number): void {
     let createOrEditDialog: BsModalRef;
     if (!id) {
-      createOrEditDialog = this._modalService.show(AddEditSectionComponent, {
-        class: "mymodal modal-dialog-centered",
+      createOrEditDialog = this._modalService.show(AddEditTablesComponent, {
+        class: "modal-lg modal-dialog-centered",
         backdrop: "static",
         ignoreBackdropClick: true,
       });
     } else {
-      createOrEditDialog = this._modalService.show(AddEditSectionComponent, {
-        class: "mymodal modal-dialog-centered",
+      createOrEditDialog = this._modalService.show(AddEditTablesComponent, {
+        class: "modal-lg modal-dialog-centered",
         backdrop: "static",
         ignoreBackdropClick: true,
         initialState: {
-          id: id,
+         id : id,
         },
       });
     }
@@ -108,8 +106,21 @@ export class SectionHistoryComponent extends AppComponentBase {
     this.showCreateOrEditDialog();
   }
 
-  edit(sectionHistory: SectionHistoryDto): void {
-    this.showCreateOrEditDialog(sectionHistory.id);
+  edit(tableHistory: TableHistoryDto): void {
+    this.showCreateOrEditDialog(tableHistory.id);
   }
 
+  showFloorDialog(): void {
+    let createFloorDialog: BsModalRef;
+    createFloorDialog = this._modalService.show(FloorComponent, {
+      class: "modal-lg modal-dialog-centered",
+      backdrop: "static",
+      ignoreBackdropClick: true,
+    });
+    createFloorDialog.content.onSave.subscribe((value) => {
+      if (value) {
+        this.getHistory({});
+      }
+    });
+  }
 }

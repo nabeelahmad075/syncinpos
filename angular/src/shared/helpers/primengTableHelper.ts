@@ -3,9 +3,14 @@ import { LazyLoadEvent } from "primeng/api/public_api";
 import { Paginator } from 'primeng/paginator/paginator';
 
 export class PrimengTableHelper {
-  predefinedRecordsCountPerPage = [5, 10, 20, 50, 100, { showAll: 'All' }];
+  predefinedRecordsCountPerPage = [25, 50, 100, { showAll: 'All' }];
 
   defaultRecordsCountPerPage = <number>this.predefinedRecordsCountPerPage[0];
+
+  smallRecordsCountPerPage = [5, 10];
+
+  defaultSmallRecordsCountPerPage = <number>this.smallRecordsCountPerPage[0];
+
   isResponsive = true;
 
   resizableColumns: false;
@@ -59,6 +64,20 @@ export class PrimengTableHelper {
     }
 
     return event?.rows ?? this.defaultRecordsCountPerPage;
+  }
+
+  getSmallMaxResultCount(paginator: Paginator, event: LazyLoadEvent): number {
+    debugger
+    if (paginator.rows) {
+      debugger
+      return paginator.rows;
+    }
+
+    if (!event) {
+      return this.defaultSmallRecordsCountPerPage;
+    }
+
+    return event?.rows ?? this.defaultSmallRecordsCountPerPage;
   }
 
   getSkipCount(paginator: Paginator, event: LazyLoadEvent): number {

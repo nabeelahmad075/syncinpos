@@ -37,7 +37,9 @@ import { ItemCategoryHistoryComponent} from './menu-operations/item-category/ite
 import { AddEditItemCategoryComponent} from './menu-operations/item-category/create-edit-item-category/add-edit-item-category.component';
 import { ItemDefinitionHistoryComponent } from './menu-operations/item/item-definition/item-definition-history.component';
 import { AddEditItemDefinitionComponent } from './menu-operations/item/item-definition/create-edit-item-definition/add-edit-item-definition.component';
-
+import { TablesComponent} from './setup/tables/tables.component';
+import { AddEditTablesComponent } from './setup/tables/add-edit-tables/add-edit-tables.component';
+import { FloorComponent } from './setup/tables/floor/floor.component';
 
 @NgModule({
     declarations: [
@@ -62,7 +64,10 @@ import { AddEditItemDefinitionComponent } from './menu-operations/item/item-defi
         ItemCategoryHistoryComponent,
         AddEditItemCategoryComponent,
         ItemDefinitionHistoryComponent,
-        AddEditItemDefinitionComponent
+        AddEditItemDefinitionComponent,
+        TablesComponent,
+        AddEditTablesComponent,
+        FloorComponent
     ],
     imports: [
         AppRoutingModule,

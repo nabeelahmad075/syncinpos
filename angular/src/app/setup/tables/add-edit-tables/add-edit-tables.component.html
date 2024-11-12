@@ -1,18 +1,18 @@
 <form
   class="form-horizontal"
   autocomplete="off"
-  #createAccountForm="ngForm"
+  #createAddEditTablesForm="ngForm"
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'Item Definition' | localize"
+    [title]="'Floor' | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
     <div class="form-row form-group">
       <div class="col-md-4 required">
-        <label for="itemType">
-          {{ "Item Type" | localize }}
+        <label for="location">
+          {{ "Location" | localize }}
         </label>
         <div class="">
           <p-dropdown
@@ -22,20 +22,20 @@
               lineHeight: '1',
               marginTop: '-0.5rem'
             }"
-            name="itemType"
+            name="location"
             required
-            
-            [options]="tblItemTypes"
+            placeholder="Select Location"
+            [options]="tblLocation"
             [styleClass]="'prm-dropdown prm-filter-dropdown'"
-            [(ngModel)]="itemTypeIdd"
-            (ngModelChange)="getItemCategoryDropdown()"
+            [(ngModel)]="tblTables.locationId"
+            (onChange)="getFloorDropdown(tblTables.locationId)"
           >
           </p-dropdown>
         </div>
       </div>
       <div class="col-md-4 required">
-        <label for="itemCategory">
-          {{ "Category" | localize }}
+        <label for="floor">
+          {{ "Floor" | localize }}
         </label>
         <p-dropdown
           [style]="{
@@ -44,86 +44,62 @@
             lineHeight: '1',
             marginTop: '-0.5rem'
           }"
-          name="itemCategory"
+          name="floor"
           required
-          placeholder="Select Category"
-          [options]="tblItemCategories"
+          placeholder="Select Floor"
+          [options]="tblFloor"
           [styleClass]="'prm-dropdown prm-filter-dropdown'"
-          [(ngModel)]="tblItemDefinitions.itemCategoryId"
-        >
-        </p-dropdown>
-      </div>
-      <div class="col-md-4 required">
-        <label for="section">
-          {{ "Section" | localize }}
-        </label>
-        <p-dropdown
-          [style]="{
-            width: '100%',
-            height: '38px',
-            lineHeight: '1',
-            marginTop: '-0.5rem'
-          }"
-          name="section"
-          required
-          placeholder="Select Section"
-          [options]="tblSections"
-          [(ngModel)]="tblItemDefinitions.sectionId"
+          [(ngModel)]="tblTables.floorId"
         >
         </p-dropdown>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <label for="itemName">
-          {{ "Item Name" | localize }}
+        <label for="tableName">
+          {{ "Table Name" | localize }}
         </label>
         <input
           style="margin-top: -8px"
           type="text"
           class="form-control"
-          name="itemName"
-          id="itemName"
+          name="tableName"
+          id="tableName"
           required
           minlength="2"
           maxlength="500"
-          [(ngModel)]="tblItemDefinitions.itemName"
+          [(ngModel)]="tblTables.title"
         />
       </div>
       <div class="form-group col-md-4 required">
-        <label for="barcode">
-          {{ "Barcode" | localize }}
+        <label for="remarks">
+          {{ "Remarks" | localize }}
         </label>
         <input
           style="margin-top: -8px"
           type="text"
           class="form-control"
-          name="barcode"
-          id="barcode"
+          name="remarks"
+          id="remarks"
           minlength="2"
           maxlength="500"
-          [(ngModel)]="tblItemDefinitions.barcode"
+          [(ngModel)]="tblTables.remarks"
         />
       </div>
       <div class="form-group col-md-4">
-        <label for="uom">
-          {{ "UOM" | localize }}
+        <label for="sort">
+          {{ "Sort No." | localize }}
         </label>
-        <p-dropdown
-          [style]="{
-            width: '100%',
-            height: '38px',
-            lineHeight: '1',
-            marginTop: '-0.5rem'
-          }"
-          [filter]="true"
-          name="uom"
-          required
-          placeholder="Select UOM"
-          [options]="tblUnitOfMeasurements"
-          [(ngModel)]="tblItemDefinitions.uomId"
-        >
-        </p-dropdown>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="sort"
+          id="sort"
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblTables.sort"
+        />
       </div>
     </div>
     <div class="form-row form-group">
@@ -139,7 +115,7 @@
               class="custom-control-input"
               name="isActive"
               id="isActive"
-              [(ngModel)]="tblItemDefinitions.isActive"
+              [(ngModel)]="tblTables.isActive"
             />
             <label class="custom-control-label mt-2" for="isActive"
               >Active</label
@@ -152,7 +128,7 @@
   <abp-modal-footer
     [cancelDisabled]="saving"
     [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
-    [saveDisabled]="!createAccountForm.form.valid || saving"
+    [saveDisabled]="!createAddEditTablesForm.form.valid || saving"
     (onCancelClick)="bsModalRef.hide()"
   ></abp-modal-footer>
 </form>

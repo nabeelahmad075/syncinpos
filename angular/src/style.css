@@ -65,6 +65,7 @@ tabset {
 input {
   height: 38px;
   color: #000000;
+  font-size: 0.9rem;
 }
 
 label {

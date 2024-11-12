@@ -15,6 +15,8 @@ using syncinpos.Entities.Inventory.ItemTypes;
 using syncinpos.Entities.Inventory.ItemCategories;
 using syncinpos.Entities.Inventory.Units;
 using syncinpos.Entities.Inventory.Items;
+using syncinpos.Entities.Setups.Floors;
+using syncinpos.Entities.Setups.Tables;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -37,5 +39,7 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<ItemCategory> tblItemCategories { get; set; }
         public DbSet<UnitOfMeasurement> tblUnitOfMeasurements { get; set; }
         public DbSet<Item> tblItemDefinitions { get; set; }
+        public DbSet<FloorEntity> tblFloors { get; set; }
+        public DbSet<TableEntity> tblTables { get; set; }
     }
 }

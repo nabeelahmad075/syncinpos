@@ -26,5 +26,22 @@ namespace syncinpos.Entities.Locations.Dto
         public string ContactPerson { get; set; }
         public string ContactNumber { get; set; }
         public bool IsActive { get; set; }
+        public string TaxTitle { get; set; }
+        public string TaxRegistrationNo { get; set; }
+        public decimal TaxPercentOnCash { get; set; }
+        public decimal TaxPercentOnCreditCard { get; set; }
+        public decimal TaxPercentOnCredit { get; set; }
+        public decimal TaxPercentOnBank { get; set; }
+        public string ServiceChargesLabel { get; set; }
+        public decimal ServiceCharges { get; set; }
+        public bool EnableServicesCharges { get; set; }
+        public bool FixedServicesCharges { get; set; }
+        public decimal DeliveryCharges { get; set; }
+        public bool EnableDeliveryCharges { get; set; }
+        public bool FixedDeliveryCharges { get; set; }
+        public string BankChargesLabel { get; set; }
+        public decimal BankChargesPercent { get; set; }
+        public bool EnableBankCharges { get; set; }
+        public string SlipNotes { get; set; }
     }
 }

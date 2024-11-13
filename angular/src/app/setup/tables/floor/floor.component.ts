@@ -21,7 +21,7 @@ import {
 } from "@shared/paged-listing-component-base";
 import { result } from "lodash-es";
 import * as moment from "moment";
-import { BsModalRef } from "ngx-bootstrap/modal";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { LazyLoadEvent, SelectItem } from "primeng/api";
 import { Dropdown } from "primeng/dropdown";
 import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
@@ -45,11 +45,13 @@ export class FloorComponent extends AppComponentBase implements OnInit {
   @ViewChild("dataTable", { static: true }) dataTable: Table;
   @ViewChild("paginator", { static: true }) paginator: Paginator;
   eventClone: LazyLoadEvent;
+  createFloorDialog: BsModalRef;
 
   constructor(
     injector: Injector,
     private _locationService: LocationServiceProxy,
     private _floorService: FloorEntityServiceProxy,
+    private _modalService: BsModalService,
     public bsModalRef: BsModalRef,
     private cdr: ChangeDetectorRef
   ) {
@@ -72,18 +74,30 @@ export class FloorComponent extends AppComponentBase implements OnInit {
     });
   }
 
-  save(event?: any): void {
+  save(): void {
     this.saving = true;
     if (this.id) {
       this.update();
     } else this.create();
-debugger
-    if (this.saving) {
-      this.id = 0;
-      this.tblFloor = new FloorEntityDto();
-      this.tblFloor.isActive = true;
-      this.getHistory(event);
-    }
+
+    // debugger
+    // if (this.saving) {
+    //   // this.id = 0;
+    //   // this.tblFloor = new FloorEntityDto();
+    //   // this.tblFloor.isActive = true;
+    //   //   this.getHistory(event);
+      
+    // // this.createFloorDialog = this._modalService.show(FloorComponent, {
+    // //   class: "modal-lg modal-dialog-centered",
+    // //   backdrop: "static",
+    // //   ignoreBackdropClick: true,
+    // // });
+    // // this.createFloorDialog.content.onSave.subscribe((value) => {
+    // //   if (value) {
+    // //     this.getHistory({});
+    // //   }
+    // // });
+    // }
   }
 
   update(): void {
@@ -98,7 +112,7 @@ debugger
     this._floorService.update(this.tblFloor).subscribe({
       next: (value: any) => {
         this.notify.info("Update Successfuly");
-        // this.bsModalRef.hide();
+        this.bsModalRef.hide();
         this.onSave.emit(true);
       },
       error: (err) => {
@@ -119,7 +133,7 @@ debugger
     this._floorService.create(this.tblFloor).subscribe({
       next: () => {
         this.notify.info("Saved Successfuly");
-        // this.bsModalRef.hide();
+        this.bsModalRef.hide();
         this.onSave.emit(true);
       },
       error: (err) => {
@@ -139,7 +153,7 @@ debugger
   }
 
   getHistory(event?: LazyLoadEvent) {
-    
+    debugger
     if (this.primengTableHelper.shouldResetPaging(event)) {
       this.paginator.changePage(0);
       return;
@@ -158,7 +172,7 @@ debugger
           : undefined,
         "",
         this.primengTableHelper.getSkipCount(this.paginator, event),
-        this.primengTableHelper.getSmallMaxResultCount(this.paginator, event)
+        this.primengTableHelper.getModalMaxResultCount(this.paginator, event)
       )
       .subscribe((result) => {
         this.primengTableHelper.records = result.items;

@@ -55,7 +55,7 @@
                 [style]="{ width: '100%', fontSize: '0.8rem' }"
                 (onLazyLoad)="getDesignationHistory($event)"
                 class="p-table-page table-sm table-hover"
-                [rows]="primengDesignationTable.defaultSmallRecordsCountPerPage"
+                [rows]="primengDesignationTable.modalRowsCount"
               >
                 <ng-template pTemplate="caption">
                   <div class="d-flex flex-row-reverse">
@@ -110,12 +110,12 @@
               </span>
               <div class="">
                 <p-paginator
-                  [rows]="primengDesignationTable.defaultSmallRecordsCountPerPage"
+                  [rows]="primengDesignationTable.modalRowsCount"
                   #paginator
                   (onPageChange)="getDesignationHistory($event)"
                   [totalRecords]="primengDesignationTable.totalRecordsCount"
                   [rowsPerPageOptions]="
-                    primengDesignationTable.smallRecordsCountPerPage
+                    primengDesignationTable.modalRowsPerPageOptions
                   "
                 >
                 </p-paginator>
@@ -169,7 +169,7 @@
                 [style]="{ width: '100%', fontSize: '0.8rem' }"
                 (onLazyLoad)="getDepartmentHistory($event)"
                 class="p-table-page table-sm table-hover"
-                [rows]="primengDepartmentTable.defaultSmallRecordsCountPerPage"
+                [rows]="primengDepartmentTable.modalRowsCount"
               >
                 <ng-template pTemplate="caption">
                   <div class="d-flex flex-row-reverse">
@@ -224,12 +224,12 @@
               </span>
               <div class="">
                 <p-paginator
-                  [rows]="primengDepartmentTable.defaultSmallRecordsCountPerPage"
+                  [rows]="primengDepartmentTable.modalRowsCount"
                   #paginator
                   (onPageChange)="getDepartmentHistory($event)"
                   [totalRecords]="primengDepartmentTable.totalRecordsCount"
                   [rowsPerPageOptions]="
-                    primengDepartmentTable.smallRecordsCountPerPage
+                    primengDepartmentTable.modalRowsPerPageOptions
                   "
                 >
                 </p-paginator>

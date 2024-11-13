@@ -2,7 +2,7 @@
   class="form-horizontal"
   autocomplete="off"
   #createFloorForm="ngForm"
-  (ngSubmit)="save($event)"
+  (ngSubmit)="save()"
 >
   <abp-modal-header
     [title]="'Floor' | localize"
@@ -58,8 +58,6 @@
           class="form-control"
           name="sort"
           id="sort"
-          required
-          minlength="2"
           maxlength="500"
           [(ngModel)]="tblFloor.sort"
         />
@@ -76,7 +74,6 @@
             class="form-control"
             name="remarks"
             id="remarks"
-            required
             minlength="2"
             maxlength="500"
             [(ngModel)]="tblFloor.remarks"
@@ -115,7 +112,7 @@
           [style]="{ width: '100%', fontSize: '0.8rem' }"
           (onLazyLoad)="getHistory($event)"
           class="p-table-page table-sm table-hover"
-          [rows]="primengTableHelper.defaultRecordsCountPerPage"
+          [rows]="primengTableHelper.modalRowsCount"
         >
           <ng-template pTemplate="caption">
             <div class="d-flex flex-row-reverse">
@@ -186,12 +183,12 @@
         </span>
         <div class="">
           <p-paginator
-            [rows]="primengTableHelper.defaultSmallRecordsCountPerPage"
+            [rows]="primengTableHelper.modalRowsCount"
             #paginator
             (onPageChange)="getHistory($event)"
             [totalRecords]="primengTableHelper.totalRecordsCount"
             [rowsPerPageOptions]="
-              primengTableHelper.smallRecordsCountPerPage
+              primengTableHelper.modalRowsPerPageOptions
             "
           >
           </p-paginator>

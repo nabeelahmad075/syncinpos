@@ -7,9 +7,9 @@ export class PrimengTableHelper {
 
   defaultRecordsCountPerPage = <number>this.predefinedRecordsCountPerPage[0];
 
-  smallRecordsCountPerPage = [5, 10];
+  modalRowsPerPageOptions = [5];
 
-  defaultSmallRecordsCountPerPage = <number>this.smallRecordsCountPerPage[0];
+  modalRowsCount = <number>this.modalRowsPerPageOptions[0];
 
   isResponsive = true;
 
@@ -66,18 +66,18 @@ export class PrimengTableHelper {
     return event?.rows ?? this.defaultRecordsCountPerPage;
   }
 
-  getSmallMaxResultCount(paginator: Paginator, event: LazyLoadEvent): number {
-    debugger
+  getModalMaxResultCount(paginator: Paginator, event: LazyLoadEvent): number {
+    
     if (paginator.rows) {
-      debugger
+      
       return paginator.rows;
     }
 
     if (!event) {
-      return this.defaultSmallRecordsCountPerPage;
+      return this.modalRowsCount;
     }
 
-    return event?.rows ?? this.defaultSmallRecordsCountPerPage;
+    return event?.rows ?? this.modalRowsCount;
   }
 
   getSkipCount(paginator: Paginator, event: LazyLoadEvent): number {

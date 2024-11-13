@@ -9361,6 +9361,23 @@ export class LocationDto implements ILocationDto {
     contactPerson: string | undefined;
     contactNumber: string | undefined;
     isActive: boolean;
+    taxTitle: string | undefined;
+    taxRegistrationNo: string | undefined;
+    taxPercentOnCash: number;
+    taxPercentOnCreditCard: number;
+    taxPercentOnCredit: number;
+    taxPercentOnBank: number;
+    serviceChargesLabel: string | undefined;
+    serviceCharges: number;
+    enableServicesCharges: boolean;
+    fixedServicesCharges: boolean;
+    deliveryCharges: number;
+    enableDeliveryCharges: boolean;
+    fixedDeliveryCharges: boolean;
+    bankChargesLabel: string | undefined;
+    bankChargesPercent: number;
+    enableBankCharges: boolean;
+    slipNotes: string | undefined;
 
     constructor(data?: ILocationDto) {
         if (data) {
@@ -9384,6 +9401,23 @@ export class LocationDto implements ILocationDto {
             this.contactPerson = _data["contactPerson"];
             this.contactNumber = _data["contactNumber"];
             this.isActive = _data["isActive"];
+            this.taxTitle = _data["taxTitle"];
+            this.taxRegistrationNo = _data["taxRegistrationNo"];
+            this.taxPercentOnCash = _data["taxPercentOnCash"];
+            this.taxPercentOnCreditCard = _data["taxPercentOnCreditCard"];
+            this.taxPercentOnCredit = _data["taxPercentOnCredit"];
+            this.taxPercentOnBank = _data["taxPercentOnBank"];
+            this.serviceChargesLabel = _data["serviceChargesLabel"];
+            this.serviceCharges = _data["serviceCharges"];
+            this.enableServicesCharges = _data["enableServicesCharges"];
+            this.fixedServicesCharges = _data["fixedServicesCharges"];
+            this.deliveryCharges = _data["deliveryCharges"];
+            this.enableDeliveryCharges = _data["enableDeliveryCharges"];
+            this.fixedDeliveryCharges = _data["fixedDeliveryCharges"];
+            this.bankChargesLabel = _data["bankChargesLabel"];
+            this.bankChargesPercent = _data["bankChargesPercent"];
+            this.enableBankCharges = _data["enableBankCharges"];
+            this.slipNotes = _data["slipNotes"];
         }
     }
 
@@ -9407,6 +9441,23 @@ export class LocationDto implements ILocationDto {
         data["contactPerson"] = this.contactPerson;
         data["contactNumber"] = this.contactNumber;
         data["isActive"] = this.isActive;
+        data["taxTitle"] = this.taxTitle;
+        data["taxRegistrationNo"] = this.taxRegistrationNo;
+        data["taxPercentOnCash"] = this.taxPercentOnCash;
+        data["taxPercentOnCreditCard"] = this.taxPercentOnCreditCard;
+        data["taxPercentOnCredit"] = this.taxPercentOnCredit;
+        data["taxPercentOnBank"] = this.taxPercentOnBank;
+        data["serviceChargesLabel"] = this.serviceChargesLabel;
+        data["serviceCharges"] = this.serviceCharges;
+        data["enableServicesCharges"] = this.enableServicesCharges;
+        data["fixedServicesCharges"] = this.fixedServicesCharges;
+        data["deliveryCharges"] = this.deliveryCharges;
+        data["enableDeliveryCharges"] = this.enableDeliveryCharges;
+        data["fixedDeliveryCharges"] = this.fixedDeliveryCharges;
+        data["bankChargesLabel"] = this.bankChargesLabel;
+        data["bankChargesPercent"] = this.bankChargesPercent;
+        data["enableBankCharges"] = this.enableBankCharges;
+        data["slipNotes"] = this.slipNotes;
         return data;
     }
 
@@ -9430,6 +9481,23 @@ export interface ILocationDto {
     contactPerson: string | undefined;
     contactNumber: string | undefined;
     isActive: boolean;
+    taxTitle: string | undefined;
+    taxRegistrationNo: string | undefined;
+    taxPercentOnCash: number;
+    taxPercentOnCreditCard: number;
+    taxPercentOnCredit: number;
+    taxPercentOnBank: number;
+    serviceChargesLabel: string | undefined;
+    serviceCharges: number;
+    enableServicesCharges: boolean;
+    fixedServicesCharges: boolean;
+    deliveryCharges: number;
+    enableDeliveryCharges: boolean;
+    fixedDeliveryCharges: boolean;
+    bankChargesLabel: string | undefined;
+    bankChargesPercent: number;
+    enableBankCharges: boolean;
+    slipNotes: string | undefined;
 }
 
 export class LocationDtoPagedResultDto implements ILocationDtoPagedResultDto {

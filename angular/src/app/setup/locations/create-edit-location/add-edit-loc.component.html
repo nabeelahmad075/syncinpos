@@ -190,7 +190,235 @@
           </div>
         </div> -->
       </tab>
-      <tab [heading]="'Tax Details' | localize" class="pt-3 px-2"></tab>
+      <tab [heading]="'Tax Details' | localize" class="pt-3 px-2">
+        <div class="form-row form-group">
+          <div class="col-md-4">
+            <label for="taxTitle">
+              {{ "Tax Title" | localize }}
+            </label>
+            <div class="">
+              <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="taxTitle"
+              id="taxTitle"
+              
+            
+              maxlength="500"
+              [(ngModel)]="tblLocation.taxTitle"
+            />
+            </div>
+          </div>
+          <div class="col-md-4 required">
+            <label for="registrationNo">
+              {{ "Registration No." | localize }}
+            </label>
+            <div class="">
+              <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="registrationNo"
+              id="registrationNo"
+              
+         
+              maxlength="500"
+              [(ngModel)]="tblLocation.taxRegistrationNo"
+            />
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="cash">
+              {{ "Tax % on Cash" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="cash"
+              id="cash"
+
+              
+              maxlength="500"
+              [(ngModel)]="tblLocation.taxPercentOnCash"
+            />
+            <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
+          </div>
+          <div class="form-group col-md-5 required">
+            <label for="cashControlAccount">
+              {{ "Cash Control Account" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="cashControlAccount"
+                
+                placeholder="Select Cash Control Account"
+              
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="creditCard">
+              {{ "Tax % on Credit Card" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="creditCard"
+              id="creditCard"
+              
+           
+              maxlength="500"
+              [(ngModel)]="tblLocation.taxPercentOnCreditCard"
+            />
+            <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
+          </div>
+          <div class="form-group col-md-5 required">
+            <label for="creditCardControl">
+              {{ "CC Control Account" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="creditCardControl"
+                
+                placeholder="Select CC Control Account"
+           
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="credit">
+              {{ "Tax % on Credit" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="credit"
+              id="credit"
+              
+              maxlength="500"
+              [(ngModel)]="tblLocation.taxPercentOnCredit"
+            />
+            <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
+          </div>
+          <div class="form-group col-md-5 required">
+            <label for="creditControl">
+              {{ "Credit Control Account" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="creditControl"
+                
+                placeholder="Select Credit Control Account"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="bank">
+              {{ "Tax % on Bank" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="bank"
+              id="bank"
+              
+             
+              maxlength="500"
+              [(ngModel)]="tblLocation.taxPercentOnBank"
+            />
+            <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
+          </div>
+          <div class="form-group col-md-5 required">
+            <label for="bankControl">
+              {{ "Bank Control Account" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="bankControl"
+                
+                placeholder="Select Bank Control Account"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-row form-group">
+          <div class="form-group col-md-4">
+            <label class="col-md-3">
+              {{ "" }}
+            </label>
+            <div class="col-md-9">
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  name="isActive"
+                  id="isActive"
+                  [(ngModel)]="tblLocation.isActive"
+                  [disabled]="!tblLocation.isActive"
+                />
+                <label class="custom-control-label mt-2" for="isActive"
+                  >Active</label
+                >
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="form-row form-group ">
+          <div class="col-md-12">
+            <label for="logo">
+              {{ "Upload Logo" | localize }}
+            </label>
+            <input type="file" class="form-control" name="logo" id="logo" />
+          </div>
+        </div> -->
+      </tab>
+      <tab [heading]="'Invoice Settings' | localize" class="pt-3 px-2"></tab>
     </tabset>
   </div>
   <abp-modal-footer

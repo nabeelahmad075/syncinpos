@@ -193,7 +193,7 @@ export class CreateDesignationDepartmentComponent extends AppComponentBase imple
           : undefined,
         "",
         this.primengDesignationTable.getSkipCount(this.paginator, event),
-        this.primengDesignationTable.getSmallMaxResultCount(this.paginator, event)
+        this.primengDesignationTable.getModalMaxResultCount(this.paginator, event)
       )
       .subscribe((result) => {
         this.primengDesignationTable.records = result.items;
@@ -222,7 +222,7 @@ export class CreateDesignationDepartmentComponent extends AppComponentBase imple
           : undefined,
         "",
         this.primengDepartmentTable.getSkipCount(this.paginator, event),
-        this.primengDepartmentTable.getSmallMaxResultCount(this.paginator, event)
+        this.primengDepartmentTable.getModalMaxResultCount(this.paginator, event)
       )
       .subscribe((result) => {
         this.primengDepartmentTable.records = result.items;

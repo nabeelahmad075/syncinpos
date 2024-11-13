@@ -119,6 +119,7 @@ export class TablesComponent extends AppComponentBase {
     });
     createFloorDialog.content.onSave.subscribe((value) => {
       if (value) {
+        this.showFloorDialog();
         this.getHistory({});
       }
     });

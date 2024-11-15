@@ -91,7 +91,7 @@ export class AddEditLocComponent extends AppComponentBase implements OnInit {
     }
     this._locationService.update(this.tblLocation).subscribe({
       next: (value: any) => {
-        this.notify.info("Update Successfuly");
+        this.notify.success("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
@@ -111,7 +111,7 @@ export class AddEditLocComponent extends AppComponentBase implements OnInit {
     this.tblLocation.isActive = false;
     this._locationService.create(this.tblLocation).subscribe({
       next: () => {
-        this.notify.info("Saved Successfuly");
+        this.notify.success("Saved Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },

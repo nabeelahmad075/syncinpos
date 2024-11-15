@@ -198,16 +198,14 @@
             </label>
             <div class="">
               <input
-              style="margin-top: -8px"
-              type="text"
-              class="form-control"
-              name="taxTitle"
-              id="taxTitle"
-              
-            
-              maxlength="500"
-              [(ngModel)]="tblLocation.taxTitle"
-            />
+                style="margin-top: -8px"
+                type="text"
+                class="form-control"
+                name="taxTitle"
+                id="taxTitle"
+                maxlength="500"
+                [(ngModel)]="tblLocation.taxTitle"
+              />
             </div>
           </div>
           <div class="col-md-4 required">
@@ -216,16 +214,14 @@
             </label>
             <div class="">
               <input
-              style="margin-top: -8px"
-              type="text"
-              class="form-control"
-              name="registrationNo"
-              id="registrationNo"
-              
-         
-              maxlength="500"
-              [(ngModel)]="tblLocation.taxRegistrationNo"
-            />
+                style="margin-top: -8px"
+                type="text"
+                class="form-control"
+                name="registrationNo"
+                id="registrationNo"
+                maxlength="500"
+                [(ngModel)]="tblLocation.taxRegistrationNo"
+              />
             </div>
           </div>
         </div>
@@ -240,8 +236,6 @@
               class="form-control"
               name="cash"
               id="cash"
-
-              
               maxlength="500"
               [(ngModel)]="tblLocation.taxPercentOnCash"
             />
@@ -260,11 +254,8 @@
                   marginTop: '-0.5rem'
                 }"
                 name="cashControlAccount"
-                
                 placeholder="Select Cash Control Account"
-              
                 [styleClass]="'prm-dropdown prm-filter-dropdown'"
-
               >
               </p-dropdown>
             </div>
@@ -281,8 +272,6 @@
               class="form-control"
               name="creditCard"
               id="creditCard"
-              
-           
               maxlength="500"
               [(ngModel)]="tblLocation.taxPercentOnCreditCard"
             />
@@ -301,9 +290,7 @@
                   marginTop: '-0.5rem'
                 }"
                 name="creditCardControl"
-                
                 placeholder="Select CC Control Account"
-           
                 [styleClass]="'prm-dropdown prm-filter-dropdown'"
               >
               </p-dropdown>
@@ -321,7 +308,6 @@
               class="form-control"
               name="credit"
               id="credit"
-              
               maxlength="500"
               [(ngModel)]="tblLocation.taxPercentOnCredit"
             />
@@ -340,7 +326,6 @@
                   marginTop: '-0.5rem'
                 }"
                 name="creditControl"
-                
                 placeholder="Select Credit Control Account"
                 [styleClass]="'prm-dropdown prm-filter-dropdown'"
               >
@@ -359,8 +344,6 @@
               class="form-control"
               name="bank"
               id="bank"
-              
-             
               maxlength="500"
               [(ngModel)]="tblLocation.taxPercentOnBank"
             />
@@ -379,7 +362,6 @@
                   marginTop: '-0.5rem'
                 }"
                 name="bankControl"
-                
                 placeholder="Select Bank Control Account"
                 [styleClass]="'prm-dropdown prm-filter-dropdown'"
               >
@@ -418,7 +400,60 @@
           </div>
         </div> -->
       </tab>
-      <tab [heading]="'Invoice Settings' | localize" class="pt-3 px-2"></tab>
+      <tab [heading]="'Invoice Settings' | localize" class="pt-3 px-2">
+        <fieldset>
+          <legend class="legend">Service Charges Settings:</legend>
+          <div class="form-row form-group">
+            <div class="col-md-4">
+              <label for="scLabel">
+                {{ "Service Charges Label" | localize }}
+              </label>
+              <div class="">
+                <input
+                  style="margin-top: -8px"
+                  type="text"
+                  class="form-control"
+                  name="scLabel"
+                  id="scLabel"
+                  maxlength="500"
+                  [(ngModel)]="tblLocation.serviceChargesLabel"
+                />
+              </div>
+            </div>
+            <div class="col-md-4 required">
+              <label
+                for="serviceCharges"
+                style="display: flex; margin-bottom: -19px"
+              >
+                {{ "Service Charges (Fixed:" | localize }}
+                <input
+                  type="checkbox"
+                  class="custom-checkbox"
+                  name="fixedServicesCharges"
+                  id="fixedServicesCharges"
+                  style="margin-left: 3px; transform: translateY(-9px)"
+                  [(ngModel)]="tblLocation.fixedServicesCharges"
+                />
+                )
+                <a data-bs-toggle="tooltip" data-bs-original-title="The last tip!">
+                  <i class="fa-regular fa-circle-question guide"></i>
+                </a>
+              </label>
+              <div class="">
+                <input
+                  style="margin-top: -8px"
+                  type="text"
+                  class="form-control"
+                  name="serviceCharges"
+                  id="serviceCharges"
+                  maxlength="500"
+                  [(ngModel)]="tblLocation.serviceCharges"
+                />
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </tab>
     </tabset>
   </div>
   <abp-modal-footer
@@ -435,3 +470,25 @@
     </div>
   </abp-modal-footer> -->
 </form>
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class="feather feather-help-circle"
+  data-bs-toggle="tooltip"
+  data-bs-placement="top"
+  title=""
+  data-bs-original-title="When exist an item on cart then system will show modal for Show Options otherwise system will increase the quantity for same item"
+  aria-label="When exist an item on cart then system will show modal for Show Options otherwise system will increase the quantity for same item"
+>
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+</svg>

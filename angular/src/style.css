@@ -80,3 +80,21 @@ label {
   line-height: 0rem;
   margin: 0rem 0rem 0rem -1rem;
 }
+
+.legend {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin-bottom: .5rem;
+  font-size: 1.1rem;
+  line-height: inherit;
+  color: inherit;
+  white-space: normal;
+}
+
+.guide{
+  font-size: 1.1rem;
+    margin-left: 2px;
+    color: blue;
+}

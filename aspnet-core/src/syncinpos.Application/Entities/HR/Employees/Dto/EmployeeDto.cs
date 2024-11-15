@@ -1,11 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace syncinpos.Entities.HR.Employees.Dto
 {
@@ -14,6 +9,7 @@ namespace syncinpos.Entities.HR.Employees.Dto
     {
         public int TenantId { get; set; }
         public int LocationId { get; set; }
+        public string EmployeeCode { get; set; }
         public string EmployeeName { get; set; }
         public int DesignationId { get; set; }
         public int DepartmentId { get; set; }

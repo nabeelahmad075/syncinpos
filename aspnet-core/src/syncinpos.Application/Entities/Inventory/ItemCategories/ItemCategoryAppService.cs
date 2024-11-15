@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using syncinpos.Utility.SelectItemDto;
+using Abp.UI;
+using syncinpos.Entities.Setups.Floor.Dto;
 
 namespace syncinpos.Entities.Inventory.ItemCategories
 {
@@ -19,6 +21,31 @@ namespace syncinpos.Entities.Inventory.ItemCategories
         public ItemCategoryAppService(
             IRepository<ItemCategory, int> repository
             ) : base(repository) { }
+        public async override Task<ItemCategoryDto> CreateAsync(ItemCategoryDto input)
+        {
+            await IsAlreadyTaken(input);
+            var created = await base.CreateAsync(input);
+            return created;
+        }
+        public async override Task<ItemCategoryDto> UpdateAsync(ItemCategoryDto input)
+        {
+            await IsAlreadyTaken(input);
+            var updated = await base.UpdateAsync(input);
+            return updated;
+        }
+        private async Task IsAlreadyTaken(ItemCategoryDto input)
+        {
+            if (await IsAlreadyCreated(input.Title, input.Id))
+            {
+                throw new UserFriendlyException($"Category {input.Title}, already exists!");
+            }
+        }
+        public async Task<bool> IsAlreadyCreated(string CategoryTitle, int? id = null)
+        {
+            return await Repository.GetAll()
+                                    .WhereIf(id != null && id > 0, a => a.Id != id)
+                                    .Where(a => a.Title == CategoryTitle).AnyAsync();
+        }
         public async Task<PagedResultDto<ItemCategoryHistoryDto>> GetItemCategoryHistoryAsync(ItemCategoryHistoryPagedAndSortedResultRequestDto input)
         {
             var sqlQuery = CreateFilteredQuery(input).

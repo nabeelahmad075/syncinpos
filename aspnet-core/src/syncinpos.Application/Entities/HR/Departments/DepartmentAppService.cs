@@ -3,9 +3,11 @@ using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Abp.Events.Bus.Entities;
 using Abp.Linq.Extensions;
+using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using syncinpos.Entities.HR.Departments.Dto;
 using syncinpos.Entities.Locations.Dto;
+using syncinpos.Entities.Setups.Floor.Dto;
 using syncinpos.Utility.SelectItemDto;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,31 @@ namespace syncinpos.Entities.HR.Departments
         public DepartmentAppService(
             IRepository<Department, int> repository
             ) : base(repository) { }
+        public async override Task<DepartmentsDto> CreateAsync(DepartmentsDto input)
+        {
+            await IsAlreadyTaken(input);
+            var created = await base.CreateAsync(input);
+            return created;
+        }
+        public async override Task<DepartmentsDto> UpdateAsync(DepartmentsDto input)
+        {
+            await IsAlreadyTaken(input);
+            var updated = await base.UpdateAsync(input);
+            return updated;
+        }
+        private async Task IsAlreadyTaken(DepartmentsDto input)
+        {
+            if (await IsAlreadyCreated(input.Title, input.Id))
+            {
+                throw new UserFriendlyException($"Department {input.Title}, already exists!");
+            }
+        }
+        public async Task<bool> IsAlreadyCreated(string DepartmentName, int? id = null)
+        {
+            return await Repository.GetAll()
+                                    .WhereIf(id != null && id > 0, a => a.Id != id)
+                                    .Where(a => a.Title == DepartmentName).AnyAsync();
+        }
         public async Task<List<SelectItemDto>> GetDepartmentsDropDown()
         {
             var departments = await Repository.GetAll()

@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Abp.Linq.Extensions;
 using System.Threading.Tasks;
+using Abp.UI;
+using syncinpos.Entities.Setups.Tables.Dto;
 
 namespace syncinpos.Entities.Setups.Floor
 {
@@ -19,6 +21,33 @@ namespace syncinpos.Entities.Setups.Floor
         public FloorEntityAppService(
             IRepository<FloorEntity, int> repository
             ) : base(repository) { }
+
+        public async override Task<FloorEntityDto> CreateAsync(FloorEntityDto input)
+        {
+            await IsAlreadyTaken(input);
+            var created = await base.CreateAsync(input);
+            return created;
+        }
+        public async override Task<FloorEntityDto> UpdateAsync(FloorEntityDto input)
+        {
+            await IsAlreadyTaken(input);
+            var updated = await base.UpdateAsync(input);
+            return updated;
+        }
+        private async Task IsAlreadyTaken(FloorEntityDto input)
+        {
+            if (await IsAlreadyCreated(input.Title, input.LocationId, input.Id))
+            {
+                throw new UserFriendlyException($"Floor {input.Title}, already exists!");
+            }
+        }
+        public async Task<bool> IsAlreadyCreated(string FloorName, int? LocationId = null, int? id = null)
+        {
+            return await Repository.GetAll()
+                                    .WhereIf(id != null && id > 0, a => a.Id != id)
+                                    .Where(a => a.Title == FloorName && a.LocationId == LocationId).AnyAsync();
+        }
+
         public async Task<List<SelectItemDto>> GetFloorDropdownAsync(int? LocationId)
         {
             var floors = await Repository.GetAll()

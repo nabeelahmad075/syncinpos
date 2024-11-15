@@ -2,9 +2,11 @@
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
+using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using syncinpos.Entities.Inventory.Sections.Dto;
 using syncinpos.Entities.Locations.Dto;
+using syncinpos.Entities.Setups.Floor.Dto;
 using syncinpos.Utility.SelectItemDto;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,31 @@ namespace syncinpos.Entities.Inventory.Sections
         public SectionsAppService(
             IRepository<Section, int> repository
             ) : base(repository) { }
+        public async override Task<SectionDto> CreateAsync(SectionDto input)
+        {
+            await IsAlreadyTaken(input);
+            var created = await base.CreateAsync(input);
+            return created;
+        }
+        public async override Task<SectionDto> UpdateAsync(SectionDto input)
+        {
+            await IsAlreadyTaken(input);
+            var updated = await base.UpdateAsync(input);
+            return updated;
+        }
+        private async Task IsAlreadyTaken(SectionDto input)
+        {
+            if (await IsAlreadyCreated(input.Title, input.Id))
+            {
+                throw new UserFriendlyException($"Section {input.Title}, already exists!");
+            }
+        }
+        public async Task<bool> IsAlreadyCreated(string SectionName, int? LocationId = null, int? id = null)
+        {
+            return await Repository.GetAll()
+                                    .WhereIf(id != null && id > 0, a => a.Id != id)
+                                    .Where(a => a.Title == SectionName).AnyAsync();
+        }
         public async Task<PagedResultDto<SectionHistoryDto>> GetSectionsHistoryAsync(SectionHistoryPagedAndSortedResultRequestDto input)
         {
             var sqlQuery = CreateFilteredQuery(input)

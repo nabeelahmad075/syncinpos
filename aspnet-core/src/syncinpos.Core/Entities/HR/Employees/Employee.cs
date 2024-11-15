@@ -4,11 +4,7 @@ using syncinpos.Entities.HR.Departments;
 using syncinpos.Entities.HR.Designations;
 using syncinpos.Entities.Locations;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace syncinpos.Entities.HR.Employees
 {
@@ -17,6 +13,8 @@ namespace syncinpos.Entities.HR.Employees
         public int TenantId { get; set; }
         public Location Location { get; set; }
         public int LocationId { get; set; }
+        [MaxLength(8)]
+        public string EmployeeCode { get; set; }
         [MaxLength(64)]
         public string EmployeeName { get; set; }
         public Designation Designation { get; set; }

@@ -10,6 +10,7 @@ namespace syncinpos.Entities.HR.Employees.Dto
     {
         public int Id { get; set; }
         public string LocationName { get; set; }
+        public string EmployeeCode { get; set; }
         public string EmployeeName { get; set; }
         public string Designation { get; set; }
         public string Department { get; set; }

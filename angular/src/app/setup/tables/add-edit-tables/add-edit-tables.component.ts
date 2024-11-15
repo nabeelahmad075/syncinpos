@@ -95,7 +95,7 @@ export class AddEditTablesComponent extends AppComponentBase implements OnInit {
     }
     this._tableService.update(this.tblTables).subscribe({
       next: (value:any) => {
-        this.notify.info("Update Successfuly");
+        this.notify.success("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
@@ -114,7 +114,7 @@ export class AddEditTablesComponent extends AppComponentBase implements OnInit {
     }
     this._tableService.create(this.tblTables).subscribe({
       next: () => {
-        this.notify.info("Saved Successfuly");
+        this.notify.success("Saved Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },

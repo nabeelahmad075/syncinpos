@@ -110,7 +110,7 @@ export class CreateDesignationDepartmentComponent extends AppComponentBase imple
     this._designationService.update(this.tblDesignation).subscribe({
       next: (value:any) => {
         
-        this.notify.info("Update Successfuly");
+        this.notify.success("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
@@ -127,7 +127,7 @@ export class CreateDesignationDepartmentComponent extends AppComponentBase imple
     }
     this._departmentService.update(this.tblDepartment).subscribe({
       next: (value:any) => {
-        this.notify.info("Update Successfuly");
+        this.notify.success("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
@@ -147,7 +147,7 @@ export class CreateDesignationDepartmentComponent extends AppComponentBase imple
       
       next: () => {
         
-        this.notify.info("Saved Successfuly");
+        this.notify.success("Saved Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
@@ -164,7 +164,7 @@ export class CreateDesignationDepartmentComponent extends AppComponentBase imple
     }
     this._departmentService.create(this.tblDepartment).subscribe({
       next: () => {
-        this.notify.info("Saved Successfuly");
+        this.notify.success("Saved Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },

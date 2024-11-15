@@ -9,8 +9,10 @@ import {
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
-  ItemTypeDto, ItemTypeServiceProxy,
-  ItemCategoryDto, ItemCategoryServiceProxy
+  ItemTypeDto,
+  ItemTypeServiceProxy,
+  ItemCategoryDto,
+  ItemCategoryServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import { result } from "lodash-es";
 import * as moment from "moment";
@@ -19,15 +21,17 @@ import { LazyLoadEvent, SelectItem } from "primeng/api";
 import { Dropdown } from "primeng/dropdown";
 
 @Component({
-  selector: 'app-add-edit-item-category',
+  selector: "app-add-edit-item-category",
   // standalone: true,
   // imports: [],
-  templateUrl: './add-edit-item-category.component.html',
-  styleUrl: './add-edit-item-category.component.css',
-  animations: [appModuleAnimation()]
+  templateUrl: "./add-edit-item-category.component.html",
+  styleUrl: "./add-edit-item-category.component.css",
+  animations: [appModuleAnimation()],
 })
-export class AddEditItemCategoryComponent extends AppComponentBase implements OnInit {
-
+export class AddEditItemCategoryComponent
+  extends AppComponentBase
+  implements OnInit
+{
   saving = false;
   id: number;
   tblItemTypes: SelectItem[] = [];
@@ -48,7 +52,7 @@ export class AddEditItemCategoryComponent extends AppComponentBase implements On
   }
 
   ngOnInit(): void {
-    if (this.id > 0){
+    if (this.id > 0) {
       this.getById();
     }
     this.getItemTypeDropdown();
@@ -56,67 +60,61 @@ export class AddEditItemCategoryComponent extends AppComponentBase implements On
 
   getItemTypeDropdown() {
     this.tblItemTypes = [];
-    this._itemTypeService.getItemTypeDropdown().subscribe(
-      (result) => {
-        this.tblItemTypes = result;
-        this.cdr.detectChanges();
-      }
-    );
+    this._itemTypeService.getItemTypeDropdown().subscribe((result) => {
+      this.tblItemTypes = result;
+      this.cdr.detectChanges();
+    });
   }
 
-  
-  getById (){
-    this._itemCategoryService.get (this.id).subscribe((result) => {
+  getById() {
+    this._itemCategoryService.get(this.id).subscribe((result) => {
       this.tblItemCategories = result;
       this.cdr.detectChanges();
-    })
+    });
   }
 
   save(): void {
     this.saving = true;
     if (this.id) {
       this.update();
-    } else
-      this.create();
+    } else this.create();
   }
 
   create(): void {
     if (!this.tblItemCategories.itemTypeId) {
-      abp.notify.error("Please Select Item Type.")
+      abp.notify.error("Please Select Item Type.");
     }
     if (!this.tblItemCategories.title) {
-      abp.notify.error("Please Enter Category Name.")
+      abp.notify.error("Please Enter Category Name.");
     }
     this._itemCategoryService.create(this.tblItemCategories).subscribe({
       next: () => {
-        this.notify.info("Saved Successfuly");
+        this.notify.success("Saved Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
       error: (err) => {
         this.saving = false;
-      }
-    })
-  } 
+      },
+    });
+  }
 
   update(): void {
     if (!this.tblItemCategories.itemTypeId) {
-      abp.notify.error("Please Select Item Type.")
+      abp.notify.error("Please Select Item Type.");
     }
     if (!this.tblItemCategories.title) {
-      abp.notify.error("Please Enter Category Name.")
+      abp.notify.error("Please Enter Category Name.");
     }
     this._itemCategoryService.update(this.tblItemCategories).subscribe({
-      next: (value:any) => {
-        this.notify.info("Update Successfuly");
+      next: (value: any) => {
+        this.notify.success("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
       error: (err) => {
         this.saving = false;
-      }
-    })
+      },
+    });
   }
-
-
 }

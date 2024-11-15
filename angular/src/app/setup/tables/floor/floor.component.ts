@@ -111,7 +111,7 @@ export class FloorComponent extends AppComponentBase implements OnInit {
     }
     this._floorService.update(this.tblFloor).subscribe({
       next: (value: any) => {
-        this.notify.info("Update Successfuly");
+        this.notify.success("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
@@ -132,7 +132,7 @@ export class FloorComponent extends AppComponentBase implements OnInit {
     }
     this._floorService.create(this.tblFloor).subscribe({
       next: () => {
-        this.notify.info("Saved Successfuly");
+        this.notify.success("Saved Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },

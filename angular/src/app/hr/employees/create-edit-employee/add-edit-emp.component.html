@@ -28,6 +28,7 @@
             [options]="tblLocation"
             [styleClass]="'prm-dropdown prm-filter-dropdown'"
             [(ngModel)]="tblEmployee.locationId"
+            (onChange)="getNewEmployeeNo(tblEmployee.locationId)"
           >
           </p-dropdown>
         </div>
@@ -73,6 +74,23 @@
       </div>
     </div>
     <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="empCode">
+          {{ "Employee Code" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="empCode"
+          id="empCode"
+          required
+          minlength="2"
+          maxlength="500"
+          readonly
+          [(ngModel)]="empCode"
+        />
+      </div>
       <div class="form-group col-md-4">
         <label for="empName">
           {{ "Employee Name" | localize }}

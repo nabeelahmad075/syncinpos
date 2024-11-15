@@ -71,7 +71,7 @@ export class AddEditSectionComponent
     }
     this._sectionService.create(this.tblSections).subscribe({
       next: () => {
-        this.notify.info("Saved Successfuly");
+        this.notify.success("Saved Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
@@ -87,7 +87,7 @@ export class AddEditSectionComponent
     }
     this._sectionService.update(this.tblSections).subscribe({
       next: (value: any) => {
-        this.notify.info("Update Successfuly");
+        this.notify.success("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },

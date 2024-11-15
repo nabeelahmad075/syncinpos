@@ -65,7 +65,6 @@ export class AddEditItemDefinitionComponent
   }
 
   ngOnInit(): void {
-
     if (this.id > 0) {
       this.getById();
     }
@@ -81,17 +80,20 @@ export class AddEditItemDefinitionComponent
     this.cdr.detectChanges();
 
     // Log values for debugging
-    console.log("ngAfterViewInit - tblItemDefinitions:", this.tblItemDefinitions);
+    console.log(
+      "ngAfterViewInit - tblItemDefinitions:",
+      this.tblItemDefinitions
+    );
     console.log("ngAfterViewInit - itemTypeIdd:", this.itemTypeIdd);
   }
 
   getItemTypeDropdown() {
     this.tblItemTypes = [];
-    debugger
+    debugger;
     this._itemTypeService.getItemTypeDropdown().subscribe((result) => {
       this.tblItemTypes = result;
       if (this.tblItemTypes && this.tblItemTypes.length && this.id == 0) {
-        debugger
+        debugger;
         this.itemTypeIdd = this.tblItemTypes[0].value;
       } // Assuming tblItemTypes has 'value' field
       this.cdr.detectChanges();
@@ -109,10 +111,6 @@ export class AddEditItemDefinitionComponent
       )
       .subscribe((result) => {
         this.tblItemCategories = result;
-        // if (this.tblItemCategories && this.tblItemCategories.length && editMode == false) {
-        //   debugger
-        //   this.tblItemDefinitions.itemCategoryId = this.tblItemCategories[0].value;
-        // } // Assuming tblItemTypes has 'value' field
         this.cdr.detectChanges();
       });
   }
@@ -155,7 +153,7 @@ export class AddEditItemDefinitionComponent
     }
     this._itemDefinitionService.update(this.tblItemDefinitions).subscribe({
       next: (value: any) => {
-        this.notify.info("Update Successfuly");
+        this.notify.success("Update Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },
@@ -177,7 +175,7 @@ export class AddEditItemDefinitionComponent
     }
     this._itemDefinitionService.create(this.tblItemDefinitions).subscribe({
       next: () => {
-        this.notify.info("Saved Successfuly");
+        this.notify.success("Saved Successfuly");
         this.bsModalRef.hide();
         this.onSave.emit(true);
       },

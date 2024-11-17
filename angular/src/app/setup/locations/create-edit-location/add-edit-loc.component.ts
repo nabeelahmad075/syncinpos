@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Output,
   ChangeDetectorRef,
+  AfterViewInit,
 } from "@angular/core";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
@@ -19,6 +20,9 @@ import { result } from "lodash-es";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { SelectItem } from "primeng/api";
 import { Dropdown } from "primeng/dropdown";
+import * as $ from "jquery";
+import "ngx-bootstrap";
+import { Tooltip } from "bootstrap";
 
 @Component({
   selector: "app-add-edit-loc",
@@ -32,7 +36,10 @@ import { Dropdown } from "primeng/dropdown";
     LocationServiceProxy,
   ],
 })
-export class AddEditLocComponent extends AppComponentBase implements OnInit {
+export class AddEditLocComponent
+  extends AppComponentBase
+  implements OnInit, AfterViewInit
+{
   saving = false;
   id: number;
   tblRegions: SelectItem[] = [];
@@ -126,5 +133,12 @@ export class AddEditLocComponent extends AppComponentBase implements OnInit {
       this.tblLocation = result;
       this.cdr.detectChanges();
     });
+  }
+
+  ngAfterViewInit() {
+    const tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+    tooltipTriggerList.map((tooltipTriggerEl) => new Tooltip(tooltipTriggerEl));
   }
 }

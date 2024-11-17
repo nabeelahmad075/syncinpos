@@ -87,7 +87,6 @@
               maxlength="500"
               [(ngModel)]="tblLocation.locationCode"
             />
-            <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
           </div>
           <div class="form-group col-md-8 required">
             <label for="locationName">
@@ -154,12 +153,7 @@
               [(ngModel)]="tblLocation.contactNumber"
             />
           </div>
-          <!-- <div class="">
-            <label for="status">
-              {{ "Is Active" | localize }}
-            </label>
-            <input type="checkbox" class="form-control" name="status" id="status" />
-          </div> -->
+
           <div class="form-group col-md-4">
             <label class="col-md-3">
               {{ "" }}
@@ -400,7 +394,7 @@
           </div>
         </div> -->
       </tab>
-      <tab [heading]="'Invoice Settings' | localize" class="pt-3 px-2">
+      <tab [heading]="'POS Settings' | localize" class="pt-3 px-2">
         <fieldset>
           <legend class="legend">Service Charges Settings:</legend>
           <div class="form-row form-group">
@@ -435,7 +429,13 @@
                   [(ngModel)]="tblLocation.fixedServicesCharges"
                 />
                 )
-                <a data-bs-toggle="tooltip" data-bs-original-title="The last tip!">
+                <a
+                  type="hide"
+                  data-bs-toggle="tooltip"
+                  data-bs-html="true"
+                  data-bs-title="Mark the <b>Fixed</b> checkbox true if you want to apply Service Charges as <b>VALUE!</b><br>By default, it's treated as <b>PERCENTAGE</b>."
+                  style="transform: translate(71px, 0px); cursor: pointer"
+                >
                   <i class="fa-regular fa-circle-question guide"></i>
                 </a>
               </label>
@@ -451,8 +451,225 @@
                 />
               </div>
             </div>
+            <div class="form-group col-md-4">
+              <label class="col-md-3">
+                {{ "" }}
+              </label>
+              <div class="col-md-12">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="enableServicesCharges"
+                    id="enableServicesCharges"
+                    [(ngModel)]="tblLocation.enableServicesCharges"
+                  />
+                  <label
+                    class="custom-control-label mt-2"
+                    for="enableServicesCharges"
+                    >Enable Service Charges
+                  </label>
+                  <a
+                    type="hide"
+                    data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Enable checkbox is used to implement the Service Charges effect on POS"
+                    style="
+                      cursor: pointer;
+                      transform: translate(0.6rem, 0.6rem);
+                    "
+                  >
+                    <i
+                      class="fa-regular fa-circle-question guide"
+                      style="transform: translate(0.6rem, 0.6rem)"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </fieldset>
+        <fieldset>
+          <legend class="legend">Delivery Charges Settings:</legend>
+          <div class="form-row form-group">
+            <div class="col-md-4 required">
+              <label
+                for="fixedDeliveryCharges"
+                style="display: flex; margin-bottom: -19px"
+              >
+                {{ "Delivery Charges (Fixed:" | localize }}
+                <input
+                  type="checkbox"
+                  class="custom-checkbox"
+                  name="fixedDeliveryCharges"
+                  id="fixedDeliveryCharges"
+                  style="margin-left: 3px; transform: translateY(-9px)"
+                  [(ngModel)]="tblLocation.fixedDeliveryCharges"
+                />
+                )
+                <a
+                  type="hide"
+                  data-bs-toggle="tooltip"
+                  data-bs-html="true"
+                  data-bs-title="Mark the <b>Fixed</b> checkbox true if you want to apply delivery charges as <b>VALUE!</b><br>By default, it's treated as <b>PERCENTAGE</b>."
+                  style="transform: translate(64px, 0px); cursor: pointer"
+                >
+                  <i class="fa-regular fa-circle-question guide"></i>
+                </a>
+              </label>
+              <div class="">
+                <input
+                  style="margin-top: -8px"
+                  type="text"
+                  class="form-control"
+                  name="deliveryCharges"
+                  id="deliveryCharges"
+                  maxlength="500"
+                  [(ngModel)]="tblLocation.deliveryCharges"
+                />
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="col-md-3">
+                {{ "" }}
+              </label>
+              <div class="col-md-12">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="enableDeliveryCharges"
+                    id="enableDeliveryCharges"
+                    [(ngModel)]="tblLocation.enableDeliveryCharges"
+                  />
+                  <label
+                    class="custom-control-label mt-2"
+                    for="enableDeliveryCharges"
+                    >Enable Delivery Charges
+                  </label>
+                  <a
+                    type="hide"
+                    data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Enable checkbox is used to implement the Delivery Charges effect on POS"
+                    style="
+                      cursor: pointer;
+                      transform: translate(0.6rem, 0.6rem);
+                    "
+                  >
+                    <i
+                      class="fa-regular fa-circle-question guide"
+                      style="transform: translate(0.6rem, 0.6rem)"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="legend">Bank Charges Settings:</legend>
+          <div class="form-row form-group">
+            <div class="col-md-4">
+              <label for="bankLabel">
+                {{ "Bank Charges Label" | localize }}
+              </label>
+              <div class="">
+                <input
+                  style="margin-top: -8px"
+                  type="text"
+                  class="form-control"
+                  name="bankLabel"
+                  id="bankLabel"
+                  maxlength="500"
+                  [(ngModel)]="tblLocation.bankChargesLabel"
+                />
+              </div>
+            </div>
+            <div class="col-md-4 required">
+              <label for="bankCharges">
+                {{ "Bank Charges" | localize }}
+                <a
+                  type="hide"
+                  data-bs-toggle="tooltip"
+                  data-bs-html="true"
+                  data-bs-title="Bank Charges always treated as <b>PERCENTAGE</b>."
+                  style="transform: translate(64px, 0px); cursor: pointer"
+                >
+                  <i class="fa-regular fa-circle-question guide"></i>
+                </a>
+              </label>
+              <div class="">
+                <input
+                  style="margin-top: -8px"
+                  type="text"
+                  class="form-control"
+                  name="bankCharges"
+                  id="bankCharges"
+                  maxlength="500"
+                  [(ngModel)]="tblLocation.bankChargesPercent"
+                />
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="col-md-3">
+                {{ "" }}
+              </label>
+              <div class="col-md-12">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="enableBankCharges"
+                    id="enableBankCharges"
+                    [(ngModel)]="tblLocation.enableBankCharges"
+                  />
+                  <label
+                    class="custom-control-label mt-2"
+                    for="enableBankCharges"
+                    >Enable Bank Charges
+                  </label>
+                  <a
+                    type="hide"
+                    data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Enable checkbox is used to implement the Bank Charges effect on POS"
+                    style="
+                      cursor: pointer;
+                      transform: translate(0.6rem, 0.6rem);
+                    "
+                  >
+                    <i
+                      class="fa-regular fa-circle-question guide"
+                      style="transform: translate(0.6rem, 0.6rem)"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </tab>
+      <tab [heading]="'Invoice Settings' | localize" class="pt-3 px-2">
+        <div class="form-row form-group">
+          <div class="col-md-12">
+            <label for="slipNotes">
+              {{ "Slip Notes" | localize }}
+            </label>
+            <div class="">
+              <textarea
+              
+                style="margin-top: -8px; height: 70px;"
+                type="text"
+                class="form-control"
+                name="slipNotes"
+                id="slipNotes"
+                maxlength="500"
+                [(ngModel)]="tblLocation.slipNotes"
+              ></textarea>
+            </div>
+          </div>
+        </div>
       </tab>
     </tabset>
   </div>
@@ -470,25 +687,3 @@
     </div>
   </abp-modal-footer> -->
 </form>
-
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="24"
-  height="24"
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-  class="feather feather-help-circle"
-  data-bs-toggle="tooltip"
-  data-bs-placement="top"
-  title=""
-  data-bs-original-title="When exist an item on cart then system will show modal for Show Options otherwise system will increase the quantity for same item"
-  aria-label="When exist an item on cart then system will show modal for Show Options otherwise system will increase the quantity for same item"
->
-  <circle cx="12" cy="12" r="10"></circle>
-  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-  <line x1="12" y1="17" x2="12.01" y2="17"></line>
-</svg>

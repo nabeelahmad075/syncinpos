@@ -76,7 +76,18 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
           ),
         ]),
       ]),
-
+      new MenuItem(this.l("Accounts"), "", "fa-solid fa-chart-line", "", [
+        new MenuItem(
+          "Chart of Accounts",
+          "/app/coa-detail",
+          "fa-solid fa-chart-gantt"
+        ),
+        new MenuItem(
+          "Voucher Entry",
+          "/app/voucher-entry",
+          "fa-solid fa-ticket"
+        ),
+      ]),
       new MenuItem(this.l("HomePage"), "/app/home", "fas fa-home"),
       new MenuItem(
         this.l("Roles"),
@@ -114,24 +125,24 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
     });
   }
 
-  activateMenuItems(url: string): void {
-    this.deactivateMenuItems(this.menuItems);
-    this.activatedMenuItems = [];
-    const foundedItems = this.findMenuItemsByUrl(url, this.menuItems);
-    foundedItems.forEach((item) => {
-      this.activateMenuItem(item);
-    });
-  }
+  // activateMenuItems(url: string): void {
+  //   this.deactivateMenuItems(this.menuItems);
+  //   this.activatedMenuItems = [];
+  //   const foundedItems = this.findMenuItemsByUrl(url, this.menuItems);
+  //   foundedItems.forEach((item) => {
+  //     this.activateMenuItem(item);
+  //   });
+  // }
 
-  deactivateMenuItems(items: MenuItem[]): void {
-    items.forEach((item: MenuItem) => {
-      item.isActive = false;
-      item.isCollapsed = true;
-      if (item.children) {
-        this.deactivateMenuItems(item.children);
-      }
-    });
-  }
+  // deactivateMenuItems(items: MenuItem[]): void {
+  //   items.forEach((item: MenuItem) => {
+  //     item.isActive = false;
+  //     item.isCollapsed = true;
+  //     if (item.children) {
+  //       this.deactivateMenuItems(item.children);
+  //     }
+  //   });
+  // }
 
   findMenuItemsByUrl(
     url: string,
@@ -148,16 +159,34 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
     return foundedItems;
   }
 
-  activateMenuItem(item: MenuItem): void {
-    item.isActive = true;
-    if (item.children) {
-      item.isCollapsed = true;
-    }
-    this.activatedMenuItems.push(item);
-    if (item.parentId) {
-      this.activateMenuItem(this.menuItemsMap[item.parentId]);
-    }
-  }
+  // activateMenuItem(item: MenuItem): void {
+  //   item.isActive = true;
+  //   if (item.children) {
+  //     item.isCollapsed = true;
+  //   }
+  //   this.activatedMenuItems.push(item);
+  //   if (item.parentId) {
+  //     this.activateMenuItem(this.menuItemsMap[item.parentId]);
+  //   }
+  // }
+
+//   activateMenuItem(item: MenuItem): void {
+//     item.isActive = true;
+
+//     // Expand the menu if it has children
+//     if (item.children) {
+//         item.isCollapsed = false;
+//     }
+
+//     // Activate parent menu if it exists
+//     if (item.parentId) {
+//         const parentItem = this.menuItemsMap[item.parentId];
+//         if (parentItem) {
+//             this.activateMenuItem(parentItem); // Recursively activate parent
+//         }
+//     }
+// }
+
 
   isMenuItemVisible(item: MenuItem): boolean {
     if (!item.permissionName) {
@@ -166,16 +195,78 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
     return this.permission.isGranted(item.permissionName);
   }
 
-  toggleMenuItem(item: any) {
-    // Toggle the collapsed state of the current menu item
-    item.isCollapsed = !item.isCollapsed;
+// toggleMenuItem(item: MenuItem): void {
+//   // If the item is already expanded, toggle it closed
+//   item.isCollapsed = !item.isCollapsed;
 
-    // Optionally collapse other menu items, depending on your design
-    // For example, collapse all other menu items when one is expanded
-    this.menuItems.forEach((menu) => {
-      if (menu !== item) {
-        menu.isCollapsed = false;
-      }
-    });
+//   // If expanding, collapse all other top-level menu items
+//   if (!item.isCollapsed) {
+//       this.menuItems.forEach((menu) => {
+//           if (menu !== item) {
+//               menu.isCollapsed = true;
+//           }
+//       });
+//   }
+// }
+
+toggleMenuItem(item: MenuItem): void {
+  // Toggle the current item's collapsed state
+  item.isCollapsed = !item.isCollapsed;
+
+  // If expanding this item, ensure its parent remains open
+  if (!item.isCollapsed && item.parentId) {
+    const parentItem = this.menuItemsMap[item.parentId];
+    if (parentItem) {
+      parentItem.isCollapsed = false; // Expand the parent
+    }
   }
+}
+
+activateMenuItems(url: string): void {
+  // Deactivate all menu items
+  this.deactivateMenuItems(this.menuItems);
+
+  // Find all menu items matching the current URL
+  const matchedItems = this.findMenuItemsByUrl(url, this.menuItems);
+
+  // Activate the matched items and their parents
+  matchedItems.forEach((item) => {
+    this.activateMenuItemWithParents(item);
+  });
+
+  // Keep top-level menus open if they have active children
+  this.menuItems.forEach((menu) => {
+    if (menu.children?.some((child) => child.isActive)) {
+      menu.isCollapsed = false; // Expand if it contains an active child
+    }
+  });
+}
+
+
+activateMenuItemWithParents(item: MenuItem): void {
+  item.isActive = true; // Mark the item as active
+  item.isCollapsed = false; // Expand the item if it has children
+
+  // Recursively activate its parent, if any
+  if (item.parentId) {
+    const parentItem = this.menuItemsMap[item.parentId];
+    if (parentItem) {
+      parentItem.isCollapsed = false; // Ensure parent is expanded
+      this.activateMenuItemWithParents(parentItem); // Activate the parent
+    }
+  }
+}
+
+
+deactivateMenuItems(items: MenuItem[]): void {
+  items.forEach((item: MenuItem) => {
+    item.isActive = false; // Deactivate the item
+    item.isCollapsed = true; // Collapse all items initially
+    if (item.children) {
+      this.deactivateMenuItems(item.children); // Recursively deactivate children
+    }
+  });
+}
+
+
 }

@@ -26,6 +26,8 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.UnitOfMeasurementServiceProxy,
         ApiServiceProxies.TableEntityServiceProxy,
         ApiServiceProxies.FloorEntityServiceProxy,
+        ApiServiceProxies.MainAccountServiceProxy,
+        ApiServiceProxies.SubAccountServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })

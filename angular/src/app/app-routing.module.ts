@@ -16,6 +16,10 @@ import { AddEditItemDefinitionComponent } from './menu-operations/item/item-defi
 import { TablesComponent} from './setup/tables/tables.component';
 import { AddEditTablesComponent } from './setup/tables/add-edit-tables/add-edit-tables.component';
 import { FloorComponent } from './setup/tables/floor/floor.component';
+import { AddEditMainAccComponent} from './accounts/coa/mainAccounts/add-edit-main-acc.component';
+import { AddEditSubAccComponent} from './accounts/coa/subAccounts/add-edit-sub-acc.component';
+import { DetailAccHistoryComponent } from './accounts/coa/detailAccounts/detail-acc-history.component';
+import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createEditDetailAcc/add-edit-detail-acc.component';
 
 
 @NgModule({
@@ -96,8 +100,23 @@ import { FloorComponent } from './setup/tables/floor/floor.component';
                         canActivate: [AppRouteGuard]
                     },
                     {
-                        path: "newitemdefinition",
-                        component: AddEditItemDefinitionComponent,
+                        path: "coa-detail",
+                        component: DetailAccHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "coa-add-detail",
+                        component: AddEditDetailAccComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "coa-add-sub",
+                        component: AddEditSubAccComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "coa-add-main",
+                        component: AddEditMainAccComponent,
                         canActivate: [AppRouteGuard]
                     },
                     // {

@@ -53,6 +53,7 @@
             <ng-template pTemplate="header">
               <tr class="">
                 <th>Location</th>
+                <th>Employee Code</th>
                 <th>Employee Name</th>
                 <th>Mobile No.</th>
                 <th>Designation</th>
@@ -64,6 +65,7 @@
             <ng-template pTemplate="body" let-history>
               <tr>
                 <td>{{ history.locationName }}</td>
+                <td>{{ history.employeeCode }}</td>
                 <td>{{ history.employeeName }}</td>
                 <td>{{ history.mobileNo }}</td>
                 <td>{{ history.designation }}</td>

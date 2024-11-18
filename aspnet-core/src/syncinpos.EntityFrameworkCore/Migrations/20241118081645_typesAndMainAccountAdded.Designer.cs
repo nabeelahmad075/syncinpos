@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using syncinpos.EntityFrameworkCore;
 
@@ -11,9 +12,11 @@ using syncinpos.EntityFrameworkCore;
 namespace syncinpos.Migrations
 {
     [DbContext(typeof(syncinposDbContext))]
-    partial class syncinposDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118081645_typesAndMainAccountAdded")]
+    partial class typesAndMainAccountAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1641,64 +1644,6 @@ namespace syncinpos.Migrations
                     b.ToTable("tblMainAccounts");
                 });
 
-            modelBuilder.Entity("syncinpos.Entities.Accounts.SubAccounts.SubAccount", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AccountTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("MainAccountId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SubCode")
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
-
-                    b.Property<string>("SubTitle")
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.Property<int>("TenantId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountTypeId");
-
-                    b.HasIndex("MainAccountId");
-
-                    b.ToTable("tblSubAccounts");
-                });
-
             modelBuilder.Entity("syncinpos.Entities.Accounts.Types.AccountType", b =>
                 {
                     b.Property<int>("Id")
@@ -2544,25 +2489,6 @@ namespace syncinpos.Migrations
                     b.Navigation("Location");
 
                     b.Navigation("MainType");
-                });
-
-            modelBuilder.Entity("syncinpos.Entities.Accounts.SubAccounts.SubAccount", b =>
-                {
-                    b.HasOne("syncinpos.Entities.Accounts.Types.AccountType", "AccountType")
-                        .WithMany()
-                        .HasForeignKey("AccountTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("syncinpos.Entities.Accounts.MainAccounts.MainAccount", "MainAccount")
-                        .WithMany()
-                        .HasForeignKey("MainAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AccountType");
-
-                    b.Navigation("MainAccount");
                 });
 
             modelBuilder.Entity("syncinpos.Entities.HR.Employees.Employee", b =>

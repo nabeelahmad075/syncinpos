@@ -17,6 +17,9 @@ using syncinpos.Entities.Inventory.Units;
 using syncinpos.Entities.Inventory.Items;
 using syncinpos.Entities.Setups.Floors;
 using syncinpos.Entities.Setups.Tables;
+using syncinpos.Entities.Accounts.Types;
+using syncinpos.Entities.Accounts.MainAccounts;
+using syncinpos.Entities.Accounts.SubAccounts;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -41,5 +44,9 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<Item> tblItemDefinitions { get; set; }
         public DbSet<FloorEntity> tblFloors { get; set; }
         public DbSet<TableEntity> tblTables { get; set; }
+        public DbSet<MainType> tblMainTypes { get; set; }
+        public DbSet<AccountType> tblAccountTypes { get; set; }
+        public DbSet<MainAccount> tblMainAccounts { get; set; }
+        public DbSet<SubAccount> tblSubAccounts { get; set; }
     }
 }

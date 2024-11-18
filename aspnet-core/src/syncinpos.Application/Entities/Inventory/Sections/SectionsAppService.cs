@@ -41,7 +41,7 @@ namespace syncinpos.Entities.Inventory.Sections
                 throw new UserFriendlyException($"Section {input.Title}, already exists!");
             }
         }
-        public async Task<bool> IsAlreadyCreated(string SectionName, int? LocationId = null, int? id = null)
+        public async Task<bool> IsAlreadyCreated(string SectionName, int? id = null)
         {
             return await Repository.GetAll()
                                     .WhereIf(id != null && id > 0, a => a.Id != id)

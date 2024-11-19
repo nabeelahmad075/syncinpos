@@ -3,7 +3,7 @@
     <div class="container-fluid" style="width: 97%">
       <div class="row">
         <div class="col-6">
-          <h4>Employee Information</h4>
+          <h4>Chart of Accounts</h4>
         </div>
         <div class="col-6 text-right">
           <a class="btn bg-blue btnNav" (click)="showMainAccDialog()">
@@ -56,6 +56,7 @@
               <th>Detail Account</th>
               <th>Account Type</th>
               <th>Sub Account</th>
+              <th>Main Type</th>
               <th>Main Account</th>
               <th style="text-align: center">Status</th>
               <th style="text-align: center">Action</th>
@@ -63,11 +64,12 @@
           </ng-template>
           <ng-template pTemplate="body" let-history>
             <tr>
-              <td>{{ history.locationName }}</td>
-              <td>{{ history.employeeName }}</td>
-              <td>{{ history.mobileNo }}</td>
-              <td>{{ history.designation }}</td>
-              <td>{{ history.department }}</td>
+              <td>{{ history.detailCode }}</td>
+              <td>{{ history.detailTitle }}</td>
+              <td>{{ history.accountType }}</td>
+              <td>{{ history.subAccount }}</td>
+              <td>{{ history.mainType }}</td>
+              <td>{{ history.mainAccount }}</td>
               <td style="text-align: center">
                 <div class="custom-control custom-checkbox">
                   <input

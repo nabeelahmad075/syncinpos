@@ -11,6 +11,9 @@ import { AddEditDetailAccComponent} from "./createEditDetailAcc/add-edit-detail-
 import { extend, sortBy } from "lodash-es";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
+  DetailAccountDto,
+  DetailAccountHistoryDto,
+  DetailAccountServiceProxy,
   EmployeeHistoryDto,
   EmployeeServiceProxy,
 } from "@shared/service-proxies/service-proxies";
@@ -37,7 +40,7 @@ import { AddEditSubAccComponent } from "../subAccounts/add-edit-sub-acc.componen
 })
 export class DetailAccHistoryComponent extends AppComponentBase {
 
-  // employeeHistory: EmployeeHistoryDto[] = [];
+  tblDetailAccHistory: DetailAccountHistoryDto[] = [];
   primengTableHelper: PrimengTableHelper = new PrimengTableHelper();
   @ViewChild("dataTable", { static: true }) dataTable: Table;
   @ViewChild("paginator", { static: true }) paginator: Paginator;
@@ -46,39 +49,39 @@ export class DetailAccHistoryComponent extends AppComponentBase {
   constructor(
     injector: Injector,
     private _modalService: BsModalService,
-    // private _employeeService: EmployeeServiceProxy,
+    private _detailAccService: DetailAccountServiceProxy,
     private cd: ChangeDetectorRef
   ) {
     super(injector);
   }
 
   getHistory(event?: LazyLoadEvent) {
-    // if (this.primengTableHelper.shouldResetPaging(event)) {
-    //   this.paginator.changePage(0);
-    //   return;
-    // }
-    // if (this.eventClone && !event.filters)
-    //   event.filters = this.eventClone.filters;
-    // if (this.eventClone && this.eventClone.sortField && !event.sortField) {
-    //   event.sortField = this.eventClone.sortField;
-    //   event.sortOrder = this.eventClone.sortOrder;
-    // }
-    // abp.ui.setBusy();
-    // this._employeeService
-    //   .getEmployeesHistory(
-    //     event && event.filters && event.filters["global"]
-    //       ? event.filters["global"].value
-    //       : undefined,
-    //     "",
-    //     this.primengTableHelper.getSkipCount(this.paginator, event),
-    //     this.primengTableHelper.getMaxResultCount(this.paginator, event)
-    //   )
-    //   .subscribe((result) => {
-    //     this.primengTableHelper.records = result.items;
-    //     this.primengTableHelper.totalRecordsCount = result.totalCount;
-    //     this.cd.detectChanges();
-    //   })
-    //   .add(() => abp.ui.clearBusy());
+    if (this.primengTableHelper.shouldResetPaging(event)) {
+      this.paginator.changePage(0);
+      return;
+    }
+    if (this.eventClone && !event.filters)
+      event.filters = this.eventClone.filters;
+    if (this.eventClone && this.eventClone.sortField && !event.sortField) {
+      event.sortField = this.eventClone.sortField;
+      event.sortOrder = this.eventClone.sortOrder;
+    }
+    abp.ui.setBusy();
+    this._detailAccService
+      .getDetailAccountsHistory(
+        event && event.filters && event.filters["global"]
+          ? event.filters["global"].value
+          : undefined,
+        "",
+        this.primengTableHelper.getSkipCount(this.paginator, event),
+        this.primengTableHelper.getMaxResultCount(this.paginator, event)
+      )
+      .subscribe((result) => {
+        this.primengTableHelper.records = result.items;
+        this.primengTableHelper.totalRecordsCount = result.totalCount;
+        this.cd.detectChanges();
+      })
+      .add(() => abp.ui.clearBusy());
   }
 
   showMainAccDialog(): void {
@@ -144,8 +147,8 @@ export class DetailAccHistoryComponent extends AppComponentBase {
     this.showCreateOrEditDetailAccDialog();
   }
 
-  edit(empHistory: EmployeeHistoryDto): void {
-    this.showCreateOrEditDetailAccDialog(empHistory.id);
+  edit(detailAccHistory: DetailAccountDto): void {
+    this.showCreateOrEditDetailAccDialog(detailAccHistory.id);
   }
 
 

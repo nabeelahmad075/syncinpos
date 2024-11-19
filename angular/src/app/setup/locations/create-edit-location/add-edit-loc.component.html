@@ -250,6 +250,8 @@
                 name="cashControlAccount"
                 placeholder="Select Cash Control Account"
                 [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [options]="tblTaxDetailAccounts"
+                [(ngModel)]="tblLocation.cashTaxDetailAccountId"
               >
               </p-dropdown>
             </div>
@@ -286,6 +288,8 @@
                 name="creditCardControl"
                 placeholder="Select CC Control Account"
                 [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [options]="tblTaxDetailAccounts"
+                [(ngModel)]="tblLocation.creditCardTaxDetailAccountId"
               >
               </p-dropdown>
             </div>
@@ -322,6 +326,8 @@
                 name="creditControl"
                 placeholder="Select Credit Control Account"
                 [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [options]="tblTaxDetailAccounts"
+                [(ngModel)]="tblLocation.creditTaxDetailAccountId"
               >
               </p-dropdown>
             </div>
@@ -358,6 +364,8 @@
                 name="bankControl"
                 placeholder="Select Bank Control Account"
                 [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [options]="tblTaxDetailAccounts"
+                [(ngModel)]="tblLocation.bankTaxDetailAccountId"
               >
               </p-dropdown>
             </div>

@@ -15,6 +15,7 @@ import {
   LocationServiceProxy,
   LocationTypeDto,
   LocationTypeServiceProxy,
+  DetailAccountServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import { result } from "lodash-es";
 import { BsModalRef } from "ngx-bootstrap/modal";
@@ -44,6 +45,7 @@ export class AddEditLocComponent
   id: number;
   tblRegions: SelectItem[] = [];
   tblLocationType: SelectItem[] = [];
+  tblTaxDetailAccounts: SelectItem[] = [];
   tenantName: string;
   tblLocation: LocationDto = new LocationDto();
   @Output() onSave = new EventEmitter<any>();
@@ -53,6 +55,7 @@ export class AddEditLocComponent
     private _regionService: RegionServiceProxy,
     private _locationTypeService: LocationTypeServiceProxy,
     private _locationService: LocationServiceProxy,
+    private _detailAccountsService: DetailAccountServiceProxy,
     public bsModalRef: BsModalRef,
     private cdr: ChangeDetectorRef
   ) {
@@ -66,6 +69,7 @@ export class AddEditLocComponent
     }
     this.getRegionsDropdown();
     this.getLocationTypeDropdown();
+    this.getTaxAccounts();
   }
 
   getRegionsDropdown() {
@@ -140,5 +144,12 @@ export class AddEditLocComponent
       document.querySelectorAll('[data-bs-toggle="tooltip"]')
     );
     tooltipTriggerList.map((tooltipTriggerEl) => new Tooltip(tooltipTriggerEl));
+  }
+
+  getTaxAccounts(){
+    this._detailAccountsService.getDetailAccountDropdownOnAccountType('Tax').subscribe((result)=>{
+      this.tblTaxDetailAccounts = result;
+      this.cdr.detectChanges();
+    })
   }
 }

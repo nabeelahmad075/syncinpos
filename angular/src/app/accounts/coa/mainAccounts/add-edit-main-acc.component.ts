@@ -10,12 +10,7 @@ import {
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
-  MainAccountDto, MainAccountServiceProxy,
-  FloorEntityDto,
-  FloorEntityServiceProxy,
-  LocationServiceProxy,
-  LocationDto,
-} from "@shared/service-proxies/service-proxies";
+  MainAccountDto, MainAccountServiceProxy} from "@shared/service-proxies/service-proxies";
 import {
   PagedListingComponentBase,
   PagedRequestDto,
@@ -41,7 +36,7 @@ export class AddEditMainAccComponent extends AppComponentBase implements OnInit 
 
   saving = false;
   id: number;
-  // tblLocation: SelectItem[] = [];
+  mainCode: string;
   tblMainType: SelectItem[] = [];
   tblMainAccounts: MainAccountDto = new MainAccountDto();
   tblMainAccountsHistory: MainAccountDto[] = [];
@@ -65,10 +60,8 @@ export class AddEditMainAccComponent extends AppComponentBase implements OnInit 
   }
 
   ngOnInit(): void {
-    if (this.id > 0) {
-      this.getById();
-    }
     this.getMainTypeDropdown();
+    this.getMainCode();
   }
 
   getMainTypeDropdown() {
@@ -81,6 +74,8 @@ export class AddEditMainAccComponent extends AppComponentBase implements OnInit 
 
   save(): void {
     this.saving = true;
+    this.tblMainAccounts.mainCode = this.mainCode;
+    // this.tblMainAccounts.locationId = undefined;
     if (this.id) {
       this.update();
     } else 
@@ -135,12 +130,19 @@ export class AddEditMainAccComponent extends AppComponentBase implements OnInit 
       else this.id = 0;
 
       this.tblMainAccounts = result;
+      this.mainCode = result.mainCode;
       this.cdr.detectChanges();
     });
   }
 
-  getHistory(event?: LazyLoadEvent) {
-    debugger
+  getMainCode() {
+    this._mainAccountService.getNewMainAccountCode(undefined).subscribe((result) => {
+      this.mainCode = result;
+      this.cdr.detectChanges();
+    });
+  }
+
+  getMainAccHistory(event?: LazyLoadEvent) {
     if (this.primengTableHelper.shouldResetPaging(event)) {
       this.paginator.changePage(0);
       return;

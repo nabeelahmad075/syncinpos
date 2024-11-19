@@ -10,7 +10,7 @@ namespace syncinpos.Entities.Accounts.SubAccounts.Dto
     public class SubAccountHistoryDto
     {
         public int Id { get; set; }
-        public string Subcode { get; set; }
+        public string SubCode { get; set; }
         public string SubTitle { get; set; }
         public string AccountType { get; set; }
         public string MainAccountTitle { get; set; }

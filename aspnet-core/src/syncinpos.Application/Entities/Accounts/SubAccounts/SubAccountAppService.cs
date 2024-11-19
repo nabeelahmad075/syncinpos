@@ -110,7 +110,7 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                 ).Select(x => new SubAccountHistoryDto
                 {
                     Id = x.Id,
-                    Subcode = x.SubCode,
+                    SubCode = x.SubCode,
                     SubTitle = x.SubTitle,
                     AccountType = x.AccountType.Title,
                     MainAccountTitle = x.MainAccount.MainTitle,

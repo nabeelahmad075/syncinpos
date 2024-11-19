@@ -104,6 +104,7 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
                                           DetailTitle = x.DetailTitle,
                                           AccountType = x.SubAccount.AccountType.Title,
                                           SubAccount = x.SubAccount.SubTitle,
+                                          MainType = x.SubAccount.MainAccount.MainType.Title,
                                           MainAccount = x.SubAccount.MainAccount.MainTitle,
                                           IsActive = x.IsActive
                                       });

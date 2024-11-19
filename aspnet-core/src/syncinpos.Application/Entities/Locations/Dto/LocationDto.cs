@@ -43,5 +43,9 @@ namespace syncinpos.Entities.Locations.Dto
         public decimal BankChargesPercent { get; set; }
         public bool EnableBankCharges { get; set; }
         public string SlipNotes { get; set; }
+        public int? CashTaxDetailAccountId { get; set; }
+        public int? CreditTaxDetailAccountId { get; set; }
+        public int? CreditCardTaxDetailAccountId { get; set; }
+        public int? BankTaxDetailAccountId { get; set; }
     }
 }

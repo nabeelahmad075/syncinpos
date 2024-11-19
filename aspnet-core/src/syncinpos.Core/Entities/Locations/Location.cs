@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using syncinpos.Entities.Regions;
 using syncinpos.Entities.LocationTypes;
+using syncinpos.Entities.Accounts.DetailAccounts;
 
 namespace syncinpos.Entities.Locations
 {
@@ -59,5 +60,13 @@ namespace syncinpos.Entities.Locations
         public bool EnableBankCharges { get; set; }
         [MaxLength(256)]
         public string SlipNotes { get; set; }
+        public DetailAccount CashTaxDetailAccount { get; set; }
+        public int? CashTaxDetailAccountId { get; set; }
+        public DetailAccount CreditTaxDetailAccount { get; set; }
+        public int? CreditTaxDetailAccountId { get; set; }
+        public DetailAccount CreditCardTaxDetailAccount { get; set; }
+        public int? CreditCardTaxDetailAccountId { get; set; }
+        public DetailAccount BankTaxDetailAccount { get; set; }
+        public int? BankTaxDetailAccountId { get; set; }
     }
 }

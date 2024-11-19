@@ -72,7 +72,7 @@ namespace syncinpos.Entities.Accounts.SubAccounts
             int NewDocNumber = 1;
             if (!string.IsNullOrEmpty(strSubCode))
             {
-                int NextNumber = Convert.ToInt32(strSubCode);
+                int NextNumber = Convert.ToInt32(strSubCode.Substring(3));
                 NewDocNumber = NextNumber + 1;
             }
 

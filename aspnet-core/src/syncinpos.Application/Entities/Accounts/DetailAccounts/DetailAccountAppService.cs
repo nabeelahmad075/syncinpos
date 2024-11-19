@@ -88,6 +88,17 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
                                                  }).ToListAsync();
             return detailAccounts;
         }
+        public async Task<List<SelectItemDto>> GetDetailAccountDropdownOnAccountTypeAsync(string AccountType)
+        {
+            var detailAccounts = await Repository.GetAll()
+                                                 .Where(a => a.IsActive == true && a.SubAccount.AccountType.Title == AccountType)
+                                                 .Select(a => new SelectItemDto
+                                                 {
+                                                     Label = a.DetailTitle,
+                                                     Value = a.Id
+                                                 }).ToListAsync();
+            return detailAccounts;
+        }
         public async Task<PagedResultDto<DetailAccountHistoryDto>> GetDetailAccountsHistory(DetailAccountHistoryPagedAndSortedResultRequestDto input)
         {
             var sqlQuery = CreateFilteredQuery(input)

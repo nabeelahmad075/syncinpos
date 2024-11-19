@@ -13,7 +13,7 @@ namespace syncinpos.Entities.Accounts.MainAccounts.Dto
     public class MainAccountDto : FullAuditedEntityDto
     {
         public int TenantId { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public int MainTypeId { get; set; }
         public string MainCode { get; set; }
         public string MainTitle { get; set; }

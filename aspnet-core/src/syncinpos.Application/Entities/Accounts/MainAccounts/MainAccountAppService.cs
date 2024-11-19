@@ -72,6 +72,7 @@ namespace syncinpos.Entities.Accounts.MainAccounts
         public async Task<List<SelectItemDto>> GetMainAccountDropdownAsync()
         {
             var mainAccounts = await Repository.GetAll()
+                                               .Where(a => a.IsActive == true)
                                                .Select(a => new SelectItemDto
                                                {
                                                    Label = $"{a.MainCode} - {a.MainTitle}",

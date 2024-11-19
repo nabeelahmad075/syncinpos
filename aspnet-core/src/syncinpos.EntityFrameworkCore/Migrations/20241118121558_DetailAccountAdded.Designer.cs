@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using syncinpos.EntityFrameworkCore;
 
@@ -11,9 +12,11 @@ using syncinpos.EntityFrameworkCore;
 namespace syncinpos.Migrations
 {
     [DbContext(typeof(syncinposDbContext))]
-    partial class syncinposDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241118121558_DetailAccountAdded")]
+    partial class DetailAccountAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1668,7 +1671,7 @@ namespace syncinpos.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<string>("MainCode")
@@ -2595,7 +2598,9 @@ namespace syncinpos.Migrations
                 {
                     b.HasOne("syncinpos.Entities.Locations.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("syncinpos.Entities.Accounts.Types.MainType", "MainType")
                         .WithMany()

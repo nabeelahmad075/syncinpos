@@ -82,6 +82,7 @@ namespace syncinpos.Entities.Accounts.SubAccounts
         public async Task<List<SelectItemDto>> GetSubAccountDropdownAsync()
         {
             var subAccounts = await Repository.GetAll()
+                                              .Where(a => a.IsActive == true)
                                               .Select(a => new SelectItemDto
                                               {
                                                   Label = $"{a.SubCode} - {a.SubTitle}",

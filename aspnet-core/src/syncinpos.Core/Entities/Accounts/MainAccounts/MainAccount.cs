@@ -15,7 +15,7 @@ namespace syncinpos.Entities.Accounts.MainAccounts
     {
         public int TenantId { get; set; }
         public Location Location { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public MainType MainType { get; set; }
         public int MainTypeId { get; set; }
         [MaxLength(4)]

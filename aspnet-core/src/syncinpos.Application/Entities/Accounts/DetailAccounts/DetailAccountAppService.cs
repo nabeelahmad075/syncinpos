@@ -45,7 +45,7 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
                 throw new UserFriendlyException($"Detail Code {input.DetailCode}, already exists!");
             }
         }
-        public async Task<bool> IsAlreadyCreated(string DetailCode, int? LocationId = null, int? id = null)
+        public async Task<bool> IsAlreadyCreated(string DetailCode, int? id = null)
         {
             return await Repository.GetAll()
                                     .WhereIf(id != null && id > 0, a => a.Id != id)

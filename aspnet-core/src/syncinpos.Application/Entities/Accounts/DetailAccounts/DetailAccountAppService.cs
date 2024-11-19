@@ -69,7 +69,7 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
 
             if (!string.IsNullOrEmpty(strDocNo))
             {
-                int maxNumber = Convert.ToInt32(strDocNo.Substring(6));
+                int maxNumber = Convert.ToInt32(strDocNo.Substring(7));
                 newDocNumber = maxNumber + 1;
             }
 

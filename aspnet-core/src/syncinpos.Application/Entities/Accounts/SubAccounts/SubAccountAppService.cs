@@ -22,15 +22,15 @@ namespace syncinpos.Entities.Accounts.SubAccounts
     public class SubAccountAppService : AsyncCrudAppService<SubAccount, SubAccountDto>
     {
         private IRepository<AccountType, int> accountTypeRepository;
-        private IRepository<MainAccount, int> mainAccountReporsitory;
+        private IRepository<MainAccount, int> mainAccountRepository;
         public SubAccountAppService(
             IRepository<SubAccount, int> repository ,
-            IRepository<AccountType, int> _accountTypeReporsitory,
+            IRepository<AccountType, int> _accountTypeRepository,
             IRepository<MainAccount, int> _mainAccountRepository
             ) : base(repository) 
         {
-            _accountTypeReporsitory = accountTypeRepository;
-            _mainAccountRepository = mainAccountReporsitory;
+            accountTypeRepository = _accountTypeRepository;
+            mainAccountRepository = _mainAccountRepository;
         }
         public async override Task<SubAccountDto> CreateAsync(SubAccountDto input)
         {
@@ -64,7 +64,7 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                                              .Select(a => a.SubCode)
                                              .FirstOrDefaultAsync();
 
-            var strMainCode = await mainAccountReporsitory.GetAll()
+            var strMainCode = await mainAccountRepository.GetAll()
                                              .Where(a => a.Id == MainAccountId)
                                              .Select(a => a.MainCode)
                                              .FirstOrDefaultAsync();

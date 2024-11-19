@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace syncinpos.Entities.Accounts.SubAccounts.Dto
 {
     [AutoMapFrom(typeof(SubAccount)), AutoMapTo(typeof(SubAccount))]
-    public class SubAccountDto : EntityDto
+    public class SubAccountDto : FullAuditedEntityDto
     {
         public int TenantId { get; set; }
         public int MainAccountId { get; set; }

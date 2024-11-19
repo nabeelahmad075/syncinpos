@@ -17,13 +17,13 @@ namespace syncinpos.Entities.Accounts.MainAccounts
 {
     public class MainAccountAppService : AsyncCrudAppService<MainAccount, MainAccountDto>
     {
-        private IRepository<MainType, int> mainTypeReporsitory;
+        private IRepository<MainType, int> mainTypeRepository;
         public MainAccountAppService(
             IRepository<MainAccount, int> repository,
-            IRepository<MainType, int> _mainTypeReporsitory
+            IRepository<MainType, int> _mainTypeRepository
             ) : base(repository) 
         {
-            _mainTypeReporsitory = mainTypeReporsitory;
+            mainTypeRepository = _mainTypeRepository;
         }
         public async override Task<MainAccountDto> CreateAsync(MainAccountDto input)
         {
@@ -81,13 +81,13 @@ namespace syncinpos.Entities.Accounts.MainAccounts
         }
         public async Task<List<SelectItemDto>> GetMainTypeDropdownAsync()
         {
-            var mainAccounts = await mainTypeReporsitory.GetAll()
+            var mainTypes = await mainTypeRepository.GetAll()
                                                .Select(a => new SelectItemDto
                                                {
                                                    Label = a.Title,
                                                    Value = a.Id
                                                }).ToListAsync();
-            return mainAccounts;
+            return mainTypes;
         }
         public async Task<PagedResultDto<MainAccountHistoryDto>> GetMainAccountHistoryAsync(MainAccountHistoryPagedAndSortedResultRequestDto input)
         {

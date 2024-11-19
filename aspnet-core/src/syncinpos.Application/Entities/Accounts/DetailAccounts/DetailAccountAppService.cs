@@ -73,7 +73,7 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
                 newDocNumber = maxNumber + 1;
             }
 
-            string newDetailCode = $"{ strSubCode } - {newDocNumber:D4}";
+            string newDetailCode = $"{strSubCode}-{newDocNumber:D4}";
 
             return newDetailCode;
         }

@@ -76,7 +76,7 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                 NewDocNumber = NextNumber + 1;
             }
 
-            string newSubCode = $" {strMainCode} - {NewDocNumber:D3}";
+            string newSubCode = $"{strMainCode}-{NewDocNumber:D3}";
             return newSubCode;
         }
         public async Task<List<SelectItemDto>> GetSubAccountDropdownAsync()

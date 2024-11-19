@@ -96,7 +96,8 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
                                       a.DetailTitle.Contains(input.Keyword) ||
                                       a.SubAccount.AccountType.Title.Contains(input.Keyword) ||
                                       a.SubAccount.SubTitle.Contains(input.Keyword) ||
-                                      a.SubAccount.MainAccount.MainTitle.Contains(input.Keyword)
+                                      a.SubAccount.MainAccount.MainTitle.Contains(input.Keyword) ||
+                                      a.SubAccount.MainAccount.MainType.Title.Contains(input.Keyword)
                                       ).Select(x => new DetailAccountHistoryDto
                                       {
                                           Id = x.Id,

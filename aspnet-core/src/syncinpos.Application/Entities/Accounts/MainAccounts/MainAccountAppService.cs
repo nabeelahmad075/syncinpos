@@ -83,11 +83,12 @@ namespace syncinpos.Entities.Accounts.MainAccounts
         public async Task<List<SelectItemDto>> GetMainTypeDropdownAsync()
         {
             var mainTypes = await mainTypeRepository.GetAll()
-                                               .Select(a => new SelectItemDto
-                                               {
-                                                   Label = a.Title,
-                                                   Value = a.Id
-                                               }).ToListAsync();
+                                                    .Where(a => a.IsActive == true)
+                                                    .Select(a => new SelectItemDto
+                                                    {
+                                                        Label = a.Title,
+                                                        Value = a.Id
+                                                    }).ToListAsync();
             return mainTypes;
         }
         public async Task<PagedResultDto<MainAccountHistoryDto>> GetMainAccountHistoryAsync(MainAccountHistoryPagedAndSortedResultRequestDto input)

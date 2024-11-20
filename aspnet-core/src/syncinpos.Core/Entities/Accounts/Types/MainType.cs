@@ -14,5 +14,6 @@ namespace syncinpos.Entities.Accounts.Types
         public string Title { get; set; }
         [MaxLength(4)]
         public string Alias { get; set; }
+        public bool IsActive { get; set; }
     }
 }

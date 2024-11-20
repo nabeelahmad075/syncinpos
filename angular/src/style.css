@@ -1,5 +1,5 @@
 .p-datatable .p-datatable-header {
-  background: #0679ec;
+  background: #80AF81;
   color: #374151;
   border: 1px solid #e5e7eb;
   border-width: 1px 0 1px 0;
@@ -9,8 +9,9 @@
 
 .table-bordered thead td,
 .table-bordered thead th {
+  color: #ffffff;
   border-bottom-width: 2px;
-  background: rgb(3, 246, 214);
+  background: #508D4E;
   border: 1px solid black;
 }
 
@@ -65,7 +66,6 @@ tabset {
 input {
   height: 38px;
   color: #000000;
-  font-size: 0.9rem;
 }
 
 label {
@@ -97,4 +97,53 @@ label {
   font-size: 1.1rem;
     margin-left: 2px;
     color: blue;
+}
+
+aside{
+  background-color: #D6EFD8;
+}
+
+nav ul li a i, nav ul li a p{
+  color: #508D4E;
+}
+
+nav ul li a:hover i,
+nav ul li a:hover p {
+  color: #FFFFFF;
+
+}
+
+nav ul li a:hover{
+  background-color: #80AF81;
+}
+
+.nav-pills .nav-link.active {
+  color: #FFFFFF;
+background-color: #B3E2A7 !important;
+}
+
+.brand-text{
+color: #508D4E;
+}
+
+.button-new{
+  background-color: #508D4E !important;
+  color: #ffffff !important;
+  margin-left: 0.5rem !important;
+  font-size: small !important;
+  font-weight: 600 !important;
+}
+
+.modal-head{
+color: #ffffff;
+background-color: #508D4E;
+padding-bottom: 0.6rem !important;
+}
+
+.modal-title{
+  font-weight: bold !important;
+}
+
+td>a>i{
+  color: #508D4E;
 }

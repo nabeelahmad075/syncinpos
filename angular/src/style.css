@@ -96,7 +96,7 @@ label {
 .guide{
   font-size: 1.1rem;
     margin-left: 2px;
-    color: blue;
+    color: #508D4E;
 }
 
 aside{
@@ -126,6 +126,10 @@ background-color: #B3E2A7 !important;
 color: #508D4E;
 }
 
+.brand-text:hover{
+  color: blue;
+  }
+
 .button-new{
   background-color: #508D4E !important;
   color: #ffffff !important;
@@ -146,4 +150,12 @@ padding-bottom: 0.6rem !important;
 
 td>a>i{
   color: #508D4E;
+}
+
+.img-hover{
+  background-color: #ffffff !important;
+}
+
+.p-datatable:hover{
+  background-color: #D6EFD8 !important;
 }

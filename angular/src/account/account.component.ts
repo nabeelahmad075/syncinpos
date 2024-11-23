@@ -11,7 +11,7 @@ import { AppComponentBase } from '@shared/app-component-base';
   templateUrl: './account.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class AccountComponent extends AppComponentBase implements OnInit {
+export class AccountComponent extends AppComponentBase {
   constructor(injector: Injector, private renderer: Renderer2) {
     super(injector);
   }
@@ -20,7 +20,7 @@ export class AccountComponent extends AppComponentBase implements OnInit {
     return abp.multiTenancy.isEnabled;
   }
 
-  ngOnInit(): void {
-    this.renderer.addClass(document.body, 'login-page');
-  }
+  // ngOnInit(): void {
+  //   this.renderer.addClass(document.body, 'login-page');
+  // }
 }

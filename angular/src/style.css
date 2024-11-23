@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .p-datatable .p-datatable-header {
   background: #80AF81;
   color: #374151;

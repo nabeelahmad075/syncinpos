@@ -10,5 +10,3 @@ aspnet-core/src/syncinpos.Migrator/Logs/Logs.txt
 aspnet-core/build/outputs/
 aspnet-core/docker/mvc/Mvc-Logs/
 
-angular/yarn.lock
-aspnet-core/src/syncinpos.Web.Host/appsettings.json

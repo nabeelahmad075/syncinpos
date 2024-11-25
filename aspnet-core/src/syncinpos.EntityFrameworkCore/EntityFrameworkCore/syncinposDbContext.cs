@@ -21,6 +21,7 @@ using syncinpos.Entities.Accounts.Types;
 using syncinpos.Entities.Accounts.MainAccounts;
 using syncinpos.Entities.Accounts.SubAccounts;
 using syncinpos.Entities.Accounts.DetailAccounts;
+using syncinpos.Entities.Sales.Customers;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -50,5 +51,6 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<MainAccount> tblMainAccounts { get; set; }
         public DbSet<SubAccount> tblSubAccounts { get; set; }
         public DbSet<DetailAccount> tblDetailAccounts { get; set; }
+        public DbSet<Customer> tblCustomers { get; set; }
     }
 }

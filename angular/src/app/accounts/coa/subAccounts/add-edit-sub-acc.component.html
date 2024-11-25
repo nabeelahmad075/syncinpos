@@ -1,0 +1,216 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createSubAccountForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Sub Account' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-row form-group">
+        <div class="col-md-4 required">
+            <label for="accountType">
+              {{ "Account Type" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="accountType"
+                required
+                placeholder="Select Account Type"
+                [options]="tblAccountType"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [(ngModel)]="tblSubAccounts.accountTypeId"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+      <div class="col-md-4 required">
+        <label for="mainAcc">
+          {{ "Main Account" | localize }}
+        </label>
+        <div class="">
+          <p-dropdown
+            [style]="{
+              width: '100%',
+              height: '38px',
+              lineHeight: '1',
+              marginTop: '-0.5rem'
+            }"
+            name="mainAcc"
+            required
+            placeholder="Select Main Account"
+            [options]="tblMainAccounts"
+            [styleClass]="'prm-dropdown prm-filter-dropdown'"
+            [(ngModel)]="tblSubAccounts.mainAccountId"
+            (onChange)="getSubCode(tblSubAccounts.mainAccountId)"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+      
+      <div class="form-group col-md-2">
+        <label for="mainAccCode">
+          {{ "Sub Account Code" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="mainAccCode"
+          id="mainAccCode"
+          required
+          maxlength="500"
+          readonly
+          [(ngModel)]="subCode"
+        />
+      </div>
+      <div class="form-group col-md-5">
+        <label for="mainAccTitle">
+          {{ "Sub Account Title" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="mainAccTitle"
+          id="mainAccTitle"
+          required
+          maxlength="500"
+          [(ngModel)]="tblSubAccounts.subTitle"
+        />
+      </div>
+      <div class="form-group col-md-1" style="margin-top: -0.3rem;">
+        <label class="col-md-3">
+          {{ "" }}
+        </label>
+        <div class="col-md-9">
+          <div class="custom-control custom-checkbox">
+            <input
+              style="margin-top: -8px"
+              type="checkbox"
+              class="custom-control-input"
+              name="isActive"
+              id="isActive"
+              [(ngModel)]="tblSubAccounts.isActive"
+            />
+            <label class="custom-control-label mt-2" for="isActive"
+              >Active</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="width: 100%">
+      <div class="card main-content rounded">
+        <div class="card-content table-bordered">
+          <p-table
+            #dataTable
+            [value]="primengTableHelper.records"
+            [lazy]="true"
+            [scrollable]="true"
+            [style]="{ width: '100%', fontSize: '0.8rem' }"
+            (onLazyLoad)="getSubAccHistory($event)"
+            class="p-table-page table-sm table-hover"
+            [rows]="primengTableHelper.modalRowsCount"
+          >
+            <ng-template pTemplate="caption">
+              <div class="d-flex flex-row-reverse">
+                <span>
+                  <input
+                    style="font-size: 0.8rem; height: 30px"
+                    pInputText
+                    type="text"
+                    class="table-search-input form-control w-100"
+                    (input)="
+                      dataTable.filterGlobal(
+                        $event.target.value,
+                        'contains'
+                      )
+                    "
+                    placeholder="Search"
+                  />
+                </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr class="table-tr">
+                <th>Sub Code</th>
+                <th>Sub Title</th>
+                <th>Account Type</th>
+                <th>Main Account</th>
+                <th style="text-align: center">Status</th>
+                <th style="text-align: center">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-subAcc>
+              <tr>
+                <td>{{ subAcc.subCode }}</td>
+                <td>{{ subAcc.subTitle }}</td>
+                <td>{{ subAcc.accountType }}</td>
+                <td>{{ subAcc.mainAccountTitle }}</td>
+                <td style="text-align: center">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      disabled
+                      [checked]="subAcc.isActive"
+                    />
+                    <label class="custom-control-label"></label>
+                  </div>
+                </td>
+                <td style="text-align: center">
+                  <a
+                    type="button"
+                    class="mx-2 edit-btn"
+                    (click)="getById(subAcc.id)"
+                  >
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+
+          <div
+            class="card-footer table-card-footer text-center my-2"
+            *ngIf="primengTableHelper.totalRecordsCount == 0"
+          >
+            <p class="p-0 m-0">No Data</p>
+          </div>
+          <span class="" style="margin-left: 15px; font-size: 0.9rem">
+            {{ primengTableHelper.totalRecordsCount | number : "2." }}
+            records found!
+          </span>
+          <div class="">
+            <p-paginator
+              [rows]="primengTableHelper.modalRowsCount"
+              #paginator
+              (onPageChange)="getSubAccHistory($event)"
+              [totalRecords]="primengTableHelper.totalRecordsCount"
+              [rowsPerPageOptions]="
+                primengTableHelper.modalRowsPerPageOptions
+              "
+            >
+            </p-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
+    [saveDisabled]="!createSubAccountForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
+

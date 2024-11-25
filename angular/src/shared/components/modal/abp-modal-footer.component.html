@@ -1,13 +1,14 @@
-<div class="modal-footer justify-content-between">
+<div class="modal-footer">
   <button
     type="button"
     class="btn btn-default"
     [disabled]="cancelDisabled()"
     (click)="onCancelClick.emit($event)"
+    hidden="true"
   >
     {{ cancelLabel() }}
   </button>
-  <button type="submit" class="btn btn-primary" [disabled]="saveDisabled()">
+  <button type="submit" class="btn button-new" [disabled]="saveDisabled()">
     {{ saveLabel() }}
   </button>
 </div>

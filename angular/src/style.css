@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.p-datatable .p-datatable-header {
+  background: #80AF81;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  border-width: 1px 0 1px 0;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+}
+
+.table-bordered thead td,
+.table-bordered thead th {
+  color: #ffffff;
+  border-bottom-width: 2px;
+  background: #508D4E;
+  border: 1px solid black;
+}
+
+.table-bordered tbody td,
+.table-bordered tbody th {
+  border: 1px solid rgb(150, 147, 147);
+}
+
+tabset {
+  font-size: 0.8rem;
+}
+
+.p-paginator {
+  font-size: 0.8em;
+  padding: 2px;
+}
+
+.p-paginator .p-paginator-page {
+  width: 0px;
+  height: 30px;
+  margin: 0 2px;
+}
+
+.p-dropdown {
+  padding: 2px;
+  height: 30px;
+  line-height: 0.1rem;
+  width: 100%;
+}
+
+.p-dropdown .p-dropdown-label {
+  font-size: 0.8rem;
+  color: #000000;
+}
+
+.p-dropdown-panel .p-dropdown-header {
+  padding: 0.2rem 0.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+  background: #f9fafb;
+  margin: 0;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.p-button {
+  padding: 1px 2px;
+  font-size: 0.8em;
+}
+
+input {
+  height: 38px;
+  color: #000000;
+}
+
+label {
+  font-size: 0.8rem;
+  margin-bottom: 0rem;
+  color: #000000;
+}
+
+.p-dropdown-panel .p-dropdown-items {
+  padding: 0.75rem 0;
+  font-size: 0.8rem;
+  line-height: 0rem;
+  margin: 0rem 0rem 0rem -1rem;
+}
+
+.legend {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin-bottom: .5rem;
+  font-size: 1.1rem;
+  line-height: inherit;
+  color: inherit;
+  white-space: normal;
+}
+
+.guide{
+  font-size: 1.1rem;
+    margin-left: 2px;
+    color: #508D4E;
+}
+
+aside{
+  background-color: #D6EFD8;
+}
+
+nav ul li a i, nav ul li a p{
+  color: #508D4E;
+}
+
+nav ul li a:hover i,
+nav ul li a:hover p {
+  color: #FFFFFF;
+
+}
+
+nav ul li a:hover{
+  background-color: #80AF81;
+}
+
+.nav-pills .nav-link.active {
+  color: #FFFFFF;
+background-color: #B3E2A7 !important;
+}
+
+.brand-text{
+color: #508D4E;
+}
+
+.brand-text:hover{
+  color: blue;
+  }
+
+.button-new{
+  background-color: #508D4E !important;
+  color: #ffffff !important;
+  margin-left: 0.5rem !important;
+  font-size: small !important;
+  font-weight: 600 !important;
+}
+
+.modal-head{
+color: #ffffff;
+background-color: #508D4E;
+padding-bottom: 0.6rem !important;
+}
+
+.modal-title{
+  font-weight: bold !important;
+}
+
+td>a>i{
+  color: #508D4E;
+}
+
+.img-hover{
+  background-color: #ffffff !important;
+}
+
+.p-datatable:hover{
+  background-color: #D6EFD8 !important;
+}

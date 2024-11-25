@@ -13,6 +13,22 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.TokenAuthServiceProxy,
         ApiServiceProxies.AccountServiceProxy,
         ApiServiceProxies.ConfigurationServiceProxy,
+        ApiServiceProxies.LocationServiceProxy,
+        ApiServiceProxies.LocationTypeServiceProxy,
+        ApiServiceProxies.RegionServiceProxy,
+        ApiServiceProxies.EmployeeServiceProxy,
+        ApiServiceProxies.DepartmentServiceProxy,
+        ApiServiceProxies.DesignationServiceProxy,
+        ApiServiceProxies.SectionsServiceProxy,
+        ApiServiceProxies.ItemCategoryServiceProxy,
+        ApiServiceProxies.ItemTypeServiceProxy,
+        ApiServiceProxies.ItemServiceProxy,
+        ApiServiceProxies.UnitOfMeasurementServiceProxy,
+        ApiServiceProxies.TableEntityServiceProxy,
+        ApiServiceProxies.FloorEntityServiceProxy,
+        ApiServiceProxies.MainAccountServiceProxy,
+        ApiServiceProxies.SubAccountServiceProxy,
+        ApiServiceProxies.DetailAccountServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })

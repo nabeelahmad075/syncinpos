@@ -1,0 +1,697 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createAccountForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Location Information' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <tabset>
+      <tab [heading]="'Location Details' | localize" class="pt-3 px-2">
+        <div class="form-row form-group">
+          <div class="col-md-4">
+            <label for="company">
+              {{ "Company Name" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="company"
+              id="company"
+              value="{{ tenantName }}"
+              readonly
+            />
+          </div>
+          <div class="col-md-4 required">
+            <label for="region">
+              {{ "Region" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="region"
+                required
+                placeholder="Select Region"
+                [options]="tblRegions"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [(ngModel)]="tblLocation.regionId"
+                [filter]="true"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-4 required">
+            <label for="locationtype">
+              {{ "Location Type" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="locationtype"
+                required
+                placeholder="Location Type"
+                [options]="tblLocationType"
+                [(ngModel)]="tblLocation.locationTypeId"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="locationCode">
+              {{ "Location Code" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="locationCode"
+              id="locationCode"
+              required
+              minlength="2"
+              maxlength="500"
+              [(ngModel)]="tblLocation.locationCode"
+            />
+          </div>
+          <div class="form-group col-md-8 required">
+            <label for="locationName">
+              {{ "Location Name" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="locationName"
+              id="locationName"
+              required
+              minlength="2"
+              maxlength="500"
+              [(ngModel)]="tblLocation.locationName"
+            />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12 required">
+            <label for="address">
+              {{ "Address" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="address"
+              id="address"
+              minlength="2"
+              maxlength="500"
+              [(ngModel)]="tblLocation.address"
+            />
+          </div>
+        </div>
+        <div class="form-row form-group">
+          <div class="col-md-4">
+            <label for="person">
+              {{ "Contact Person" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="person"
+              id="person"
+              minlength="2"
+              maxlength="500"
+              [(ngModel)]="tblLocation.contactPerson"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="number">
+              {{ "Contact Number" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="number"
+              id="number"
+              minlength="2"
+              maxlength="500"
+              [(ngModel)]="tblLocation.contactNumber"
+            />
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="col-md-3">
+              {{ "" }}
+            </label>
+            <div class="col-md-9">
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  name="isActive"
+                  id="isActive"
+                  [(ngModel)]="tblLocation.isActive"
+                  [disabled]="!tblLocation.isActive"
+                />
+                <label class="custom-control-label mt-2" for="isActive"
+                  >Active</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-row form-group ">
+          <div class="col-md-12">
+            <label for="logo">
+              {{ "Upload Logo" | localize }}
+            </label>
+            <input type="file" class="form-control" name="logo" id="logo" />
+          </div>
+        </div> -->
+      </tab>
+      <tab [heading]="'Tax Details' | localize" class="pt-3 px-2">
+        <div class="form-row form-group">
+          <div class="col-md-4">
+            <label for="taxTitle">
+              {{ "Tax Title" | localize }}
+            </label>
+            <div class="">
+              <input
+                style="margin-top: -8px"
+                type="text"
+                class="form-control"
+                name="taxTitle"
+                id="taxTitle"
+                maxlength="500"
+                [(ngModel)]="tblLocation.taxTitle"
+              />
+            </div>
+          </div>
+          <div class="col-md-4 required">
+            <label for="registrationNo">
+              {{ "Registration No." | localize }}
+            </label>
+            <div class="">
+              <input
+                style="margin-top: -8px"
+                type="text"
+                class="form-control"
+                name="registrationNo"
+                id="registrationNo"
+                maxlength="500"
+                [(ngModel)]="tblLocation.taxRegistrationNo"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="cash">
+              {{ "Tax % on Cash" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="cash"
+              id="cash"
+              maxlength="500"
+              [(ngModel)]="tblLocation.taxPercentOnCash"
+            />
+            <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
+          </div>
+          <div class="form-group col-md-5 required">
+            <label for="cashControlAccount">
+              {{ "Cash Control Account" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="cashControlAccount"
+                placeholder="Select Cash Control Account"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [options]="tblTaxDetailAccounts"
+                [(ngModel)]="tblLocation.cashTaxDetailAccountId"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="creditCard">
+              {{ "Tax % on Credit Card" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="creditCard"
+              id="creditCard"
+              maxlength="500"
+              [(ngModel)]="tblLocation.taxPercentOnCreditCard"
+            />
+            <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
+          </div>
+          <div class="form-group col-md-5 required">
+            <label for="creditCardControl">
+              {{ "CC Control Account" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="creditCardControl"
+                placeholder="Select CC Control Account"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [options]="tblTaxDetailAccounts"
+                [(ngModel)]="tblLocation.creditCardTaxDetailAccountId"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="credit">
+              {{ "Tax % on Credit" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="credit"
+              id="credit"
+              maxlength="500"
+              [(ngModel)]="tblLocation.taxPercentOnCredit"
+            />
+            <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
+          </div>
+          <div class="form-group col-md-5 required">
+            <label for="creditControl">
+              {{ "Credit Control Account" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="creditControl"
+                placeholder="Select Credit Control Account"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [options]="tblTaxDetailAccounts"
+                [(ngModel)]="tblLocation.creditTaxDetailAccountId"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="bank">
+              {{ "Tax % on Bank" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="bank"
+              id="bank"
+              maxlength="500"
+              [(ngModel)]="tblLocation.taxPercentOnBank"
+            />
+            <!-- <input type="text" class="form-control" name="locationCode" id="locationCode" /> -->
+          </div>
+          <div class="form-group col-md-5 required">
+            <label for="bankControl">
+              {{ "Bank Control Account" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="bankControl"
+                placeholder="Select Bank Control Account"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [options]="tblTaxDetailAccounts"
+                [(ngModel)]="tblLocation.bankTaxDetailAccountId"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-row form-group">
+          <div class="form-group col-md-4">
+            <label class="col-md-3">
+              {{ "" }}
+            </label>
+            <div class="col-md-9">
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  name="isActive"
+                  id="isActive"
+                  [(ngModel)]="tblLocation.isActive"
+                  [disabled]="!tblLocation.isActive"
+                />
+                <label class="custom-control-label mt-2" for="isActive"
+                  >Active</label
+                >
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="form-row form-group ">
+          <div class="col-md-12">
+            <label for="logo">
+              {{ "Upload Logo" | localize }}
+            </label>
+            <input type="file" class="form-control" name="logo" id="logo" />
+          </div>
+        </div> -->
+      </tab>
+      <tab [heading]="'POS Settings' | localize" class="pt-3 px-2">
+        <fieldset>
+          <legend class="legend">Service Charges Settings:</legend>
+          <div class="form-row form-group">
+            <div class="col-md-4">
+              <label for="scLabel">
+                {{ "Service Charges Label" | localize }}
+              </label>
+              <div class="">
+                <input
+                  style="margin-top: -8px"
+                  type="text"
+                  class="form-control"
+                  name="scLabel"
+                  id="scLabel"
+                  maxlength="500"
+                  [(ngModel)]="tblLocation.serviceChargesLabel"
+                />
+              </div>
+            </div>
+            <div class="col-md-4 required">
+              <label
+                for="serviceCharges"
+                style="display: flex; margin-bottom: -19px"
+              >
+                {{ "Service Charges (Fixed:" | localize }}
+                <input
+                  type="checkbox"
+                  class="custom-checkbox"
+                  name="fixedServicesCharges"
+                  id="fixedServicesCharges"
+                  style="margin-left: 3px; transform: translateY(-9px)"
+                  [(ngModel)]="tblLocation.fixedServicesCharges"
+                />
+                )
+                <a
+                  type="hide"
+                  data-bs-toggle="tooltip"
+                  data-bs-html="true"
+                  data-bs-title="Mark the <b>Fixed</b> checkbox true if you want to apply Service Charges as <b>VALUE!</b><br>By default, it's treated as <b>PERCENTAGE</b>."
+                  style="transform: translate(71px, 0px); cursor: pointer"
+                >
+                  <i class="fa-regular fa-circle-question guide"></i>
+                </a>
+              </label>
+              <div class="">
+                <input
+                  style="margin-top: -8px"
+                  type="text"
+                  class="form-control"
+                  name="serviceCharges"
+                  id="serviceCharges"
+                  maxlength="500"
+                  [(ngModel)]="tblLocation.serviceCharges"
+                />
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="col-md-3">
+                {{ "" }}
+              </label>
+              <div class="col-md-12">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="enableServicesCharges"
+                    id="enableServicesCharges"
+                    [(ngModel)]="tblLocation.enableServicesCharges"
+                  />
+                  <label
+                    class="custom-control-label mt-2"
+                    for="enableServicesCharges"
+                    >Enable Service Charges
+                  </label>
+                  <a
+                    type="hide"
+                    data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Enable checkbox is used to implement the Service Charges effect on POS"
+                    style="
+                      cursor: pointer;
+                      transform: translate(0.6rem, 0.6rem);
+                    "
+                  >
+                    <i
+                      class="fa-regular fa-circle-question guide"
+                      style="transform: translate(0.6rem, 0.6rem)"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="legend">Delivery Charges Settings:</legend>
+          <div class="form-row form-group">
+            <div class="col-md-4 required">
+              <label
+                for="fixedDeliveryCharges"
+                style="display: flex; margin-bottom: -19px"
+              >
+                {{ "Delivery Charges (Fixed:" | localize }}
+                <input
+                  type="checkbox"
+                  class="custom-checkbox"
+                  name="fixedDeliveryCharges"
+                  id="fixedDeliveryCharges"
+                  style="margin-left: 3px; transform: translateY(-9px)"
+                  [(ngModel)]="tblLocation.fixedDeliveryCharges"
+                />
+                )
+                <a
+                  type="hide"
+                  data-bs-toggle="tooltip"
+                  data-bs-html="true"
+                  data-bs-title="Mark the <b>Fixed</b> checkbox true if you want to apply delivery charges as <b>VALUE!</b><br>By default, it's treated as <b>PERCENTAGE</b>."
+                  style="transform: translate(64px, 0px); cursor: pointer"
+                >
+                  <i class="fa-regular fa-circle-question guide"></i>
+                </a>
+              </label>
+              <div class="">
+                <input
+                  style="margin-top: -8px"
+                  type="text"
+                  class="form-control"
+                  name="deliveryCharges"
+                  id="deliveryCharges"
+                  maxlength="500"
+                  [(ngModel)]="tblLocation.deliveryCharges"
+                />
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="col-md-3">
+                {{ "" }}
+              </label>
+              <div class="col-md-12">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="enableDeliveryCharges"
+                    id="enableDeliveryCharges"
+                    [(ngModel)]="tblLocation.enableDeliveryCharges"
+                  />
+                  <label
+                    class="custom-control-label mt-2"
+                    for="enableDeliveryCharges"
+                    >Enable Delivery Charges
+                  </label>
+                  <a
+                    type="hide"
+                    data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Enable checkbox is used to implement the Delivery Charges effect on POS"
+                    style="
+                      cursor: pointer;
+                      transform: translate(0.6rem, 0.6rem);
+                    "
+                  >
+                    <i
+                      class="fa-regular fa-circle-question guide"
+                      style="transform: translate(0.6rem, 0.6rem)"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="legend">Bank Charges Settings:</legend>
+          <div class="form-row form-group">
+            <div class="col-md-4">
+              <label for="bankLabel">
+                {{ "Bank Charges Label" | localize }}
+              </label>
+              <div class="">
+                <input
+                  style="margin-top: -8px"
+                  type="text"
+                  class="form-control"
+                  name="bankLabel"
+                  id="bankLabel"
+                  maxlength="500"
+                  [(ngModel)]="tblLocation.bankChargesLabel"
+                />
+              </div>
+            </div>
+            <div class="col-md-4 required">
+              <label for="bankCharges">
+                {{ "Bank Charges" | localize }}
+                <a
+                  type="hide"
+                  data-bs-toggle="tooltip"
+                  data-bs-html="true"
+                  data-bs-title="Bank Charges always treated as <b>PERCENTAGE</b>."
+                  style="transform: translate(64px, 0px); cursor: pointer"
+                >
+                  <i class="fa-regular fa-circle-question guide"></i>
+                </a>
+              </label>
+              <div class="">
+                <input
+                  style="margin-top: -8px"
+                  type="text"
+                  class="form-control"
+                  name="bankCharges"
+                  id="bankCharges"
+                  maxlength="500"
+                  [(ngModel)]="tblLocation.bankChargesPercent"
+                />
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="col-md-3">
+                {{ "" }}
+              </label>
+              <div class="col-md-12">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="enableBankCharges"
+                    id="enableBankCharges"
+                    [(ngModel)]="tblLocation.enableBankCharges"
+                  />
+                  <label
+                    class="custom-control-label mt-2"
+                    for="enableBankCharges"
+                    >Enable Bank Charges
+                  </label>
+                  <a
+                    type="hide"
+                    data-bs-toggle="tooltip"
+                    data-bs-html="true"
+                    data-bs-title="Enable checkbox is used to implement the Bank Charges effect on POS"
+                    style="
+                      cursor: pointer;
+                      transform: translate(0.6rem, 0.6rem);
+                    "
+                  >
+                    <i
+                      class="fa-regular fa-circle-question guide"
+                      style="transform: translate(0.6rem, 0.6rem)"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </tab>
+      <tab [heading]="'Invoice Settings' | localize" class="pt-3 px-2">
+        <div class="form-row form-group">
+          <div class="col-md-12">
+            <label for="slipNotes">
+              {{ "Slip Notes" | localize }}
+            </label>
+            <div class="">
+              <textarea
+              
+                style="margin-top: -8px; height: 70px;"
+                type="text"
+                class="form-control"
+                name="slipNotes"
+                id="slipNotes"
+                maxlength="500"
+                [(ngModel)]="tblLocation.slipNotes"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </tab>
+    </tabset>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
+    [saveDisabled]="!createAccountForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+  <!-- <abp-modal-footer>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" >Close</button>
+      <button type="button" class="btn btn-outline-primary">Save changes</button>
+
+    </div>
+  </abp-modal-footer> -->
+</form>

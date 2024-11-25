@@ -1,0 +1,95 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createDetailAccountForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Detail Account' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-row form-group">
+        <div class="col-md-4 required">
+            <label for="subAcc">
+              {{ "Sub Account" | localize }}
+            </label>
+            <div class="">
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="subAcc"
+                required
+                placeholder="Select Account Type"
+                [options]="tblSubAccounts"
+                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [(ngModel)]="tblDetailAccounts.subAccountId"
+                (onChange)="getSubCode(tblDetailAccounts.subAccountId)"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="subAccCode">
+              {{ "Sub Account Code" | localize }}
+            </label>
+            <input
+              style="margin-top: -8px"
+              type="text"
+              class="form-control"
+              name="subAccCode"
+              id="subAccCode"
+              required
+              maxlength="500"
+              readonly
+              [(ngModel)]="detailCode"
+            />
+          </div>
+      <div class="form-group col-md-5">
+        <label for="detailAccTitle">
+          {{ "Detail Account Title" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="detailAccTitle"
+          id="detailAccTitle"
+          required
+          maxlength="500"
+          [(ngModel)]="tblDetailAccounts.detailTitle"
+        />
+      </div>
+      <div class="form-group col-md-1" style="margin-top: -0.3rem;">
+        <label class="col-md-3">
+          {{ "" }}
+        </label>
+        <div class="col-md-9">
+          <div class="custom-control custom-checkbox">
+            <input
+              style="margin-top: -8px"
+              type="checkbox"
+              class="custom-control-input"
+              name="isActive"
+              id="isActive"
+              [(ngModel)]="tblDetailAccounts.isActive"
+            />
+            <label class="custom-control-label mt-2" for="isActive"
+              >Active</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
+    [saveDisabled]="!createDetailAccountForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

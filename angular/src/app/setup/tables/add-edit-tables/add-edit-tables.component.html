@@ -1,0 +1,134 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createAddEditTablesForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Tables' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-row form-group">
+      <div class="col-md-4 required">
+        <label for="location">
+          {{ "Location" | localize }}
+        </label>
+        <div class="">
+          <p-dropdown
+            [style]="{
+              width: '100%',
+              height: '38px',
+              lineHeight: '1',
+              marginTop: '-0.5rem'
+            }"
+            name="location"
+            required
+            placeholder="Select Location"
+            [options]="tblLocation"
+            [styleClass]="'prm-dropdown prm-filter-dropdown'"
+            [(ngModel)]="tblTables.locationId"
+            (onChange)="getFloorDropdown(tblTables.locationId)"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="col-md-4 required">
+        <label for="floor">
+          {{ "Floor" | localize }}
+        </label>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-0.5rem'
+          }"
+          name="floor"
+          required
+          placeholder="Select Floor"
+          [options]="tblFloor"
+          [styleClass]="'prm-dropdown prm-filter-dropdown'"
+          [(ngModel)]="tblTables.floorId"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="tableName">
+          {{ "Table Name" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="tableName"
+          id="tableName"
+          required
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblTables.title"
+        />
+      </div>
+      <div class="form-group col-md-4 required">
+        <label for="remarks">
+          {{ "Remarks" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="remarks"
+          id="remarks"
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblTables.remarks"
+        />
+      </div>
+      <div class="form-group col-md-4">
+        <label for="sort">
+          {{ "Sort No." | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="sort"
+          id="sort"
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblTables.sort"
+        />
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <div class="form-group col-md-4">
+        <!-- <label class="col-md-3">
+          {{ "" }}
+        </label> -->
+        <div class="col-md-9">
+          <div class="custom-control custom-checkbox">
+            <input
+              style="margin-top: -8px"
+              type="checkbox"
+              class="custom-control-input"
+              name="isActive"
+              id="isActive"
+              [(ngModel)]="tblTables.isActive"
+            />
+            <label class="custom-control-label mt-2" for="isActive"
+              >Active</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
+    [saveDisabled]="!createAddEditTablesForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

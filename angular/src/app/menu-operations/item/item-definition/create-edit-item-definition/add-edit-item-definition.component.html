@@ -1,0 +1,158 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createAccountForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Item Definition' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-row form-group">
+      <div class="col-md-4 required">
+        <label for="itemType">
+          {{ "Item Type" | localize }}
+        </label>
+        <div class="">
+          <p-dropdown
+            [style]="{
+              width: '100%',
+              height: '38px',
+              lineHeight: '1',
+              marginTop: '-0.5rem'
+            }"
+            name="itemType"
+            required
+            
+            [options]="tblItemTypes"
+            [styleClass]="'prm-dropdown prm-filter-dropdown'"
+            [(ngModel)]="itemTypeIdd"
+            (ngModelChange)="getItemCategoryDropdown()"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="col-md-4 required">
+        <label for="itemCategory">
+          {{ "Category" | localize }}
+        </label>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-0.5rem'
+          }"
+          name="itemCategory"
+          required
+          placeholder="Select Category"
+          [options]="tblItemCategories"
+          [styleClass]="'prm-dropdown prm-filter-dropdown'"
+          [(ngModel)]="tblItemDefinitions.itemCategoryId"
+        >
+        </p-dropdown>
+      </div>
+      <div class="col-md-4 required">
+        <label for="section">
+          {{ "Section" | localize }}
+        </label>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-0.5rem'
+          }"
+          name="section"
+          required
+          placeholder="Select Section"
+          [options]="tblSections"
+          [(ngModel)]="tblItemDefinitions.sectionId"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="itemName">
+          {{ "Item Name" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="itemName"
+          id="itemName"
+          required
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblItemDefinitions.itemName"
+        />
+      </div>
+      <div class="form-group col-md-4 required">
+        <label for="barcode">
+          {{ "Barcode" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="barcode"
+          id="barcode"
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblItemDefinitions.barcode"
+        />
+      </div>
+      <div class="form-group col-md-4">
+        <label for="uom">
+          {{ "UOM" | localize }}
+        </label>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-0.5rem'
+          }"
+          [filter]="true"
+          name="uom"
+          required
+          placeholder="Select UOM"
+          [options]="tblUnitOfMeasurements"
+          [(ngModel)]="tblItemDefinitions.uomId"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <div class="form-group col-md-4">
+        <!-- <label class="col-md-3">
+          {{ "" }}
+        </label> -->
+        <div class="col-md-9">
+          <div class="custom-control custom-checkbox">
+            <input
+              style="margin-top: -8px"
+              type="checkbox"
+              class="custom-control-input"
+              name="isActive"
+              id="isActive"
+              [(ngModel)]="tblItemDefinitions.isActive"
+            />
+            <label class="custom-control-label mt-2" for="isActive"
+              >Active</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
+    [saveDisabled]="!createAccountForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

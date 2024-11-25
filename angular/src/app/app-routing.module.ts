@@ -2,6 +2,25 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { AppComponent } from './app.component';
+import { LocationHistoryComponent } from "./setup/locations/location-history.component";
+import { AddEditLocComponent } from "./setup/locations/create-edit-location/add-edit-loc.component";
+import { EmployeeHistoryComponent } from "./hr/employees/employee-history.component";
+import { AddEditEmpComponent } from "./hr/employees/create-edit-employee/add-edit-emp.component";
+import { CreateDesignationDepartmentComponent } from './hr/designation-department/create-designation-department.component';
+import { SectionHistoryComponent} from './menu-operations/sections/section-history.component';
+import { AddEditSectionComponent } from './menu-operations/sections/create-edit-sections/add-edit-section.component';
+import { ItemCategoryHistoryComponent} from './menu-operations/item-category/item-category-history.component';
+import { AddEditItemCategoryComponent} from './menu-operations/item-category/create-edit-item-category/add-edit-item-category.component';
+import { ItemDefinitionHistoryComponent } from './menu-operations/item/item-definition/item-definition-history.component';
+import { AddEditItemDefinitionComponent } from './menu-operations/item/item-definition/create-edit-item-definition/add-edit-item-definition.component';
+import { TablesComponent} from './setup/tables/tables.component';
+import { AddEditTablesComponent } from './setup/tables/add-edit-tables/add-edit-tables.component';
+import { FloorComponent } from './setup/tables/floor/floor.component';
+import { AddEditMainAccComponent} from './accounts/coa/mainAccounts/add-edit-main-acc.component';
+import { AddEditSubAccComponent} from './accounts/coa/subAccounts/add-edit-sub-acc.component';
+import { DetailAccHistoryComponent } from './accounts/coa/detailAccounts/detail-acc-history.component';
+import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createEditDetailAcc/add-edit-detail-acc.component';
+
 
 @NgModule({
     imports: [
@@ -16,10 +35,95 @@ import { AppComponent } from './app.component';
                         canActivate: [AppRouteGuard]
                     },
                     {
-                        path: 'about',
-                        loadChildren: () => import('./about/about.module').then((m) => m.AboutModule),
+                        path: "locationhistory",
+                        component: LocationHistoryComponent,
                         canActivate: [AppRouteGuard]
                     },
+                    {
+                        path: "newlocation",
+                        component: AddEditLocComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "floor",
+                        component: FloorComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "tables",
+                        component: TablesComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "edit-tables",
+                        component: AddEditTablesComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "employeehistory",
+                        component: EmployeeHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "createemp",
+                        component: AddEditEmpComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "createdesignationdepartment",
+                        component: CreateDesignationDepartmentComponent ,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "section-history",
+                        component: SectionHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "newsection",
+                        component: AddEditSectionComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "categoryhistory",
+                        component: ItemCategoryHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "newcategory",
+                        component: AddEditItemCategoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "itemdefinitionhistory",
+                        component: ItemDefinitionHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "coa-detail",
+                        component: DetailAccHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "coa-add-detail",
+                        component: AddEditDetailAccComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "coa-add-sub",
+                        component: AddEditSubAccComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "coa-add-main",
+                        component: AddEditMainAccComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    // {
+                    //     path: 'about',
+                    //     loadChildren: () => import('./about/about.module').then((m) => m.AboutModule),
+                    //     canActivate: [AppRouteGuard]
+                    // },
                     {
                         path: 'users',
                         loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),

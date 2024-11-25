@@ -43,13 +43,13 @@ namespace syncinpos.Migrations
                         column: x => x.LocationId,
                         principalTable: "tblLocations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_tblCustomers_tblSubAccounts_SubAccountId",
                         column: x => x.SubAccountId,
                         principalTable: "tblSubAccounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

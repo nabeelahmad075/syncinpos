@@ -12,7 +12,7 @@ using syncinpos.EntityFrameworkCore;
 namespace syncinpos.Migrations
 {
     [DbContext(typeof(syncinposDbContext))]
-    [Migration("20241125101124_CustomerEntityAdded")]
+    [Migration("20241125101541_CustomerEntityAdded")]
     partial class CustomerEntityAdded
     {
         /// <inheritdoc />

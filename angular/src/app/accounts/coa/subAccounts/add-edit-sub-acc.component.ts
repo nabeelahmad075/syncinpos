@@ -11,7 +11,9 @@ import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
   MainAccountServiceProxy,
-SubAccountDto, SubAccountServiceProxy
+  SelectItemDto,
+  SubAccountDto,
+  SubAccountServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import {
   PagedListingComponentBase,
@@ -27,20 +29,20 @@ import { Table } from "primeng/table";
 import { Paginator } from "primeng/paginator";
 
 @Component({
-  selector: 'app-add-edit-sub-acc',
+  selector: "app-add-edit-sub-acc",
   // standalone: true,
   // imports: [],
-  templateUrl: './add-edit-sub-acc.component.html',
-  styleUrl: './add-edit-sub-acc.component.css',
-  animations: [appModuleAnimation()]
+  templateUrl: "./add-edit-sub-acc.component.html",
+  styleUrl: "./add-edit-sub-acc.component.css",
+  animations: [appModuleAnimation()],
 })
 export class AddEditSubAccComponent extends AppComponentBase implements OnInit {
-
   saving = false;
   id: number;
   subCode: string;
+  isControlAccount: boolean = true;
   tblMainAccounts: SelectItem[] = [];
-  tblAccountType: SelectItem[] = [];
+  tblAccountType: SelectItemDto[] = [];
   tblSubAccounts: SubAccountDto = new SubAccountDto();
   tblSubAccountsHistory: SubAccountDto[] = [];
   @Output() onSave = new EventEmitter<any>();
@@ -73,7 +75,7 @@ export class AddEditSubAccComponent extends AppComponentBase implements OnInit {
       this.cdr.detectChanges();
     });
   }
-  
+
   getAccTypeDropdown() {
     this.tblAccountType = [];
     this._subAccService.getAccountTypeDropdown().subscribe((result) => {
@@ -82,14 +84,33 @@ export class AddEditSubAccComponent extends AppComponentBase implements OnInit {
     });
   }
 
+  getIsControlAccount(typeId: number = undefined) {
+    // this.tblSubAccounts.isControlAccount = false;
+    const selectedAccountTye = this.tblAccountType.find(
+      (acc) => acc.value === typeId
+    );
+debugger
+    if (selectedAccountTye && selectedAccountTye.code == "True") 
+    {
+      this.isControlAccount = false;
+    }
+    else 
+    {
+      this.isControlAccount = true;
+      this.tblSubAccounts.isControlAccount = false;
+    }
+
+    this.getSubAccHistory({}, typeId);
+
+  }
+
   save(): void {
     this.saving = true;
     this.tblSubAccounts.subCode = this.subCode;
     // this.tblMainAccounts.locationId = undefined;
     if (this.id) {
       this.update();
-    } else 
-    this.create();
+    } else this.create();
   }
 
   update(): void {
@@ -136,23 +157,31 @@ export class AddEditSubAccComponent extends AppComponentBase implements OnInit {
 
   getById(id?: number) {
     this._subAccService.get(id).subscribe((result) => {
-      if (result) this.id = result.id;
-      else this.id = 0;
+      if (result) 
+        this.id = result.id;
+      else 
+        this.id = 0;
 
       this.tblSubAccounts = result;
+      this.getIsControlAccount(this.tblSubAccounts.accountTypeId);
+      
+      this.tblSubAccounts.isControlAccount = result.isControlAccount;
       this.subCode = result.subCode;
       this.cdr.detectChanges();
     });
   }
 
   getSubCode(mainAccountId: number) {
-    this._subAccService.getNewSubAccountCode(mainAccountId).subscribe((result) => {
-      this.subCode = result;
-      this.cdr.detectChanges();
-    });
+    this._subAccService
+      .getNewSubAccountCode(mainAccountId)
+      .subscribe((result) => {
+        this.subCode = result;
+        this.cdr.detectChanges();
+      });
   }
 
-  getSubAccHistory(event?: LazyLoadEvent) {
+  getSubAccHistory(event?: LazyLoadEvent, typeId: number = undefined) {
+    debugger
     if (this.primengTableHelper.shouldResetPaging(event)) {
       this.paginator.changePage(0);
       return;
@@ -171,7 +200,8 @@ export class AddEditSubAccComponent extends AppComponentBase implements OnInit {
           : undefined,
         "",
         this.primengTableHelper.getSkipCount(this.paginator, event),
-        this.primengTableHelper.getModalMaxResultCount(this.paginator, event)
+        this.primengTableHelper.getModalMaxResultCount(this.paginator, event), 
+        typeId
       )
       .subscribe((result) => {
         this.primengTableHelper.records = result.items;
@@ -180,7 +210,4 @@ export class AddEditSubAccComponent extends AppComponentBase implements OnInit {
       })
       .add(() => abp.ui.clearBusy());
   }
-
-
-
 }

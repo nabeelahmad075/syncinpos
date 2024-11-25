@@ -30,7 +30,7 @@ import { Dropdown } from "primeng/dropdown";
   // imports: [],
   templateUrl: "./add-edit-emp.component.html",
   styleUrl: "./add-edit-emp.component.css",
-  animations: [appModuleAnimation()],
+  animations: [appModuleAnimation()]
 })
 export class AddEditEmpComponent extends AppComponentBase implements OnInit {
   saving = false;

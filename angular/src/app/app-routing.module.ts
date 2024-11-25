@@ -20,7 +20,8 @@ import { AddEditMainAccComponent} from './accounts/coa/mainAccounts/add-edit-mai
 import { AddEditSubAccComponent} from './accounts/coa/subAccounts/add-edit-sub-acc.component';
 import { DetailAccHistoryComponent } from './accounts/coa/detailAccounts/detail-acc-history.component';
 import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createEditDetailAcc/add-edit-detail-acc.component';
-
+import { CustomerHistoryComponent } from './sales/customer/customer-history.component';
+import { AddEditCustomerComponent } from './sales/customer/create-edit-customer/add-edit-customer.component';
 
 @NgModule({
     imports: [
@@ -97,6 +98,16 @@ import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createE
                     {
                         path: "itemdefinitionhistory",
                         component: ItemDefinitionHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "addcustomer",
+                        component: CustomerHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "customer-history",
+                        component: AddEditCustomerComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {

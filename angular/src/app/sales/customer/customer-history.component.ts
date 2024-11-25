@@ -1,42 +1,29 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Injector,
-  ViewChild,
-} from "@angular/core";
-import { appModuleAnimation } from "@shared/animations/routerTransition";
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { AddEditLocComponent } from "./create-edit-location/add-edit-loc.component";
-import { extend, sortBy } from "lodash-es";
-import { AppComponentBase } from "@shared/app-component-base";
-import {
-  LocationServiceProxy,
-  LocationHistoryDtoPagedResultDto,
-  LocationHistoryDto,
-  LocationDtoPagedResultDto,
-  LocationDto,
-} from "@shared/service-proxies/service-proxies";
-import {
-  PagedListingComponentBase,
-  PagedRequestDto,
-} from "@shared/paged-listing-component-base";
-import { finalize } from "rxjs/operators";
-import { TableModule, Table } from "primeng/table";
-import { DropdownModule } from "primeng/dropdown";
+import { ChangeDetectorRef, Component, Injector, ViewChild } from '@angular/core';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AddEditCustomerComponent } from './create-edit-customer/add-edit-customer.component';
+import { extend, sortBy } from 'lodash-es';
+import { AppComponentBase } from '@shared/app-component-base';
+import { CustomerHistoryDto, CustomerServiceProxy } from '@shared/service-proxies/service-proxies';
+import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
+import { finalize } from 'rxjs/operators';
+import { TableModule, Table } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
 import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
-import { Paginator, PaginatorModule } from "primeng/paginator";
-import { LazyLoadEvent } from "primeng/api";
+import { Paginator, PaginatorModule } from 'primeng/paginator';
+import { LazyLoadEvent } from 'primeng/api';
 
 @Component({
-  selector: "app-location-history",
+  selector: 'app-customer-history',
   // standalone: true,
-  // imports: [TableModule],
-  templateUrl: "./location-history.component.html",
-  styleUrl: "./location-history.component.css",
-  animations: [appModuleAnimation()],
+  // imports: [],
+  templateUrl: './customer-history.component.html',
+  styleUrl: './customer-history.component.css',
+  animations: [appModuleAnimation()]
 })
-export class LocationHistoryComponent extends AppComponentBase {
-  locationHistory: LocationHistoryDto[] = [];
+export class CustomerHistoryComponent extends AppComponentBase {
+
+  customerHistory: CustomerHistoryDto[] = [];
   keyword = "";
   maxResultCount: number = 5;
   primengTableHelper: PrimengTableHelper = new PrimengTableHelper();
@@ -47,7 +34,7 @@ export class LocationHistoryComponent extends AppComponentBase {
   constructor(
     injector: Injector,
     private _modalService: BsModalService,
-    private _locationService: LocationServiceProxy,
+    private _customerService: CustomerServiceProxy,
     private cd: ChangeDetectorRef
   ) {
     super(injector);
@@ -65,8 +52,8 @@ export class LocationHistoryComponent extends AppComponentBase {
       event.sortOrder = this.eventClone.sortOrder;
     }
     abp.ui.setBusy();
-    this._locationService
-      .getHistory(
+    this._customerService
+      .getCustomersHistory(
         event && event.filters && event.filters["global"]
           ? event.filters["global"].value
           : undefined,
@@ -82,24 +69,24 @@ export class LocationHistoryComponent extends AppComponentBase {
       .add(() => abp.ui.clearBusy());
   }
 
-  createLocation(): void {
-    this.showCreateOrEditLocDialog();
+  create(): void {
+    this.showCreateOrEditDialog();
   }
 
-  editLocation(locationHistory: LocationHistoryDto): void {
-    this.showCreateOrEditLocDialog(locationHistory.id);
+  edit(customerHistory: CustomerHistoryDto): void {
+    this.showCreateOrEditDialog(customerHistory.id);
   }
 
-  showCreateOrEditLocDialog(id?: number): void {
-    let createOrEditLocDialog: BsModalRef;
+  showCreateOrEditDialog(id?: number): void {
+    let createOrEditDialog: BsModalRef;
     if (!id) {
-      createOrEditLocDialog = this._modalService.show(AddEditLocComponent, {
+      createOrEditDialog = this._modalService.show(AddEditCustomerComponent, {
         class: "modal-lg modal-dialog-centered",
         backdrop: "static",
         ignoreBackdropClick: true,
       });
     } else {
-      createOrEditLocDialog = this._modalService.show(AddEditLocComponent, {
+      createOrEditDialog = this._modalService.show(AddEditCustomerComponent, {
         class: "modal-lg modal-dialog-centered",
         backdrop: "static",
         ignoreBackdropClick: true,
@@ -109,10 +96,11 @@ export class LocationHistoryComponent extends AppComponentBase {
       });
     }
 
-    createOrEditLocDialog.content.onSave.subscribe((value) => {
+    createOrEditDialog.content.onSave.subscribe((value) => {
       if (value) {
         this.getHistory({});
       }
     });
   }
 }
+

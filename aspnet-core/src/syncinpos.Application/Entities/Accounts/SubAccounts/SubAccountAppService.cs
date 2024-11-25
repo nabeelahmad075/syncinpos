@@ -14,6 +14,7 @@ using syncinpos.Utility.SelectItemDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -101,9 +102,11 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                                                          }).ToListAsync();
             return accountTypes;
         }
-        public async Task<PagedResultDto<SubAccountHistoryDto>> GetSubAccountHistoryAsync(SubAccountHistoryPagedAndSortedResultRequestDto input)
+        public async Task<PagedResultDto<SubAccountHistoryDto>> GetSubAccountHistoryAsync(SubAccountHistoryPagedAndSortedResultRequestDto input, int? AccountTypeId = null)
         {
-            var sqlQuery = CreateFilteredQuery(input).WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
+            var sqlQuery = CreateFilteredQuery(input)
+                .WhereIf(AccountTypeId.HasValue, a => a.AccountTypeId == AccountTypeId)
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
                 a => a.SubCode.Contains(input.Keyword) ||
                 a.SubTitle.Contains(input.Keyword) ||
                 a.AccountType.Title.Contains(input.Keyword) ||

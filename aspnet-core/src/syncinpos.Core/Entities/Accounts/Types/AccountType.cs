@@ -11,6 +11,7 @@ namespace syncinpos.Entities.Accounts.Types
     {
         public string Title { get; set; }
         public string Alias { get; set; }
+        public bool IsControlAccount { get; set; }
 
     }
 }

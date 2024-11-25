@@ -96,7 +96,8 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                                                          .Select(a => new SelectItemDto
                                                          {
                                                              Label = a.Title,
-                                                             Value = a.Id
+                                                             Value = a.Id,
+                                                             Code = a.IsControlAccount ? "True" : "False"
                                                          }).ToListAsync();
             return accountTypes;
         }
@@ -114,7 +115,8 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                     SubTitle = x.SubTitle,
                     AccountType = x.AccountType.Title,
                     MainAccountTitle = x.MainAccount.MainTitle,
-                    IsActive = x.IsActive
+                    IsActive = x.IsActive,
+                    IsControlAccount = x.IsControlAccount
                 });
 
             var sortedQuery = sqlQuery.OrderBy(a => input.Sorting);

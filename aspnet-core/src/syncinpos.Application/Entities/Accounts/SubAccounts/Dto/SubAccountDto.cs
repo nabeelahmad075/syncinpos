@@ -19,5 +19,6 @@ namespace syncinpos.Entities.Accounts.SubAccounts.Dto
         public string SubCode { get; set; }
         public string SubTitle { get; set; }
         public bool IsActive { get; set; }
+        public bool IsControlAccount { get; set; }
     }
 }

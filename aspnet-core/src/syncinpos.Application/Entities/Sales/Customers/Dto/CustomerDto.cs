@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 using Abp.Domain.Entities.Auditing;
 using syncinpos.Entities.Accounts.SubAccounts;
 using syncinpos.Entities.Locations;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace syncinpos.Entities.Sales.Customers.Dto
 {
+    [AutoMapFrom(typeof(Customer)), AutoMapTo(typeof(Customer))]
     public class CustomerDto : FullAuditedEntityDto
     {
         public int TenantId { get; set; }

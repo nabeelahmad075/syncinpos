@@ -10,7 +10,7 @@ namespace syncinpos.Entities.Accounts.SubAccounts
     {
         Task<SubAccountDto> CreateAsync(SubAccountDto input);
         Task<List<SelectItemDto>> GetAccountTypeDropdownAsync();
-        Task<string> GetNewSubAccountCodeAsync(int? MainAccountId);
+        Task<string> GetNewSubAccountCodeAsync(int? MainAccountId, int? id = null);
         Task<List<SelectItemDto>> GetSubAccountDropdownAsync();
         Task<PagedResultDto<SubAccountHistoryDto>> GetSubAccountHistoryAsync(SubAccountHistoryPagedAndSortedResultRequestDto input, int? AccountTypeId = null);
         Task<bool> IsAlreadyCreated(string SubCode, int? id = null);

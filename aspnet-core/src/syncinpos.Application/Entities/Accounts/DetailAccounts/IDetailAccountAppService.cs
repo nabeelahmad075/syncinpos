@@ -13,7 +13,7 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
         Task<List<SelectItemDto>> GetDetailAccountDropdownOnAccountTypeAsync(string AccountType);
         Task<PagedResultDto<DetailAccountHistoryDto>> GetDetailAccountsHistory(DetailAccountHistoryPagedAndSortedResultRequestDto input);
         Task<string> GetDetailCodeById(int? detailAccountId = null);
-        Task<string> GetNewDetailAccountCode(int? SubAccountId = null);
+        Task<string> GetNewDetailAccountCode(int? SubAccountId = null, int? id = null);
         Task<bool> IsAlreadyCreated(string DetailCode, int? id = null);
         Task<DetailAccountDto> UpdateAsync(DetailAccountDto input);
     }

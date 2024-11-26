@@ -112,7 +112,8 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                                               .Select(a => new SelectItemDto
                                               {
                                                   Label = $"{a.SubCode} - {a.SubTitle}",
-                                                  Value = a.Id
+                                                  Value = a.Id,
+                                                  Code = a.IsControlAccount ? "True" : "False"
                                               }).ToListAsync();
             return subAccounts;
         }
@@ -123,7 +124,8 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                                               .Select(a => new SelectItemDto
                                               {
                                                   Label = $"{a.SubCode} - {a.SubTitle}",
-                                                  Value = a.Id
+                                                  Value = a.Id,
+                                                  Code = a.IsControlAccount ? "True" : "False"
                                               }).ToListAsync();
             return subAccounts;
         }

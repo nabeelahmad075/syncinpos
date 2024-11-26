@@ -27,7 +27,7 @@
             [showClear]="true"
             placeholder="Select Account Type"
             [options]="tblAccountType"
-            [styleClass]="'prm-dropdown prm-filter-dropdown'"
+            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblSubAccounts.accountTypeId"
             (onChange)="getIsControlAccount(tblSubAccounts.accountTypeId)"
             (onClear)="getIsControlAccount()"
@@ -51,7 +51,7 @@
             required
             placeholder="Select Main Account"
             [options]="tblMainAccounts"
-            [styleClass]="'prm-dropdown prm-filter-dropdown'"
+            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblSubAccounts.mainAccountId"
             (onChange)="getSubCode(tblSubAccounts.mainAccountId)"
           >

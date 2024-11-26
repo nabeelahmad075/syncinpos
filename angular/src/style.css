@@ -163,3 +163,16 @@ td>a>i{
 .p-datatable:hover{
   background-color: #D6EFD8 !important;
 }
+
+p-calendar span.p-calendar-w-btn button.p-datepicker-trigger.p-button  {
+  background-color: #508D4E !important;
+}
+
+calendaricon{
+  color: #ffffff;
+}
+
+input[role="searchbox"]{
+  height: 25px !important;
+  border:none;
+}

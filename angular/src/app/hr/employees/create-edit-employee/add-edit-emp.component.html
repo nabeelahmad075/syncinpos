@@ -26,7 +26,7 @@
             required
             placeholder="Select Location"
             [options]="tblLocation"
-            [styleClass]="'prm-dropdown prm-filter-dropdown'"
+            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblEmployee.locationId"
             (onChange)="getNewEmployeeNo(tblEmployee.locationId)"
           >
@@ -48,7 +48,7 @@
           required
           placeholder="Select Designation"
           [options]="tblDesignation"
-          [styleClass]="'prm-dropdown prm-filter-dropdown'"
+          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblEmployee.designationId"
         >
         </p-dropdown>
@@ -68,6 +68,7 @@
           required
           placeholder="Select Department"
           [options]="tblDepartment"
+          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblEmployee.departmentId"
         >
         </p-dropdown>
@@ -130,6 +131,7 @@
           id="joiningDate"
           autoWidth="false"
           [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
+          [styleClass]="'border border-gray-300 rounded text-sm'"
           placeholder="Joining Date"
           [dateFormat]="'dd/mm/yy'"
           [showIcon]="true"

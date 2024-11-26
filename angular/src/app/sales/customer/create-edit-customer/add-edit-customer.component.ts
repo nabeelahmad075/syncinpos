@@ -84,7 +84,7 @@ export class AddEditCustomerComponent extends AppComponentBase implements OnInit
 
   getSubAccountDropdown() {
     this.tblSubAccounts = [];
-    this._subAccountService.getSubAccountDropdown().subscribe((result) => {
+    this._subAccountService.getSubAccountDropdownOnAccountType('Customer').subscribe((result) => {
       this.tblSubAccounts = result;
       this.cdr.detectChanges();
     });
@@ -156,4 +156,5 @@ export class AddEditCustomerComponent extends AppComponentBase implements OnInit
     });
   }
   
+
 }

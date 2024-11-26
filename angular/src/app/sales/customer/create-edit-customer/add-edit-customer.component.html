@@ -5,7 +5,7 @@
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'Csutomer Information' | localize"
+    [title]="'Customer Information' | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
@@ -26,7 +26,7 @@
             required
             placeholder="Select Location"
             [options]="tblLocation"
-            [styleClass]="'prm-dropdown prm-filter-dropdown'"
+            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblCustomer.locationId"
           >
           </p-dropdown>
@@ -45,9 +45,10 @@
           }"
           name="customerType"
           required
-          placeholder="Select Customer Tye"
+          [filter]="true"
+          placeholder="Select Customer Type"
           [options]="tblSubAccounts"
-          [styleClass]="'prm-dropdown prm-filter-dropdown'"
+          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblCustomer.subAccountId"
         >
         </p-dropdown>
@@ -101,7 +102,7 @@
           required
           placeholder="Select Gender"
           [options]="Gender"
-          [styleClass]="'prm-dropdown prm-filter-dropdown'"
+          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblCustomer.gender"
         >
         </p-dropdown>
@@ -129,12 +130,14 @@
           id="dob"
           autoWidth="false"
           [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
-          placeholder="Joining Date"
+          [styleClass]="'border border-gray-300 rounded text-sm'"
+          placeholder="dd/mm/yyyy"
           [dateFormat]="'dd/mm/yy'"
           [showIcon]="true"
-        ></p-calendar>
+        >
+        </p-calendar>
       </div>
-      <div class="form-group col-md-4 required">
+      <div class="form-group col-md-8 required">
         <label for="address">
           {{ "Address" | localize }}
         </label>

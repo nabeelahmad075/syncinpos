@@ -22,6 +22,7 @@ import { DetailAccHistoryComponent } from './accounts/coa/detailAccounts/detail-
 import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createEditDetailAcc/add-edit-detail-acc.component';
 import { CustomerHistoryComponent } from './sales/customer/customer-history.component';
 import { AddEditCustomerComponent } from './sales/customer/create-edit-customer/add-edit-customer.component';
+import { MainPosComponent } from './sales/pos/mainpos/main-pos.component';
 
 @NgModule({
     imports: [
@@ -98,6 +99,11 @@ import { AddEditCustomerComponent } from './sales/customer/create-edit-customer/
                     {
                         path: "itemdefinitionhistory",
                         component: ItemDefinitionHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "pos",
+                        component: MainPosComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {

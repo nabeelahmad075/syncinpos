@@ -42,85 +42,85 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
 
   getMenuItems(): MenuItem[] {
     return [
-      new MenuItem(this.l("Setup"), "", "fa-solid fa-gear", "", [
-        new MenuItem("Configuration", "", "fa-solid fa-sliders", "", [
+      new MenuItem(this.l("Setup"), "", "fa-solid fa-gear text-md", "", [
+        new MenuItem("Configuration", "", "fa-solid fa-sliders text-md", "", [
           new MenuItem(
             "Location",
             "/app/locationhistory",
-            "fa-solid fa-map-pin"
+            "fa-solid fa-map-pin text-md"
           ),
           new MenuItem(
             "Add Tables",
             "/app/tables",
-            "fa-solid fa-dumpster"
+            "fa-solid fa-dumpster text-md"
           ),
         ]),
-        new MenuItem("HR Management", "", "fa-solid fa-user", "", [
+        new MenuItem("HR Management", "", "fa-solid fa-user text-md", "", [
           new MenuItem(
             "Add Employee",
             "/app/employeehistory",
-            "fa-solid fa-user-plus"
+            "fa-solid fa-user-plus text-md"
           ),
         ]),
-        new MenuItem("Menu Operations", "", "fa-solid fa-utensils", "", [
-          new MenuItem("Section", "/app/section-history", "fa-solid fa-puzzle-piece"),
+        new MenuItem("Menu Operations", "", "fa-solid fa-utensils text-md", "", [
+          new MenuItem("Section", "/app/section-history", "fa-solid fa-puzzle-piece text-md"),
           new MenuItem(
             "Category",
             "/app/categoryhistory",
-            "fa-solid fa-list"
+            "fa-solid fa-list text-md"
           ),
           new MenuItem(
             "Item Defination",
             "/app/itemdefinitionhistory",
-            "fa-solid fa-drumstick-bite"
+            "fa-solid fa-drumstick-bite text-md"
           ),
         ]),
       ]),
-      new MenuItem(this.l("Sales"), "", "fa-solid fa-chart-pie", "", [
-        new MenuItem("POS Operations", "", "fa-solid fa-user-tie", "", [
+      new MenuItem(this.l("Sales"), "", "fa-solid fa-chart-pie text-md", "", [
+        new MenuItem("POS Operations", "", "fa-solid fa-user-tie text-md", "", [
           new MenuItem(
             "POS",
             "/app/pos",
-            "fa-solid fa-users"
+            "fa-solid fa-users text-md"
           ),
         ]),
-        new MenuItem("Customer", "", "fa-solid fa-user-tie", "", [
+        new MenuItem("Customer", "", "fa-solid fa-user-tie text-md", "", [
           new MenuItem(
             "Add Customer",
             "/app/addcustomer",
-            "fa-solid fa-users"
+            "fa-solid fa-users text-md"
           ),
         ]),
       ]),
-      new MenuItem(this.l("Accounts"), "", "fa-solid fa-chart-line", "", [
+      new MenuItem(this.l("Accounts"), "", "fa-solid fa-chart-line text-md", "", [
         new MenuItem(
           "Chart of Accounts",
           "/app/coa-detail",
-          "fa-solid fa-chart-gantt"
+          "fa-solid fa-chart-gantt text-md"
         ),
         new MenuItem(
           "Voucher Entry",
           "/app/voucher-entry",
-          "fa-solid fa-ticket"
+          "fa-solid fa-ticket text-md"
         ),
       ]),
-      new MenuItem(this.l("HomePage"), "/app/home", "fas fa-home"),
+      new MenuItem(this.l("HomePage"), "/app/home", "fas fa-home text-md"),
       new MenuItem(
         this.l("Roles"),
         "/app/roles",
-        "fas fa-theater-masks",
+        "fas fa-theater-masks text-md",
         "Pages.Roles"
       ),
       new MenuItem(
         this.l("Tenants"),
         "/app/tenants",
-        "fas fa-building",
+        "fas fa-building text-md",
         "Pages.Tenants"
       ),
       new MenuItem(
         this.l("Users"),
         "/app/users",
-        "fas fa-users",
+        "fas fa-users text-md",
         "Pages.Users"
       ),
     ];

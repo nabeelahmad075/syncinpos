@@ -7808,14 +7808,19 @@ export class SubAccountServiceProxy {
 
     /**
      * @param mainAccountId (optional) 
+     * @param id (optional) 
      * @return OK
      */
-    getNewSubAccountCode(mainAccountId: number | undefined): Observable<string> {
+    getNewSubAccountCode(mainAccountId: number | undefined, id: number | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/SubAccount/GetNewSubAccountCode?";
         if (mainAccountId === null)
             throw new Error("The parameter 'mainAccountId' cannot be null.");
         else if (mainAccountId !== undefined)
             url_ += "MainAccountId=" + encodeURIComponent("" + mainAccountId) + "&";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

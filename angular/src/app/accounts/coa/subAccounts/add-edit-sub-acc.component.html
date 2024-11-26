@@ -24,7 +24,7 @@
             }"
             name="accountType"
             required
-            [showClear]="true"
+            [showClear]="!tblSubAccounts.id ? true : false"
             placeholder="Select Account Type"
             [options]="tblAccountType"
             [styleClass]="'border border-gray-300 rounded focus:outline-none'"
@@ -53,7 +53,7 @@
             [options]="tblMainAccounts"
             [styleClass]="'border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblSubAccounts.mainAccountId"
-            (onChange)="getSubCode(tblSubAccounts.mainAccountId)"
+            (onChange)="getSubCode(tblSubAccounts.mainAccountId, tblSubAccounts.id)"
           >
           </p-dropdown>
         </div>
@@ -144,7 +144,7 @@
             [lazy]="true"
             [scrollable]="true"
             [style]="{ width: '100%', fontSize: '0.8rem' }"
-            (onLazyLoad)="getSubAccHistory($event, tblSubAccounts.accountTypeId)"
+            (onLazyLoad)="getSubAccHistory($event, tblSubAccounts.accountTypeId ? tblSubAccounts.accountTypeId : undefined)"
             class="p-table-page table-sm table-hover"
             [rows]="primengTableHelper.modalRowsCount"
           >
@@ -230,7 +230,7 @@
             <p-paginator
               [rows]="primengTableHelper.modalRowsCount"
               #paginator
-              (onPageChange)="getSubAccHistory($event, tblSubAccounts.accountTypeId)"
+              (onPageChange)="getSubAccHistory($event, tblSubAccounts.accountTypeId ? tblSubAccounts.accountTypeId : undefined)"
               [totalRecords]="primengTableHelper.totalRecordsCount"
               [rowsPerPageOptions]="primengTableHelper.modalRowsPerPageOptions"
             >

@@ -171,9 +171,9 @@ debugger
     });
   }
 
-  getSubCode(mainAccountId: number) {
+  getSubCode(mainAccountId: number, id?: number) {
     this._subAccService
-      .getNewSubAccountCode(mainAccountId)
+      .getNewSubAccountCode(mainAccountId, id)
       .subscribe((result) => {
         this.subCode = result;
         this.cdr.detectChanges();

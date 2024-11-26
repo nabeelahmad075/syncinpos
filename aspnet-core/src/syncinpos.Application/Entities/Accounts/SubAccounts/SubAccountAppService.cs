@@ -72,9 +72,12 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                                              .Select(a => a.SubCode)
                                              .FirstOrDefaultAsync();
 
-            var mainAccountNotChanged = await Repository.GetAll()
-                                                    .WhereIf(id.HasValue && id > 0, a => a.Id == id)
-                                                    .AnyAsync(a => a.MainAccountId == MainAccountId);
+            var currentMainAccountId = await Repository.GetAll()
+                                               .Where(a => a.Id == id)
+                                               .Select(a => a.MainAccountId)
+                                               .FirstOrDefaultAsync();
+
+            bool mainAccountNotChanged = currentMainAccountId == MainAccountId;
 
             if (mainAccountNotChanged)
             {

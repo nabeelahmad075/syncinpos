@@ -89,7 +89,6 @@ export class AddEditSubAccComponent extends AppComponentBase implements OnInit {
     const selectedAccountTye = this.tblAccountType.find(
       (acc) => acc.value === typeId
     );
-debugger
     if (selectedAccountTye && selectedAccountTye.code == "True") 
     {
       this.isControlAccount = false;

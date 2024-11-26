@@ -1921,14 +1921,19 @@ export class DetailAccountServiceProxy {
 
     /**
      * @param subAccountId (optional) 
+     * @param id (optional) 
      * @return OK
      */
-    getNewDetailAccountCode(subAccountId: number | undefined): Observable<string> {
+    getNewDetailAccountCode(subAccountId: number | undefined, id: number | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/DetailAccount/GetNewDetailAccountCode?";
         if (subAccountId === null)
             throw new Error("The parameter 'subAccountId' cannot be null.");
         else if (subAccountId !== undefined)
             url_ += "SubAccountId=" + encodeURIComponent("" + subAccountId) + "&";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

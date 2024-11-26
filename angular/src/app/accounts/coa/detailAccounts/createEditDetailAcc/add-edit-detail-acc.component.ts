@@ -12,6 +12,7 @@ import { AppComponentBase } from "@shared/app-component-base";
 import {
   DetailAccountDto,
   DetailAccountServiceProxy,
+  SelectItemDto,
   SubAccountServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import {
@@ -42,7 +43,8 @@ export class AddEditDetailAccComponent
   saving = false;
   id: number;
   detailCode: string;
-  tblSubAccounts: SelectItem[] = [];
+  isReadonlyTitle: boolean = true;
+  tblSubAccounts: SelectItemDto[] = [];
   tblDetailAccounts: DetailAccountDto = new DetailAccountDto();
   tblDetailAccountsHistory: DetailAccountDto[] = [];
   @Output() onSave = new EventEmitter<any>();
@@ -67,6 +69,21 @@ export class AddEditDetailAccComponent
     if(this.id>0)
       this.getById(this.id);
     this.getDetailAccDropdown();
+  }
+
+  setIsReadonlyTitle(subAccountId: number = undefined) {
+    const selectedSubAcc = this.tblSubAccounts.find(
+      (acc) => acc.value === subAccountId
+    );
+    if (selectedSubAcc && selectedSubAcc.code == "True") 
+    {
+      this.isReadonlyTitle = true;
+    }
+    else 
+    {
+      this.isReadonlyTitle = false;
+    }
+
   }
 
   getDetailAccDropdown() {
@@ -135,16 +152,22 @@ export class AddEditDetailAccComponent
 
       this.tblDetailAccounts = result;
       this.detailCode = result.detailCode;
+      this.setIsReadonlyTitle(result.subAccountId);
       this.cdr.detectChanges();
     });
   }
 
-  getSubCode(subAccountId: number) {
+  getDetailCode(subAccountId: number, id?: number) {
+
+    this.setIsReadonlyTitle(subAccountId);
+    this.cdr.detectChanges();
+
     this._detailAccService
-      .getNewDetailAccountCode(subAccountId)
+      .getNewDetailAccountCode(subAccountId, id)
       .subscribe((result) => {
         this.detailCode = result;
         this.cdr.detectChanges();
       });
+
   }
 }

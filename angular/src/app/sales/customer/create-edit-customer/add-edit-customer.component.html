@@ -1,11 +1,11 @@
 <form
   class="form-horizontal"
   autocomplete="off"
-  #createEmployeeForm="ngForm"
+  #createCustomerForm="ngForm"
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'Employee Information' | localize"
+    [title]="'Csutomer Information' | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
@@ -27,15 +27,14 @@
             placeholder="Select Location"
             [options]="tblLocation"
             [styleClass]="'prm-dropdown prm-filter-dropdown'"
-            [(ngModel)]="tblEmployee.locationId"
-            (onChange)="getNewEmployeeNo(tblEmployee.locationId)"
+            [(ngModel)]="tblCustomer.locationId"
           >
           </p-dropdown>
         </div>
       </div>
       <div class="col-md-4 required">
-        <label for="designation">
-          {{ "Designation" | localize }}
+        <label for="customerType">
+          {{ "Customer Type" | localize }}
         </label>
         <p-dropdown
           [style]="{
@@ -44,18 +43,52 @@
             lineHeight: '1',
             marginTop: '-0.5rem'
           }"
-          name="designation"
+          name="customerType"
           required
-          placeholder="Select Designation"
-          [options]="tblDesignation"
+          placeholder="Select Customer Tye"
+          [options]="tblSubAccounts"
           [styleClass]="'prm-dropdown prm-filter-dropdown'"
-          [(ngModel)]="tblEmployee.designationId"
+          [(ngModel)]="tblCustomer.subAccountId"
         >
         </p-dropdown>
       </div>
       <div class="col-md-4 required">
-        <label for="department">
-          {{ "Department" | localize }}
+        <label for="customerName">
+          {{ "Customer Name" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="customerName"
+          id="customerName"
+          required
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblCustomer.name"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="contactNumber">
+          {{ "Contact Number" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="contactNumber"
+          id="contactNumber"
+          required
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblCustomer.contactNo"
+        />
+      </div>
+      <div class="form-group col-md-4">
+        <label for="gender">
+          {{ "Gender" | localize }}
         </label>
         <p-dropdown
           [style]="{
@@ -64,70 +97,36 @@
             lineHeight: '1',
             marginTop: '-0.5rem'
           }"
-          name="department"
+          name="gender"
           required
-          placeholder="Select Department"
-          [options]="tblDepartment"
-          [(ngModel)]="tblEmployee.departmentId"
+          placeholder="Select Gender"
+          [options]="Gender"
+          [styleClass]="'prm-dropdown prm-filter-dropdown'"
+          [(ngModel)]="tblCustomer.gender"
         >
         </p-dropdown>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="empCode">
-          {{ "Employee Code" | localize }}
-        </label>
-        <input
-          style="margin-top: -8px"
-          type="text"
-          class="form-control"
-          name="empCode"
-          id="empCode"
-          required
-          minlength="2"
-          maxlength="500"
-          readonly
-          [(ngModel)]="empCode"
-        />
-      </div>
-      <div class="form-group col-md-4">
-        <label for="empName">
-          {{ "Employee Name" | localize }}
-        </label>
-        <input
-          style="margin-top: -8px"
-          type="text"
-          class="form-control"
-          name="empName"
-          id="empName"
-          required
-          minlength="2"
-          maxlength="500"
-          [(ngModel)]="tblEmployee.employeeName"
-        />
-      </div>
       <div class="form-group col-md-4 required">
-        <label for="empMob">
-          {{ "Mobile No." | localize }}
+        <label for="cnic">
+          {{ "CNIC" | localize }}
         </label>
         <input
           style="margin-top: -8px"
           type="text"
           class="form-control"
-          name="empMob"
-          id="empMob"
+          name="cnic"
+          id="cnic"
           minlength="2"
           maxlength="500"
-          [(ngModel)]="tblEmployee.mobileNo"
+          [(ngModel)]="tblCustomer.nic"
         />
       </div>
       <div class="form-group col-md-4">
-        <label for="joiningDate"> Joining Date </label>
+        <label for="dob"> DOB </label>
         <p-calendar
-          [(ngModel)]="joiningDate"
-          name="joiningDate"
-          id="joiningDate"
+          [(ngModel)]="dateOfBirth"
+          name="dob"
+          id="dob"
           autoWidth="false"
           [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
           placeholder="Joining Date"
@@ -135,9 +134,7 @@
           [showIcon]="true"
         ></p-calendar>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-12 required">
+      <div class="form-group col-md-4 required">
         <label for="address">
           {{ "Address" | localize }}
         </label>
@@ -149,10 +146,12 @@
           id="address"
           minlength="2"
           maxlength="500"
-          [(ngModel)]="tblEmployee.address"
+          [(ngModel)]="tblCustomer.address"
         />
       </div>
     </div>
+    <!-- <div class="form-row">
+    </div> -->
     <div class="form-row form-group">
       <div class="form-group col-md-4">
         <!-- <label class="col-md-3">
@@ -166,7 +165,7 @@
               class="custom-control-input"
               name="isActive"
               id="isActive"
-              [(ngModel)]="tblEmployee.isActive"
+              [(ngModel)]="tblCustomer.isActive"
             />
             <label class="custom-control-label mt-2" for="isActive"
               >Active</label
@@ -179,7 +178,7 @@
   <abp-modal-footer
     [cancelDisabled]="saving"
     [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
-    [saveDisabled]="!createEmployeeForm.form.valid || saving"
+    [saveDisabled]="!createCustomerForm.form.valid || saving"
     (onCancelClick)="bsModalRef.hide()"
   ></abp-modal-footer>
 </form>

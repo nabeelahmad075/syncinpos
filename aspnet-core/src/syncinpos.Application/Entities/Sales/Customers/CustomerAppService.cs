@@ -45,8 +45,9 @@ namespace syncinpos.Entities.Sales.Customers
             var subAcc = await iSubAccountAppService.IsControlAccount(input.SubAccountId);
             if (subAcc == true && input.SubAccountId.HasValue && input.SubAccountId > 0 && input.DetailAccountId == null)
             {
-                var detailAccount = ObjectMapper.Map<DetailAccountDto>(input);
+                var detailAccount = new DetailAccountDto();
                 
+                detailAccount.SubAccountId = input.SubAccountId.GetValueOrDefault();
                 detailAccount.DetailCode = await iDetailAccountAppService.GetNewDetailAccountCode(input.SubAccountId);
                 detailAccount.DetailTitle = input.Name;
                 detailAccount.IsActive = input.IsActive;
@@ -60,10 +61,10 @@ namespace syncinpos.Entities.Sales.Customers
         {
             var subAcc = await iSubAccountAppService.IsControlAccount(input.SubAccountId);
 
-            var subAccountChanged = await Repository.GetAll()
+            var subAccountNotChanged = await Repository.GetAll()
                                                     .Where(a => a.Id == input.Id)
                                                     .AnyAsync(a => a.SubAccountId == input.SubAccountId);
-            if (subAccountChanged == true)
+            if (!subAccountNotChanged)
             {
                 await CreateDetailAccount(input);
             }
@@ -71,8 +72,11 @@ namespace syncinpos.Entities.Sales.Customers
             {
                 if (subAcc == true && input.SubAccountId.HasValue && input.SubAccountId.Value > 0 && input.DetailAccountId != null)
                 {
-                    var detailAccount = ObjectMapper.Map<DetailAccountDto>(input);
+                    var detailAccount = new DetailAccountDto();
 
+                    detailAccount.TenantId = input.TenantId;
+                    detailAccount.Id = input.DetailAccountId.GetValueOrDefault();
+                    detailAccount.SubAccountId = input.SubAccountId.GetValueOrDefault();
                     detailAccount.DetailCode = await iDetailAccountAppService.GetDetailCodeById(input.DetailAccountId);
                     detailAccount.DetailTitle = input.Name;
                     detailAccount.IsActive = input.IsActive;

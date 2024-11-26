@@ -6,6 +6,7 @@ using Abp.EntityFramework.Repositories;
 using Abp.Linq.Extensions;
 using Abp.UI;
 using AutoMapper.Execution;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using syncinpos.Entities.Accounts.MainAccounts;
 using syncinpos.Entities.Accounts.SubAccounts.Dto;
@@ -20,15 +21,15 @@ using System.Threading.Tasks;
 
 namespace syncinpos.Entities.Accounts.SubAccounts
 {
-    public class SubAccountAppService : AsyncCrudAppService<SubAccount, SubAccountDto>
+    public class SubAccountAppService : AsyncCrudAppService<SubAccount, SubAccountDto>, ISubAccountAppService
     {
         private IRepository<AccountType, int> accountTypeRepository;
         private IRepository<MainAccount, int> mainAccountRepository;
         public SubAccountAppService(
-            IRepository<SubAccount, int> repository ,
+            IRepository<SubAccount, int> repository,
             IRepository<AccountType, int> _accountTypeRepository,
             IRepository<MainAccount, int> _mainAccountRepository
-            ) : base(repository) 
+            ) : base(repository)
         {
             accountTypeRepository = _accountTypeRepository;
             mainAccountRepository = _mainAccountRepository;
@@ -47,7 +48,7 @@ namespace syncinpos.Entities.Accounts.SubAccounts
         {
             if (await IsAlreadyCreated(input.SubCode, input.Id))
             {
-                throw new UserFriendlyException($"Sub code { input.SubCode }, already exists.");
+                throw new UserFriendlyException($"Sub code {input.SubCode}, already exists.");
             }
         }
         public async Task<bool> IsAlreadyCreated(string SubCode, int? id = null)
@@ -55,6 +56,12 @@ namespace syncinpos.Entities.Accounts.SubAccounts
             return await Repository.GetAll()
                                    .WhereIf(id != null && id > 0, a => a.Id != id)
                                    .Where(a => a.SubCode == SubCode)
+                                   .AnyAsync();
+        }
+        public async Task<bool> IsControlAccount(int? SubAccountId = null)
+        {
+            return await Repository.GetAll()
+                                   .Where(a => a.Id == SubAccountId && a.IsControlAccount == true)
                                    .AnyAsync();
         }
         public async Task<string> GetNewSubAccountCodeAsync(int? MainAccountId)

@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using JetBrains.Annotations;
+using syncinpos.Entities.Accounts.DetailAccounts;
 using syncinpos.Entities.Accounts.SubAccounts;
 using syncinpos.Entities.Locations;
 using syncinpos.Utility.Enums;
@@ -19,6 +20,8 @@ namespace syncinpos.Entities.Sales.Customers
         public int LocationId { get; set; }
         public SubAccount SubAccount { get; set; }
         public int SubAccountId { get; set; }
+        public DetailAccount DetailAccount { get; set; }
+        public int? DetailAccountId { get; set; }
         public string Name { get; set; }
         public string ContactNo { get; set; }
         public string Address { get; set; }

@@ -15,7 +15,8 @@ namespace syncinpos.Entities.Sales.Customers.Dto
     {
         public int TenantId { get; set; }
         public int LocationId { get; set; }
-        public int SubAccountId { get; set; }
+        public int? SubAccountId { get; set; }
+        public int? DetailAccountId { get; set; }
         public string Name { get; set; }
         public string ContactNo { get; set; }
         public string Address { get; set; }

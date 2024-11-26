@@ -98,6 +98,17 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                                               }).ToListAsync();
             return subAccounts;
         }
+        public async Task<List<SelectItemDto>> GetSubAccountDropdownOnAccountTypeAsync(string AccountType)
+        {
+            var subAccounts = await Repository.GetAll()
+                                              .Where(a => a.IsActive == true && a.AccountType.Title == AccountType)
+                                              .Select(a => new SelectItemDto
+                                              {
+                                                  Label = $"{a.SubCode} - {a.SubTitle}",
+                                                  Value = a.Id
+                                              }).ToListAsync();
+            return subAccounts;
+        }
         public async Task<List<SelectItemDto>> GetAccountTypeDropdownAsync()
         {
             var accountTypes = await accountTypeRepository.GetAll()

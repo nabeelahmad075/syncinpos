@@ -76,7 +76,7 @@ namespace syncinpos.Entities.Accounts.SubAccounts
                                                     .WhereIf(id.HasValue && id > 0, a => a.Id == id)
                                                     .AnyAsync(a => a.MainAccountId == MainAccountId);
 
-            if (!mainAccountNotChanged)
+            if (mainAccountNotChanged)
             {
                 return strSubCode;
             }

@@ -53,8 +53,26 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
                                     .Where(a => a.DetailCode == DetailCode)
                                     .AnyAsync();
         }
-        public async Task<string> GetNewDetailAccountCode(int? SubAccountId = null)
+        public async Task<string> GetNewDetailAccountCode(int? SubAccountId = null, int? id = null)
         {
+
+            var currentSubAccountId = await Repository.GetAll()
+                                               .Where(a => a.Id == id)
+                                               .Select(a => a.SubAccountId)
+                                               .FirstOrDefaultAsync();
+
+            bool subAccountNotChanged = currentSubAccountId == SubAccountId;
+
+            if (subAccountNotChanged)
+            {
+                var detailCode = await Repository.GetAll()
+                                 .Where(a => a.Id == id)
+                                 .Select(a => a.DetailCode)
+                                 .FirstOrDefaultAsync();
+
+                return detailCode;
+            }
+
             string strDocNo = await Repository.GetAll()
                 .Where(a => a.SubAccountId == SubAccountId)
                 .OrderByDescending(b => b.DetailCode)

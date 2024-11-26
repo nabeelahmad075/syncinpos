@@ -66,11 +66,6 @@ namespace syncinpos.Entities.Accounts.SubAccounts
         }
         public async Task<string> GetNewSubAccountCodeAsync(int? MainAccountId, int? id = null)
         {
-            var strSubCode = await Repository.GetAll()
-                                             .Where(a => a.MainAccountId == MainAccountId)
-                                             .OrderByDescending(a => a.SubCode)
-                                             .Select(a => a.SubCode)
-                                             .FirstOrDefaultAsync();
 
             var currentMainAccountId = await Repository.GetAll()
                                                .Where(a => a.Id == id)
@@ -81,8 +76,19 @@ namespace syncinpos.Entities.Accounts.SubAccounts
 
             if (mainAccountNotChanged)
             {
-                return strSubCode;
+                var subCode = await Repository.GetAll()
+                                 .Where(a => a.Id == id)
+                                 .Select(a => a.SubCode)
+                                 .FirstOrDefaultAsync();
+
+                return subCode;
             }
+
+            var strSubCode = await Repository.GetAll()
+                                 .Where(a => a.MainAccountId == MainAccountId)
+                                 .OrderByDescending(a => a.SubCode)
+                                 .Select(a => a.SubCode)
+                                 .FirstOrDefaultAsync();
 
             var strMainCode = await mainAccountRepository.GetAll()
                                              .Where(a => a.Id == MainAccountId)

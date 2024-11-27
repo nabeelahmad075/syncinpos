@@ -23,6 +23,7 @@ import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createE
 import { CustomerHistoryComponent } from './sales/customer/customer-history.component';
 import { AddEditCustomerComponent } from './sales/customer/create-edit-customer/add-edit-customer.component';
 import { MainPosComponent } from './sales/pos/mainpos/main-pos.component';
+import { ChangePasswordComponent } from './users/change-password/change-password.component';
 
 @NgModule({
     imports: [
@@ -159,9 +160,14 @@ import { MainPosComponent } from './sales/pos/mainpos/main-pos.component';
                         data: { permission: 'Pages.Tenants' },
                         canActivate: [AppRouteGuard]
                     },
+                    // {
+                    //     path: 'update-password',
+                    //     loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
+                    //     canActivate: [AppRouteGuard]
+                    // },
                     {
-                        path: 'update-password',
-                        loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
+                        path: "update-password",
+                        component: ChangePasswordComponent,
                         canActivate: [AppRouteGuard]
                     },
                 ]

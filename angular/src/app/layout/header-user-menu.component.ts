@@ -1,5 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangePasswordComponent } from '@app/users/change-password/change-password.component';
 import { AppAuthService } from '@shared/auth/app-auth.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'header-user-menu',
@@ -7,9 +9,24 @@ import { AppAuthService } from '@shared/auth/app-auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderUserMenuComponent {
-  constructor(private _authService: AppAuthService) {}
+  constructor(
+    private _authService: AppAuthService,
+    // private _modalService: BsModalService,
+  ) {}
 
   logout(): void {
     this._authService.logout();
   }
+
+  // showUpdatePasswordDialog(): void {
+  //   let createDesignationDepartmentDialog: BsModalRef;
+  //   createDesignationDepartmentDialog = this._modalService.show(
+  //     ChangePasswordComponent,
+  //     {
+  //       class: "modal-lg modal-dialog-centered",
+  //       backdrop: "static",
+  //       ignoreBackdropClick: true,
+  //     }
+  //   );
+  // }
 }

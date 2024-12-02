@@ -15,6 +15,6 @@ namespace syncinpos.Entities.Inventory.ItemPrices.Dto
         public int ItemPriceNo { get; set; }
         public DateTime ItemPriceDate { get; set; }
         public string Remarks { get; set; }
-        public ICollection<ItemPriceDetail> ItemPriceDetails { get; set; } = [];
+        public ICollection<ItemPriceDetailDto> ItemPriceDetails { get; set; }
     }
 }

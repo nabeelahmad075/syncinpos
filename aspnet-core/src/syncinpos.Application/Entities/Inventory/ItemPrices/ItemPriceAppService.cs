@@ -5,12 +5,14 @@ using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using syncinpos.Authorization;
 using syncinpos.Entities.Inventory.ItemCategories;
 using syncinpos.Entities.Inventory.ItemPrices.Dto;
 using syncinpos.Entities.Inventory.Items;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Text;
@@ -74,6 +76,28 @@ namespace syncinpos.Entities.Inventory.ItemPrices
                                     .Where(a => a.ItemPriceNo == itemPriceNo).Any();
             return IsAlreadyCreated;
         }
+        public override async Task<ItemPriceMasterDto> GetAsync(EntityDto<int> input)
+        {
+            return await _repository.GetAll()
+                                   .Where(a => a.Id == input.Id)
+                                   .Select(a => new ItemPriceMasterDto
+                                   {
+                                       Id = a.Id,
+                                       ItemPriceNo = a.ItemPriceNo,
+                                       ItemPriceDate = a.ItemPriceDate,
+                                       Remarks = a.Remarks,
+                                       ItemPriceDetails = a.ItemPriceDetails.Select(d => new ItemPriceDetailDto
+                                       {
+                                           Id = d.Id,
+                                           ItemPriceMasterId = d.ItemPriceMasterId,
+                                           LocationId = d.LocationId,
+                                           ItemCategoryId = d.ItemCategoryId,
+                                           ItemId = d.ItemId,
+                                           Price = d.Price,
+                                           EffectedDate = d.EffectedDate
+                                       }).ToList()
+                                   }).FirstOrDefaultAsync();
+        }
         public async Task<PagedResultDto<ItemPriceHistoryDto>> GetItemPriceHistoryAsync(ItemPriceHistoryPagedAndSortedResultRequestDto input)
         {
             var SqlQuery = CreateFilteredQuery(input)
@@ -86,7 +110,12 @@ namespace syncinpos.Entities.Inventory.ItemPrices
                                     ItemPriceNo = x.ItemPriceNo,
                                     ItemPriceDate = x.ItemPriceDate,
                                     Remarks = x.Remarks,
-                                    Locations = string.Join(", ", x.ItemPriceDetails.Select(d => d.Location.LocationName))
+                                    Locations = string.Join(", ", x.ItemPriceDetails
+                                                .Where(d => d.Location != null)
+                                                .Select(d => d.Location.LocationName)
+                                                .Distinct()
+                                                .OrderBy(l => l)
+                                            )
                                 });
 
             var sortedQuery = SqlQuery.OrderBy(x => input.Sorting);
@@ -110,37 +139,42 @@ namespace syncinpos.Entities.Inventory.ItemPrices
                                             });
 
             var priceDetailsQuery = Repository.GetAll()
-                                        .Where(priceMaster => priceMaster.ItemPriceDetails
-                                            .Any(detail => detail.ItemCategoryId == input.ItemCategoryId && detail.LocationId == input.LocationId))
-                                        .SelectMany(priceMaster => priceMaster.ItemPriceDetails
-                                            .Where(detail => detail.ItemCategoryId == input.ItemCategoryId && detail.LocationId == input.LocationId)
-                                            .OrderByDescending(detail => detail.EffectedDate)
-                                            .Take(1)
-                                            .Select(detail => new
-                                            {
-                                                detail.ItemId,
-                                                detail.Price
-                                            }));
+                                            .Where(priceMaster => priceMaster.ItemPriceDetails
+                                                .Any(detail => detail.ItemCategoryId == input.ItemCategoryId && detail.LocationId == input.LocationId))
+                                            .SelectMany(priceMaster => priceMaster.ItemPriceDetails
+                                                .Where(detail => detail.ItemCategoryId == input.ItemCategoryId && detail.LocationId == input.LocationId)
+                                                .OrderByDescending(detail => detail.EffectedDate)
+                                                .Take(1)
+                                                .Select(detail => new
+                                                {
+                                                    detail.ItemId,
+                                                    detail.Price
+                                                }));
 
-            var sqlQuery = from item in itemsQuery
-                              join price in priceDetailsQuery
-                              on item.Id equals price.ItemId into priceGroup
-                              from priceDetails in priceGroup.DefaultIfEmpty()
-                              select new CategoryWiseItemPriceDto
-                              {
-                                  ItemCategoryId = item.ItemCategoryId,
-                                  ItemId = item.Id,
-                                  ItemName = item.ItemName,
-                                  ItemPrice = priceDetails != null ? priceDetails.Price : 0
-                              };
+            var priceDetailsList = priceDetailsQuery.ToList();
+            var resultList = new List<CategoryWiseItemPriceDto>();
 
-            var sortedQuery = sqlQuery.OrderBy(x => input.Sorting);
+            foreach (var item in itemsQuery)
+            {
+                var matchingPrice = priceDetailsList
+                    .FirstOrDefault(price => price.ItemId == item.Id);
+
+                resultList.Add(new CategoryWiseItemPriceDto
+                {
+                    ItemCategoryId = item.ItemCategoryId,
+                    ItemId = item.Id,
+                    ItemName = item.ItemName,
+                    ItemPrice = matchingPrice != null ? matchingPrice.Price : 0
+                });
+            }
+
+            var sortedQuery = resultList.OrderBy(x => input.Sorting);
             var pagedQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);
 
             return new PagedResultDto<CategoryWiseItemPriceDto>
             {
-                Items = await pagedQuery.ToListAsync(),
-                TotalCount = sqlQuery.Count()
+                Items = pagedQuery.ToList(),
+                TotalCount = resultList.Count()
             };
         }
     }

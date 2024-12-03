@@ -74,6 +74,11 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             "/app/itemdefinitionhistory",
             "fa-solid fa-drumstick-bite text-md"
           ),
+          new MenuItem(
+            "Add Price",
+            "/app/price-list",
+            "fa-solid fa-drumstick-bite text-md"
+          ),
         ]),
       ]),
       new MenuItem(this.l("Sales"), "", "fa-solid fa-chart-pie text-md", "", [

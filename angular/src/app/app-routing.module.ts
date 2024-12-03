@@ -24,6 +24,8 @@ import { CustomerHistoryComponent } from './sales/customer/customer-history.comp
 import { AddEditCustomerComponent } from './sales/customer/create-edit-customer/add-edit-customer.component';
 import { MainPosComponent } from './sales/pos/mainpos/main-pos.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
+import { PriceHistoryComponent } from './menu-operations/item-price/price-history.component';
+import { AddEditPriceComponent } from './menu-operations/item-price/create-edit-price/add-edit-price.component';
 
 @NgModule({
     imports: [
@@ -95,6 +97,11 @@ import { ChangePasswordComponent } from './users/change-password/change-password
                     {
                         path: "newcategory",
                         component: AddEditItemCategoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "price-list",
+                        component: PriceHistoryComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {

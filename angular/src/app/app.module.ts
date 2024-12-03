@@ -16,6 +16,7 @@ import { DropdownModule} from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { CalendarModule } from 'primeng/calendar';
+import { MultiSelectModule } from 'primeng/multiselect';
 // layout
 import { HeaderComponent } from './layout/header.component';
 import { HeaderLeftNavbarComponent } from './layout/header-left-navbar.component';
@@ -47,6 +48,9 @@ import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createE
 import { CustomerHistoryComponent } from './sales/customer/customer-history.component';
 import { AddEditCustomerComponent } from './sales/customer/create-edit-customer/add-edit-customer.component';
 import { MainPosComponent } from './sales/pos/mainpos/main-pos.component';
+import { PriceHistoryComponent} from './menu-operations/item-price/price-history.component';
+import { AddEditPriceComponent} from './menu-operations/item-price/create-edit-price/add-edit-price.component';
+
 
 @NgModule({
     declarations: [
@@ -81,7 +85,9 @@ import { MainPosComponent } from './sales/pos/mainpos/main-pos.component';
         AddEditDetailAccComponent,
         CustomerHistoryComponent,
         AddEditCustomerComponent,
-        MainPosComponent
+        MainPosComponent,
+        PriceHistoryComponent,
+        AddEditPriceComponent
     ],
     imports: [
         AppRoutingModule,
@@ -100,7 +106,8 @@ import { MainPosComponent } from './sales/pos/mainpos/main-pos.component';
         DropdownModule,
         TableModule,
         PaginatorModule,
-        CalendarModule
+        CalendarModule,
+        MultiSelectModule
     ],
     providers: []
 })

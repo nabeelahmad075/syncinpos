@@ -91,10 +91,10 @@
         />
       </div>
       <div class="form-group col-md-1" style="margin-top: -0.3rem">
-        <label class="col-md-3">
+        <!-- <label class="col-md-3">
           {{ "" }}
-        </label>
-        <div class="col-md-9">
+        </label> -->
+        <div class="col-md-9 py-4">
           <div class="custom-control custom-checkbox">
             <input
               style="margin-top: -8px"
@@ -115,10 +115,10 @@
         style="margin-top: -0.3rem; margin-left: 1rem"
         [hidden]="isControlAccount"
       >
-        <label class="col-md-3">
+        <!-- <label class="col-md-3">
           {{ "" }}
-        </label>
-        <div class="col-md-9">
+        </label> -->
+        <div class="col-md-9 py-4">
           <div class="custom-control custom-checkbox">
             <input
               style="margin-top: -8px"
@@ -129,7 +129,7 @@
               [(ngModel)]="tblSubAccounts.isControlAccount"
             />
             <label class="custom-control-label mt-2" for="isControlAccount"
-              >Control Account</label
+              >Auto Control Account</label
             >
           </div>
         </div>
@@ -170,7 +170,7 @@
                 <th>Sub Title</th>
                 <th>Account Type</th>
                 <th>Main Account</th>
-                <th>Control Account</th>
+                <th style="text-align: center">Auto C/A</th>
                 <th style="text-align: center">Status</th>
                 <th style="text-align: center">Action</th>
               </tr>

@@ -10,6 +10,6 @@ namespace syncinpos.Entities.Inventory.ItemPrices.Dto
     public class ItemFilterByCategoryPagedAndSortedResultRequestDto : PagedAndSortedResultRequestDto
     {
         public int ItemCategoryId { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
     }
 }

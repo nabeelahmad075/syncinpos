@@ -127,55 +127,69 @@ namespace syncinpos.Entities.Inventory.ItemPrices
                 TotalCount = SqlQuery.Count()
             };
         }
-        public async Task<PagedResultDto<CategoryWiseItemPriceDto>> GetCategoryWiseItemsLastPrice(ItemFilterByCategoryPagedAndSortedResultRequestDto input)
+        //public async Task<PagedResultDto<CategoryWiseItemPriceDto>> GetCategoryWiseItemsLastPrice(ItemFilterByCategoryPagedAndSortedResultRequestDto input)
+        //{
+        //    var itemsQuery = _itemRepository.GetAll()
+        //                                    .Where(item => item.ItemCategoryId == input.ItemCategoryId)
+        //                                    .Select(item => new
+        //                                    {
+        //                                        item.Id,
+        //                                        item.ItemCategoryId,
+        //                                        item.ItemName
+        //                                    });
+
+        //    var priceDetailsQuery = Repository.GetAll()
+        //                                    .Where(priceMaster => priceMaster.ItemPriceDetails
+        //                                        .Any(detail => detail.ItemCategoryId == input.ItemCategoryId && detail.LocationId == input.LocationId))
+        //                                    .SelectMany(priceMaster => priceMaster.ItemPriceDetails
+        //                                        .Where(detail => detail.ItemCategoryId == input.ItemCategoryId && detail.LocationId == input.LocationId)
+        //                                        .OrderByDescending(detail => detail.EffectedDate)
+        //                                        .Take(1)
+        //                                        .Select(detail => new
+        //                                        {
+        //                                            detail.ItemId,
+        //                                            detail.Price
+        //                                        }));
+
+        //    var priceDetailsList = priceDetailsQuery.ToList();
+        //    var resultList = new List<CategoryWiseItemPriceDto>();
+
+        //    foreach (var item in itemsQuery)
+        //    {
+        //        var matchingPrice = priceDetailsList
+        //            .FirstOrDefault(price => price.ItemId == item.Id);
+
+        //        resultList.Add(new CategoryWiseItemPriceDto
+        //        {
+        //            ItemCategoryId = item.ItemCategoryId,
+        //            ItemId = item.Id,
+        //            ItemName = item.ItemName,
+        //            ItemPrice = matchingPrice != null ? matchingPrice.Price : 0
+        //        });
+        //    }
+
+        //    var sortedQuery = resultList.OrderBy(x => input.Sorting);
+        //    var pagedQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);
+
+        //    return new PagedResultDto<CategoryWiseItemPriceDto>
+        //    {
+        //        Items = pagedQuery.ToList(),
+        //        TotalCount = resultList.Count()
+        //    };
+        //}
+        public async Task<List<CategoryWiseItemPriceDto>> GetCategoryWiseItems(ItemFilterByCategoryPagedAndSortedResultRequestDto input)
         {
-            var itemsQuery = _itemRepository.GetAll()
+            var itemsQuery = await _itemRepository.GetAll()
                                             .Where(item => item.ItemCategoryId == input.ItemCategoryId)
-                                            .Select(item => new
+                                            .Select(item => new CategoryWiseItemPriceDto
                                             {
-                                                item.Id,
-                                                item.ItemCategoryId,
-                                                item.ItemName
-                                            });
+                                                ItemId = item.Id,
+                                                ItemCategoryId = item.ItemCategoryId,
+                                                ItemName = item.ItemName,
+                                                ItemPrice = 0
+                                            }).ToListAsync();
 
-            var priceDetailsQuery = Repository.GetAll()
-                                            .Where(priceMaster => priceMaster.ItemPriceDetails
-                                                .Any(detail => detail.ItemCategoryId == input.ItemCategoryId && detail.LocationId == input.LocationId))
-                                            .SelectMany(priceMaster => priceMaster.ItemPriceDetails
-                                                .Where(detail => detail.ItemCategoryId == input.ItemCategoryId && detail.LocationId == input.LocationId)
-                                                .OrderByDescending(detail => detail.EffectedDate)
-                                                .Take(1)
-                                                .Select(detail => new
-                                                {
-                                                    detail.ItemId,
-                                                    detail.Price
-                                                }));
-
-            var priceDetailsList = priceDetailsQuery.ToList();
-            var resultList = new List<CategoryWiseItemPriceDto>();
-
-            foreach (var item in itemsQuery)
-            {
-                var matchingPrice = priceDetailsList
-                    .FirstOrDefault(price => price.ItemId == item.Id);
-
-                resultList.Add(new CategoryWiseItemPriceDto
-                {
-                    ItemCategoryId = item.ItemCategoryId,
-                    ItemId = item.Id,
-                    ItemName = item.ItemName,
-                    ItemPrice = matchingPrice != null ? matchingPrice.Price : 0
-                });
-            }
-
-            var sortedQuery = resultList.OrderBy(x => input.Sorting);
-            var pagedQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);
-
-            return new PagedResultDto<CategoryWiseItemPriceDto>
-            {
-                Items = pagedQuery.ToList(),
-                TotalCount = resultList.Count()
-            };
+            return itemsQuery;
         }
     }
 }

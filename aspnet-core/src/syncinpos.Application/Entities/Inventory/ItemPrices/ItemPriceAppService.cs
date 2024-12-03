@@ -67,16 +67,19 @@ namespace syncinpos.Entities.Inventory.ItemPrices
                 TotalCount = SqlQuery.Count()
             };
         }
-        public async Task<List<CategoryWiseItemPriceDto>> GetCategoryWiseItems(int itemCategoryId)
+        public async Task<List<ItemPriceListDto>> GetCategoryWiseItems(int itemCategoryId)
         {
             var itemsQuery = await _itemRepository.GetAll()
                                             .Where(item => item.ItemCategoryId == itemCategoryId)
-                                            .Select(item => new CategoryWiseItemPriceDto
+                                            .Select(item => new ItemPriceListDto
                                             {
+                                                TenantId = AbpSession.TenantId,
+                                                LocationId = 0,
                                                 ItemId = item.Id,
                                                 ItemCategoryId = item.ItemCategoryId,
                                                 ItemName = item.ItemName,
-                                                ItemPrice = 0
+                                                Price = 0,
+                                                EffectedDate = DateTime.Now
                                             }).ToListAsync();
 
             return itemsQuery;

@@ -15,7 +15,7 @@ namespace syncinpos.Entities.Inventory.ItemPrices.Dto
     [AutoMapFrom(typeof(ItemPriceList)), AutoMapTo(typeof(ItemPriceList))]
     public class ItemPriceListDto : FullAuditedEntityDto<long>
     {
-        public int TenantId { get; set; }
+        public int? TenantId { get; set; }
         public int LocationId { get; set; }
         public int ItemCategoryId { get; set; }
         public int ItemId { get; set; }
@@ -23,5 +23,7 @@ namespace syncinpos.Entities.Inventory.ItemPrices.Dto
         public DateTime EffectedDate { get; set; }
         [NotMapped]
         public int[] StrLocationIds { get; set; }
+        [NotMapped]
+        public string ItemName { get; set; }
     }
 }

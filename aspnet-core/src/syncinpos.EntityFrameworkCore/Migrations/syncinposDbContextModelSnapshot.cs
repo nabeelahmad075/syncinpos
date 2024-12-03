@@ -1943,7 +1943,7 @@ namespace syncinpos.Migrations
                     b.ToTable("tblItemCategories");
                 });
 
-            modelBuilder.Entity("syncinpos.Entities.Inventory.ItemPrices.ItemPriceDetail", b =>
+            modelBuilder.Entity("syncinpos.Entities.Inventory.ItemPrices.ItemPriceList", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1975,9 +1975,6 @@ namespace syncinpos.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ItemPriceMasterId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
 
@@ -1990,63 +1987,18 @@ namespace syncinpos.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,4)");
 
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ItemCategoryId");
 
                     b.HasIndex("ItemId");
 
-                    b.HasIndex("ItemPriceMasterId");
-
                     b.HasIndex("LocationId");
 
-                    b.ToTable("tblItemPriceDetail");
-                });
-
-            modelBuilder.Entity("syncinpos.Entities.Inventory.ItemPrices.ItemPriceMaster", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ItemPriceDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ItemPriceNo")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Remarks")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TenantId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tblItemPriceMaster");
+                    b.ToTable("tblItemPriceList");
                 });
 
             modelBuilder.Entity("syncinpos.Entities.Inventory.ItemTypes.ItemType", b =>
@@ -2873,7 +2825,7 @@ namespace syncinpos.Migrations
                     b.Navigation("ItemType");
                 });
 
-            modelBuilder.Entity("syncinpos.Entities.Inventory.ItemPrices.ItemPriceDetail", b =>
+            modelBuilder.Entity("syncinpos.Entities.Inventory.ItemPrices.ItemPriceList", b =>
                 {
                     b.HasOne("syncinpos.Entities.Inventory.ItemCategories.ItemCategory", "ItemCategory")
                         .WithMany()
@@ -2887,12 +2839,6 @@ namespace syncinpos.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("syncinpos.Entities.Inventory.ItemPrices.ItemPriceMaster", "ItemPriceMaster")
-                        .WithMany("ItemPriceDetails")
-                        .HasForeignKey("ItemPriceMasterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("syncinpos.Entities.Locations.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
@@ -2902,8 +2848,6 @@ namespace syncinpos.Migrations
                     b.Navigation("Item");
 
                     b.Navigation("ItemCategory");
-
-                    b.Navigation("ItemPriceMaster");
 
                     b.Navigation("Location");
                 });
@@ -3137,11 +3081,6 @@ namespace syncinpos.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
-                });
-
-            modelBuilder.Entity("syncinpos.Entities.Inventory.ItemPrices.ItemPriceMaster", b =>
-                {
-                    b.Navigation("ItemPriceDetails");
                 });
 #pragma warning restore 612, 618
         }

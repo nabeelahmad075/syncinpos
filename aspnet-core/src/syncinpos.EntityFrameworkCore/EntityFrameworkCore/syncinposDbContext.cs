@@ -53,7 +53,6 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<SubAccount> tblSubAccounts { get; set; }
         public DbSet<DetailAccount> tblDetailAccounts { get; set; }
         public DbSet<Customer> tblCustomers { get; set; }
-        public DbSet<ItemPriceMaster> tblItemPriceMaster { get; set; }
-        public DbSet<ItemPriceDetail> tblItemPriceDetail { get; set; }
+        public DbSet<ItemPriceList> tblItemPriceList { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace syncinpos.Entities.Inventory.ItemPrices.Dto
 {
-    public class ItemPriceHistoryPagedAndSortedResultRequestDto : PagedAndSortedResultRequestDto
+    public class ItemPriceListHistoryPagedAndSortedResultRequestDto : PagedAndSortedResultRequestDto
     {
         public string Keyword { get; set; }
     }

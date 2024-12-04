@@ -10,5 +10,7 @@ namespace syncinpos.Entities.Inventory.ItemPrices.Dto
     public class ItemPriceListHistoryPagedAndSortedResultRequestDto : PagedAndSortedResultRequestDto
     {
         public string Keyword { get; set; }
+        public int[] LocationIds { get; set; }
+        public int CategoryId { get; set; }
     }
 }

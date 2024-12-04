@@ -1,18 +1,23 @@
 import {
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Injector,
   OnInit,
+  Output,
   ViewChild,
   ViewEncapsulation,
 } from "@angular/core";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { AddEditPriceComponent } from "./create-edit-price/add-edit-price.component";
-import { extend, sortBy } from "lodash-es";
+import { extend, result, sortBy } from "lodash-es";
 import { AppComponentBase } from "@shared/app-component-base";
-import { ItemCategoryServiceProxy, ItemPriceListDto, ItemPriceServiceProxy,
-LocationServiceProxy
+import {
+  ItemCategoryServiceProxy,
+  ItemPriceListDto,
+  ItemPriceServiceProxy,
+  LocationServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import {
   PagedListingComponentBase,
@@ -26,6 +31,8 @@ import { Paginator, PaginatorModule } from "primeng/paginator";
 import { LazyLoadEvent, SelectItem } from "primeng/api";
 import * as moment from "moment";
 import { CreateDesignationDepartmentComponent } from "@app/hr/designation-department/create-designation-department.component";
+import { map } from "jquery";
+import { ParsedPropertyType } from "@angular/compiler";
 
 @Component({
   selector: "app-price-history",
@@ -33,9 +40,10 @@ import { CreateDesignationDepartmentComponent } from "@app/hr/designation-depart
   // imports: [],
   templateUrl: "./price-history.component.html",
   styleUrl: "./price-history.component.css",
-  animations: [appModuleAnimation()]
+  animations: [appModuleAnimation()],
 })
 export class PriceHistoryComponent extends AppComponentBase implements OnInit {
+  saving = false;
 
   tblPriceList: ItemPriceListDto[] = [];
   selectedLocations: number[] = [];
@@ -45,8 +53,10 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
   primengTableHelper: PrimengTableHelper = new PrimengTableHelper();
   @ViewChild("dataTable", { static: true }) dataTable: Table;
   @ViewChild("paginator", { static: true }) paginator: Paginator;
+  @Output() onSave = new EventEmitter<any>();
   eventClone: LazyLoadEvent;
   categoryId: number;
+  itemPriceDate: Date = new Date();
 
   constructor(
     injector: Injector,
@@ -65,7 +75,7 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
     // }
     this.getLocationDropdown();
     this.getCategoryDropdown();
-    // this.itemPriceDate = new Date();
+    this.itemPriceDate = new Date();
   }
 
   getLocationDropdown() {
@@ -78,51 +88,51 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
 
   getCategoryDropdown() {
     this.tblCategory = [];
-    this._categoryService.getItemCategoryDropdown(0,0,1).subscribe((result) => {
-      this.tblCategory = result;
-      this.cd.detectChanges();
-    });
+    this._categoryService
+      .getItemCategoryDropdown(0, 0, 1)
+      .subscribe((result) => {
+        this.tblCategory = result;
+        this.cd.detectChanges();
+      });
   }
 
-  getCategoryWiseItemPrice(categoryId: number){
-
-      this._itemPriceService
-        .getCategoryWiseItems(categoryId)
-        .subscribe((result) => {
-          this.tblPriceList = result;
-
-          this.cd.detectChanges();
-        })
-        .add(() => abp.ui.clearBusy());
-    };
+  getCategoryWiseItemPrice(categoryId: number) {
+    this._itemPriceService
+      .getCategoryWiseItems(categoryId)
+      .subscribe((result) => {
+        this.tblPriceList = result;
+        this.cd.detectChanges();
+      })
+      .add(() => abp.ui.clearBusy());
+  }
 
   //getHistory(event?: LazyLoadEvent) {
-    // if (this.primengTableHelper.shouldResetPaging(event)) {
-    //   this.paginator.changePage(0);
-    //   return;
-    // }
-    // if (this.eventClone && !event.filters)
-    //   event.filters = this.eventClone.filters;
-    // if (this.eventClone && this.eventClone.sortField && !event.sortField) {
-    //   event.sortField = this.eventClone.sortField;
-    //   event.sortOrder = this.eventClone.sortOrder;
-    // }
-    // abp.ui.setBusy();
-    // this._itemPriceService
-    //   .getItemPriceHistory(
-    //     event && event.filters && event.filters["global"]
-    //       ? event.filters["global"].value
-    //       : undefined,
-    //     "",
-    //     this.primengTableHelper.getSkipCount(this.paginator, event),
-    //     this.primengTableHelper.getMaxResultCount(this.paginator, event)
-    //   )
-    //   .subscribe((result) => {
-    //     this.primengTableHelper.records = result.items;
-    //     this.primengTableHelper.totalRecordsCount = result.totalCount;
-    //     this.cd.detectChanges();
-    //   })
-    //   .add(() => abp.ui.clearBusy());
+  // if (this.primengTableHelper.shouldResetPaging(event)) {
+  //   this.paginator.changePage(0);
+  //   return;
+  // }
+  // if (this.eventClone && !event.filters)
+  //   event.filters = this.eventClone.filters;
+  // if (this.eventClone && this.eventClone.sortField && !event.sortField) {
+  //   event.sortField = this.eventClone.sortField;
+  //   event.sortOrder = this.eventClone.sortOrder;
+  // }
+  // abp.ui.setBusy();
+  // this._itemPriceService
+  //   .getItemPriceHistory(
+  //     event && event.filters && event.filters["global"]
+  //       ? event.filters["global"].value
+  //       : undefined,
+  //     "",
+  //     this.primengTableHelper.getSkipCount(this.paginator, event),
+  //     this.primengTableHelper.getMaxResultCount(this.paginator, event)
+  //   )
+  //   .subscribe((result) => {
+  //     this.primengTableHelper.records = result.items;
+  //     this.primengTableHelper.totalRecordsCount = result.totalCount;
+  //     this.cd.detectChanges();
+  //   })
+  //   .add(() => abp.ui.clearBusy());
   //}
 
   showCreateOrEditDialog(id?: number): void {
@@ -151,7 +161,27 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
   }
 
   create(): void {
-    this.showCreateOrEditDialog();
+    this.tblPriceList.forEach((element) => {
+      element.effectedDate = moment(this.itemPriceDate);
+    element.strLocationIds = this.selectedLocations;
+  });
+  console.log(this.tblPriceList);
+    this._itemPriceService
+      .bulkCreate(this.tblPriceList)
+      .subscribe((result) => (this.tblPriceList = result));
+
+    this._itemPriceService.bulkCreate(this.tblPriceList).subscribe({
+      next: () => {
+        this.notify.success("Saved Successfuly");
+        this.onSave.emit(true);
+      },
+      error: (err) => {
+        this.saving = false;
+      },
+    });
+    this.categoryId = undefined;
+    this.getCategoryWiseItemPrice(this.categoryId);
+    this.selectedLocations=[];
   }
 
   // edit(itemPriceHistory: ItemPriceHistoryDto): void {
@@ -161,7 +191,7 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
   showPriceListDialog(): void {
     let createPriceListDialog: BsModalRef;
     createPriceListDialog = this._modalService.show(
-      AddEditPriceComponent,                            //change this component
+      AddEditPriceComponent, //change this component
       {
         class: "modal-lg modal-dialog-centered",
         backdrop: "static",
@@ -173,5 +203,11 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
     //     this.getHistory({});
     //   }
     // });
+  }
+
+  save(): void {
+    this.saving = true;
+    // this.tblPriceList.item = moment(this.itemPriceDate);
+    this.create();
   }
 }

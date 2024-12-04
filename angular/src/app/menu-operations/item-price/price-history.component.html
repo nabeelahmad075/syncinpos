@@ -1,8 +1,8 @@
 <form
   class="form-horizontal"
   autocomplete="off"
-  #createItemPriceListForm="ngForm"
-
+  #createItemPriceForm="ngForm"
+  (ngSubmit)="save()"
 >
 <div [@routerTransition]>
   <section class="content-header" style="padding: 1px 0.5rem">
@@ -17,7 +17,7 @@
               Designation
             </a> -->
           <a class="btn button-new" (click)="showPriceListDialog()">
-            <i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="fa-solid fa-list" aria-hidden="true"></i>
             Price List
           </a>
           <!-- <a class="btn button-new" (click)="create()">
@@ -29,8 +29,8 @@
     </div>
   </section>
   <div class="container-fluid" style="width: 97%">
-
     <div class="card main-content rounded">
+      <div>
       <div class="form-row form-group">
         <div class="col-md-4 required">
           <label class="" for="Areas">Location(s)</label>
@@ -76,8 +76,10 @@
             placeholder="Date Effected"
             [dateFormat]="'dd/mm/yy'"
             [showIcon]="true"
+            [(ngModel)]="itemPriceDate"
           ></p-calendar>
         </div>
+      </div>
       </div>
       <div class="card-content table-bordered">
         <p-table
@@ -124,18 +126,17 @@
               </p-cellEditor></td> -->
               <td>
                 <input class="form-control" pInputText type="text" 
-                  style="min-width:6.4rem" [(ngModel)]="history.itemPrice" [ngModelOptions]="{name:'itemPrice'+history.uid}">
+                  style="min-width:6.4rem" [(ngModel)]="history.price" [ngModelOptions]="{name:'itemPrice'+history.uid}">
               </td>
             </tr>
           </ng-template>
         </p-table>
       </div>
-      <!-- <abp-modal-footer
+      <abp-modal-footer
       [cancelDisabled]="saving"
-      [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
-      [saveDisabled]="!createItemPriceListForm.form.valid || saving"
-      (onCancelClick)="bsModalRef.hide()"
-    ></abp-modal-footer> -->
+      [saveLabel]="'Save'"
+      [saveDisabled]="!createItemPriceForm.form.valid || saving"
+    ></abp-modal-footer>
     </div>
   </div>
 </div>

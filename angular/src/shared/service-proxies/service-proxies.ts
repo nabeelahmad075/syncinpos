@@ -4343,6 +4343,69 @@ export class ItemPriceServiceProxy {
      * @param body (optional) 
      * @return OK
      */
+    bulkCreate(body: ItemPriceListDto[] | undefined): Observable<ItemPriceListDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ItemPrice/BulkCreate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBulkCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBulkCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ItemPriceListDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ItemPriceListDto[]>;
+        }));
+    }
+
+    protected processBulkCreate(response: HttpResponseBase): Observable<ItemPriceListDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(ItemPriceListDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
     create(body: ItemPriceListDto | undefined): Observable<ItemPriceListDto> {
         let url_ = this.baseUrl + "/api/services/app/ItemPrice/Create";
         url_ = url_.replace(/[?&]$/, "");
@@ -4397,17 +4460,27 @@ export class ItemPriceServiceProxy {
 
     /**
      * @param keyword (optional) 
+     * @param locationIds (optional) 
+     * @param categoryId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return OK
      */
-    getItemPriceHistory(keyword: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ItemPriceListHistoryDtoPagedResultDto> {
+    getItemPriceHistory(keyword: string | undefined, locationIds: number[] | undefined, categoryId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ItemPriceListHistoryDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/ItemPrice/GetItemPriceHistory?";
         if (keyword === null)
             throw new Error("The parameter 'keyword' cannot be null.");
         else if (keyword !== undefined)
             url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (locationIds === null)
+            throw new Error("The parameter 'locationIds' cannot be null.");
+        else if (locationIds !== undefined)
+            locationIds && locationIds.forEach(item => { url_ += "LocationIds=" + encodeURIComponent("" + item) + "&"; });
+        if (categoryId === null)
+            throw new Error("The parameter 'categoryId' cannot be null.");
+        else if (categoryId !== undefined)
+            url_ += "CategoryId=" + encodeURIComponent("" + categoryId) + "&";
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)

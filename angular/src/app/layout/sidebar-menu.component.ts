@@ -77,7 +77,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
           new MenuItem(
             "Add Price",
             "/app/price-list",
-            "fa-solid fa-drumstick-bite text-md"
+            "fa-solid fa-money-bill-wave text-md"
           ),
         ]),
       ]),

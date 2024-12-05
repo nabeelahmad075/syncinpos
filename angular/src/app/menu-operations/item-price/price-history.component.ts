@@ -70,9 +70,6 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit(): void {
-    // if (this.id > 0) {
-    //   this.getById();
-    // }
     this.getLocationDropdown();
     this.getCategoryDropdown();
     this.itemPriceDate = new Date();
@@ -106,108 +103,45 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
       .add(() => abp.ui.clearBusy());
   }
 
-  //getHistory(event?: LazyLoadEvent) {
-  // if (this.primengTableHelper.shouldResetPaging(event)) {
-  //   this.paginator.changePage(0);
-  //   return;
-  // }
-  // if (this.eventClone && !event.filters)
-  //   event.filters = this.eventClone.filters;
-  // if (this.eventClone && this.eventClone.sortField && !event.sortField) {
-  //   event.sortField = this.eventClone.sortField;
-  //   event.sortOrder = this.eventClone.sortOrder;
-  // }
-  // abp.ui.setBusy();
-  // this._itemPriceService
-  //   .getItemPriceHistory(
-  //     event && event.filters && event.filters["global"]
-  //       ? event.filters["global"].value
-  //       : undefined,
-  //     "",
-  //     this.primengTableHelper.getSkipCount(this.paginator, event),
-  //     this.primengTableHelper.getMaxResultCount(this.paginator, event)
-  //   )
-  //   .subscribe((result) => {
-  //     this.primengTableHelper.records = result.items;
-  //     this.primengTableHelper.totalRecordsCount = result.totalCount;
-  //     this.cd.detectChanges();
-  //   })
-  //   .add(() => abp.ui.clearBusy());
-  //}
-
-  showCreateOrEditDialog(id?: number): void {
-    let createOrEditDialog: BsModalRef;
-    if (!id) {
-      createOrEditDialog = this._modalService.show(AddEditPriceComponent, {
-        class: "modal-lg modal-dialog-centered",
-        backdrop: "static",
-        ignoreBackdropClick: true,
-      });
-    } else {
-      createOrEditDialog = this._modalService.show(AddEditPriceComponent, {
-        class: "modal-lg modal-dialog-centered",
-        backdrop: "static",
-        ignoreBackdropClick: true,
-        initialState: {
-          id: id,
-        },
-      });
-    }
-    // createOrEditDialog.content.onSave.subscribe((value) => {
-    //   if (value) {
-    //     this.getHistory({});
-    //   }
-    // });
-  }
-
   create(): void {
     this.tblPriceList.forEach((element) => {
       element.effectedDate = moment(this.itemPriceDate);
-    element.strLocationIds = this.selectedLocations;
-  });
-  console.log(this.tblPriceList);
-    this._itemPriceService
-      .bulkCreate(this.tblPriceList)
-      .subscribe((result) => (this.tblPriceList = result));
+      element.strLocationIds = this.selectedLocations;
+    });
 
     this._itemPriceService.bulkCreate(this.tblPriceList).subscribe({
       next: () => {
         this.notify.success("Saved Successfuly");
         this.onSave.emit(true);
+        this.saving = false; // Re-enable the button after saving completes
       },
       error: (err) => {
-        this.saving = false;
+        this.saving = false; // Re-enable the button if there is an error
+        this.notify.error("Save failed. Please try again.");
       },
     });
     this.categoryId = undefined;
     this.getCategoryWiseItemPrice(this.categoryId);
-    this.selectedLocations=[];
+    this.selectedLocations = [];
   }
-
-  // edit(itemPriceHistory: ItemPriceHistoryDto): void {
-  //   this.showCreateOrEditDialog(itemPriceHistory.id);
-  // }
 
   showPriceListDialog(): void {
     let createPriceListDialog: BsModalRef;
     createPriceListDialog = this._modalService.show(
       AddEditPriceComponent, //change this component
       {
-        class: "modal-lg modal-dialog-centered",
+        class: "modal-dialog modal-xl",
         backdrop: "static",
         ignoreBackdropClick: true,
       }
     );
-    // createPriceListDialog.content.onSave.subscribe((value) => {
-    //   if (value) {
-    //     this.getHistory({});
-    //   }
-    // });
   }
 
   save(): void {
-    this.saving = true;
-    // this.tblPriceList.item = moment(this.itemPriceDate);
+    if (this.saving) {
+      return; // Prevent multiple saves
+    }
+    this.saving = true; // Disable the button
     this.create();
   }
 }

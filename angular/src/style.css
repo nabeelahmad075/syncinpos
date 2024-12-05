@@ -177,3 +177,15 @@ input[role="searchbox"]{
   height: 25px !important;
   border:none;
 }
+
+/* Hide spinner for Chrome, Safari, Edge, and other WebKit browsers */
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide spinner for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

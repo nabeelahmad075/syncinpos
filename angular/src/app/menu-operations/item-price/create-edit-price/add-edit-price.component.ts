@@ -1,147 +1,115 @@
 import {
+  ChangeDetectorRef,
   Component,
   Injector,
   OnInit,
-  EventEmitter,
-  Output,
-  ChangeDetectorRef,
+  ViewChild,
 } from "@angular/core";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { extend, sortBy } from "lodash-es";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
-  LocationServiceProxy,
-  LocationDto,
   ItemCategoryServiceProxy,
-  ItemPriceServiceProxy
+  ItemPriceListHistoryDto,
+  ItemPriceServiceProxy,
+  LocationServiceProxy,
 } from "@shared/service-proxies/service-proxies";
-import { result } from "lodash-es";
-import * as moment from "moment";
-import { BsModalRef } from "ngx-bootstrap/modal";
+import {
+  PagedListingComponentBase,
+  PagedRequestDto,
+} from "@shared/paged-listing-component-base";
+import { finalize } from "rxjs/operators";
+import { TableModule, Table } from "primeng/table";
+import { DropdownModule } from "primeng/dropdown";
+import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
+import { Paginator, PaginatorModule } from "primeng/paginator";
 import { LazyLoadEvent, SelectItem } from "primeng/api";
-import { Dropdown } from "primeng/dropdown";
 
 @Component({
-  selector: 'app-add-edit-price',
+  selector: "app-add-edit-price",
   // standalone: true,
   // imports: [],
-  templateUrl: './add-edit-price.component.html',
-  styleUrl: './add-edit-price.component.css',
-  animations: [appModuleAnimation()]
+  templateUrl: "./add-edit-price.component.html",
+  styleUrl: "./add-edit-price.component.css",
+  animations: [appModuleAnimation()],
 })
-
 export class AddEditPriceComponent extends AppComponentBase implements OnInit {
-
-  saving = false;
-  id: number;
-  priceListNo: number;
-  selectedAreas: number[] = [];
+  itemPriceHistory: ItemPriceListHistoryDto[] = [];
   tblLocation: SelectItem[] = [];
+  keyword = "";
+  selectedLocations: number[] = [];
   tblCategory: SelectItem[] = [];
-  // tblItemPriceMaster: ItemPriceMasterDto = new ItemPriceMasterDto();
-  // tblItemPriceDetail: ItemPriceDetailDto = new ItemPriceDetailDto();
-  @Output() onSave = new EventEmitter<any>();
-  itemPriceDate: Date = new Date();
-  eventClone: LazyLoadEvent;
-  locationId: number;
   categoryId: number;
+  maxResultCount: number = 25;
+  primengTableHelper: PrimengTableHelper = new PrimengTableHelper();
+  @ViewChild("dataTable", { static: true }) dataTable: Table;
+  @ViewChild("paginator", { static: true }) paginator: Paginator;
+  eventClone: LazyLoadEvent;
 
   constructor(
     injector: Injector,
-    private _categoryService: ItemCategoryServiceProxy,
     private _locationService: LocationServiceProxy,
+    private _categoryService: ItemCategoryServiceProxy,
+    private _modalService: BsModalService,
     private _itemPriceService: ItemPriceServiceProxy,
     public bsModalRef: BsModalRef,
-    private cdr: ChangeDetectorRef
+    private cd: ChangeDetectorRef
   ) {
     super(injector);
   }
 
   ngOnInit(): void {
-    if (this.id > 0) {
-      this.getById();
-    }
     this.getLocationDropdown();
     this.getCategoryDropdown();
-    this.itemPriceDate = new Date();
   }
 
   getLocationDropdown() {
     this.tblLocation = [];
     this._locationService.getLocationDropDown().subscribe((result) => {
       this.tblLocation = result;
-      this.cdr.detectChanges();
+      this.cd.detectChanges();
     });
   }
 
   getCategoryDropdown() {
     this.tblCategory = [];
-    this._categoryService.getItemCategoryDropdown(0,0,1).subscribe((result) => {
-      this.tblCategory = result;
-      this.cdr.detectChanges();
-    });
+    this._categoryService
+      .getItemCategoryDropdown(0, 0, 1)
+      .subscribe((result) => {
+        this.tblCategory = result;
+        this.cd.detectChanges();
+      });
   }
 
-  save(): void {
-    this.saving = true;
-    // this.tblItemPriceMaster.itemPriceNo = this.priceListNo;
-    // this.tblItemPriceDetail.locationId = this.locationId;
-    // this.tblItemPriceDetail.itemCategoryId = this.categoryId;
-    // this.tblItemPriceMaster.itemPriceDate = moment(this.itemPriceDate);
-    if (this.id) {
-      this.update();
-    } else this.create();
-  }
-
-  update(): void {
-    // if (!this.tblItemPriceDetail.locationId) {
-    //   abp.notify.error("Please Select Location.");
-    // }
-    this._itemPriceService.update(undefined).subscribe({
-      next: (value: any) => {
-        this.notify.success("Update Successfuly");
-        this.bsModalRef.hide();
-        this.onSave.emit(true);
-      },
-      error: (err) => {
-        this.saving = false;
-      },
-    });
-  }
-
-  create(): void {
-    // if (!this.tblItemPriceDetail.locationId) {
-    //   abp.notify.error("Please Select Location.");
-    // }
-    this._itemPriceService.create(undefined).subscribe({
-      next: () => {
-        this.notify.success("Saved Successfuly");
-        this.bsModalRef.hide();
-        this.onSave.emit(true);
-      },
-      error: (err) => {
-        this.saving = false;
-      },
-    });
-
-  }
-
-  getById() {
-    // this._itemPriceService.get(this.id).subscribe((result) => {
-    //   this.priceListNo = result.itemPriceNo;
-    //   this.tblItemPriceMaster = result;
-    //   this.itemPriceDate = this.tblItemPriceMaster.itemPriceDate.toDate();
-    //   this.cdr.detectChanges();
-    // });
-  }
-
-  getNewDocNo() {
-    // this._itemPriceService.getNewDocNo().subscribe((result) => {
-    //   this.priceListNo = result;
-    //   this.cdr.detectChanges();
-    // });
-  }
-
-  edit(){
-
+  getHistory(event?: LazyLoadEvent) {
+    if (this.primengTableHelper.shouldResetPaging(event)) {
+      this.paginator.changePage(0);
+      return;
+    }
+    if (this.eventClone && !event.filters)
+      event.filters = this.eventClone.filters;
+    if (this.eventClone && this.eventClone.sortField && !event.sortField) {
+      event.sortField = this.eventClone.sortField;
+      event.sortOrder = this.eventClone.sortOrder;
+    }
+    abp.ui.setBusy();
+    this._itemPriceService
+      .getItemPriceHistory(
+        event && event.filters && event.filters["global"]
+          ? event.filters["global"].value
+          : undefined,
+        this.selectedLocations, //location ID string
+        this.categoryId, //category ID
+        "",
+        this.primengTableHelper.getSkipCount(this.paginator, event),
+        this.primengTableHelper.getMaxResultCount(this.paginator, event)
+      )
+      .subscribe((result) => {
+        this.primengTableHelper.records = result.items;
+        this.primengTableHelper.totalRecordsCount = result.totalCount;
+        this.cd.detectChanges();
+      })
+      .add(() => abp.ui.clearBusy());
   }
 }

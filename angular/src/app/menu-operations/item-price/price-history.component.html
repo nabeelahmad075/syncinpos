@@ -4,139 +4,119 @@
   #createItemPriceForm="ngForm"
   (ngSubmit)="save()"
 >
-<div [@routerTransition]>
-  <section class="content-header" style="padding: 1px 0.5rem">
-    <div class="container-fluid" style="width: 97%">
-      <div class="row">
-        <div class="col-6">
-          <h4>Price List</h4>
-        </div>
-        <div class="col-6 text-right">
-          <!-- <a class="btn bg-blue btnNav" (click)="create()">
-              <i class="fa fa-plus-square"></i>
-              Designation
-            </a> -->
-          <a class="btn button-new" (click)="showPriceListDialog()">
-            <i class="fa-solid fa-list" aria-hidden="true"></i>
-            Price List
-          </a>
-          <!-- <a class="btn button-new" (click)="create()">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            Add
-          </a> -->
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="container-fluid" style="width: 97%">
-    <div class="card main-content rounded">
-      <div>
-      <div class="form-row form-group">
-        <div class="col-md-4 required">
-          <label class="" for="Areas">Location(s)</label>
-          <div class="">
-            <p-multiSelect
-              name="Areas"
-              id="Areas"
-              placeholder="Select Location(s)"
-              [options]="tblLocation"
-              [(ngModel)]="selectedLocations"
-            ></p-multiSelect>
+  <div [@routerTransition]>
+    <section class="content-header" style="padding: 1px 0.5rem">
+      <div class="container-fluid" style="width: 97%">
+        <div class="row">
+          <div class="col-6">
+            <h4>Price List</h4>
+          </div>
+          <div class="col-6 text-right">
+            <a class="btn button-new" (click)="showPriceListDialog()">
+              <i class="fa-solid fa-list" aria-hidden="true"></i>
+              Price List
+            </a>
           </div>
         </div>
-        <div class="col-md-4 required">
-          <label for="category">
-            {{ "Category" | localize }}
-          </label>
-          <p-dropdown
-            [style]="{
-              width: '100%',
-              height: '38px',
-              lineHeight: '1',
-              marginTop: '-0.5rem'
-            }"
-            name="category"
-            required
-            placeholder="Select Category"
-            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
-            [options]="tblCategory"
-            [(ngModel)]="categoryId"
-            (onChange)="getCategoryWiseItemPrice(categoryId)"
-          >
-          </p-dropdown>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="itemPriceDate"> Date Effected </label>
-          <p-calendar
-            name="itemPriceDate"
-            id="itemPriceDate"
-            autoWidth="false"
-            [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
-            [styleClass]="'border border-gray-300 rounded text-sm'"
-            placeholder="Date Effected"
-            [dateFormat]="'dd/mm/yy'"
-            [showIcon]="true"
-            [(ngModel)]="itemPriceDate"
-          ></p-calendar>
-        </div>
       </div>
-      </div>
-      <div class="card-content table-bordered">
-        <p-table
-          #dataTable
-          [value]="tblPriceList"
-          [lazy]="true"
-          [scrollable]="true"
-          [style]="{ width: '100%', fontSize: '0.8rem' }"
-          class="p-table-page table-sm table-hover"
-        >
-          <!-- <ng-template pTemplate="caption">
-            <div class="d-flex flex-row-reverse">
-              <span>
-                <input
-                  pInputText
-                  type="text"
-                  class="table-search-input form-control w-100"
-                  (input)="
-                    dataTable.filterGlobal($event.target.value, 'contains')
-                  "
-                  placeholder="Search"
-                />
-              </span>
+    </section>
+    <div class="container-fluid" style="width: 97%">
+      <div class="card main-content rounded">
+        <div>
+          <div class="form-row form-group">
+            <div class="col-md-4 required">
+              <label class="" for="Areas">Location(s)</label>
+              <div class="">
+                <p-multiSelect
+                  name="Areas"
+                  required
+                  id="Areas"
+                  placeholder="Select Location(s)"
+                  [options]="tblLocation"
+                  [(ngModel)]="selectedLocations"
+                ></p-multiSelect>
+              </div>
             </div>
-          </ng-template> -->
-          <ng-template pTemplate="header">
-            <tr class="">
-              <th>Item Name</th>
-              <th>Price</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-history>
-            <tr>
-              <td>{{ history.itemName }}</td>
-               <!-- <td><p-cellEditor pEditableColumn >
-                <ng-template pTemplate="input">
-                  <input type="number" pInputText class="form-control" id="itemPrice" [min]="0" [(ngModel)]="history.itemPrice"
-                          [ngModelOptions]="{name:'itemPrice'+history.uid}" />
-                          <input type="text" />
-                </ng-template>
-                <ng-template pTemplate="output">
-                  <span class="one-rem-font d-block w-100">{{history.itemPrice ? (history.itemPrice | number) :0}}</span>
-                </ng-template>
-              </p-cellEditor></td> -->
-              <td>
-                <input class="form-control" pInputText type="text" 
-                  style="min-width:6.4rem" [(ngModel)]="history.price" [ngModelOptions]="{name:'itemPrice'+history.uid}">
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
+            <div class="col-md-4 required">
+              <label for="category">
+                {{ "Category" | localize }}
+              </label>
+              <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="category"
+                required
+                placeholder="Select Category"
+                [styleClass]="
+                  'border border-gray-300 rounded focus:outline-none'
+                "
+                [options]="tblCategory"
+                [(ngModel)]="categoryId"
+                (onChange)="getCategoryWiseItemPrice(categoryId)"
+              >
+              </p-dropdown>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="itemPriceDate"> Date Effected </label>
+              <p-calendar
+                name="itemPriceDate"
+                id="itemPriceDate"
+                autoWidth="false"
+                [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
+                [styleClass]="'border border-gray-300 rounded text-sm'"
+                placeholder="Date Effected"
+                [dateFormat]="'dd/mm/yy'"
+                [showIcon]="true"
+                [(ngModel)]="itemPriceDate"
+              ></p-calendar>
+            </div>
+          </div>
+        </div>
+        <div class="card-content table-bordered">
+          <p-table
+            #dataTable
+            [value]="tblPriceList"
+            [lazy]="true"
+            [scrollable]="true"
+            [style]="{ width: '100%', fontSize: '0.8rem' }"
+            class="p-table-page table-sm table-hover"
+          >
+            <ng-template pTemplate="header">
+              <tr class="">
+                <th>Item Name</th>
+                <th>Price</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-history>
+              <tr>
+                <td style="width: 70%;">{{ history.itemName }}</td>
+                <td>
+                  <input
+                    class="form-control"
+                    pInputText
+                    type="number"
+                    style="    
+                    height: 1.7rem;
+                    font-size: 0.8rem;
+                    padding: 0 0 0 0.5rem;"
+                    [(ngModel)]="history.price"
+                    [ngModelOptions]="{ name: 'itemPrice' + history.uid }"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        <abp-modal-footer
+          [cancelDisabled]="saving"
+          [saveLabel]="'Save'"
+          [saveDisabled]="!createItemPriceForm.form.valid || saving"
+        ></abp-modal-footer>
       </div>
-      <abp-modal-footer
-      [cancelDisabled]="saving"
-      [saveLabel]="'Save'"
-      [saveDisabled]="!createItemPriceForm.form.valid || saving"
-    ></abp-modal-footer>
     </div>
   </div>
-</div>
+</form>

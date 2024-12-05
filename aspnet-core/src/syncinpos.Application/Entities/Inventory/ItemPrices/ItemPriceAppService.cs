@@ -36,27 +36,26 @@ namespace syncinpos.Entities.Inventory.ItemPrices
         public async Task<List<ItemPriceListDto>> BulkCreateAsync(List<ItemPriceListDto> input)
         {
             var strLocationIds = input.Select(a => a.StrLocationIds).FirstOrDefault();
+
+            var itemsToInsert = new List<ItemPriceList>();
+
             foreach (var locationId in strLocationIds)
             {
-                var itemsWithLocationId = input.Select(item =>
+                foreach (var item in input)
                 {
-                    item.LocationId = locationId;
-                    return item;
-                }).ToList();
-
-                var itemsToInsert = itemsWithLocationId
-                    .Select(item => new ItemPriceList
+                    itemsToInsert.Add(new ItemPriceList
                     {
                         Id = item.Id,
-                        LocationId = item.LocationId, 
+                        LocationId = locationId,
                         ItemCategoryId = item.ItemCategoryId,
                         ItemId = item.ItemId,
                         Price = item.Price,
                         EffectedDate = item.EffectedDate
-                    })
-                    .ToArray();
-                await Repository.InsertRangeAsync(itemsToInsert);
+                    });
+                }
             }
+
+            await Repository.InsertRangeAsync(itemsToInsert);
 
             return input;
         }
@@ -74,29 +73,48 @@ namespace syncinpos.Entities.Inventory.ItemPrices
         public async Task<PagedResultDto<ItemPriceListHistoryDto>> GetItemPriceHistoryAsync(ItemPriceListHistoryPagedAndSortedResultRequestDto input)
         {
             var SqlQuery = CreateFilteredQuery(input)
-                                .Where(a => a.ItemCategoryId == input.CategoryId && input.LocationIds.Contains(a.LocationId))
-                                .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
+                            .Where(a => a.ItemCategoryId == input.CategoryId && input.LocationIds.Contains(a.LocationId))
+                            .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
                                 a => a.Location.LocationName.ToString().Contains(input.Keyword.ToString()) ||
-                                     a.ItemCategory.Title.ToLower().Contains(input.Keyword.ToLower().ToString()) ||
-                                     a.Item.ItemName.ToLower().Contains(input.Keyword.ToLower().ToString())
-                                     )
-                                .Select(x => new ItemPriceListHistoryDto
-                                {
-                                    Location = x.Location.LocationName,
-                                    Category = x.ItemCategory.Title,
-                                    ItemName = x.Item.ItemName,
-                                    Price = x.Price,
-                                    EffectedDate = x.EffectedDate
-                                });
+                                     a.ItemCategory.Title.ToLower().Contains(input.Keyword.ToLower()) ||
+                                     a.Item.ItemName.ToLower().Contains(input.Keyword.ToLower())
+                            ).Select(a=>new
+                            {
+                                a.ItemId,
+                                a.LocationId,
+                                a.Location.LocationName,
+                                a.Item.ItemName,
+                                a.EffectedDate,
+                                a.Price,
+                                a.ItemCategory.Title
+                            }).ToList();
 
-            var sortedQuery = SqlQuery.OrderBy(x => input.Sorting);
-            var pagedQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);
+            var groupedQuery = SqlQuery
+                .GroupBy(a => new { a.ItemId, a.LocationId })
+                .Select(group => group.OrderByDescending(a => a.EffectedDate).FirstOrDefault());
+
+            var sortedQuery = groupedQuery
+                .OrderBy(x => input.Sorting);
+
+            var pagedQuery = sortedQuery
+                .Skip(input.SkipCount)
+                .Take(input.MaxResultCount);
+
+            var result = pagedQuery.Select(x => new ItemPriceListHistoryDto
+            {
+                Location = x.LocationName,
+                Category = x.Title,
+                ItemName = x.ItemName,
+                Price = x.Price,
+                EffectedDate = x.EffectedDate
+            }).ToList();
 
             return new PagedResultDto<ItemPriceListHistoryDto>
             {
-                Items = await pagedQuery.ToListAsync(),
-                TotalCount = SqlQuery.Count()
+                Items = result,
+                TotalCount = groupedQuery.Count()
             };
+
         }
         public async Task<List<ItemPriceListDto>> GetCategoryWiseItems(int itemCategoryId)
         {

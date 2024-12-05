@@ -160,7 +160,7 @@ namespace syncinpos.Entities.Inventory.ItemPrices
                 ItemCategoryId = x.ItemCategoryId,
                 ItemId = x.ItemId,
                 Price = x.Price,
-                EffectedDate = x.EffectedDate,
+                EffectedDate = effectedDate,
                 StrLocationIds = toLocationIds
             }).ToList();
 

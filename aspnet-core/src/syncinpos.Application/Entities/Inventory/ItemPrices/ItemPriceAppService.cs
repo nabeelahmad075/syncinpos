@@ -5,6 +5,7 @@ using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.EntityFrameworkCore.Repositories;
 using Abp.Linq.Extensions;
+using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using syncinpos.Authorization;
@@ -132,6 +133,40 @@ namespace syncinpos.Entities.Inventory.ItemPrices
                                             }).ToListAsync();
 
             return itemsQuery;
+        }
+        public async Task<List<ItemPriceListDto>> GetItemPriceListForReplicaAsync(int fromLocationId, int[] toLocationIds, DateTime effectedDate)
+        {
+            var sqlQuery = Repository.GetAll()
+                            .Where(a => a.LocationId == fromLocationId && a.EffectedDate.Date <= effectedDate.Date)
+                            .Select(a => new
+                            {
+                                a.ItemId,
+                                a.LocationId,
+                                a.EffectedDate,
+                                a.Price,
+                                a.ItemCategoryId
+                            }).ToList();
+
+            if (sqlQuery.Count == 0)
+            {
+                throw new UserFriendlyException("No ratelist found");
+            }
+
+            var groupedQuery = sqlQuery
+                .GroupBy(a => new { a.ItemId })
+                .Select(group => group.OrderByDescending(a => a.EffectedDate).FirstOrDefault());
+
+            var resultQuery = groupedQuery.Select(x => new ItemPriceListDto
+            {
+                LocationId = x.LocationId,
+                ItemCategoryId = x.ItemCategoryId,
+                ItemId = x.ItemId,
+                Price = x.Price,
+                EffectedDate = x.EffectedDate,
+                StrLocationIds = toLocationIds
+            }).ToList();
+
+            return await BulkCreateAsync(resultQuery);
         }
     }
 }

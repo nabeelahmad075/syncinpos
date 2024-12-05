@@ -81,6 +81,7 @@ namespace syncinpos.Entities.Inventory.ItemPrices
                                      a.Item.ItemName.ToLower().Contains(input.Keyword.ToLower())
                             ).Select(a=>new
                             {
+                                a.Id,
                                 a.ItemId,
                                 a.LocationId,
                                 a.Location.LocationName,
@@ -94,15 +95,12 @@ namespace syncinpos.Entities.Inventory.ItemPrices
                 .GroupBy(a => new { a.ItemId, a.LocationId })
                 .Select(group => group.OrderByDescending(a => a.EffectedDate).FirstOrDefault());
 
-            var sortedQuery = groupedQuery
-                .OrderBy(x => input.Sorting);
-
-            var pagedQuery = sortedQuery
-                .Skip(input.SkipCount)
-                .Take(input.MaxResultCount);
+            var sortedQuery = groupedQuery.OrderBy(x => input.Sorting);
+            var pagedQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);
 
             var result = pagedQuery.Select(x => new ItemPriceListHistoryDto
             {
+                Id = x.Id,
                 Location = x.LocationName,
                 Category = x.Title,
                 ItemName = x.ItemName,
@@ -134,10 +132,10 @@ namespace syncinpos.Entities.Inventory.ItemPrices
 
             return itemsQuery;
         }
-        public async Task<List<ItemPriceListDto>> GetItemPriceListForReplicaAsync(int fromLocationId, int[] toLocationIds, DateTime effectedDate)
+        public async Task<List<ItemPriceListDto>> GetItemPriceListForReplicaAsync(int fromLocationId, int[] toLocationIds, int[] itemCatregoryIds, DateTime effectedDate)
         {
             var sqlQuery = Repository.GetAll()
-                            .Where(a => a.LocationId == fromLocationId && a.EffectedDate.Date <= effectedDate.Date)
+                            .Where(a => a.LocationId == fromLocationId && a.EffectedDate.Date <= effectedDate.Date && itemCatregoryIds.Contains(a.ItemCategoryId))
                             .Select(a => new
                             {
                                 a.ItemId,

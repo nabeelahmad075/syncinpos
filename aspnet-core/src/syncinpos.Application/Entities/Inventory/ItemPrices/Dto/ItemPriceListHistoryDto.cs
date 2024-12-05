@@ -8,6 +8,7 @@ namespace syncinpos.Entities.Inventory.ItemPrices.Dto
 {
     public class ItemPriceListHistoryDto
     {
+        public long Id { get; set; }
         public string? Location { get; set; }
         public string? Category { get; set; }
         public string? ItemName { get; set; }

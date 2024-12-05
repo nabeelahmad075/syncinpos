@@ -44,15 +44,18 @@ namespace syncinpos.Entities.Inventory.ItemPrices
             {
                 foreach (var item in input)
                 {
-                    itemsToInsert.Add(new ItemPriceList
+                    if (item.Price > 0) 
                     {
-                        Id = item.Id,
-                        LocationId = locationId,
-                        ItemCategoryId = item.ItemCategoryId,
-                        ItemId = item.ItemId,
-                        Price = item.Price,
-                        EffectedDate = item.EffectedDate
-                    });
+                        itemsToInsert.Add(new ItemPriceList
+                        {
+                            Id = item.Id,
+                            LocationId = locationId,
+                            ItemCategoryId = item.ItemCategoryId,
+                            ItemId = item.ItemId,
+                            Price = item.Price,
+                            EffectedDate = item.EffectedDate
+                        });
+                    }
                 }
             }
 

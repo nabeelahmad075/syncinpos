@@ -1,0 +1,87 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createItemPriceForm="ngForm"
+  (ngSubmit)="create()"
+>
+<div [@routerTransition]>
+    <abp-modal-header
+      [title]="'Replica Price List' | localize"
+      (onCloseClick)="bsModalRef.hide()"
+    ></abp-modal-header>
+    <!-- <div class="modal-body"> -->
+    <!-- <div class="container-fluid" style="width: 100%">
+      <div class="card main-content rounded"> -->
+        <div class="form-row form-group">
+          <div class="col-md-4 required">
+            <label class="" for="location">From Location</label>
+            <div class="">
+                <p-dropdown
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
+                name="location"
+                required
+                placeholder="Select From Location"
+                [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+                [options]="tblLocation"
+                [(ngModel)]="fromLocationId"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-4 required">
+            <label for="category">
+              {{ "Category" | localize }}
+            </label>
+            <p-multiSelect
+            name="category"
+            id="category"
+            required
+            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+            placeholder="Select Category(s)"
+            [options]="tblCategory"
+            [(ngModel)]="selectedCategories"
+          ></p-multiSelect>
+          </div>
+          <div class="col-md-4 required">
+            <label for="toLocation">
+              {{ "To Location(s)" | localize }}
+            </label>
+            <p-multiSelect
+            name="toLocation"
+            id="toLocation"
+            required
+            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+            placeholder="Select Location(s)"
+            [options]="tblLocation"
+            [(ngModel)]="selectedLocations"
+          ></p-multiSelect>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="itemPriceDate"> Date Effected </label>
+            <p-calendar
+              name="itemPriceDate"
+              id="itemPriceDate"
+              autoWidth="false"
+              [style]="{ width: '100%', height: '38px', marginTop: '-9px' }"
+              [styleClass]="'border border-gray-300 rounded text-sm'"
+              placeholder="Date Effected"
+              [dateFormat]="'dd/mm/yy'"
+              [showIcon]="true"
+              [(ngModel)]="itemPriceDate"
+            ></p-calendar>
+          </div>
+        </div>
+      <!-- </div>
+    </div> -->
+    <!-- </div> -->
+  </div>
+  <abp-modal-footer
+  [saveLabel]="'Save'"
+  [saveDisabled]="!createItemPriceForm.form.valid"
+></abp-modal-footer>
+  </form>

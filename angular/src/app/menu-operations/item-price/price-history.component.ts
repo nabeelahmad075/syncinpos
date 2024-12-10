@@ -33,6 +33,7 @@ import * as moment from "moment";
 import { CreateDesignationDepartmentComponent } from "@app/hr/designation-department/create-designation-department.component";
 import { map } from "jquery";
 import { ParsedPropertyType } from "@angular/compiler";
+import { PriceReplicaComponent } from "./price-replica/price-replica.component";
 
 @Component({
   selector: "app-price-history",
@@ -104,6 +105,15 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
   }
 
   create(): void {
+    this.saving = true;
+    let checkPrice = this.tblPriceList.filter((value) => value.price > 0);
+
+if(checkPrice.length <= 0){
+  this.saving = false;
+  this.notify.error("Price should be greater than zero for atleast one item");
+  return;
+}
+
     this.tblPriceList.forEach((element) => {
       element.effectedDate = moment(this.itemPriceDate);
       element.strLocationIds = this.selectedLocations;
@@ -137,6 +147,17 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
     );
   }
 
+  showPriceReplicaDialog(): void {
+    let createPriceListDialog: BsModalRef;
+    createPriceListDialog = this._modalService.show(
+      PriceReplicaComponent, //change this component
+      {
+        class: "modal-dialog-centered modal-lg",
+        backdrop: "static",
+        ignoreBackdropClick: true,
+      }
+    );
+  }
   save(): void {
     if (this.saving) {
       return; // Prevent multiple saves

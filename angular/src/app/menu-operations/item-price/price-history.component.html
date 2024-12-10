@@ -12,9 +12,13 @@
             <h4>Price List</h4>
           </div>
           <div class="col-6 text-right">
+            <a class="btn button-new" (click)="showPriceReplicaDialog()">
+              <i class="fa-solid fa-copy" aria-hidden="true"></i>
+              Replica Price List
+            </a>
             <a class="btn button-new" (click)="showPriceListDialog()">
               <i class="fa-solid fa-list" aria-hidden="true"></i>
-              Price List
+              View Price List
             </a>
           </div>
         </div>
@@ -22,15 +26,22 @@
     </section>
     <div class="container-fluid" style="width: 97%">
       <div class="card main-content rounded">
-        <div>
+        <div class="flex">
           <div class="form-row form-group">
-            <div class="col-md-4 required">
+            <div class="col-md-4 flex-initial">
               <label class="" for="Areas">Location(s)</label>
               <div class="">
                 <p-multiSelect
+                [style]="{
+                  width: '100%',
+                  height: '38px',
+                  lineHeight: '1',
+                  marginTop: '-0.5rem'
+                }"
                   name="Areas"
                   required
                   id="Areas"
+                  [styleClass]="'border border-gray-300 rounded focus:outline-none'"
                   placeholder="Select Location(s)"
                   [options]="tblLocation"
                   [(ngModel)]="selectedLocations"
@@ -51,9 +62,7 @@
                 name="category"
                 required
                 placeholder="Select Category"
-                [styleClass]="
-                  'border border-gray-300 rounded focus:outline-none'
-                "
+                [styleClass]="'border border-gray-300 rounded focus:outline-none'"
                 [options]="tblCategory"
                 [(ngModel)]="categoryId"
                 (onChange)="getCategoryWiseItemPrice(categoryId)"
@@ -66,7 +75,7 @@
                 name="itemPriceDate"
                 id="itemPriceDate"
                 autoWidth="false"
-                [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
+                [style]="{ width: '100%', height: '38px', marginTop: '-9px' }"
                 [styleClass]="'border border-gray-300 rounded text-sm'"
                 placeholder="Date Effected"
                 [dateFormat]="'dd/mm/yy'"

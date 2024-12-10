@@ -189,3 +189,15 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+/* Target the checkbox container */
+.p-checkbox-box {
+  width: 16px; /* Adjust the size as needed */
+  height: 16px; /* Adjust the size as needed */
+   /* Ensure alignment */
+}
+
+/* Adjust the inner checkmark icon size */
+.p-checkbox-box .p-checkbox-icon {
+  font-size: 0.8rem; /* Smaller icon */
+}

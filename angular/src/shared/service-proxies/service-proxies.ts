@@ -4603,6 +4603,84 @@ export class ItemPriceServiceProxy {
     }
 
     /**
+     * @param fromLocationId (optional) 
+     * @param toLocationIds (optional) 
+     * @param itemCatregoryIds (optional) 
+     * @param effectedDate (optional) 
+     * @return OK
+     */
+    getItemPriceListForReplica(fromLocationId: number | undefined, toLocationIds: number[] | undefined, itemCatregoryIds: number[] | undefined, effectedDate: moment.Moment | undefined): Observable<ItemPriceListDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ItemPrice/GetItemPriceListForReplica?";
+        if (fromLocationId === null)
+            throw new Error("The parameter 'fromLocationId' cannot be null.");
+        else if (fromLocationId !== undefined)
+            url_ += "fromLocationId=" + encodeURIComponent("" + fromLocationId) + "&";
+        if (toLocationIds === null)
+            throw new Error("The parameter 'toLocationIds' cannot be null.");
+        else if (toLocationIds !== undefined)
+            toLocationIds && toLocationIds.forEach(item => { url_ += "toLocationIds=" + encodeURIComponent("" + item) + "&"; });
+        if (itemCatregoryIds === null)
+            throw new Error("The parameter 'itemCatregoryIds' cannot be null.");
+        else if (itemCatregoryIds !== undefined)
+            itemCatregoryIds && itemCatregoryIds.forEach(item => { url_ += "itemCatregoryIds=" + encodeURIComponent("" + item) + "&"; });
+        if (effectedDate === null)
+            throw new Error("The parameter 'effectedDate' cannot be null.");
+        else if (effectedDate !== undefined)
+            url_ += "effectedDate=" + encodeURIComponent(effectedDate ? "" + effectedDate.toISOString() : "") + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetItemPriceListForReplica(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetItemPriceListForReplica(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ItemPriceListDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ItemPriceListDto[]>;
+        }));
+    }
+
+    protected processGetItemPriceListForReplica(response: HttpResponseBase): Observable<ItemPriceListDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(ItemPriceListDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return OK
      */
@@ -10663,6 +10741,557 @@ export class UserServiceProxy {
     }
 }
 
+@Injectable()
+export class VoucherServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @return OK
+     */
+    getVoucherTypeDropdown(): Observable<SelectItemDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Voucher/GetVoucherTypeDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetVoucherTypeDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetVoucherTypeDropdown(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SelectItemDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SelectItemDto[]>;
+        }));
+    }
+
+    protected processGetVoucherTypeDropdown(response: HttpResponseBase): Observable<SelectItemDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(SelectItemDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param voucherTypeId (optional) 
+     * @param voucherMonth (optional) 
+     * @return OK
+     */
+    getNewDocNo(voucherTypeId: number | undefined, voucherMonth: string | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Voucher/GetNewDocNo?";
+        if (voucherTypeId === null)
+            throw new Error("The parameter 'voucherTypeId' cannot be null.");
+        else if (voucherTypeId !== undefined)
+            url_ += "voucherTypeId=" + encodeURIComponent("" + voucherTypeId) + "&";
+        if (voucherMonth === null)
+            throw new Error("The parameter 'voucherMonth' cannot be null.");
+        else if (voucherMonth !== undefined)
+            url_ += "voucherMonth=" + encodeURIComponent("" + voucherMonth) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNewDocNo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNewDocNo(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string>;
+        }));
+    }
+
+    protected processGetNewDocNo(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    create(body: VoucherMasterDto | undefined): Observable<VoucherMasterDto> {
+        let url_ = this.baseUrl + "/api/services/app/Voucher/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<VoucherMasterDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<VoucherMasterDto>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<VoucherMasterDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = VoucherMasterDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    update(body: VoucherMasterDto | undefined): Observable<VoucherMasterDto> {
+        let url_ = this.baseUrl + "/api/services/app/Voucher/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<VoucherMasterDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<VoucherMasterDto>;
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<VoucherMasterDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = VoucherMasterDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return OK
+     */
+    get(id: number | undefined): Observable<VoucherMasterDto> {
+        let url_ = this.baseUrl + "/api/services/app/Voucher/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<VoucherMasterDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<VoucherMasterDto>;
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<VoucherMasterDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = VoucherMasterDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param code (optional) 
+     * @param id (optional) 
+     * @return OK
+     */
+    isAlreadyCreated(code: string | undefined, id: number | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Voucher/IsAlreadyCreated?";
+        if (code === null)
+            throw new Error("The parameter 'code' cannot be null.");
+        else if (code !== undefined)
+            url_ += "code=" + encodeURIComponent("" + code) + "&";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processIsAlreadyCreated(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processIsAlreadyCreated(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processIsAlreadyCreated(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param keyword (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return OK
+     */
+    getVoucherHistory(keyword: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<VoucherHistoryDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Voucher/GetVoucherHistory?";
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetVoucherHistory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetVoucherHistory(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<VoucherHistoryDtoPagedResultDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<VoucherHistoryDtoPagedResultDto>;
+        }));
+    }
+
+    protected processGetVoucherHistory(response: HttpResponseBase): Observable<VoucherHistoryDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = VoucherHistoryDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return OK
+     */
+    getAll(sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<VoucherMasterDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Voucher/GetAll?";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<VoucherMasterDtoPagedResultDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<VoucherMasterDtoPagedResultDto>;
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<VoucherMasterDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = VoucherMasterDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return OK
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Voucher/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
 export class ApplicationInfoDto implements IApplicationInfoDto {
     version: string | undefined;
     releaseDate: moment.Moment;
@@ -13624,6 +14253,7 @@ export interface IItemPriceListDtoPagedResultDto {
 }
 
 export class ItemPriceListHistoryDto implements IItemPriceListHistoryDto {
+    id: number;
     location: string | undefined;
     category: string | undefined;
     itemName: string | undefined;
@@ -13641,6 +14271,7 @@ export class ItemPriceListHistoryDto implements IItemPriceListHistoryDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.location = _data["location"];
             this.category = _data["category"];
             this.itemName = _data["itemName"];
@@ -13658,6 +14289,7 @@ export class ItemPriceListHistoryDto implements IItemPriceListHistoryDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["location"] = this.location;
         data["category"] = this.category;
         data["itemName"] = this.itemName;
@@ -13675,6 +14307,7 @@ export class ItemPriceListHistoryDto implements IItemPriceListHistoryDto {
 }
 
 export interface IItemPriceListHistoryDto {
+    id: number;
     location: string | undefined;
     category: string | undefined;
     itemName: string | undefined;
@@ -16539,6 +17172,381 @@ export interface IUserLoginInfoDto {
     surname: string | undefined;
     userName: string | undefined;
     emailAddress: string | undefined;
+}
+
+export class VoucherDetailDto implements IVoucherDetailDto {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    voucherMasterId: number;
+    detailAccountId: number;
+    description: string | undefined;
+    debitAmount: number;
+    creditAmount: number;
+
+    constructor(data?: IVoucherDetailDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.voucherMasterId = _data["voucherMasterId"];
+            this.detailAccountId = _data["detailAccountId"];
+            this.description = _data["description"];
+            this.debitAmount = _data["debitAmount"];
+            this.creditAmount = _data["creditAmount"];
+        }
+    }
+
+    static fromJS(data: any): VoucherDetailDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new VoucherDetailDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["voucherMasterId"] = this.voucherMasterId;
+        data["detailAccountId"] = this.detailAccountId;
+        data["description"] = this.description;
+        data["debitAmount"] = this.debitAmount;
+        data["creditAmount"] = this.creditAmount;
+        return data;
+    }
+
+    clone(): VoucherDetailDto {
+        const json = this.toJSON();
+        let result = new VoucherDetailDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IVoucherDetailDto {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    voucherMasterId: number;
+    detailAccountId: number;
+    description: string | undefined;
+    debitAmount: number;
+    creditAmount: number;
+}
+
+export class VoucherHistoryDto implements IVoucherHistoryDto {
+    id: number;
+    location: string | undefined;
+    voucherType: string | undefined;
+    voucherNo: string | undefined;
+    voucherDate: moment.Moment;
+    remarks: string | undefined;
+    voucherAmount: number;
+
+    constructor(data?: IVoucherHistoryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.location = _data["location"];
+            this.voucherType = _data["voucherType"];
+            this.voucherNo = _data["voucherNo"];
+            this.voucherDate = _data["voucherDate"] ? moment(_data["voucherDate"].toString()) : <any>undefined;
+            this.remarks = _data["remarks"];
+            this.voucherAmount = _data["voucherAmount"];
+        }
+    }
+
+    static fromJS(data: any): VoucherHistoryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new VoucherHistoryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["location"] = this.location;
+        data["voucherType"] = this.voucherType;
+        data["voucherNo"] = this.voucherNo;
+        data["voucherDate"] = this.voucherDate ? this.voucherDate.toISOString() : <any>undefined;
+        data["remarks"] = this.remarks;
+        data["voucherAmount"] = this.voucherAmount;
+        return data;
+    }
+
+    clone(): VoucherHistoryDto {
+        const json = this.toJSON();
+        let result = new VoucherHistoryDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IVoucherHistoryDto {
+    id: number;
+    location: string | undefined;
+    voucherType: string | undefined;
+    voucherNo: string | undefined;
+    voucherDate: moment.Moment;
+    remarks: string | undefined;
+    voucherAmount: number;
+}
+
+export class VoucherHistoryDtoPagedResultDto implements IVoucherHistoryDtoPagedResultDto {
+    items: VoucherHistoryDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IVoucherHistoryDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(VoucherHistoryDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): VoucherHistoryDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new VoucherHistoryDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): VoucherHistoryDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new VoucherHistoryDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IVoucherHistoryDtoPagedResultDto {
+    items: VoucherHistoryDto[] | undefined;
+    totalCount: number;
+}
+
+export class VoucherMasterDto implements IVoucherMasterDto {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    locationId: number;
+    voucherNo: string | undefined;
+    voucherDate: moment.Moment;
+    voucherTypeId: number;
+    remarks: string | undefined;
+    voucherDetails: VoucherDetailDto[] | undefined;
+
+    constructor(data?: IVoucherMasterDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.tenantId = _data["tenantId"];
+            this.locationId = _data["locationId"];
+            this.voucherNo = _data["voucherNo"];
+            this.voucherDate = _data["voucherDate"] ? moment(_data["voucherDate"].toString()) : <any>undefined;
+            this.voucherTypeId = _data["voucherTypeId"];
+            this.remarks = _data["remarks"];
+            if (Array.isArray(_data["voucherDetails"])) {
+                this.voucherDetails = [] as any;
+                for (let item of _data["voucherDetails"])
+                    this.voucherDetails.push(VoucherDetailDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): VoucherMasterDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new VoucherMasterDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["tenantId"] = this.tenantId;
+        data["locationId"] = this.locationId;
+        data["voucherNo"] = this.voucherNo;
+        data["voucherDate"] = this.voucherDate ? this.voucherDate.toISOString() : <any>undefined;
+        data["voucherTypeId"] = this.voucherTypeId;
+        data["remarks"] = this.remarks;
+        if (Array.isArray(this.voucherDetails)) {
+            data["voucherDetails"] = [];
+            for (let item of this.voucherDetails)
+                data["voucherDetails"].push(item.toJSON());
+        }
+        return data;
+    }
+
+    clone(): VoucherMasterDto {
+        const json = this.toJSON();
+        let result = new VoucherMasterDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IVoucherMasterDto {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    locationId: number;
+    voucherNo: string | undefined;
+    voucherDate: moment.Moment;
+    voucherTypeId: number;
+    remarks: string | undefined;
+    voucherDetails: VoucherDetailDto[] | undefined;
+}
+
+export class VoucherMasterDtoPagedResultDto implements IVoucherMasterDtoPagedResultDto {
+    items: VoucherMasterDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IVoucherMasterDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(VoucherMasterDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): VoucherMasterDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new VoucherMasterDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): VoucherMasterDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new VoucherMasterDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IVoucherMasterDtoPagedResultDto {
+    items: VoucherMasterDto[] | undefined;
+    totalCount: number;
 }
 
 export class ApiException extends Error {

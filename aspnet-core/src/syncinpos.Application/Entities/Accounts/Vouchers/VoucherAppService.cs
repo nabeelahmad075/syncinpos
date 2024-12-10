@@ -45,9 +45,11 @@ namespace syncinpos.Entities.Accounts.Vouchers
         public async Task<string> GetNewDocNo(int voucherTypeId, string voucherMonth)
         {
             string strDocNo = await Repository.GetAll()
-                .Where(a => a.VoucherTypeId == voucherTypeId && a.VoucherDate.ToString("yyMM") == voucherMonth)
-                .OrderByDescending(b => b.VoucherNo.Substring(4))
-                .Select(a => a.VoucherNo.Substring(4))
+                .Where(a => a.VoucherTypeId == voucherTypeId &&
+                a.VoucherDate.Year % 100 == int.Parse(voucherMonth.Substring(0, 2)) && 
+                a.VoucherDate.Month == int.Parse(voucherMonth.Substring(2, 2)))
+                .OrderByDescending(b => b.VoucherNo.Substring(5))
+                .Select(a => a.VoucherNo.Substring(5))
                 .FirstOrDefaultAsync();
 
             int newDocNumber = 1;
@@ -120,7 +122,7 @@ namespace syncinpos.Entities.Accounts.Vouchers
         public async Task<PagedResultDto<VoucherHistoryDto>> GetVoucherHistoryAsync(VoucherHistoryPagedAndSortedResultRequestDto input)
         {
             var sqlQuery = CreateFilteredQuery(input)
-                            .WhereIf(!string.IsNullOrEmpty(input.Keyword.ToString()),
+                            .WhereIf(!string.IsNullOrEmpty(input.Keyword),
                             a => a.Location.LocationName.Contains(input.Keyword.ToString()) ||
                             a.VoucherType.Alias.Contains(input.Keyword.ToString()) ||
                             a.VoucherNo.Contains(input.Keyword.ToString()) ||

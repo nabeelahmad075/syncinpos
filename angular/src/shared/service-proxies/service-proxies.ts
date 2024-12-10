@@ -10813,9 +10813,10 @@ export class VoucherServiceProxy {
     /**
      * @param voucherTypeId (optional) 
      * @param voucherMonth (optional) 
+     * @param locationId (optional) 
      * @return OK
      */
-    getNewDocNo(voucherTypeId: number | undefined, voucherMonth: string | undefined): Observable<string> {
+    getNewDocNo(voucherTypeId: number | undefined, voucherMonth: string | undefined, locationId: number | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Voucher/GetNewDocNo?";
         if (voucherTypeId === null)
             throw new Error("The parameter 'voucherTypeId' cannot be null.");
@@ -10825,6 +10826,10 @@ export class VoucherServiceProxy {
             throw new Error("The parameter 'voucherMonth' cannot be null.");
         else if (voucherMonth !== undefined)
             url_ += "voucherMonth=" + encodeURIComponent("" + voucherMonth) + "&";
+        if (locationId === null)
+            throw new Error("The parameter 'locationId' cannot be null.");
+        else if (locationId !== undefined)
+            url_ += "locationId=" + encodeURIComponent("" + locationId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

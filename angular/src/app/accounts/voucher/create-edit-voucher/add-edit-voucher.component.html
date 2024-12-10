@@ -28,6 +28,7 @@
             [options]="tblLocation"
             [styleClass]="'border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblVoucherMaster.locationId"
+            (onChange)="getVoucherNumber()"
           >
           </p-dropdown>
         </div>
@@ -49,6 +50,7 @@
           [options]="tblVoucherType"
           [styleClass]="'border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblVoucherMaster.voucherTypeId"
+          (onChange)="getVoucherNumber()"
         >
         </p-dropdown>
       </div>
@@ -134,10 +136,10 @@
         <tr>
           <th>Sr#</th>
           <!-- <th>Service Dept. <span class="color-danger">*</span></th> -->
-          <th>Detail Account<span class="color-danger">*</span></th>
-          <th>Remarks <span class="color-danger">*</span></th>
-          <th style="width:150px">Debit<span class="color-danger">*</span></th>
-          <th style="width:150px">Credit<span class="color-danger">*</span></th>
+          <th>Detail Account</th>
+          <th>Remarks</th>
+          <th style="width:150px">Debit</th>
+          <th style="width:150px">Credit</th>
           <th>Actions</th>
         </tr>
       </ng-template>
@@ -187,7 +189,7 @@
           <td>
             <a type="button" (click)="addVoucherDetails(index)">
                 <i class="fa-solid fa-plus"></i>
-            </a>
+            </a> | 
             <a type="button" class="delete-btn" style="font-size: 18px;" (click)="removeVoucherDetails(index)">
               <i class="fa-solid fa-trash-can"></i>
             </a>

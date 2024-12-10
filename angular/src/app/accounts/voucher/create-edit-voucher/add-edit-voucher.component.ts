@@ -59,9 +59,6 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
   }
 
   ngOnInit(): void {
-    if (this.id > 0) {
-      this.getById();
-    }
     this.tblVoucherMaster.voucherDetails = [];
     this.getLocationDropdown();
     this.getVoucherType();
@@ -69,6 +66,9 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
     this.addVoucherDetails(0);
     this.getDetailAccounts();
     this.voucherDate = new Date();
+    if (this.id > 0) {
+      this.getById();
+    }
     this.cdr.detectChanges();
   }
 
@@ -134,6 +134,7 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
     this._voucherService.get(this.id).subscribe((result) => {
       console.log(result);
       this.tblVoucherMaster = result;
+      this.tblVoucherMaster.voucherDetails.forEach(item => {item['uid'] = this.getUniqueId()});
       this.voucherDate = this.tblVoucherMaster.voucherDate.toDate();
       this.cdr.detectChanges();
     });
@@ -141,7 +142,7 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
 
   getVoucherNumber(){
     const formattedDate = moment(this.voucherDate).format('YYMM');
-    this._voucherService.getNewDocNo(this.tblVoucherMaster.voucherTypeId, formattedDate).subscribe((result) => 
+    this._voucherService.getNewDocNo(this.tblVoucherMaster.voucherTypeId, formattedDate, this.tblVoucherMaster.locationId).subscribe((result) => 
     this.tblVoucherMaster.voucherNo = result);
     this.cdr.detectChanges();
   }

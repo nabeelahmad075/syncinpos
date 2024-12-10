@@ -23,6 +23,7 @@ using syncinpos.Entities.Accounts.SubAccounts;
 using syncinpos.Entities.Accounts.DetailAccounts;
 using syncinpos.Entities.Sales.Customers;
 using syncinpos.Entities.Inventory.ItemPrices;
+using syncinpos.Entities.Accounts.Vouchers;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -54,5 +55,8 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<DetailAccount> tblDetailAccounts { get; set; }
         public DbSet<Customer> tblCustomers { get; set; }
         public DbSet<ItemPriceList> tblItemPriceList { get; set; }
+        public DbSet<VoucherType> tblVoucherType { get; set; }
+        public DbSet<VoucherMaster> tblVoucherMaster { get; set; }
+        public DbSet<VoucherDetail> tblVoucherDetail { get; set; }
     }
 }

@@ -50,7 +50,9 @@ import { AddEditCustomerComponent } from './sales/customer/create-edit-customer/
 import { MainPosComponent } from './sales/pos/mainpos/main-pos.component';
 import { PriceHistoryComponent} from './menu-operations/item-price/price-history.component';
 import { AddEditPriceComponent} from './menu-operations/item-price/create-edit-price/add-edit-price.component';
-import { PriceReplicaComponent } from './menu-operations/item-price/price-replica/price-replica.component'
+import { PriceReplicaComponent } from './menu-operations/item-price/price-replica/price-replica.component';
+import { VoucherHistoryComponent } from './accounts/voucher/voucher-history.component';
+import { AddEditVoucherComponent} from './accounts/voucher/create-edit-voucher/add-edit-voucher.component';
 
 
 @NgModule({
@@ -89,7 +91,9 @@ import { PriceReplicaComponent } from './menu-operations/item-price/price-replic
         MainPosComponent,
         PriceHistoryComponent,
         AddEditPriceComponent,
-        PriceReplicaComponent
+        PriceReplicaComponent,
+        VoucherHistoryComponent,
+        AddEditVoucherComponent
     ],
     imports: [
         AppRoutingModule,

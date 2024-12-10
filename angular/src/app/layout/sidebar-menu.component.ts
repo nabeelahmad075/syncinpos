@@ -105,7 +105,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         ),
         new MenuItem(
           "Voucher Entry",
-          "/app/voucher-entry",
+          "/app/voucher-history",
           "fa-solid fa-ticket text-md"
         ),
       ]),

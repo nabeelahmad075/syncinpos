@@ -26,6 +26,7 @@ import { MainPosComponent } from './sales/pos/mainpos/main-pos.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { PriceHistoryComponent } from './menu-operations/item-price/price-history.component';
 import { AddEditPriceComponent } from './menu-operations/item-price/create-edit-price/add-edit-price.component';
+import { VoucherHistoryComponent } from './accounts/voucher/voucher-history.component';
 
 @NgModule({
     imports: [
@@ -142,6 +143,11 @@ import { AddEditPriceComponent } from './menu-operations/item-price/create-edit-
                     {
                         path: "coa-add-main",
                         component: AddEditMainAccComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "voucher-history",
+                        component: VoucherHistoryComponent,
                         canActivate: [AppRouteGuard]
                     },
                     // {

@@ -42,10 +42,10 @@ namespace syncinpos.Entities.Accounts.Vouchers
                                                            }).ToListAsync();
             return voucherTypes;
         }
-        public async Task<string> GetNewDocNo(int voucherTypeId, string voucherMonth)
+        public async Task<string> GetNewDocNo(int voucherTypeId, string voucherMonth, int locationId)
         {
             string strDocNo = await Repository.GetAll()
-                .Where(a => a.VoucherTypeId == voucherTypeId &&
+                .Where(a => a.VoucherTypeId == voucherTypeId && a.LocationId == locationId &&
                 a.VoucherDate.Year % 100 == int.Parse(voucherMonth.Substring(0, 2)) && 
                 a.VoucherDate.Month == int.Parse(voucherMonth.Substring(2, 2)))
                 .OrderByDescending(b => b.VoucherNo.Substring(5))
@@ -82,7 +82,7 @@ namespace syncinpos.Entities.Accounts.Vouchers
         }
         public override Task<VoucherMasterDto> GetAsync(EntityDto<long> input)
         {
-            return Repository.GetAll().Where(a => a.Id == input.Id)
+            var voucherEntry =  Repository.GetAll().Where(a => a.Id == input.Id)
                 .Select(a => new VoucherMasterDto
                 {
                     Id = a.Id,
@@ -100,6 +100,8 @@ namespace syncinpos.Entities.Accounts.Vouchers
                         CreditAmount = b.CreditAmount
                     }).ToList()
                 }).FirstOrDefaultAsync();
+
+            return voucherEntry;
         }
         private async Task DeleteRemovedDetails(VoucherMasterDto input)
         {
@@ -109,7 +111,7 @@ namespace syncinpos.Entities.Accounts.Vouchers
         {
             if (!IsAlreadyCreated(input.VoucherNo, input.Id))
             {
-                input.VoucherNo = await GetNewDocNo(input.VoucherTypeId, input.VoucherDate.ToString("yyMM"));
+                input.VoucherNo = await GetNewDocNo(input.VoucherTypeId, input.VoucherDate.ToString("yyMM"), input.LocationId);
             }
         }
         public bool IsAlreadyCreated(string code, long? id = null)

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .p-datatable .p-datatable-header {
-  background: #80AF81;
+  background: #80af81;
   color: #374151;
   border: 1px solid #e5e7eb;
   border-width: 1px 0 1px 0;
@@ -15,7 +15,7 @@
 .table-bordered thead th {
   color: #ffffff;
   border-bottom-width: 2px;
-  background: #508D4E;
+  background: #508d4e;
   border: 1px solid black;
 }
 
@@ -90,96 +90,96 @@ label {
   width: 100%;
   max-width: 100%;
   padding: 0;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   font-size: 1.1rem;
   line-height: inherit;
   color: inherit;
   white-space: normal;
 }
 
-.guide{
+.guide {
   font-size: 1.1rem;
-    margin-left: 2px;
-    color: #508D4E;
+  margin-left: 2px;
+  color: #508d4e;
 }
 
-aside{
-  background-color: #D6EFD8;
+aside {
+  background-color: #d6efd8;
 }
 
-nav ul li a i, nav ul li a p{
-  color: #508D4E;
+nav ul li a i,
+nav ul li a p {
+  color: #508d4e;
   font-size: 0.9rem;
 }
 
 nav ul li a:hover i,
 nav ul li a:hover p {
-  color: #FFFFFF;
-
+  color: #ffffff;
 }
 
-nav ul li a:hover{
-  background-color: #80AF81;
+nav ul li a:hover {
+  background-color: #80af81;
 }
 
 .nav-pills .nav-link.active {
-  color: #FFFFFF;
-background-color: #B3E2A7 !important;
+  color: #ffffff;
+  background-color: #b3e2a7 !important;
 }
 
-.brand-text{
-color: #508D4E;
+.brand-text {
+  color: #508d4e;
 }
 
-.brand-text:hover{
+.brand-text:hover {
   color: blue;
-  }
+}
 
-.button-new{
-  background-color: #508D4E !important;
+.button-new {
+  background-color: #508d4e !important;
   color: #ffffff !important;
   margin-left: 0.5rem !important;
   font-size: small !important;
   font-weight: 600 !important;
 }
 
-.modal-head{
-color: #ffffff;
-background-color: #508D4E;
-padding-bottom: 0.6rem !important;
+.modal-head {
+  color: #ffffff;
+  background-color: #508d4e;
+  padding-bottom: 0.6rem !important;
 }
 
-.modal-title{
+.modal-title {
   font-weight: bold !important;
 }
 
-td>a>i{
-  color: #508D4E;
+td > a > i {
+  color: #508d4e;
 }
 
-.img-hover{
+.img-hover {
   background-color: #ffffff !important;
 }
 
-.p-datatable:hover{
-  background-color: #D6EFD8 !important;
+.p-datatable:hover {
+  background-color: #d6efd8 !important;
 }
 
-p-calendar span.p-calendar-w-btn button.p-datepicker-trigger.p-button  {
-  background-color: #508D4E !important;
+p-calendar span.p-calendar-w-btn button.p-datepicker-trigger.p-button {
+  background-color: #508d4e !important;
 }
 
-calendaricon{
+calendaricon {
   color: #ffffff;
 }
 
-input[role="searchbox"]{
+input[role="searchbox"] {
   height: 25px !important;
-  border:none;
+  border: none;
 }
 
 /* Hide spinner for Chrome, Safari, Edge, and other WebKit browsers */
-input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
@@ -194,10 +194,12 @@ input[type="number"] {
 .p-checkbox-box {
   width: 16px; /* Adjust the size as needed */
   height: 16px; /* Adjust the size as needed */
-   /* Ensure alignment */
+  /* Ensure alignment */
 }
 
 /* Adjust the inner checkmark icon size */
 .p-checkbox-box .p-checkbox-icon {
   font-size: 0.8rem; /* Smaller icon */
 }
+
+

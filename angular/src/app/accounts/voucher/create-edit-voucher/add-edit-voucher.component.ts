@@ -36,7 +36,7 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
 
   saving = false;
   id: number;
-  empCode: string;
+  currentVoucherNo: string;
   tblLocation: SelectItem[] = [];
   tblVoucherMaster: VoucherMasterDto = new VoucherMasterDto();
   tblVoucherType: SelectItem[] = [];
@@ -149,6 +149,7 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
     this._voucherService.get(this.id).subscribe((result) => {
       console.log(result);
       this.tblVoucherMaster = result;
+      this.currentVoucherNo = result.voucherNo;
       this.tblVoucherMaster.voucherDetails.forEach(item => {item['uid'] = this.getUniqueId()});
       this.voucherDate = this.tblVoucherMaster.voucherDate.toDate();
       this.cdr.detectChanges();
@@ -156,13 +157,9 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
   }
 
   getVoucherNumber(){
-
-    if (this.id > 0) {
-      return;
-    }
-
     const formattedDate = moment(this.voucherDate).format('YYMM');
-    this._voucherService.getNewDocNo(this.tblVoucherMaster.voucherTypeId, formattedDate, this.tblVoucherMaster.locationId).subscribe((result) => 
+    this._voucherService.getNewDocNo(this.currentVoucherNo, this.id, this.tblVoucherMaster.voucherTypeId, 
+      formattedDate, this.tblVoucherMaster.locationId).subscribe((result) => 
     this.tblVoucherMaster.voucherNo = result);
     this.cdr.detectChanges();
   }

@@ -102,4 +102,17 @@ export class VoucherHistoryComponent extends AppComponentBase {
       }
     });
   }
+
+  deleteVoucher(voucher: VoucherHistoryDto){
+    abp.message.confirm(this.l(`Voucher '${voucher.voucherNo}' will be deleted from '${voucher.location}'?`),
+    undefined,
+    (result: boolean) => {
+      if (result) {
+        this._voucherService.delete(voucher.id).subscribe(() => {
+          abp.notify.info("Voucher Deleted!");
+          this.getHistory();
+          this.cd.detectChanges();
+        });
+      }});
+  }
 }

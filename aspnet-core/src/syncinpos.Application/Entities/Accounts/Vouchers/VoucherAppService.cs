@@ -86,18 +86,21 @@ namespace syncinpos.Entities.Accounts.Vouchers
                 .Select(a => new VoucherMasterDto
                 {
                     Id = a.Id,
+                    TenantId = a.TenantId,
                     LocationId = a.LocationId,
                     VoucherDate = a.VoucherDate,
                     VoucherNo = a.VoucherNo,
                     Remarks = a.Remarks,
                     VoucherTypeId = a.VoucherTypeId,
+                    CreatorUserId = a.CreatorUserId,
                     VoucherDetails = a.VoucherDetails.Select(b => new VoucherDetailDto
                     {
                         Id = b.Id,
                         VoucherMasterId = b.VoucherMasterId,
                         DetailAccountId = b.DetailAccountId,
                         DebitAmount = b.DebitAmount,
-                        CreditAmount = b.CreditAmount
+                        CreditAmount = b.CreditAmount,
+                        CreatorUserId = a.CreatorUserId
                     }).ToList()
                 }).FirstOrDefaultAsync();
 

@@ -42,8 +42,22 @@ namespace syncinpos.Entities.Accounts.Vouchers
                                                            }).ToListAsync();
             return voucherTypes;
         }
-        public async Task<string> GetNewDocNo(int voucherTypeId, string voucherMonth, int locationId)
+        public async Task<string> GetNewDocNo(string voucherNo, long id, int voucherTypeId, string voucherMonth, int locationId)
         {
+            if (id != 0)
+            {
+                var checkEntryChanged = await Repository.GetAll()
+                                                        .Where(a => a.Id == id && a.VoucherTypeId == voucherTypeId && a.LocationId == locationId &&
+                                                            a.VoucherDate.Year % 100 == int.Parse(voucherMonth.Substring(0, 2)) &&
+                                                            a.VoucherDate.Month == int.Parse(voucherMonth.Substring(2, 2)))
+                                                        .AnyAsync();
+
+                if (checkEntryChanged)
+                {
+                    return voucherNo;
+                }
+            }
+
             string strDocNo = await Repository.GetAll()
                 .Where(a => a.VoucherTypeId == voucherTypeId && a.LocationId == locationId &&
                 a.VoucherDate.Year % 100 == int.Parse(voucherMonth.Substring(0, 2)) && 
@@ -114,7 +128,7 @@ namespace syncinpos.Entities.Accounts.Vouchers
         {
             if (!IsAlreadyCreated(input.VoucherNo, input.Id))
             {
-                input.VoucherNo = await GetNewDocNo(input.VoucherTypeId, input.VoucherDate.ToString("yyMM"), input.LocationId);
+                input.VoucherNo = await GetNewDocNo(input.VoucherNo, input.Id, input.VoucherTypeId, input.VoucherDate.ToString("yyMM"), input.LocationId);
             }
         }
         public bool IsAlreadyCreated(string code, long? id = null)

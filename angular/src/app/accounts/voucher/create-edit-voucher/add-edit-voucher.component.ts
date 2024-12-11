@@ -53,7 +53,7 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
     private _detailAccService: DetailAccountServiceProxy,
     public _sharedService: SharedService,
     public bsModalRef: BsModalRef,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     super(injector);
   }
@@ -62,13 +62,18 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
     this.tblVoucherMaster.voucherDetails = [];
     this.getLocationDropdown();
     this.getVoucherType();
-    this.getVoucherNumber();
     this.addVoucherDetails(0);
     this.getDetailAccounts();
     this.voucherDate = new Date();
+
     if (this.id > 0) {
       this.getById();
     }
+    else
+    {
+      this.getVoucherNumber();
+    }
+
     this.cdr.detectChanges();
   }
 
@@ -90,6 +95,15 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
   }
 
   save(): void {
+
+    let debit = this.sum("debitAmount");
+    let credit = this.sum("creditAmount");
+
+    if (debit - credit != 0){
+      abp.notify.error("Unbalanced voucher.");
+      return;
+    }
+
     this.saving = true;
     this.tblVoucherMaster.voucherDate = moment(this.voucherDate);
     if (this.id) {
@@ -101,6 +115,7 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
   update(): void {
     if (!this.tblVoucherMaster.locationId) {
       abp.notify.error("Please Select Location.");
+      return;
     }
     this._voucherService.update(this.tblVoucherMaster).subscribe({
       next: (value: any) => {
@@ -141,6 +156,11 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
   }
 
   getVoucherNumber(){
+
+    if (this.id > 0) {
+      return;
+    }
+
     const formattedDate = moment(this.voucherDate).format('YYMM');
     this._voucherService.getNewDocNo(this.tblVoucherMaster.voucherTypeId, formattedDate, this.tblVoucherMaster.locationId).subscribe((result) => 
     this.tblVoucherMaster.voucherNo = result);

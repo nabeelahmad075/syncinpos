@@ -49,8 +49,7 @@
                 <th>Voucher Date</th>
                 <th>Voucher Amount</th>
                 <th>Remarks</th>
-                <!-- <th style="text-align: center;">Status</th> -->
-                <th style="text-align: center;">Action</th>
+                                <th style="text-align: center;">Action</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-voucherHistory>
@@ -58,20 +57,9 @@
                 <td>{{ voucherHistory.location }}</td>
                 <td>{{ voucherHistory.voucherType }}</td>
                 <td>{{ voucherHistory.voucherNo }}</td>
-                <td>{{ voucherHistory.voucherDate }}</td>
+                <td>{{ voucherHistory.voucherDate | date: 'medium' }}</td>
                 <td>{{ voucherHistory.voucherAmount }}</td>
                 <td>{{ voucherHistory.remarks }}</td>
-                <!-- <td style="text-align: center">
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      disabled
-                      [checked]="voucherHistory.isActive"
-                    />
-                    <label class="custom-control-label"></label>
-                  </div>
-                </td> -->
                 <td style="text-align: center">
                   <a
                   type="button"

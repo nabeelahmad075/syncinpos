@@ -29,6 +29,8 @@ h5:after {
   cursor: pointer;
   text-align: center;
   margin-left: 0.6rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .button-container i {
@@ -59,4 +61,3 @@ a {
 .button-container:hover i {
     animation: bounce 1s infinite;
 }
-

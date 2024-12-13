@@ -27,6 +27,7 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { PriceHistoryComponent } from './menu-operations/item-price/price-history.component';
 import { AddEditPriceComponent } from './menu-operations/item-price/create-edit-price/add-edit-price.component';
 import { VoucherHistoryComponent } from './accounts/voucher/voucher-history.component';
+import { SetupMenuComponent } from './navbar-menu/setup-menu/setup-menu.component';
 
 @NgModule({
     imports: [
@@ -38,6 +39,11 @@ import { VoucherHistoryComponent } from './accounts/voucher/voucher-history.comp
                     {
                         path: 'home',
                         loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "setup-menu",
+                        component: SetupMenuComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {

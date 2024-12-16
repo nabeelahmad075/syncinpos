@@ -54,6 +54,7 @@ import { PriceReplicaComponent } from './menu-operations/item-price/price-replic
 import { VoucherHistoryComponent } from './accounts/voucher/voucher-history.component';
 import { AddEditVoucherComponent} from './accounts/voucher/create-edit-voucher/add-edit-voucher.component';
 import { SetupMenuComponent } from './navbar-menu/setup-menu/setup-menu.component';
+import { SalesMenuComponent} from './navbar-menu/sales-menu/sales-menu.component';
 
 
 @NgModule({
@@ -95,7 +96,8 @@ import { SetupMenuComponent } from './navbar-menu/setup-menu/setup-menu.componen
         PriceReplicaComponent,
         VoucherHistoryComponent,
         AddEditVoucherComponent,
-        SetupMenuComponent
+        SetupMenuComponent,
+        SalesMenuComponent
     ],
     imports: [
         AppRoutingModule,

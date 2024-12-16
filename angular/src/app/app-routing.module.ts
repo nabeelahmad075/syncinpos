@@ -28,6 +28,7 @@ import { PriceHistoryComponent } from './menu-operations/item-price/price-histor
 import { AddEditPriceComponent } from './menu-operations/item-price/create-edit-price/add-edit-price.component';
 import { VoucherHistoryComponent } from './accounts/voucher/voucher-history.component';
 import { SetupMenuComponent } from './navbar-menu/setup-menu/setup-menu.component';
+import { SalesMenuComponent } from './navbar-menu/sales-menu/sales-menu.component';
 
 @NgModule({
     imports: [
@@ -44,6 +45,11 @@ import { SetupMenuComponent } from './navbar-menu/setup-menu/setup-menu.componen
                     {
                         path: "setup-menu",
                         component: SetupMenuComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "sales-menu",
+                        component: SalesMenuComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {

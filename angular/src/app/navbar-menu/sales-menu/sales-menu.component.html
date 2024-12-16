@@ -1,0 +1,21 @@
+<div [@routerTransition]>
+    <section class="content-header" style="padding: 1px 0.5rem">
+      <div class="container-fluid" style="width: 97%">
+        <h5>POS</h5>
+        <a (click)="navigateToPosForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-map-pin"></i>
+            <span> Main POS </span>
+          </button>
+        </a>
+        <h5>Customer Management</h5>
+        <a (click)="navigateToCustomerForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-users"></i>
+            <span> Add Customer </span>
+          </button>
+        </a>
+      </div>
+    </section>
+  </div>
+  

@@ -16,6 +16,7 @@ import { Router } from "@angular/router";
   animations: [appModuleAnimation()],
 })
 export class SetupMenuComponent extends AppComponentBase {
+  
   constructor(
     injector: Injector,
     private router: Router,

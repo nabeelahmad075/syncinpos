@@ -55,7 +55,8 @@ import { VoucherHistoryComponent } from './accounts/voucher/voucher-history.comp
 import { AddEditVoucherComponent} from './accounts/voucher/create-edit-voucher/add-edit-voucher.component';
 import { SetupMenuComponent } from './navbar-menu/setup-menu/setup-menu.component';
 import { SalesMenuComponent} from './navbar-menu/sales-menu/sales-menu.component';
-
+import { AccountsMenuComponent } from './navbar-menu/accounts-menu/accounts-menu.component';
+import { HeaderDateComponent } from './layout/header-date.component';
 
 @NgModule({
     declarations: [
@@ -97,7 +98,9 @@ import { SalesMenuComponent} from './navbar-menu/sales-menu/sales-menu.component
         VoucherHistoryComponent,
         AddEditVoucherComponent,
         SetupMenuComponent,
-        SalesMenuComponent
+        SalesMenuComponent,
+        AccountsMenuComponent,
+        HeaderDateComponent
     ],
     imports: [
         AppRoutingModule,

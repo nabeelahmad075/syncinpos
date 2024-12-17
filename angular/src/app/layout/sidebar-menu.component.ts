@@ -97,18 +97,18 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       //     ),
       //   ]),
       // ]),
-      new MenuItem(this.l("Accounts"), "", "fa-solid fa-chart-line text-md", "", [
-        new MenuItem(
-          "Chart of Accounts",
-          "/app/coa-detail",
-          "fa-solid fa-chart-gantt text-md"
-        ),
-        new MenuItem(
-          "Voucher Entry",
-          "/app/voucher-history",
-          "fa-solid fa-ticket text-md"
-        ),
-      ]),
+      // new MenuItem(this.l("Accounts"), "", "fa-solid fa-chart-line text-md", "", [
+      //   new MenuItem(
+      //     "Chart of Accounts",
+      //     "/app/coa-detail",
+      //     "fa-solid fa-chart-gantt text-md"
+      //   ),
+      //   new MenuItem(
+      //     "Voucher Entry",
+      //     "/app/voucher-history",
+      //     "fa-solid fa-ticket text-md"
+      //   ),
+      // ]),
       new MenuItem(this.l("HomePage"), "/app/home", "fas fa-home text-md"),
       new MenuItem(
         this.l("Setup"),
@@ -121,6 +121,11 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         "fa-solid fa-chart-pie text-md"
       ),
       new MenuItem(
+        this.l("Accounts"),
+        "/app/accounts-menu",
+        "fa-solid fa-chart-line text-md"
+      ),
+      new MenuItem(
         this.l("Roles"),
         "/app/roles",
         "fas fa-theater-masks text-md",
@@ -131,6 +136,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         "/app/tenants",
         "fas fa-building text-md",
         "Pages.Tenants"
+      ),
+      new MenuItem(
+        this.l("Utility"),
+        "/app/utility",
+        "fa-solid fa-download text-md",
+        "Pages.Utility"
       ),
       new MenuItem(
         this.l("Users"),

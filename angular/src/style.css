@@ -141,6 +141,8 @@ nav ul li a:hover {
   margin-left: 0.5rem !important;
   font-size: small !important;
   font-weight: 600 !important;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .modal-head {
@@ -213,12 +215,12 @@ input[type="number"] {
 @keyframes pulse {
   0%, 50% {
     opacity: 1;
-    background-color: #a7e9a8;
-    color: #134811;
+    background-color: #b3e2a7;
+    color: #508d4e;
   }
   51%, 100% {
     opacity: 1;
-    background-color: #80af81;
-    color: #ffffff;
+    background-color: #508d4e;
+    color: #b3e2a7;
   }
 }

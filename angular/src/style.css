@@ -202,8 +202,23 @@ input[type="number"] {
   font-size: 0.8rem; /* Smaller icon */
 }
 
-.softwaredate {
+.softwaredate .p-inputtext {
   font-size: large;
-  color: red !important;
   font-weight: 800;
+  animation: pulse 2s linear infinite;
+  width: 10rem;
+  border-radius: 0;
+}
+
+@keyframes pulse {
+  0%, 50% {
+    opacity: 1;
+    background-color: #a7e9a8;
+    color: #134811;
+  }
+  51%, 100% {
+    opacity: 1;
+    background-color: #80af81;
+    color: #ffffff;
+  }
 }

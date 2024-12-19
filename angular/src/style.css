@@ -224,3 +224,28 @@ input[type="number"] {
     color: #b3e2a7;
   }
 }
+
+/* For WebKit-based browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #b3e2a7; /* Track color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b3e2a7; /* Thumb (scroll handle) color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b3e2a7; /* Hover effect */
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: thin; /* Width: 'auto', 'thin', or 'none' */
+  scrollbar-color: #b3e2a7 #508d4e; /* Thumb and track colors */
+}

@@ -29,6 +29,10 @@ export class SalesMenuComponent extends AppComponentBase {
     this.router.navigate(["/app/pos"]);
   }
 
+  navigateToDayCloseForm(): void {
+    this.router.navigate(["/app/day-close"]);
+  }
+
   navigateToCustomerForm(): void {
     this.router.navigate(["/app/addcustomer"]);
   }

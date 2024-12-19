@@ -30,6 +30,7 @@ import { VoucherHistoryComponent } from './accounts/voucher/voucher-history.comp
 import { SetupMenuComponent } from './navbar-menu/setup-menu/setup-menu.component';
 import { SalesMenuComponent } from './navbar-menu/sales-menu/sales-menu.component';
 import { AccountsMenuComponent } from './navbar-menu/accounts-menu/accounts-menu.component';
+import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.component';
 
 @NgModule({
     imports: [
@@ -131,6 +132,11 @@ import { AccountsMenuComponent } from './navbar-menu/accounts-menu/accounts-menu
                     {
                         path: "pos",
                         component: MainPosComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "day-close",
+                        component: DayCloseHistoryComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {

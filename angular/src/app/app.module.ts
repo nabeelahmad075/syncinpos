@@ -57,7 +57,7 @@ import { SetupMenuComponent } from './navbar-menu/setup-menu/setup-menu.componen
 import { SalesMenuComponent} from './navbar-menu/sales-menu/sales-menu.component';
 import { AccountsMenuComponent } from './navbar-menu/accounts-menu/accounts-menu.component';
 import { HeaderDateComponent } from './layout/header-date.component';
-
+import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -100,7 +100,8 @@ import { HeaderDateComponent } from './layout/header-date.component';
         SetupMenuComponent,
         SalesMenuComponent,
         AccountsMenuComponent,
-        HeaderDateComponent
+        HeaderDateComponent,
+        DayCloseHistoryComponent
     ],
     imports: [
         AppRoutingModule,

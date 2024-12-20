@@ -24,6 +24,7 @@ using syncinpos.Entities.Accounts.DetailAccounts;
 using syncinpos.Entities.Sales.Customers;
 using syncinpos.Entities.Inventory.ItemPrices;
 using syncinpos.Entities.Accounts.Vouchers;
+using syncinpos.Entities.Sales.DayCloses;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -58,5 +59,6 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<VoucherType> tblVoucherType { get; set; }
         public DbSet<VoucherMaster> tblVoucherMaster { get; set; }
         public DbSet<VoucherDetail> tblVoucherDetail { get; set; }
+        public DbSet<DayClose> tblDayClose { get; set; }
     }
 }

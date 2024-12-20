@@ -19,37 +19,59 @@ h5:after {
   border-bottom: 1px solid;
   margin-left: 10px;
 }
+
 .button-container {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
-  background-color: #508d4e !important;
-  color: white !important;
-  border: none;
-  border-radius: 5px;
+  width: 6rem; /* Fixed width */
+  height: 6rem; /* Fixed height */
+  padding: 0; /* Remove extra padding */
+  background-color: #b3e2a7 !important;
+  color: #508d4e !important;
+  border: 2px solid #508d4e;
+  border-radius: 10px; /* Sharp edges */
   cursor: pointer;
   text-align: center;
-  margin-left: 0.6rem;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin: 0.5rem; /* Adjust margin */
+  box-sizing: border-box; /* Ensures padding doesn’t alter the size */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  transition: box-shadow 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+.button-container:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+  transform: translateY(-4px); /* Slight upward lift */
 }
 
 .button-container i {
-  font-size: 1.4rem; /* Adjust icon size */
-  margin-bottom: 5px; /* Space between icon and text */
+  font-size: 1.4rem; /* Icon size */
+  margin-bottom: 8px; /* Space between icon and text */
 }
 
 .button-container span {
-  font-size: 14px; /* Adjust text size */
+  font-size: small; /* Adjust text size */
+  text-align: center; /* Center text */
+  word-wrap: break-word; /* Wrap text if long */
+  max-width: 100%; /* Prevent overflow */
 }
 
 a {
-  color: #ffffff;
+  color: #508d4e;
   font-weight: bold;
 }
 
+/* Ensures buttons stay aligned in a grid */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px; /* Space between buttons */
+  justify-content: start; /* Align to the left, adjust if needed */
+}
+
+
+/* Icon Animation */
 @keyframes bounce {
     0%, 100% {
         transform: translateY(-25%);

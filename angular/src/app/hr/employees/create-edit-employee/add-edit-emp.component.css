@@ -3,4 +3,39 @@
     color: red;
 }
 
+/* Keyframes for fade-in from the top */
+@keyframes fadeInFromTop {
+    0% {
+      transform: translateY(-20px); /* Slightly above its normal position */
+      opacity: 0; /* Fully transparent */
+    }
+    100% {
+      transform: translateY(0); /* Back to its normal position */
+      opacity: 1; /* Fully visible */
+    }
+  }
+  
+  /* Keyframes for fade-out towards the top */
+  @keyframes fadeOutToTop {
+    0% {
+      transform: translateY(0); /* Start at its normal position */
+      opacity: 1; /* Fully visible */
+    }
+    100% {
+      transform: translateY(-20px); /* Slightly above its normal position */
+      opacity: 0; /* Fully transparent */
+    }
+  }
+  
+  /* Fade-in from top class */
+  .fade-in {
+    animation: fadeInFromTop 0.5s ease-out forwards;
+  }
+  
+  /* Fade-out towards top class */
+  .fade-out {
+    animation: fadeOutToTop 0.5s ease-in forwards;
+  }
+  
 
+  

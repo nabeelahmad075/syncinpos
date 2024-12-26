@@ -30,7 +30,7 @@ export class SalesMenuComponent extends AppComponentBase {
   }
 
   navigateToDayCloseForm(): void {
-    this.router.navigate(["/app/day-close"]);
+    this.router.navigate(["/app/dayclose"]);
   }
 
   navigateToCustomerForm(): void {

@@ -135,7 +135,7 @@ import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.co
                         canActivate: [AppRouteGuard]
                     },
                     {
-                        path: "day-close",
+                        path: "dayclose",
                         component: DayCloseHistoryComponent,
                         canActivate: [AppRouteGuard]
                     },

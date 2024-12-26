@@ -1,5 +1,7 @@
-﻿using Abp.Domain.Entities;
+﻿using Abp.Authorization.Users;
+using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using syncinpos.Authorization.Users;
 using syncinpos.Entities.HR.Departments;
 using syncinpos.Entities.HR.Designations;
 using syncinpos.Entities.Locations;
@@ -27,5 +29,8 @@ namespace syncinpos.Entities.HR.Employees
         public string Address { get; set; }
         public bool IsActive { get; set; }
         public DateTime JoiningDate { get; set; }
+        public bool IsUser { get; set; }
+        public User User { get; set; }
+        public long? UserId { get; set; }
     }
 }

@@ -11,29 +11,77 @@ using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using Abp.UI;
 using syncinpos.Entities.Setups.Floor.Dto;
+using syncinpos.Authorization.Users;
+using syncinpos.Users.Dto;
+using syncinpos.Authorization.Accounts.Dto;
+using syncinpos.Authorization.Accounts;
+using syncinpos.Users;
 
 namespace syncinpos.Entities.HR.Employees
 {
     public class EmployeeAppService : AsyncCrudAppService<Employee, EmployeeDto>
     {
+        private readonly UserAppService _userAppService;
         public EmployeeAppService(
-            IRepository<Employee, int> repository
+            IRepository<Employee, int> repository,
+            UserAppService userAppService
             ) : base(repository) 
-        { 
-        
+        {
+            _userAppService = userAppService;
         }
         public async override Task<EmployeeDto> CreateAsync(EmployeeDto input)
         {
             input.EmployeeCode = await GetNewEmployeeNoAsync(input.LocationId);
             await IsAlreadyTaken(input);
+            await CreateUpdateUserByEmp(input);
             var create = await base.CreateAsync(input);
             return create;
         }
         public async override Task<EmployeeDto> UpdateAsync(EmployeeDto input)
         {
             await IsAlreadyTaken(input);
+            await CreateUpdateUserByEmp(input);
             var updated = await base.UpdateAsync(input);
             return updated;
+        }
+        private async Task<EmployeeDto> CreateUpdateUserByEmp(EmployeeDto input)
+        {
+            if (input.IsUser)
+            {
+                if (input.UserId == 0)
+                {
+                    var userCreateInput = new CreateUserDto
+                    {
+                        Name = input.EmployeeName,
+                        Surname = input.EmployeeCode,
+                        EmailAddress = input.EmailAddress,
+                        UserName = input.Username,
+                        Password = input.Password,
+                        IsActive = input.IsActive,
+                        RoleNames = input.RolesNames
+                    };
+
+                    var user = await _userAppService.CreateAsync(userCreateInput);
+                    input.UserId = user.Id;
+                }
+                else
+                {
+                    var userUpdateInput = new UserDto
+                    {
+                        Id = input.UserId.Value,
+                        Name = input.EmployeeName,
+                        Surname = input.EmployeeCode,
+                        EmailAddress = input.EmailAddress,
+                        UserName = input.Username,
+                        IsActive = input.IsActive,
+                        RoleNames = input.RolesNames 
+                    };
+
+                    var user = await _userAppService.UpdateAsync(userUpdateInput);
+                    input.UserId = user.Id;
+                }
+            }
+            return input;
         }
         private async Task IsAlreadyTaken(EmployeeDto input)
         {

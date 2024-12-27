@@ -126,11 +126,16 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         "fa-solid fa-chart-line text-md"
       ),
       new MenuItem(
-        this.l("Roles"),
-        "/app/roles",
-        "fas fa-theater-masks text-md",
-        "Pages.Roles"
+        this.l("Reports"),
+        "/app/reports",
+        "fa-solid fa-file-invoice text-md"
       ),
+      // new MenuItem(
+      //   this.l("Roles"),
+      //   "/app/roles",
+      //   "fas fa-theater-masks text-md",
+      //   "Pages.Roles"
+      // ),
       new MenuItem(
         this.l("Tenants"),
         "/app/tenants",
@@ -143,12 +148,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         "fa-solid fa-download text-md",
         "Pages.Utility"
       ),
-      new MenuItem(
-        this.l("Users"),
-        "/app/users",
-        "fas fa-users text-md",
-        "Pages.Users"
-      ),
+      // new MenuItem(
+      //   this.l("Users"),
+      //   "/app/users",
+      //   "fas fa-users text-md",
+      //   "Pages.Users"
+      // ),
     ];
   }
 

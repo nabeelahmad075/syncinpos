@@ -32,6 +32,7 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.CustomerServiceProxy,
         ApiServiceProxies.ItemPriceServiceProxy,
         ApiServiceProxies.VoucherServiceProxy,
+        ApiServiceProxies.DayCloseServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })

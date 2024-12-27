@@ -36,6 +36,7 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
   saving = false;
   id: number;
   empCode: string;
+  isCheckboxChecked: boolean = false; 
   tblLocation: SelectItem[] = [];
   tblDesignation: SelectItem[] = [];
   tblDepartment: SelectItem[] = [];

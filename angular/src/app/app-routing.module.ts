@@ -12,7 +12,6 @@ import { AddEditSectionComponent } from './menu-operations/sections/create-edit-
 import { ItemCategoryHistoryComponent} from './menu-operations/item-category/item-category-history.component';
 import { AddEditItemCategoryComponent} from './menu-operations/item-category/create-edit-item-category/add-edit-item-category.component';
 import { ItemDefinitionHistoryComponent } from './menu-operations/item/item-definition/item-definition-history.component';
-import { AddEditItemDefinitionComponent } from './menu-operations/item/item-definition/create-edit-item-definition/add-edit-item-definition.component';
 import { TablesComponent} from './setup/tables/tables.component';
 import { AddEditTablesComponent } from './setup/tables/add-edit-tables/add-edit-tables.component';
 import { FloorComponent } from './setup/tables/floor/floor.component';
@@ -31,6 +30,7 @@ import { SetupMenuComponent } from './navbar-menu/setup-menu/setup-menu.componen
 import { SalesMenuComponent } from './navbar-menu/sales-menu/sales-menu.component';
 import { AccountsMenuComponent } from './navbar-menu/accounts-menu/accounts-menu.component';
 import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
     imports: [
@@ -135,7 +135,7 @@ import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.co
                         canActivate: [AppRouteGuard]
                     },
                     {
-                        path: "day-close",
+                        path: "dayclose",
                         component: DayCloseHistoryComponent,
                         canActivate: [AppRouteGuard]
                     },

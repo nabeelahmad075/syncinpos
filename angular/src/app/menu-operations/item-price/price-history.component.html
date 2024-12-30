@@ -27,20 +27,20 @@
     <div class="container-fluid" style="width: 97%">
       <div class="card main-content rounded">
         <div class="flex">
-          <div class="form-row form-group">
+          <div class="form-row form-group mainContainer">
             <div class="col-md-4 flex-initial">
-              <label class="" for="Areas">Location(s)</label>
+              <label for="location">Location(s)</label>
               <div class="">
                 <p-multiSelect
                 [style]="{
                   width: '100%',
                   height: '38px',
                   lineHeight: '1',
-                  marginTop: '-0.5rem'
+                  marginTop: '-0.37rem'
                 }"
-                  name="Areas"
+                  name="location"
                   required
-                  id="Areas"
+                  id="location"
                   [styleClass]="'border border-gray-300 rounded focus:outline-none'"
                   placeholder="Select Location(s)"
                   [options]="tblLocation"
@@ -56,7 +56,7 @@
                 [style]="{
                   width: '100%',
                   height: '38px',
-                  lineHeight: '1',
+                  lineHeight: '0.7',
                   marginTop: '-0.5rem'
                 }"
                 name="category"
@@ -75,7 +75,7 @@
                 name="itemPriceDate"
                 id="itemPriceDate"
                 autoWidth="false"
-                [style]="{ width: '100%', height: '38px', marginTop: '-9px' }"
+                [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
                 [styleClass]="'border border-gray-300 rounded text-sm'"
                 placeholder="Date Effected"
                 [dateFormat]="'dd/mm/yy'"

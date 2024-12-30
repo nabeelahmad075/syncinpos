@@ -42,6 +42,7 @@ import { PriceReplicaComponent } from "./price-replica/price-replica.component";
   templateUrl: "./price-history.component.html",
   styleUrl: "./price-history.component.css",
   animations: [appModuleAnimation()],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PriceHistoryComponent extends AppComponentBase implements OnInit {
   saving = false;

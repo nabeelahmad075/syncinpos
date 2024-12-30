@@ -122,6 +122,8 @@ p-calendar span.p-calendar-w-btn button.p-datepicker-trigger.p-button:enabled:ho
 //-----------------------------p-multi-select styling---------------------------------------------//
 .p-multiselect {
   display: flex !important;
+  scrollbar-width: thin; /* Makes the scrollbar thinner */
+  // width: 6px;
 }
 
 // .p-multiSelect>.p-multiselect.p-component>.p-element.p-multiselect-label-container {
@@ -149,6 +151,9 @@ p-calendar span.p-calendar-w-btn button.p-datepicker-trigger.p-button:enabled:ho
 .p-multiselect-filter-container>.p-multiselect-filter.p-inputtext.p-component {
   // padding: 0.1rem;
   font-size: 0.8rem;
+  outline: auto;
+  text-indent: 4px;
+  border-radius: 0;
 }
 
 .p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight,
@@ -159,6 +164,7 @@ p-multiselectitem.p-element>li.p-ripple.p-element.p-multiselect-item {
     font-size: 0.8rem;
   }
 }
+
 
 // .p-multiselect-panel.p-component>.p-multiselect-header {
 //   padding: 0.2rem;

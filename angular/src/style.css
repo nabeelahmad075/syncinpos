@@ -176,7 +176,7 @@ calendaricon {
 }
 
 input[role="searchbox"] {
-  height: 25px !important;
+  height: 23px !important;
   border: none;
 }
 
@@ -194,9 +194,11 @@ input[type="number"] {
 
 /* Target the checkbox container */
 .p-checkbox-box {
-  width: 16px; /* Adjust the size as needed */
-  height: 16px; /* Adjust the size as needed */
-  /* Ensure alignment */
+  width: 12px; /* Adjust the size as needed */
+  height: 12px; /* Adjust the size as needed */
+  outline: auto;
+  border-radius: 0;
+  margin-top: 0.3rem;
 }
 
 /* Adjust the inner checkmark icon size */

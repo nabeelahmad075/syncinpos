@@ -166,16 +166,16 @@
             class="custom-control-input"
             name="userId"
             id="userId"
-            [(ngModel)]="isCheckboxChecked"
+            [(ngModel)]="tblEmployee.isUser"
           />
           <label class="custom-control-label" for="userId"></label>
         </div>
       </div>
     </div>
-    <div *ngIf="isCheckboxChecked" 
+    <div *ngIf="tblEmployee.isUser" 
     [ngClass]="{
-      'fade-in': isCheckboxChecked,
-      'fade-out': !isCheckboxChecked
+      'fade-in': tblEmployee.isUser,
+      'fade-out': !tblEmployee.isUser
     }">
     <div class="form-row form-group">
       <div class="form-group col-md-4">
@@ -191,9 +191,10 @@
           required
           minlength="3"
           maxlength="500"
+          [(ngModel)]="tblEmployee.username"
         />
       </div>
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-4" *ngIf="!tblEmployee.userId">
         <label for="password">
           {{ "Password" | localize }}
         </label>
@@ -206,25 +207,8 @@
           required
           minlength="2"
           maxlength="500"
+          [(ngModel)]="tblEmployee.password"
         />
-      </div>
-      <div class="form-group col-md-4 required">
-        <label for="userRole">
-          {{ "User Role" | localize }}
-        </label>
-        <p-dropdown
-          [style]="{
-            width: '100%',
-            height: '38px',
-            lineHeight: '1',
-            marginTop: '-0.5rem',
-          }"
-          name="userRole"
-          required
-          placeholder="Select User Role"
-          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
-        >
-        </p-dropdown>
       </div>
       <div class="form-group col-md-4">
         <label for="email">
@@ -239,6 +223,7 @@
           required
           minlength="2"
           maxlength="500"
+          [(ngModel)]="tblEmployee.emailAddress"
         />
       </div>
     </div>

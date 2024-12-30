@@ -1001,6 +1001,58 @@ export class DayCloseServiceProxy {
     }
 
     /**
+     * @return OK
+     */
+    getOpenedDay(): Observable<moment.Moment> {
+        let url_ = this.baseUrl + "/api/services/app/DayClose/GetOpenedDay";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOpenedDay(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOpenedDay(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<moment.Moment>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<moment.Moment>;
+        }));
+    }
+
+    protected processGetOpenedDay(response: HttpResponseBase): Observable<moment.Moment> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? moment(resultData200.toString()) : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return OK
      */
@@ -2948,6 +3000,62 @@ export class EmployeeServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return OK
+     */
+    get(id: number | undefined): Observable<EmployeeDto> {
+        let url_ = this.baseUrl + "/api/services/app/Employee/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<EmployeeDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<EmployeeDto>;
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<EmployeeDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = EmployeeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param employeeCode (optional) 
      * @param locationId (optional) 
      * @param id (optional) 
@@ -3132,62 +3240,6 @@ export class EmployeeServiceProxy {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = EmployeeHistoryDtoPagedResultDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return OK
-     */
-    get(id: number | undefined): Observable<EmployeeDto> {
-        let url_ = this.baseUrl + "/api/services/app/Employee/Get?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGet(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<EmployeeDto>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<EmployeeDto>;
-        }));
-    }
-
-    protected processGet(response: HttpResponseBase): Observable<EmployeeDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = EmployeeDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -13462,6 +13514,12 @@ export class EmployeeDto implements IEmployeeDto {
     address: string | undefined;
     isActive: boolean;
     joiningDate: moment.Moment;
+    isUser: boolean;
+    userId: number | undefined;
+    username: string | undefined;
+    password: string | undefined;
+    emailAddress: string | undefined;
+    rolesNames: string[] | undefined;
 
     constructor(data?: IEmployeeDto) {
         if (data) {
@@ -13485,6 +13543,16 @@ export class EmployeeDto implements IEmployeeDto {
             this.address = _data["address"];
             this.isActive = _data["isActive"];
             this.joiningDate = _data["joiningDate"] ? moment(_data["joiningDate"].toString()) : <any>undefined;
+            this.isUser = _data["isUser"];
+            this.userId = _data["userId"];
+            this.username = _data["username"];
+            this.password = _data["password"];
+            this.emailAddress = _data["emailAddress"];
+            if (Array.isArray(_data["rolesNames"])) {
+                this.rolesNames = [] as any;
+                for (let item of _data["rolesNames"])
+                    this.rolesNames.push(item);
+            }
         }
     }
 
@@ -13508,6 +13576,16 @@ export class EmployeeDto implements IEmployeeDto {
         data["address"] = this.address;
         data["isActive"] = this.isActive;
         data["joiningDate"] = this.joiningDate ? this.joiningDate.toISOString() : <any>undefined;
+        data["isUser"] = this.isUser;
+        data["userId"] = this.userId;
+        data["username"] = this.username;
+        data["password"] = this.password;
+        data["emailAddress"] = this.emailAddress;
+        if (Array.isArray(this.rolesNames)) {
+            data["rolesNames"] = [];
+            for (let item of this.rolesNames)
+                data["rolesNames"].push(item);
+        }
         return data;
     }
 
@@ -13531,6 +13609,12 @@ export interface IEmployeeDto {
     address: string | undefined;
     isActive: boolean;
     joiningDate: moment.Moment;
+    isUser: boolean;
+    userId: number | undefined;
+    username: string | undefined;
+    password: string | undefined;
+    emailAddress: string | undefined;
+    rolesNames: string[] | undefined;
 }
 
 export class EmployeeDtoPagedResultDto implements IEmployeeDtoPagedResultDto {

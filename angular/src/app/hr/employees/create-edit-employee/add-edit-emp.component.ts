@@ -17,6 +17,9 @@ import {
   LocationDto,
   EmployeeDto,
   EmployeeServiceProxy,
+  RoleServiceProxy,
+  RoleDto,
+  UserServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import { result } from "lodash-es";
 import * as moment from "moment";

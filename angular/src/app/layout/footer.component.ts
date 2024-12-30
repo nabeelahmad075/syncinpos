@@ -18,6 +18,9 @@ export class FooterComponent extends AppComponentBase {
       this.appSession.application.version +
       ' [' +
       this.appSession.application.releaseDate.format('YYYYDDMM') +
+      ']'+
+      ' [' +
+      this.appSession.application.openedDay.format('YYYYDDMM') +
       ']';
   }
 }

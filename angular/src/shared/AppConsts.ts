@@ -3,6 +3,10 @@ import { Genders } from "./service-proxies/service-proxies";
 
 export class AppConsts {
 
+  static readonly Cookies = {
+    SyncInPos_OpenedDay: 'CurrDay'
+  };
+
     static readonly tenancyNamePlaceHolderInUrl = '{TENANCY_NAME}';
 
     static remoteServiceBaseUrl: string;

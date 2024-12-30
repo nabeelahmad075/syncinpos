@@ -95,7 +95,7 @@ namespace syncinpos.Entities.Sales.DayCloses
                                                 .FirstOrDefaultAsync();
 
             var dayOpened = await Repository.GetAll()
-                                            .Where(a => a.LocationId == locationId)
+                                            .Where(a => a.LocationId == locationId && a.Status == "OPEN")
                                             .Select(a => a.CurrentDate)
                                             .FirstOrDefaultAsync();
             return dayOpened;

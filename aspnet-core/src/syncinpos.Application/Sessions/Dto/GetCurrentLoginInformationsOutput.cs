@@ -1,4 +1,6 @@
-﻿namespace syncinpos.Sessions.Dto
+﻿using System;
+
+namespace syncinpos.Sessions.Dto
 {
     public class GetCurrentLoginInformationsOutput
     {

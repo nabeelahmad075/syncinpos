@@ -10,15 +10,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using syncinpos.Entities.HR.Employees;
 
 namespace syncinpos.Entities.Sales.DayCloses
 {
     public class DayCloseAppService : AsyncCrudAppService<DayClose, DayCloseDto>
     {
+        private IRepository<Employee, int> _employeeRepo;
         public DayCloseAppService(
-            IRepository<DayClose, int> repository
+            IRepository<DayClose, int> repository,
+            IRepository<Employee, int> employeeRepo
             ) : base(repository) 
-        {}
+        {
+            _employeeRepo = employeeRepo;
+        }
         public async override Task<DayCloseDto> CreateAsync(DayCloseDto input)
         {
             input.Status = "OPEN";
@@ -81,6 +86,19 @@ namespace syncinpos.Entities.Sales.DayCloses
                                                 CreatorUserId = x.CreatorUserId
                                             }).ToListAsync();
             return sqlQuery.ToList();
+        }
+        public async Task<DateTime> GetOpenedDay()
+        {
+            var locationId = await _employeeRepo.GetAll()
+                                                .Where(e => e.UserId == AbpSession.UserId)
+                                                .Select(e => e.LocationId)
+                                                .FirstOrDefaultAsync();
+
+            var dayOpened = await Repository.GetAll()
+                                            .Where(a => a.LocationId == locationId)
+                                            .Select(a => a.CurrentDate)
+                                            .FirstOrDefaultAsync();
+            return dayOpened;
         }
     }
 }

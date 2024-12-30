@@ -15,7 +15,7 @@ export class HeaderDateComponent extends AppComponentBase implements OnInit{
     }
 
     ngOnInit(): void {
-      this.softwareDate = new Date();
+      this.softwareDate = this.appSession.application.openedDay.toDate();
     }
 
 }

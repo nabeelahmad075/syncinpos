@@ -1,12 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Auditing;
+using syncinpos.Entities.Sales.DayCloses;
 using syncinpos.Sessions.Dto;
 
 namespace syncinpos.Sessions
 {
     public class SessionAppService : syncinposAppServiceBase, ISessionAppService
     {
+        private readonly DayCloseAppService _dayCloseAppService;
+        public SessionAppService(
+            DayCloseAppService dayCloseAppService
+            ) 
+        {
+            _dayCloseAppService = dayCloseAppService;
+        }
         [DisableAuditing]
         public async Task<GetCurrentLoginInformationsOutput> GetCurrentLoginInformations()
         {
@@ -28,6 +36,11 @@ namespace syncinpos.Sessions
             if (AbpSession.UserId.HasValue)
             {
                 output.User = ObjectMapper.Map<UserLoginInfoDto>(await GetCurrentUserAsync());
+            }
+
+            if (AbpSession.UserId.HasValue)
+            {
+                output.Application.OpenedDay = await _dayCloseAppService.GetOpenedDay();
             }
 
             return output;

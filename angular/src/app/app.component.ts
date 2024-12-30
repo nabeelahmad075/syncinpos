@@ -3,6 +3,8 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { SignalRAspNetCoreHelper } from '@shared/helpers/SignalRAspNetCoreHelper';
 import { LayoutStoreService } from '@shared/layout/layout-store.service';
 import { NavigationEnd, Router } from '@angular/router';
+import { AppConsts } from '@shared/AppConsts';
+import { parseZone } from '@node_modules/moment/moment';
 
 @Component({
   templateUrl: './app.component.html'
@@ -30,6 +32,13 @@ export class AppComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit(): void {
+    if (abp.session.userId) {
+      const SyncInPos_OpenedDay = parseZone(abp.utils.getCookieValue(AppConsts.Cookies.SyncInPos_OpenedDay) ?? undefined);
+      if (!SyncInPos_OpenedDay) {
+        this.router.navigate(['/account/login','']);
+        return;
+      }
+    }
     this.renderer.addClass(document.body, 'sidebar-mini');
 
     SignalRAspNetCoreHelper.initSignalR();

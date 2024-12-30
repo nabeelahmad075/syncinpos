@@ -45,10 +45,6 @@ export class SetupMenuComponent extends AppComponentBase {
     this.router.navigate(["/app/roles"]);
   }
 
-  navigateToUserAssignmentForm(): void {
-    this.router.navigate(["/app/roles"]);
-  }
-
   navigateToSectionForm(): void {
     this.router.navigate(["/app/section-history"]);
   }

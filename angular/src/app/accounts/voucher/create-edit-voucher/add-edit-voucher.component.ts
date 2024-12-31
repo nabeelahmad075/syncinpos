@@ -64,7 +64,7 @@ export class AddEditVoucherComponent extends AppComponentBase implements OnInit 
     this.getVoucherType();
     this.addVoucherDetails(0);
     this.getDetailAccounts();
-    this.voucherDate = new Date();
+    this.voucherDate = this.appSession.application.openedDay.toDate();
 
     if (this.id > 0) {
       this.getById();

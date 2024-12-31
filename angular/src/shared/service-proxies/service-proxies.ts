@@ -11845,6 +11845,7 @@ export class ApplicationInfoDto implements IApplicationInfoDto {
     version: string | undefined;
     releaseDate: moment.Moment;
     features: { [key: string]: boolean; } | undefined;
+    openedDay: moment.Moment;
 
     constructor(data?: IApplicationInfoDto) {
         if (data) {
@@ -11866,6 +11867,7 @@ export class ApplicationInfoDto implements IApplicationInfoDto {
                         (<any>this.features)[key] = _data["features"][key];
                 }
             }
+            this.openedDay = _data["openedDay"] ? moment(_data["openedDay"].toString()) : <any>undefined;
         }
     }
 
@@ -11887,6 +11889,7 @@ export class ApplicationInfoDto implements IApplicationInfoDto {
                     (<any>data["features"])[key] = (<any>this.features)[key];
             }
         }
+        data["openedDay"] = this.openedDay ? this.openedDay.toISOString() : <any>undefined;
         return data;
     }
 
@@ -11902,6 +11905,7 @@ export interface IApplicationInfoDto {
     version: string | undefined;
     releaseDate: moment.Moment;
     features: { [key: string]: boolean; } | undefined;
+    openedDay: moment.Moment;
 }
 
 export class AuthenticateModel implements IAuthenticateModel {

@@ -252,3 +252,29 @@ html {
   scrollbar-width: thin; /* Width: 'auto', 'thin', or 'none' */
   scrollbar-color: #b3e2a7 #508d4e; /* Thumb and track colors */
 }
+
+.icon-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-text-wrapper .nav-icon {
+  font-size: 1.5rem; /* Adjust icon size */
+}
+
+.icon-text-wrapper .nav-label {
+  margin-top: 0.5rem; /* Space between icon and text */
+  font-size: 0.85rem; /* Adjust text size */
+  text-align: center;
+}
+
+/* .main-sidebar {
+  width: 80px !important; 
+}
+
+.main-sidebar:hover {
+  width: 80px !important;
+} */
+

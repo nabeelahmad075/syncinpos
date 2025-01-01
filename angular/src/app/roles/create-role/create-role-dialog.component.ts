@@ -16,6 +16,7 @@ import {
   PermissionDtoListResultDto
 } from '@shared/service-proxies/service-proxies';
 import { forEach as _forEach, map as _map } from 'lodash-es';
+import { TreeNode } from '@node_modules/primeng/api';
 
 @Component({
   templateUrl: 'create-role-dialog.component.html'

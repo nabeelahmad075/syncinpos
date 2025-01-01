@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -113,7 +113,7 @@ import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.co
         ModalModule.forChild(),
         BsDropdownModule,
         CollapseModule,
-        TabsModule,
+
         ServiceProxyModule,
         NgxPaginationModule,
         SharedModule,

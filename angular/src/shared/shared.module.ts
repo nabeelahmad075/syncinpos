@@ -18,23 +18,17 @@ import { LayoutStoreService } from './layout/layout-store.service';
 import { BusyDirective } from './directives/busy.directive';
 import { EqualValidator } from './directives/equal-validator.directive';
 
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { TreeModule } from 'primeng/tree';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
         NgxPaginationModule,
-        FormsModule,
-        ModalModule,
-        BsDropdownModule,
-        CollapseModule,
-        TabsModule,
-        DropdownModule
+        FormsModule, 
+        TreeModule,
+        TabsModule
     ],
     declarations: [
         AbpPaginationControlsComponent,
@@ -54,12 +48,9 @@ import { DropdownModule } from 'primeng/dropdown';
         BusyDirective,
         EqualValidator,
         FormsModule,
-        NgxPaginationModule,
-        ModalModule,
-        BsDropdownModule,
-        CollapseModule,
-        TabsModule,
-        DropdownModule
+        NgxPaginationModule,       
+        TreeModule,
+        TabsModule
     ]
 })
 export class SharedModule {

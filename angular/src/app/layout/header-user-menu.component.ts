@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ChangePasswordComponent } from '@app/users/change-password/change-password.component';
 import { AppAuthService } from '@shared/auth/app-auth.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'header-user-menu',

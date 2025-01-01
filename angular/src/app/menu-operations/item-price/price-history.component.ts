@@ -109,11 +109,13 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
     this.saving = true;
     let checkPrice = this.tblPriceList.filter((value) => value.price > 0);
 
-if(checkPrice.length <= 0){
-  this.saving = false;
-  this.notify.error("Price should be greater than zero for atleast one item");
-  return;
-}
+    if (checkPrice.length <= 0) {
+      this.saving = false;
+      this.notify.error(
+        "Price should be greater than zero for atleast one item"
+      );
+      return;
+    }
 
     this.tblPriceList.forEach((element) => {
       element.effectedDate = moment(this.itemPriceDate);

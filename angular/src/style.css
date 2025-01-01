@@ -211,7 +211,7 @@ input[type="number"] {
   font-weight: 800;
   animation: pulse 2s linear infinite;
   width: 10rem;
-  border-radius: 0;
+  border-radius: 1;
   text-align: center;
 }
 

@@ -24,8 +24,10 @@ import { Router } from "@node_modules/@angular/router";
   styleUrl: "./day-close-history.component.css",
   animations: [appModuleAnimation()],
 })
-export class DayCloseHistoryComponent extends AppComponentBase implements OnInit {
-
+export class DayCloseHistoryComponent
+  extends AppComponentBase
+  implements OnInit
+{
   dayCloseHistory: DayCloseDto[] = [];
   allSelected: boolean = false;
   eventClone: LazyLoadEvent;
@@ -55,20 +57,25 @@ export class DayCloseHistoryComponent extends AppComponentBase implements OnInit
   }
 
   dayCloseBtn() {
+    let isAnyRowSelected = this.dayCloseHistory.some((item) => item.isMarked);
+    if (!isAnyRowSelected) {
+      abp.notify.error("Please select at least one row to close the day.");
+      return;
+    }
+
     this._dayCloseService.bulkCreate(this.dayCloseHistory).subscribe(() => {
       abp.notify.success("Day Closed on selected locations");
       this.getHistory();
       this.allSelected = false;
-    })
+    });
   }
 
   selectAll($event: any) {
     this.allSelected = $event.target.checked;
     debugger;
-    if(this.allSelected){
+    if (this.allSelected) {
       this.dayCloseHistory.forEach((item) => (item.isMarked = true));
-    }
-    else {
+    } else {
       this.dayCloseHistory.forEach((item) => (item.isMarked = false));
     }
   }

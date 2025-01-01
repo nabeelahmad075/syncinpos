@@ -10,5 +10,6 @@ namespace syncinpos.Sessions.Dto
         public DateTime ReleaseDate { get; set; }
 
         public Dictionary<string, bool> Features { get; set; }
+        public DateTime OpenedDay { get; set; }
     }
 }

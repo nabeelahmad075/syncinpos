@@ -122,13 +122,13 @@ export class DetailAccHistoryComponent extends AppComponentBase {
     let createOrEditDetailAccDialog: BsModalRef;
     if (!id) {
       createOrEditDetailAccDialog = this._modalService.show(AddEditDetailAccComponent, {
-        class: "modal-lg modal-dialog-centered",
+        class: "detailmodal modal-dialog-centered",
         backdrop: "static",
         ignoreBackdropClick: true,
       });
     } else {
       createOrEditDetailAccDialog = this._modalService.show(AddEditDetailAccComponent, {
-        class: "modal-lg modal-dialog-centered",
+        class: "detailmodal modal-dialog-centered",
         backdrop: "static",
         ignoreBackdropClick: true,
         initialState: {

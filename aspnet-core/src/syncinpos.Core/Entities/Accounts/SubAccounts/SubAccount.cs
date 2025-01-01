@@ -23,5 +23,6 @@ namespace syncinpos.Entities.Accounts.SubAccounts
         [MaxLength(64)]
         public string SubTitle { get; set; }
         public bool IsActive { get; set; }
+        public bool IsControlAccount { get; set; }
     }
 }

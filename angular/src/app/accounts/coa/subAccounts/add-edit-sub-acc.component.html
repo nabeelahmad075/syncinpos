@@ -10,28 +10,31 @@
   ></abp-modal-header>
   <div class="modal-body">
     <div class="form-row form-group">
-        <div class="col-md-4 required">
-            <label for="accountType">
-              {{ "Account Type" | localize }}
-            </label>
-            <div class="">
-              <p-dropdown
-                [style]="{
-                  width: '100%',
-                  height: '38px',
-                  lineHeight: '1',
-                  marginTop: '-0.5rem'
-                }"
-                name="accountType"
-                required
-                placeholder="Select Account Type"
-                [options]="tblAccountType"
-                [styleClass]="'prm-dropdown prm-filter-dropdown'"
-                [(ngModel)]="tblSubAccounts.accountTypeId"
-              >
-              </p-dropdown>
-            </div>
-          </div>
+      <div class="col-md-4 required">
+        <label for="accountType">
+          {{ "Account Type" | localize }}
+        </label>
+        <div class="">
+          <p-dropdown
+            [style]="{
+              width: '100%',
+              height: '38px',
+              lineHeight: '1',
+              marginTop: '-0.5rem'
+            }"
+            name="accountType"
+            required
+            [showClear]="!tblSubAccounts.id ? true : false"
+            placeholder="Select Account Type"
+            [options]="tblAccountType"
+            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+            [(ngModel)]="tblSubAccounts.accountTypeId"
+            (onChange)="getIsControlAccount(tblSubAccounts.accountTypeId)"
+            (onClear)="getIsControlAccount()"
+          >
+          </p-dropdown>
+        </div>
+      </div>
       <div class="col-md-4 required">
         <label for="mainAcc">
           {{ "Main Account" | localize }}
@@ -48,14 +51,14 @@
             required
             placeholder="Select Main Account"
             [options]="tblMainAccounts"
-            [styleClass]="'prm-dropdown prm-filter-dropdown'"
+            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblSubAccounts.mainAccountId"
-            (onChange)="getSubCode(tblSubAccounts.mainAccountId)"
+            (onChange)="getSubCode(tblSubAccounts.mainAccountId, tblSubAccounts.id)"
           >
           </p-dropdown>
         </div>
       </div>
-      
+
       <div class="form-group col-md-2">
         <label for="mainAccCode">
           {{ "Sub Account Code" | localize }}
@@ -87,11 +90,11 @@
           [(ngModel)]="tblSubAccounts.subTitle"
         />
       </div>
-      <div class="form-group col-md-1" style="margin-top: -0.3rem;">
-        <label class="col-md-3">
+      <div class="form-group col-md-1" style="margin-top: -0.3rem">
+        <!-- <label class="col-md-3">
           {{ "" }}
-        </label>
-        <div class="col-md-9">
+        </label> -->
+        <div class="col-md-9 py-4">
           <div class="custom-control custom-checkbox">
             <input
               style="margin-top: -8px"
@@ -107,6 +110,30 @@
           </div>
         </div>
       </div>
+      <div
+        class="form-group col-md-4"
+        style="margin-top: -0.3rem; margin-left: 1rem"
+        [hidden]="isControlAccount"
+      >
+        <!-- <label class="col-md-3">
+          {{ "" }}
+        </label> -->
+        <div class="col-md-9 py-4">
+          <div class="custom-control custom-checkbox">
+            <input
+              style="margin-top: -8px"
+              type="checkbox"
+              class="custom-control-input"
+              name="isControlAccount"
+              id="isControlAccount"
+              [(ngModel)]="tblSubAccounts.isControlAccount"
+            />
+            <label class="custom-control-label mt-2" for="isControlAccount"
+              >Auto Control Account</label
+            >
+          </div>
+        </div>
+      </div>
     </div>
     <div class="container-fluid" style="width: 100%">
       <div class="card main-content rounded">
@@ -117,7 +144,7 @@
             [lazy]="true"
             [scrollable]="true"
             [style]="{ width: '100%', fontSize: '0.8rem' }"
-            (onLazyLoad)="getSubAccHistory($event)"
+            (onLazyLoad)="getSubAccHistory($event, tblSubAccounts.accountTypeId ? tblSubAccounts.accountTypeId : undefined)"
             class="p-table-page table-sm table-hover"
             [rows]="primengTableHelper.modalRowsCount"
           >
@@ -130,10 +157,7 @@
                     type="text"
                     class="table-search-input form-control w-100"
                     (input)="
-                      dataTable.filterGlobal(
-                        $event.target.value,
-                        'contains'
-                      )
+                      dataTable.filterGlobal($event.target.value, 'contains')
                     "
                     placeholder="Search"
                   />
@@ -146,6 +170,7 @@
                 <th>Sub Title</th>
                 <th>Account Type</th>
                 <th>Main Account</th>
+                <th style="text-align: center">Auto C/A</th>
                 <th style="text-align: center">Status</th>
                 <th style="text-align: center">Action</th>
               </tr>
@@ -156,6 +181,17 @@
                 <td>{{ subAcc.subTitle }}</td>
                 <td>{{ subAcc.accountType }}</td>
                 <td>{{ subAcc.mainAccountTitle }}</td>
+                <td style="text-align: center">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      disabled
+                      [checked]="subAcc.isControlAccount"
+                    />
+                    <label class="custom-control-label"></label>
+                  </div>
+                </td>
                 <td style="text-align: center">
                   <div class="custom-control custom-checkbox">
                     <input
@@ -194,11 +230,9 @@
             <p-paginator
               [rows]="primengTableHelper.modalRowsCount"
               #paginator
-              (onPageChange)="getSubAccHistory($event)"
+              (onPageChange)="getSubAccHistory($event, tblSubAccounts.accountTypeId ? tblSubAccounts.accountTypeId : undefined)"
               [totalRecords]="primengTableHelper.totalRecordsCount"
-              [rowsPerPageOptions]="
-                primengTableHelper.modalRowsPerPageOptions
-              "
+              [rowsPerPageOptions]="primengTableHelper.modalRowsPerPageOptions"
             >
             </p-paginator>
           </div>
@@ -213,4 +247,3 @@
     (onCancelClick)="bsModalRef.hide()"
   ></abp-modal-footer>
 </form>
-

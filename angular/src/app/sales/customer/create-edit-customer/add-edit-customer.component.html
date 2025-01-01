@@ -1,0 +1,187 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createCustomerForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Customer Information' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-row form-group">
+      <div class="col-md-4 required">
+        <label for="location">
+          {{ "Location" | localize }}
+        </label>
+        <div class="">
+          <p-dropdown
+            [style]="{
+              width: '100%',
+              height: '38px',
+              lineHeight: '1',
+              marginTop: '-0.5rem'
+            }"
+            name="location"
+            required
+            placeholder="Select Location"
+            [options]="tblLocation"
+            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+            [(ngModel)]="tblCustomer.locationId"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="col-md-4 required">
+        <label for="customerType">
+          {{ "Customer Type" | localize }}
+        </label>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-0.5rem'
+          }"
+          name="customerType"
+          required
+          [filter]="true"
+          placeholder="Select Customer Type"
+          [options]="tblSubAccounts"
+          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [(ngModel)]="tblCustomer.subAccountId"
+        >
+        </p-dropdown>
+      </div>
+      <div class="col-md-4 required">
+        <label for="customerName">
+          {{ "Customer Name" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="customerName"
+          id="customerName"
+          required
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblCustomer.name"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="contactNumber">
+          {{ "Contact Number" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="contactNumber"
+          id="contactNumber"
+          required
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblCustomer.contactNo"
+        />
+      </div>
+      <div class="form-group col-md-4">
+        <label for="gender">
+          {{ "Gender" | localize }}
+        </label>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-0.5rem'
+          }"
+          name="gender"
+          required
+          placeholder="Select Gender"
+          [options]="Gender"
+          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [(ngModel)]="tblCustomer.gender"
+        >
+        </p-dropdown>
+      </div>
+      <div class="form-group col-md-4 required">
+        <label for="cnic">
+          {{ "CNIC" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="cnic"
+          id="cnic"
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblCustomer.nic"
+        />
+      </div>
+      <div class="form-group col-md-4">
+        <label for="dob"> DOB </label>
+        <p-calendar
+          [(ngModel)]="dateOfBirth"
+          name="dob"
+          id="dob"
+          autoWidth="false"
+          [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
+          [styleClass]="'border border-gray-300 rounded text-sm'"
+          placeholder="dd/mm/yyyy"
+          [dateFormat]="'dd/mm/yy'"
+          [showIcon]="true"
+        >
+        </p-calendar>
+      </div>
+      <div class="form-group col-md-8 required">
+        <label for="address">
+          {{ "Address" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="address"
+          id="address"
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblCustomer.address"
+        />
+      </div>
+    </div>
+    <!-- <div class="form-row">
+    </div> -->
+    <div class="form-row form-group">
+      <div class="form-group col-md-4">
+        <!-- <label class="col-md-3">
+          {{ "" }}
+        </label> -->
+        <div class="col-md-9">
+          <div class="custom-control custom-checkbox">
+            <input
+              style="margin-top: -8px"
+              type="checkbox"
+              class="custom-control-input"
+              name="isActive"
+              id="isActive"
+              [(ngModel)]="tblCustomer.isActive"
+            />
+            <label class="custom-control-label mt-2" for="isActive"
+              >Active</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
+    [saveDisabled]="!createCustomerForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

@@ -2,7 +2,6 @@
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
-using Abp.Extensions;
 using syncinpos.Entities.Inventory.ItemCategories.Dto;
 using System;
 using System.Collections.Generic;

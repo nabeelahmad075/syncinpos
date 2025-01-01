@@ -10,50 +10,60 @@
   ></abp-modal-header>
   <div class="modal-body">
     <div class="form-row form-group">
-        <div class="col-md-4 required">
-            <label for="subAcc">
-              {{ "Sub Account" | localize }}
-            </label>
-            <div class="">
-              <p-dropdown
-                [style]="{
-                  width: '100%',
-                  height: '38px',
-                  lineHeight: '1',
-                  marginTop: '-0.5rem'
-                }"
-                name="subAcc"
-                required
-                placeholder="Select Account Type"
-                [options]="tblSubAccounts"
-                [styleClass]="'prm-dropdown prm-filter-dropdown'"
-                [(ngModel)]="tblDetailAccounts.subAccountId"
-                (onChange)="getSubCode(tblDetailAccounts.subAccountId)"
-              >
-              </p-dropdown>
-            </div>
-          </div>
-          <div class="form-group col-md-2">
-            <label for="subAccCode">
-              {{ "Sub Account Code" | localize }}
-            </label>
-            <input
-              style="margin-top: -8px"
-              type="text"
-              class="form-control"
-              name="subAccCode"
-              id="subAccCode"
-              required
-              maxlength="500"
-              readonly
-              [(ngModel)]="detailCode"
-            />
-          </div>
-      <div class="form-group col-md-5">
+      <div class="col-md-4 required">
+        <label for="subAcc">
+          {{ "Sub Account" | localize }}
+        </label>
+      </div>
+      <div class="col-md-8">
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-0.5rem'
+          }"
+          name="subAcc"
+          required
+          placeholder="Select Account Type"
+          [filter]="true"
+          [options]="tblSubAccounts"
+          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [(ngModel)]="tblDetailAccounts.subAccountId"
+          (onChange)="getDetailCode(tblDetailAccounts.subAccountId, tblDetailAccounts.id)"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <div class="col-md-4">
+        <label for="subAccCode">
+          {{ "Sub Account Code" | localize }}
+        </label>
+      </div>
+      <div class="col-md-8">
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control"
+          name="subAccCode"
+          id="subAccCode"
+          required
+          maxlength="500"
+          readonly
+          [(ngModel)]="detailCode"
+        />
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <div class="col-md-4">
         <label for="detailAccTitle">
           {{ "Detail Account Title" | localize }}
         </label>
+      </div>
+      <div class="col-md-8">
         <input
+        [readOnly]="isReadonlyTitle"
           style="margin-top: -8px"
           type="text"
           class="form-control"
@@ -64,24 +74,22 @@
           [(ngModel)]="tblDetailAccounts.detailTitle"
         />
       </div>
-      <div class="form-group col-md-1" style="margin-top: -0.3rem;">
-        <label class="col-md-3">
+    </div>
+    <div class="form-row form-group" style="margin-top: -0.3rem">
+      <!-- <label class="col-md-3">
           {{ "" }}
-        </label>
-        <div class="col-md-9">
-          <div class="custom-control custom-checkbox">
-            <input
-              style="margin-top: -8px"
-              type="checkbox"
-              class="custom-control-input"
-              name="isActive"
-              id="isActive"
-              [(ngModel)]="tblDetailAccounts.isActive"
-            />
-            <label class="custom-control-label mt-2" for="isActive"
-              >Active</label
-            >
-          </div>
+        </label> -->
+      <div class="col-md-9">
+        <div class="custom-control custom-checkbox">
+          <input
+            style="margin-top: -8px"
+            type="checkbox"
+            class="custom-control-input"
+            name="isActive"
+            id="isActive"
+            [(ngModel)]="tblDetailAccounts.isActive"
+          />
+          <label class="custom-control-label mt-2" for="isActive">Active</label>
         </div>
       </div>
     </div>

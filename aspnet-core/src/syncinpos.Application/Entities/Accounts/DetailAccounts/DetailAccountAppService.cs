@@ -13,18 +13,19 @@ using syncinpos.Utility.SelectItemDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace syncinpos.Entities.Accounts.DetailAccounts
 {
-    public class DetailAccountAppService : AsyncCrudAppService<DetailAccount, DetailAccountDto>
+    public class DetailAccountAppService : AsyncCrudAppService<DetailAccount, DetailAccountDto>, IDetailAccountAppService
     {
         private IRepository<SubAccount, int> subAccountRepository;
         public DetailAccountAppService(
             IRepository<DetailAccount, int> repository,
             IRepository<SubAccount, int> _subAccountRepository
-            ) : base(repository) 
+            ) : base(repository)
         {
             subAccountRepository = _subAccountRepository;
         }
@@ -52,8 +53,26 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
                                     .Where(a => a.DetailCode == DetailCode)
                                     .AnyAsync();
         }
-        public async Task<string> GetNewDetailAccountCode(int? SubAccountId = null)
+        public async Task<string> GetNewDetailAccountCode(int? SubAccountId = null, int? id = null)
         {
+
+            var currentSubAccountId = await Repository.GetAll()
+                                               .Where(a => a.Id == id)
+                                               .Select(a => a.SubAccountId)
+                                               .FirstOrDefaultAsync();
+
+            bool subAccountNotChanged = currentSubAccountId == SubAccountId;
+
+            if (subAccountNotChanged)
+            {
+                var detailCode = await Repository.GetAll()
+                                 .Where(a => a.Id == id)
+                                 .Select(a => a.DetailCode)
+                                 .FirstOrDefaultAsync();
+
+                return detailCode;
+            }
+
             string strDocNo = await Repository.GetAll()
                 .Where(a => a.SubAccountId == SubAccountId)
                 .OrderByDescending(b => b.DetailCode)
@@ -76,6 +95,13 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
             string newDetailCode = $"{strSubCode}-{newDocNumber:D4}";
 
             return newDetailCode;
+        }
+        public async Task<string> GetDetailCodeById(int? detailAccountId = null)
+        {
+            return await Repository.GetAll()
+                                   .Where(a => a.Id == detailAccountId)
+                                   .Select(a => a.DetailCode)
+                                   .FirstOrDefaultAsync();
         }
         public async Task<List<SelectItemDto>> GetDetailAccountDropdownAsync()
         {

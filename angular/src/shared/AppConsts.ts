@@ -1,4 +1,11 @@
+import { SelectItem } from "primeng/api";
+import { Genders } from "./service-proxies/service-proxies";
+
 export class AppConsts {
+
+  static readonly Cookies = {
+    SyncInPos_OpenedDay: 'CurrDay'
+  };
 
     static readonly tenancyNamePlaceHolderInUrl = '{TENANCY_NAME}';
 
@@ -19,4 +26,15 @@ export class AppConsts {
     static readonly authorization = {
         encryptedAuthTokenName: 'enc_auth_token'
     };
+
+    static readonly genderList: SelectItem[] = [
+        {
+          label: 'Male',
+          value: Genders._1
+        },
+        {
+          label: 'Female',
+          value: Genders._2
+        }
+      ]
 }

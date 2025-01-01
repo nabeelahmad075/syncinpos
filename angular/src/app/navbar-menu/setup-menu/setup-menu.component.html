@@ -1,0 +1,69 @@
+<div [@routerTransition]>
+  <section class="content-header" style="padding: 1px 0.5rem">
+    <div class="container-fluid" style="width: 97%">
+      <h5>Configurations</h5>
+      <div class="button-row">
+        <a (click)="navigateToLocationForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-map-pin"></i>
+            <span> Location </span>
+          </button>
+        </a>
+        <a (click)="navigateToTableForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-dumpster"></i>
+            <span> Table </span>
+          </button>
+        </a>
+      </div>
+      <h5>HR Management</h5>
+      <div class="button-row">
+        <a (click)="navigateToEmployeeForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-user-plus"></i>
+            <span> Add Employee </span>
+          </button>
+        </a>
+        <a (click)="navigateToUsersForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-users"></i>
+            <span> Users </span>
+          </button>
+        </a>
+        <a (click)="navigateToRolesForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-theater-masks"></i>
+            <span> Roles </span>
+          </button>
+        </a>
+      </div>
+      <h5>Menu Operations</h5>
+      <div class="button-row">
+        <a (click)="navigateToSectionForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-puzzle-piece"></i>
+            <span> Section </span>
+          </button>
+        </a>
+        <a (click)="navigateToCategoryForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-list"></i>
+            <span> Category </span>
+          </button>
+        </a>
+        <a (click)="navigateToItemForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-drumstick-bite"></i>
+            <span> Item Information </span>
+          </button>
+        </a>
+        <a (click)="navigateToItemPriceForm()">
+          <button class="button-container">
+            <i class="fa-solid fa-money-bill-wave"></i>
+            <span> Item Price </span>
+          </button>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>

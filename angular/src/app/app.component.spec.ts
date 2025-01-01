@@ -29,6 +29,7 @@ import { SidebarComponent } from "./layout/sidebar.component";
 import { SidebarLogoComponent } from "./layout/sidebar-logo.component";
 import { SidebarUserPanelComponent } from "./layout/sidebar-user-panel.component";
 import { SidebarMenuComponent } from "./layout/sidebar-menu.component";
+import { HeaderDateComponent} from "./layout/header-date.component";
 
 describe("AppComponent", () => {
   beforeEach(() => {
@@ -48,6 +49,7 @@ describe("AppComponent", () => {
         SidebarLogoComponent,
         SidebarUserPanelComponent,
         SidebarMenuComponent,
+        HeaderDateComponent,
       ],
       imports: [
         BrowserAnimationsModule,

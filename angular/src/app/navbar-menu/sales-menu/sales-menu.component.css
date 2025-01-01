@@ -1,0 +1,88 @@
+h5 {
+  display: flex;
+  align-items: center; /* Vertically align content */
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+h5:before {
+  content: "";
+  flex: 0 1 auto; /* Do not grow; only shrink if needed */
+  border-bottom: 1px solid;
+  margin-right: 10px;
+  width: 20px; /* Control line length */
+}
+
+h5:after {
+  content: "";
+  flex: 1; /* Take remaining space */
+  border-bottom: 1px solid;
+  margin-left: 10px;
+}
+
+.button-container {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 6rem; /* Fixed width */
+  height: 6rem; /* Fixed height */
+  padding: 0; /* Remove extra padding */
+  background-color: #b3e2a7 !important;
+  color: #508d4e !important;
+  border: 2px solid #508d4e;
+  border-radius: 10px; /* Sharp edges */
+  cursor: pointer;
+  text-align: center;
+  margin: 0.5rem; /* Adjust margin */
+  box-sizing: border-box; /* Ensures padding doesn’t alter the size */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  transition: box-shadow 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+.button-container:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+  transform: translateY(-4px); /* Slight upward lift */
+}
+
+.button-container i {
+  font-size: 1.4rem; /* Icon size */
+  margin-bottom: 8px; /* Space between icon and text */
+}
+
+.button-container span {
+  font-size: small; /* Adjust text size */
+  text-align: center; /* Center text */
+  word-wrap: break-word; /* Wrap text if long */
+  max-width: 100%; /* Prevent overflow */
+}
+
+a {
+  color: #508d4e;
+  font-weight: bold;
+}
+
+/* Ensures buttons stay aligned in a grid */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px; /* Space between buttons */
+  justify-content: start; /* Align to the left, adjust if needed */
+}
+
+
+/* Icon Animation */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(-25%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+        transform: none;
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+.button-container:hover i {
+    animation: bounce 1s infinite;
+}

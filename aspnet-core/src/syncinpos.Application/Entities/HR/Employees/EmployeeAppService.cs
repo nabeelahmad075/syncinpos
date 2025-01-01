@@ -8,32 +8,120 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 using Abp.UI;
-using syncinpos.Entities.Setups.Floor.Dto;
+using syncinpos.Authorization.Users;
+using syncinpos.Users.Dto;
+using syncinpos.Users;
+using syncinpos.Authorization.Roles;
+using Microsoft.AspNetCore.Identity;
 
 namespace syncinpos.Entities.HR.Employees
 {
     public class EmployeeAppService : AsyncCrudAppService<Employee, EmployeeDto>
     {
+        private readonly UserAppService _userAppService;
+        private readonly RoleManager _roleManager;
+        private readonly IRepository<User, long> _userRepository;
+        private readonly IPasswordHasher<User> _passwordHasher;
         public EmployeeAppService(
-            IRepository<Employee, int> repository
+            IRepository<Employee, int> repository,
+            UserAppService userAppService,
+            IRepository<User, long> userRepository,
+            IPasswordHasher<User> passwordHasher,
+            RoleManager roleManager
             ) : base(repository) 
-        { 
-        
+        {
+            _userAppService = userAppService;
+            _userRepository = userRepository;
+            _roleManager = roleManager;
+            _passwordHasher = passwordHasher;
         }
         public async override Task<EmployeeDto> CreateAsync(EmployeeDto input)
         {
             input.EmployeeCode = await GetNewEmployeeNoAsync(input.LocationId);
             await IsAlreadyTaken(input);
+            await CreateUpdateUserByEmp(input);
             var create = await base.CreateAsync(input);
             return create;
         }
         public async override Task<EmployeeDto> UpdateAsync(EmployeeDto input)
         {
             await IsAlreadyTaken(input);
+            await CreateUpdateUserByEmp(input);
             var updated = await base.UpdateAsync(input);
             return updated;
+        }
+        private async Task<EmployeeDto> CreateUpdateUserByEmp(EmployeeDto input)
+        {
+            if (input.IsUser)
+            {
+                if (input.UserId == 0 || input.UserId == null)
+                {
+                    var userCreateInput = new CreateUserDto
+                    {
+                        Name = input.EmployeeName,
+                        Surname = input.EmployeeCode,
+                        EmailAddress = input.EmailAddress,
+                        UserName = input.Username,
+                        Password = input.Password,
+                        IsActive = input.IsActive
+                    };
+
+                    var user = await _userAppService.CreateAsync(userCreateInput);
+                    input.UserId = user.Id;
+                }
+                else
+                {
+                    var userUpdateInput = new UserDto
+                    {
+                        Id = input.UserId.Value,
+                        Name = input.EmployeeName,
+                        Surname = input.EmployeeCode,
+                        EmailAddress = input.EmailAddress,
+                        UserName = input.Username,
+                        IsActive = input.IsActive,
+                        RoleNames = input.RolesNames
+                    };
+
+                    var user = await _userAppService.UpdateAsync(userUpdateInput);
+                    input.UserId = user.Id;
+                }
+            }
+            return input;
+        }
+        public async override Task<EmployeeDto> GetAsync(EntityDto<int> input)
+        {
+            var employee = Repository.GetAll().Where(a => a.Id == input.Id)
+                .Select(a => new EmployeeDto
+                {
+                    Id = a.Id,
+                    TenantId = a.TenantId,
+                    LocationId = a.LocationId,
+                    EmployeeCode = a.EmployeeCode,
+                    EmployeeName = a.EmployeeName,
+                    DesignationId = a.DesignationId,
+                    DepartmentId = a.DepartmentId,
+                    MobileNo = a.MobileNo,
+                    Address = a.Address,
+                    IsActive = a.IsActive,
+                    JoiningDate = a.JoiningDate,
+                    IsUser = a.IsUser,
+                    UserId = a.UserId,
+                    Username = a.User.UserName,
+                    Password = "",
+                    EmailAddress = a.User.EmailAddress,
+                    RolesNames = new string[] { }
+                }).FirstOrDefaultAsync();
+
+            var user = await _userRepository.GetAllIncluding(x => x.Roles)
+                                               .Where(x => x.Id == employee.Result.UserId)
+                                               .ToListAsync();
+
+            var roleIds = user.Select(x => x.Roles.Select(r => r.RoleId).ToArray()).FirstOrDefault();
+            var roles = _roleManager.Roles.Where(r => roleIds.Contains(r.Id)).Select(r => r.NormalizedName);
+            employee.Result.RolesNames = roles.ToArray();
+
+            return employee.Result;
         }
         private async Task IsAlreadyTaken(EmployeeDto input)
         {

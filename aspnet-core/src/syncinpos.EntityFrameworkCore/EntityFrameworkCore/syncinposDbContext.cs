@@ -21,6 +21,10 @@ using syncinpos.Entities.Accounts.Types;
 using syncinpos.Entities.Accounts.MainAccounts;
 using syncinpos.Entities.Accounts.SubAccounts;
 using syncinpos.Entities.Accounts.DetailAccounts;
+using syncinpos.Entities.Sales.Customers;
+using syncinpos.Entities.Inventory.ItemPrices;
+using syncinpos.Entities.Accounts.Vouchers;
+using syncinpos.Entities.Sales.DayCloses;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -50,5 +54,11 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<MainAccount> tblMainAccounts { get; set; }
         public DbSet<SubAccount> tblSubAccounts { get; set; }
         public DbSet<DetailAccount> tblDetailAccounts { get; set; }
+        public DbSet<Customer> tblCustomers { get; set; }
+        public DbSet<ItemPriceList> tblItemPriceList { get; set; }
+        public DbSet<VoucherType> tblVoucherType { get; set; }
+        public DbSet<VoucherMaster> tblVoucherMaster { get; set; }
+        public DbSet<VoucherDetail> tblVoucherDetail { get; set; }
+        public DbSet<DayClose> tblDayClose { get; set; }
     }
 }

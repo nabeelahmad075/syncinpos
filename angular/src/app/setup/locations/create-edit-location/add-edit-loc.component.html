@@ -42,7 +42,7 @@
                 required
                 placeholder="Select Region"
                 [options]="tblRegions"
-                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [styleClass]="'border border-gray-300 rounded focus:outline-none'"
                 [(ngModel)]="tblLocation.regionId"
                 [filter]="true"
               >
@@ -65,6 +65,7 @@
                 required
                 placeholder="Location Type"
                 [options]="tblLocationType"
+                [styleClass]="'border border-gray-300 rounded focus:outline-none'"
                 [(ngModel)]="tblLocation.locationTypeId"
               >
               </p-dropdown>
@@ -249,7 +250,7 @@
                 }"
                 name="cashControlAccount"
                 placeholder="Select Cash Control Account"
-                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [styleClass]="'border border-gray-300 rounded focus:outline-none'"
                 [options]="tblTaxDetailAccounts"
                 [(ngModel)]="tblLocation.cashTaxDetailAccountId"
               >
@@ -287,7 +288,7 @@
                 }"
                 name="creditCardControl"
                 placeholder="Select CC Control Account"
-                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [styleClass]="'border border-gray-300 rounded focus:outline-none'"
                 [options]="tblTaxDetailAccounts"
                 [(ngModel)]="tblLocation.creditCardTaxDetailAccountId"
               >
@@ -325,7 +326,7 @@
                 }"
                 name="creditControl"
                 placeholder="Select Credit Control Account"
-                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [styleClass]="'border border-gray-300 rounded focus:outline-none'"
                 [options]="tblTaxDetailAccounts"
                 [(ngModel)]="tblLocation.creditTaxDetailAccountId"
               >
@@ -363,7 +364,7 @@
                 }"
                 name="bankControl"
                 placeholder="Select Bank Control Account"
-                [styleClass]="'prm-dropdown prm-filter-dropdown'"
+                [styleClass]="'border border-gray-300 rounded focus:outline-none'"
                 [options]="tblTaxDetailAccounts"
                 [(ngModel)]="tblLocation.bankTaxDetailAccountId"
               >

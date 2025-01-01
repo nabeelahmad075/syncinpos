@@ -1,0 +1,275 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createVoucherEntryForm="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Voucher Entry' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-row form-group">
+      <div class="col-md-3 required">
+        <label for="location">
+          {{ "Location" | localize }}
+        </label>
+        <div class="">
+          <p-dropdown
+            [style]="{
+              width: '100%',
+              height: '38px',
+              lineHeight: '1',
+              marginTop: '-0.5rem'
+            }"
+            name="location"
+            required
+            placeholder="Select Location"
+            [options]="tblLocation"
+            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+            [(ngModel)]="tblVoucherMaster.locationId"
+            (onChange)="getVoucherNumber()"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="col-md-3 required">
+        <label for="voucherType">
+          {{ "Voucher Type" | localize }}
+        </label>
+        <p-dropdown
+          [style]="{
+            width: '100%',
+            height: '38px',
+            lineHeight: '1',
+            marginTop: '-0.5rem'
+          }"
+          name="voucherType"
+          required
+          placeholder="Select Voucher Type"
+          [options]="tblVoucherType"
+          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [(ngModel)]="tblVoucherMaster.voucherTypeId"
+          (onChange)="getVoucherNumber()"
+        >
+        </p-dropdown>
+      </div>
+      <div class="col-md-3">
+        <label for="voucherDate"> Voucher Date </label>
+        <p-calendar
+          [(ngModel)]="voucherDate"
+          name="voucherDate"
+          id="voucherDate"
+          autoWidth="false"
+          [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
+          [styleClass]="'border border-gray-300 rounded text-sm'"
+          placeholder="dd/mm/yyyy"
+          [dateFormat]="'dd/mm/yy'"
+          [showIcon]="true"
+          (ngModelChange)="getVoucherNumber()"
+        >
+        </p-calendar>
+      </div>
+      <div class="col-md-3">
+        <label for="voucherNo">
+          {{ "Voucher No." | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control text-sm"
+          name="voucherNo"
+          id="voucherNo"
+          required
+          readonly
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblVoucherMaster.voucherNo"
+        />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-9 required">
+        <label for="remarks">
+          {{ "Remarks" | localize }}
+        </label>
+        <input
+          style="margin-top: -8px"
+          type="text"
+          class="form-control text-sm"
+          name="remarks"
+          id="remarks"
+          minlength="2"
+          maxlength="500"
+          [(ngModel)]="tblVoucherMaster.remarks"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-table
+          [value]="tblVoucherMaster.voucherDetails"
+          styleClass="p-datatable-gridlines"
+          [style]="{ width: '100%' }"
+          [tableStyle]="{
+            'max-height': '20rem',
+            display: 'block',
+            'overflow-y': 'scroll'
+          }"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 1rem">Sr#</th>
+              <!-- <th>Service Dept. <span class="color-danger">*</span></th> -->
+              <th style="width: 20rem">Detail Account</th>
+              <th style="width: 21rem">Description</th>
+              <th style="width: 8rem">Debit</th>
+              <th style="width: 8rem">Credit</th>
+              <th style="width: 7rem">Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+            <tr [pEditableRow]="rowData">
+              <td>{{ index + 1 }}</td>
+              <td>
+                <p-dropdown
+                  [styleClass]="
+                    'border border-gray-300 rounded focus:outline-none'
+                  "
+                  placeholder="Select Detail Account"
+                  appendTo="body"
+                  [options]="tblDetailAccounts"
+                  [(ngModel)]="rowData.detailAccountId"
+                  [filter]="true"
+                  [ngModelOptions]="{ name: 'detailAcc' + rowData.uid }"
+                ></p-dropdown>
+              </td>
+              <td>
+                <p-cellEditor pEditableColumn>
+                  <ng-template pTemplate="input">
+                    <textarea
+                      type="text"
+                      pInputText
+                      class="form-control"
+                      id="description"
+                      [(ngModel)]="rowData.description"
+                      [ngModelOptions]="{ name: 'description' + rowData.uid }"
+                    ></textarea>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    <span
+                      class="one-rem-font scroll-y-on-hover d-block w-100"
+                      style="
+                        height: 30px;
+                        width: 100%;
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                      "
+                    >
+                      {{ rowData.description ? rowData.description : " - " }}
+                    </span>
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <p-cellEditor pEditableColumn>
+                  <ng-template pTemplate="input">
+                    <input
+                      type="number"
+                      pInputText
+                      class="form-control"
+                      id="debit"
+                      [min]="0"
+                      [(ngModel)]="rowData.debitAmount"
+                      [ngModelOptions]="{ name: 'debit' + rowData.uid }"
+                      [disabled]="rowData.creditAmount > 0 ? true : false"
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    <span
+                      class="one-rem-font d-block w-100"
+                      style="
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                        font-size: 0.9rem;
+                        height: 30px;
+                        line-height: 27px;
+                      "
+                      >{{
+                        rowData.debitAmount ? (rowData.debitAmount | number) : 0
+                      }}</span
+                    >
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <p-cellEditor pEditableColumn>
+                  <ng-template pTemplate="input">
+                    <input
+                      type="number"
+                      pInputText
+                      class="form-control"
+                      id="creditAmount"
+                      [min]="0"
+                      [(ngModel)]="rowData.creditAmount"
+                      [ngModelOptions]="{ name: 'creditAmount' + rowData.uid }"
+                      [disabled]="rowData.debitAmount > 0 ? true : false"
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    <span
+                      class="one-rem-font d-block w-100"
+                      style="
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                        font-size: 0.9rem;
+                        height: 30px;
+                        line-height: 27px;
+                      "
+                      >{{
+                        rowData.creditAmount
+                          ? (rowData.creditAmount | number)
+                          : 0
+                      }}</span
+                    >
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <a type="button" (click)="addVoucherDetails(index)">
+                  <i class="fa-solid fa-plus"></i> </a
+                ><b style="color: #508d4e">&nbsp;&nbsp;|</b>&nbsp;
+                <a
+                  type="button"
+                  class="delete-btn"
+                  style="font-size: 16px"
+                  (click)="removeVoucherDetails(index)"
+                >
+                  <i
+                    class="fa-solid fa-trash-can text-red-500 hover:text-red-600"
+                  ></i>
+                </a>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <tr>
+              <td>Total</td>
+              <td></td>
+              <td></td>
+              <td>{{ sum("debitAmount") ?? 0 | number }}</td>
+              <td>{{ sum("creditAmount") ?? 0 | number }}</td>
+              <td></td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
+    [saveDisabled]="!createVoucherEntryForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

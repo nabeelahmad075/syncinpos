@@ -12,7 +12,6 @@ import { AddEditSectionComponent } from './menu-operations/sections/create-edit-
 import { ItemCategoryHistoryComponent} from './menu-operations/item-category/item-category-history.component';
 import { AddEditItemCategoryComponent} from './menu-operations/item-category/create-edit-item-category/add-edit-item-category.component';
 import { ItemDefinitionHistoryComponent } from './menu-operations/item/item-definition/item-definition-history.component';
-import { AddEditItemDefinitionComponent } from './menu-operations/item/item-definition/create-edit-item-definition/add-edit-item-definition.component';
 import { TablesComponent} from './setup/tables/tables.component';
 import { AddEditTablesComponent } from './setup/tables/add-edit-tables/add-edit-tables.component';
 import { FloorComponent } from './setup/tables/floor/floor.component';
@@ -20,7 +19,18 @@ import { AddEditMainAccComponent} from './accounts/coa/mainAccounts/add-edit-mai
 import { AddEditSubAccComponent} from './accounts/coa/subAccounts/add-edit-sub-acc.component';
 import { DetailAccHistoryComponent } from './accounts/coa/detailAccounts/detail-acc-history.component';
 import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createEditDetailAcc/add-edit-detail-acc.component';
-
+import { CustomerHistoryComponent } from './sales/customer/customer-history.component';
+import { AddEditCustomerComponent } from './sales/customer/create-edit-customer/add-edit-customer.component';
+import { MainPosComponent } from './sales/pos/mainpos/main-pos.component';
+import { ChangePasswordComponent } from './users/change-password/change-password.component';
+import { PriceHistoryComponent } from './menu-operations/item-price/price-history.component';
+import { AddEditPriceComponent } from './menu-operations/item-price/create-edit-price/add-edit-price.component';
+import { VoucherHistoryComponent } from './accounts/voucher/voucher-history.component';
+import { SetupMenuComponent } from './navbar-menu/setup-menu/setup-menu.component';
+import { SalesMenuComponent } from './navbar-menu/sales-menu/sales-menu.component';
+import { AccountsMenuComponent } from './navbar-menu/accounts-menu/accounts-menu.component';
+import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
     imports: [
@@ -32,6 +42,21 @@ import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createE
                     {
                         path: 'home',
                         loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "setup-menu",
+                        component: SetupMenuComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "sales-menu",
+                        component: SalesMenuComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "accounts-menu",
+                        component: AccountsMenuComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {
@@ -95,8 +120,33 @@ import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createE
                         canActivate: [AppRouteGuard]
                     },
                     {
+                        path: "price-list",
+                        component: PriceHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
                         path: "itemdefinitionhistory",
                         component: ItemDefinitionHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "pos",
+                        component: MainPosComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "dayclose",
+                        component: DayCloseHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "addcustomer",
+                        component: CustomerHistoryComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "customer-history",
+                        component: AddEditCustomerComponent,
                         canActivate: [AppRouteGuard]
                     },
                     {
@@ -117,6 +167,11 @@ import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createE
                     {
                         path: "coa-add-main",
                         component: AddEditMainAccComponent,
+                        canActivate: [AppRouteGuard]
+                    },
+                    {
+                        path: "voucher-history",
+                        component: VoucherHistoryComponent,
                         canActivate: [AppRouteGuard]
                     },
                     // {
@@ -142,9 +197,14 @@ import { AddEditDetailAccComponent } from './accounts/coa/detailAccounts/createE
                         data: { permission: 'Pages.Tenants' },
                         canActivate: [AppRouteGuard]
                     },
+                    // {
+                    //     path: 'update-password',
+                    //     loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
+                    //     canActivate: [AppRouteGuard]
+                    // },
                     {
-                        path: 'update-password',
-                        loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
+                        path: "update-password",
+                        component: ChangePasswordComponent,
                         canActivate: [AppRouteGuard]
                     },
                 ]

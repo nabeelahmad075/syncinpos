@@ -42,71 +42,118 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
 
   getMenuItems(): MenuItem[] {
     return [
-      new MenuItem(this.l("Setup"), "", "fa-solid fa-gear", "", [
-        new MenuItem("Configuration", "", "fa-solid fa-sliders", "", [
-          new MenuItem(
-            "Location",
-            "/app/locationhistory",
-            "fa-solid fa-map-pin"
-          ),
-          new MenuItem(
-            "Add Tables",
-            "/app/tables",
-            "fa-solid fa-dumpster"
-          ),
-        ]),
-        new MenuItem("HR Management", "", "fa-solid fa-user", "", [
-          new MenuItem(
-            "Add Employee",
-            "/app/employeehistory",
-            "fa-solid fa-user-plus"
-          ),
-        ]),
-        new MenuItem("Menu Operations", "", "fa-solid fa-utensils", "", [
-          new MenuItem("Section", "/app/section-history", "fa-solid fa-puzzle-piece"),
-          new MenuItem(
-            "Category",
-            "/app/categoryhistory",
-            "fa-solid fa-list"
-          ),
-          new MenuItem(
-            "Item Defination",
-            "/app/itemdefinitionhistory",
-            "fa-solid fa-drumstick-bite"
-          ),
-        ]),
-      ]),
-      new MenuItem(this.l("Accounts"), "", "fa-solid fa-chart-line", "", [
-        new MenuItem(
-          "Chart of Accounts",
-          "/app/coa-detail",
-          "fa-solid fa-chart-gantt"
-        ),
-        new MenuItem(
-          "Voucher Entry",
-          "/app/voucher-entry",
-          "fa-solid fa-ticket"
-        ),
-      ]),
-      new MenuItem(this.l("HomePage"), "/app/home", "fas fa-home"),
+      // new MenuItem(this.l("Setup"), "", "fa-solid fa-gear text-md", "", [
+      //   new MenuItem("Configuration", "", "fa-solid fa-sliders text-md", "", [
+      //     new MenuItem(
+      //       "Location",
+      //       "/app/locationhistory",
+      //       "fa-solid fa-map-pin text-md"
+      //     ),
+      //     new MenuItem(
+      //       "Add Tables",
+      //       "/app/tables",
+      //       "fa-solid fa-dumpster text-md"
+      //     ),
+      //   ]),
+      //   new MenuItem("HR Management", "", "fa-solid fa-user text-md", "", [
+      //     new MenuItem(
+      //       "Add Employee",
+      //       "/app/employeehistory",
+      //       "fa-solid fa-user-plus text-md"
+      //     ),
+      //   ]),
+      //   new MenuItem("Menu Operations", "", "fa-solid fa-utensils text-md", "", [
+      //     new MenuItem("Section", "/app/section-history", "fa-solid fa-puzzle-piece text-md"),
+      //     new MenuItem(
+      //       "Category",
+      //       "/app/categoryhistory",
+      //       "fa-solid fa-list text-md"
+      //     ),
+      //     new MenuItem(
+      //       "Item Defination",
+      //       "/app/itemdefinitionhistory",
+      //       "fa-solid fa-drumstick-bite text-md"
+      //     ),
+      //     new MenuItem(
+      //       "Add Price",
+      //       "/app/price-list",
+      //       "fa-solid fa-money-bill-wave text-md"
+      //     ),
+      //   ]),
+      // ]),
+      // new MenuItem(this.l("Sales"), "", "fa-solid fa-chart-pie text-md", "", [
+      //   new MenuItem("POS Operations", "", "fa-solid fa-user-tie text-md", "", [
+      //     new MenuItem(
+      //       "POS",
+      //       "/app/pos",
+      //       "fa-solid fa-users text-md"
+      //     ),
+      //   ]),
+      //   new MenuItem("Customer", "", "fa-solid fa-user-tie text-md", "", [
+      //     new MenuItem(
+      //       "Add Customer",
+      //       "/app/addcustomer",
+      //       "fa-solid fa-users text-md"
+      //     ),
+      //   ]),
+      // ]),
+      // new MenuItem(this.l("Accounts"), "", "fa-solid fa-chart-line text-md", "", [
+      //   new MenuItem(
+      //     "Chart of Accounts",
+      //     "/app/coa-detail",
+      //     "fa-solid fa-chart-gantt text-md"
+      //   ),
+      //   new MenuItem(
+      //     "Voucher Entry",
+      //     "/app/voucher-history",
+      //     "fa-solid fa-ticket text-md"
+      //   ),
+      // ]),
+      new MenuItem(this.l("HomePage"), "/app/home", "fas fa-home text-md"),
       new MenuItem(
-        this.l("Roles"),
-        "/app/roles",
-        "fas fa-theater-masks",
-        "Pages.Roles"
+        this.l("Setup"),
+        "/app/setup-menu",
+        "fa-solid fa-gear text-md"
       ),
+      new MenuItem(
+        this.l("Sales"),
+        "/app/sales-menu",
+        "fa-solid fa-chart-pie text-md"
+      ),
+      new MenuItem(
+        this.l("Accounts"),
+        "/app/accounts-menu",
+        "fa-solid fa-chart-line text-md"
+      ),
+      new MenuItem(
+        this.l("Reports"),
+        "/app/reports",
+        "fa-solid fa-file-invoice text-md"
+      ),
+      // new MenuItem(
+      //   this.l("Roles"),
+      //   "/app/roles",
+      //   "fas fa-theater-masks text-md",
+      //   "Pages.Roles"
+      // ),
       new MenuItem(
         this.l("Tenants"),
         "/app/tenants",
-        "fas fa-building",
+        "fas fa-building text-md",
         "Pages.Tenants"
       ),
       new MenuItem(
-        this.l("Users"),
-        "/app/users",
-        "fas fa-users",
-        "Pages.Users"
+        this.l("Utility"),
+        "/app/utility",
+        "fa-solid fa-download text-md",
+        "Pages.Utility"
       ),
+      // new MenuItem(
+      //   this.l("Users"),
+      //   "/app/users",
+      //   "fas fa-users text-md",
+      //   "Pages.Users"
+      // ),
     ];
   }
 
@@ -125,25 +172,6 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
     });
   }
 
-  // activateMenuItems(url: string): void {
-  //   this.deactivateMenuItems(this.menuItems);
-  //   this.activatedMenuItems = [];
-  //   const foundedItems = this.findMenuItemsByUrl(url, this.menuItems);
-  //   foundedItems.forEach((item) => {
-  //     this.activateMenuItem(item);
-  //   });
-  // }
-
-  // deactivateMenuItems(items: MenuItem[]): void {
-  //   items.forEach((item: MenuItem) => {
-  //     item.isActive = false;
-  //     item.isCollapsed = true;
-  //     if (item.children) {
-  //       this.deactivateMenuItems(item.children);
-  //     }
-  //   });
-  // }
-
   findMenuItemsByUrl(
     url: string,
     items: MenuItem[],
@@ -159,55 +187,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
     return foundedItems;
   }
 
-  // activateMenuItem(item: MenuItem): void {
-  //   item.isActive = true;
-  //   if (item.children) {
-  //     item.isCollapsed = true;
-  //   }
-  //   this.activatedMenuItems.push(item);
-  //   if (item.parentId) {
-  //     this.activateMenuItem(this.menuItemsMap[item.parentId]);
-  //   }
-  // }
-
-//   activateMenuItem(item: MenuItem): void {
-//     item.isActive = true;
-
-//     // Expand the menu if it has children
-//     if (item.children) {
-//         item.isCollapsed = false;
-//     }
-
-//     // Activate parent menu if it exists
-//     if (item.parentId) {
-//         const parentItem = this.menuItemsMap[item.parentId];
-//         if (parentItem) {
-//             this.activateMenuItem(parentItem); // Recursively activate parent
-//         }
-//     }
-// }
-
-
   isMenuItemVisible(item: MenuItem): boolean {
     if (!item.permissionName) {
       return true;
     }
     return this.permission.isGranted(item.permissionName);
   }
-
-// toggleMenuItem(item: MenuItem): void {
-//   // If the item is already expanded, toggle it closed
-//   item.isCollapsed = !item.isCollapsed;
-
-//   // If expanding, collapse all other top-level menu items
-//   if (!item.isCollapsed) {
-//       this.menuItems.forEach((menu) => {
-//           if (menu !== item) {
-//               menu.isCollapsed = true;
-//           }
-//       });
-//   }
-// }
 
 toggleMenuItem(item: MenuItem): void {
   // Toggle the current item's collapsed state

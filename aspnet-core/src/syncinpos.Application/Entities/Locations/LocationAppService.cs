@@ -86,5 +86,16 @@ namespace syncinpos.Entities.Locations
                                             }).ToListAsync();
             return locations;
         }
+        public async Task<List<SelectItemDto>> GetInActiveLocationDropDown(int TenantId)
+        {
+            var locations = await Repository.GetAll()
+                                            .Where(a => a.IsActive == false && a.TenantId == TenantId)
+                                            .Select(a => new SelectItemDto
+                                            {
+                                                Label = a.LocationName,
+                                                Value = a.Id
+                                            }).ToListAsync();
+            return locations;
+        }
     }
 }

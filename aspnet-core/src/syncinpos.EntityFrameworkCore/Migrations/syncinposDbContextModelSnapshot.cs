@@ -1720,6 +1720,9 @@ namespace syncinpos.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsControlAccount")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -1763,6 +1766,9 @@ namespace syncinpos.Migrations
                     b.Property<string>("Alias")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsControlAccount")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -1793,6 +1799,139 @@ namespace syncinpos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tblMainTypes");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Accounts.Types.VoucherType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Alias")
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tblVoucherType");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Accounts.Vouchers.VoucherDetail", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("CreditAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("DebitAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<int>("DetailAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("VoucherMasterId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DetailAccountId");
+
+                    b.HasIndex("VoucherMasterId");
+
+                    b.ToTable("tblVoucherDetail");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Accounts.Vouchers.VoucherMaster", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("VoucherDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("VoucherNo")
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<int>("VoucherTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("VoucherTypeId");
+
+                    b.ToTable("tblVoucherMaster");
                 });
 
             modelBuilder.Entity("syncinpos.Entities.HR.Departments.Department", b =>
@@ -1879,6 +2018,9 @@ namespace syncinpos.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsUser")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("JoiningDate")
                         .HasColumnType("datetime2");
 
@@ -1898,6 +2040,9 @@ namespace syncinpos.Migrations
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
@@ -1905,6 +2050,8 @@ namespace syncinpos.Migrations
                     b.HasIndex("DesignationId");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("tblEmployees");
                 });
@@ -1935,6 +2082,64 @@ namespace syncinpos.Migrations
                     b.HasIndex("ItemTypeId");
 
                     b.ToTable("tblItemCategories");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Inventory.ItemPrices.ItemPriceList", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EffectedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ItemCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemCategoryId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("tblItemPriceList");
                 });
 
             modelBuilder.Entity("syncinpos.Entities.Inventory.ItemTypes.ItemType", b =>
@@ -2244,6 +2449,134 @@ namespace syncinpos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tblRegions");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Sales.Customers.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DetailAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NIC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SubAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DetailAccountId");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("SubAccountId");
+
+                    b.ToTable("tblCustomers");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Sales.DayCloses.DayClose", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CurrentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorUserId");
+
+                    b.HasIndex("DeleterUserId");
+
+                    b.HasIndex("LastModifierUserId");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("tblDayClose");
                 });
 
             modelBuilder.Entity("syncinpos.Entities.Setups.Floors.FloorEntity", b =>
@@ -2650,6 +2983,44 @@ namespace syncinpos.Migrations
                     b.Navigation("MainAccount");
                 });
 
+            modelBuilder.Entity("syncinpos.Entities.Accounts.Vouchers.VoucherDetail", b =>
+                {
+                    b.HasOne("syncinpos.Entities.Accounts.DetailAccounts.DetailAccount", "DetailAccount")
+                        .WithMany()
+                        .HasForeignKey("DetailAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("syncinpos.Entities.Accounts.Vouchers.VoucherMaster", "VoucherMaster")
+                        .WithMany("VoucherDetails")
+                        .HasForeignKey("VoucherMasterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DetailAccount");
+
+                    b.Navigation("VoucherMaster");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Accounts.Vouchers.VoucherMaster", b =>
+                {
+                    b.HasOne("syncinpos.Entities.Locations.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("syncinpos.Entities.Accounts.Types.VoucherType", "VoucherType")
+                        .WithMany()
+                        .HasForeignKey("VoucherTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+
+                    b.Navigation("VoucherType");
+                });
+
             modelBuilder.Entity("syncinpos.Entities.HR.Employees.Employee", b =>
                 {
                     b.HasOne("syncinpos.Entities.HR.Departments.Department", "Department")
@@ -2670,11 +3041,17 @@ namespace syncinpos.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("syncinpos.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Department");
 
                     b.Navigation("Designation");
 
                     b.Navigation("Location");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("syncinpos.Entities.Inventory.ItemCategories.ItemCategory", b =>
@@ -2686,6 +3063,33 @@ namespace syncinpos.Migrations
                         .IsRequired();
 
                     b.Navigation("ItemType");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Inventory.ItemPrices.ItemPriceList", b =>
+                {
+                    b.HasOne("syncinpos.Entities.Inventory.ItemCategories.ItemCategory", "ItemCategory")
+                        .WithMany()
+                        .HasForeignKey("ItemCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("syncinpos.Entities.Inventory.Items.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("syncinpos.Entities.Locations.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("ItemCategory");
+
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("syncinpos.Entities.Inventory.Items.Item", b =>
@@ -2764,6 +3168,60 @@ namespace syncinpos.Migrations
                     b.Navigation("LocationType");
 
                     b.Navigation("Region");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Sales.Customers.Customer", b =>
+                {
+                    b.HasOne("syncinpos.Entities.Accounts.DetailAccounts.DetailAccount", "DetailAccount")
+                        .WithMany()
+                        .HasForeignKey("DetailAccountId");
+
+                    b.HasOne("syncinpos.Entities.Locations.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("syncinpos.Entities.Accounts.SubAccounts.SubAccount", "SubAccount")
+                        .WithMany()
+                        .HasForeignKey("SubAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DetailAccount");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("SubAccount");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Sales.DayCloses.DayClose", b =>
+                {
+                    b.HasOne("syncinpos.Authorization.Users.User", "CreatorUser")
+                        .WithMany()
+                        .HasForeignKey("CreatorUserId");
+
+                    b.HasOne("syncinpos.Authorization.Users.User", "DeleterUser")
+                        .WithMany()
+                        .HasForeignKey("DeleterUserId");
+
+                    b.HasOne("syncinpos.Authorization.Users.User", "LastModifierUser")
+                        .WithMany()
+                        .HasForeignKey("LastModifierUserId");
+
+                    b.HasOne("syncinpos.Entities.Locations.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatorUser");
+
+                    b.Navigation("DeleterUser");
+
+                    b.Navigation("LastModifierUser");
+
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("syncinpos.Entities.Setups.Floors.FloorEntity", b =>
@@ -2892,6 +3350,11 @@ namespace syncinpos.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
+                });
+
+            modelBuilder.Entity("syncinpos.Entities.Accounts.Vouchers.VoucherMaster", b =>
+                {
+                    b.Navigation("VoucherDetails");
                 });
 #pragma warning restore 612, 618
         }

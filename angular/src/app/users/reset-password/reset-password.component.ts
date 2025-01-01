@@ -28,9 +28,8 @@ export class ResetPasswordDialogComponent extends AppComponentBase
     this.isLoading = true;
     this.resetPasswordDto = new ResetPasswordDto();
     this.resetPasswordDto.userId = this.id;
-    this.resetPasswordDto.newPassword = Math.random()
-      .toString(36)
-      .substr(2, 10);
+    this.resetPasswordDto.newPassword = "" 
+    //Math.random().toString(36).substr(2, 10);
     this.isLoading = false;
   }
 

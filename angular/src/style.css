@@ -212,6 +212,7 @@ input[type="number"] {
   animation: pulse 2s linear infinite;
   width: 10rem;
   border-radius: 0;
+  text-align: center;
 }
 
 @keyframes pulse {

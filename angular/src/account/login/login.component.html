@@ -85,8 +85,8 @@
       </div> -->
       <!-- bg-gradient-to-r from-purple-900 via-purple-800 to-purple-600 -->
 
-      <div [@routerTransition]>
-      <div class="bg-[url('/assets/img/back5.jpg')] bg-cover bg-center h-screen text-gray-800">
+      <!-- <div [@routerTransition]>
+      <div class="bg-[url('/assets/img/back6.png')] bg-cover bg-center h-screen text-gray-800">
         <div class="min-h-screen flex fle-col items-center justify-center lg:p-6 p-4">
           <div class="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
   
@@ -147,4 +147,59 @@
       </div>
 
       
+</div>             -->
+
+<div [@routerTransition]>
+  <div class="bg-[url('/assets/img/back6.png')] bg-cover bg-center h-screen text-gray-800">
+    <div class="min-h-screen flex items-center justify-center p-4">
+      <!-- Centered Form -->
+      <form novalidate autocomplete="off" #loginForm="ngForm" (ngSubmit)="login()"
+        class="bg-[#ffffff6b] rounded-xl px-6 py-6 space-y-2 max-w-md w-full shadow-md">
+        
+        <div class="text-[#508D4E]">
+          <tenant-change></tenant-change>
+        </div>
+        <h3 class="text-3xl font-extrabold mb-12 text-[#508D4E]">
+          Sign in
+        </h3>
+        
+        <div>
+          <label class="text-[#508D4E]">Username</label>
+          <input 
+            type="text"
+            name="userNameOrEmailAddress"
+            [(ngModel)]="authService.authenticateModel.userNameOrEmailAddress"
+            [placeholder]="'UserNameOrEmail' | localize"
+            required
+            maxlength="256"
+            #userNameOrEmailAddressModel="ngModel"
+            #userNameOrEmailAddressEl
+            class="bg-gray-100 focus:bg-transparent border-solid border-black border-2 w-full text-[1rem] px-4 py-3.5 rounded-md outline-gray-800" />
+        </div>
+        
+        <div>
+          <label class="text-[#508D4E]">Password</label>
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="authService.authenticateModel.password"
+            [placeholder]="'Password' | localize"
+            required
+            maxlength="32"
+            #passwordModel="ngModel"
+            #passwordEl
+            class="bg-gray-100 focus:bg-transparent border-solid border-black border-2  w-full text-[1rem] px-4 py-3.5 rounded-md outline-gray-800" />
+        </div>
+        
+        <div>
+          <button 
+            type="submit"
+            [disabled]="!loginForm.form.valid || submitting"
+            class="w-full mt-4 shadow-xl py-2 px-6 text-[1.3rem] font-semibold rounded-md text-white bg-[#80AF81] hover:bg-[#508D4E] hover:cursor-pointer focus:outline-none transition duration-200 ease-in">
+            Log in
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

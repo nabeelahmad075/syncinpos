@@ -182,13 +182,13 @@ import { UsersComponent } from './users/users.component';
                     {
                         path: 'users',
                         loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
-                        data: { permission: 'Pages.Users' },
+                        data: { permission: 'Pages.Setup.HR_Management.Users' },
                         canActivate: [AppRouteGuard]
                     },
                     {
                         path: 'roles',
                         loadChildren: () => import('./roles/roles.module').then((m) => m.RolesModule),
-                        data: { permission: 'Pages.Roles' },
+                        data: { permission: 'Pages.Setup.HR_Management.Roles' },
                         canActivate: [AppRouteGuard]
                     },
                     {

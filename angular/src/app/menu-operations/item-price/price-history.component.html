@@ -6,7 +6,7 @@
 >
   <div [@routerTransition]>
     <section class="content-header" style="padding: 1px 0.5rem">
-      <div class="container-fluid" style="width: 97%">
+      <div class="container-fluid" style="width: 97%; margin-top: 5px;">
         <div class="row">
           <div class="col-6">
             <h4>Item Price</h4>
@@ -41,7 +41,7 @@
                   name="location"
                   required
                   id="location"
-                  [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+                  [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
                   placeholder="Select Location(s)"
                   [options]="tblLocation"
                   [(ngModel)]="selectedLocations"
@@ -52,22 +52,16 @@
               <label for="category">
                 {{ "Category" | localize }}
               </label>
-              <p-dropdown
-                [style]="{
-                  width: '100%',
-                  height: '38px',
-                  lineHeight: '0.7',
-                  marginTop: '-0.5rem'
-                }"
+              <p-select
                 name="category"
                 required
                 placeholder="Select Category"
-                [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+                [styleClass]="'text-sm h-10 rder-gray-300 rounded focus:outline-none'"
                 [options]="tblCategory"
                 [(ngModel)]="categoryId"
                 (onChange)="getCategoryWiseItemPrice(categoryId)"
               >
-              </p-dropdown>
+              </p-select>
             </div>
             <div class="form-group col-md-4">
               <label for="itemPriceDate"> Date Effected </label>

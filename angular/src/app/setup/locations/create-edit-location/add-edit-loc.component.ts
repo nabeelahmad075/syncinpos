@@ -20,7 +20,6 @@ import {
 import { result } from "lodash-es";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { SelectItem } from "primeng/api";
-import { Dropdown } from "primeng/dropdown";
 import * as $ from "jquery";
 import "ngx-bootstrap";
 import { Tooltip } from "bootstrap";

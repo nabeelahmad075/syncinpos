@@ -180,7 +180,6 @@ export class AddEditSubAccComponent extends AppComponentBase implements OnInit {
   }
 
   getSubAccHistory(event?: LazyLoadEvent, typeId: number = undefined) {
-    debugger
     if (this.primengTableHelper.shouldResetPaging(event)) {
       this.paginator.changePage(0);
       return;

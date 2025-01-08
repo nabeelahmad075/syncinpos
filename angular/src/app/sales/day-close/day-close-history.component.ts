@@ -72,7 +72,6 @@ export class DayCloseHistoryComponent
 
   selectAll($event: any) {
     this.allSelected = $event.target.checked;
-    debugger;
     if (this.allSelected) {
       this.dayCloseHistory.forEach((item) => (item.isMarked = true));
     } else {

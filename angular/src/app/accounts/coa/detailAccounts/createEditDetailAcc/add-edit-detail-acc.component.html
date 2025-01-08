@@ -16,23 +16,17 @@
         </label>
       </div>
       <div class="col-md-8">
-        <p-dropdown
-          [style]="{
-            width: '100%',
-            height: '38px',
-            lineHeight: '1',
-            marginTop: '-0.5rem'
-          }"
+        <p-select
           name="subAcc"
           required
           placeholder="Select Account Type"
           [filter]="true"
           [options]="tblSubAccounts"
-          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblDetailAccounts.subAccountId"
           (onChange)="getDetailCode(tblDetailAccounts.subAccountId, tblDetailAccounts.id)"
         >
-        </p-dropdown>
+        </p-select>
       </div>
     </div>
     <div class="form-row form-group">

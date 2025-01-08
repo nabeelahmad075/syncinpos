@@ -16,6 +16,7 @@ import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectModule } from 'primeng/select';
 // layout
 import { HeaderComponent } from './layout/header.component';
 import { HeaderLeftNavbarComponent } from './layout/header-left-navbar.component';
@@ -119,7 +120,8 @@ import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.co
         TableModule,
         PaginatorModule,
         CalendarModule,
-        MultiSelectModule
+        MultiSelectModule,
+        SelectModule
     ],
     providers: []
 })

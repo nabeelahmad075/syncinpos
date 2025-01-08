@@ -15,63 +15,45 @@
           {{ "Location" | localize }}
         </label>
         <div class="">
-          <p-dropdown
-            [style]="{
-              width: '100%',
-              height: '38px',
-              lineHeight: '1',
-              marginTop: '-0.5rem'
-            }"
+          <p-select
             name="location"
             required
             placeholder="Select Location"
             [options]="tblLocation"
-            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+            [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblEmployee.locationId"
             (onChange)="getNewEmployeeNo(tblEmployee.locationId)"
           >
-          </p-dropdown>
+          </p-select>
         </div>
       </div>
       <div class="col-md-4 required">
         <label for="designation">
           {{ "Designation" | localize }}
         </label>
-        <p-dropdown
-          [style]="{
-            width: '100%',
-            height: '38px',
-            lineHeight: '1',
-            marginTop: '-0.5rem'
-          }"
+        <p-select
           name="designation"
           required
           placeholder="Select Designation"
           [options]="tblDesignation"
-          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblEmployee.designationId"
         >
-        </p-dropdown>
+        </p-select>
       </div>
       <div class="col-md-4 required">
         <label for="department">
           {{ "Department" | localize }}
         </label>
-        <p-dropdown
-          [style]="{
-            width: '100%',
-            height: '38px',
-            lineHeight: '1',
-            marginTop: '-0.5rem'
-          }"
+        <p-select
           name="department"
           required
           placeholder="Select Department"
           [options]="tblDepartment"
-          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblEmployee.departmentId"
         >
-        </p-dropdown>
+        </p-select>
       </div>
     </div>
     <div class="form-row">

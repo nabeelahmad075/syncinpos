@@ -15,21 +15,15 @@
           {{ "Main Account Type" | localize }}
         </label>
         <div class="">
-          <p-dropdown
-            [style]="{
-              width: '100%',
-              height: '38px',
-              lineHeight: '1',
-              marginTop: '-0.5rem'
-            }"
+          <p-select
             name="mainAccType"
             required
             placeholder="Select Main Type"
             [options]="tblMainType"
-            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+            [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblMainAccounts.mainTypeId"
           >
-          </p-dropdown>
+          </p-select>
         </div>
       </div>
       <div class="form-group col-md-2">

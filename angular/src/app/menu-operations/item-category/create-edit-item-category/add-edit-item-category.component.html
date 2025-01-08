@@ -15,21 +15,15 @@
         <label for="location">
           {{ "Item Type" | localize }}
         </label>
-        <p-dropdown
-          [style]="{
-            width: '100%',
-            height: '38px',
-            lineHeight: '1',
-            marginTop: '-0.5rem'
-          }"
+        <p-select
           name="location"
           required
           placeholder="Select Item Type"
           [options]="tblItemTypes"
-          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblItemCategories.itemTypeId"
         >
-        </p-dropdown>
+        </p-select>
       </div>
       <div class="col-md-4 required">
         <label for="designation">

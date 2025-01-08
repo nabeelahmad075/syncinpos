@@ -50,7 +50,24 @@ tabset {
   margin: 0 2px;
 }
 
-.p-dropdown {
+.p-paginator p-select {
+  width: 80px;
+  font-size: 0.9rem;
+  height: 2rem;
+  line-height: 0.6rem;
+}
+
+.p-paginator p-selectitem>li {
+  padding: 8px 0px 8px 10px;
+}
+
+.p-paginator .p-paginator-page{
+  height: 40px;
+  width: 40px;
+  font-size: 0.9rem;
+  margin: 0;
+}
+/* .p-dropdown {
   padding: 2px;
   height: 30px;
   line-height: 0.1rem;
@@ -73,6 +90,25 @@ tabset {
   font-size: 0.8rem;
 }
 
+.p-dropdown-panel .p-dropdown-items {
+  padding: 0.75rem 0;
+  font-size: 0.8rem;
+  line-height: 0rem;
+  margin: 0rem 0rem 0rem -1rem;
+} */
+
+p-select{
+  /* height: 38px;
+  line-height: 1.2; */
+  margin-top: -0.5rem;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+p-selectitem>li {
+  padding: 1px 0px 1px 13px;
+}
+
 .p-button {
   padding: 1px 2px;
   font-size: 0.8em;
@@ -87,13 +123,6 @@ label {
   font-size: 0.8rem;
   margin-bottom: 0rem;
   color: #000000;
-}
-
-.p-dropdown-panel .p-dropdown-items {
-  padding: 0.75rem 0;
-  font-size: 0.8rem;
-  line-height: 0rem;
-  margin: 0rem 0rem 0rem -1rem;
 }
 
 .legend {
@@ -188,7 +217,8 @@ calendaricon {
 
 input[role="searchbox"] {
   height: 23px !important;
-  border: none;
+  border: solid 1px;
+  border-radius: 1;
 }
 
 /* Hide spinner for Chrome, Safari, Edge, and other WebKit browsers */
@@ -289,3 +319,7 @@ html {
   width: 80px !important;
 } */
 
+
+.p-paginator-page.p-paginator-page-selected{
+  border-radius: 20px;
+}

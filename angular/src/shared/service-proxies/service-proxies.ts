@@ -7845,7 +7845,7 @@ export class RoleServiceProxy {
     /**
      * @return OK
      */
-    getAllPermissions(): Observable<PermissionDtoListResultDto> {
+    getAllPermissions(): Observable<FlatPermissionDtoListResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetAllPermissions";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7864,14 +7864,14 @@ export class RoleServiceProxy {
                 try {
                     return this.processGetAllPermissions(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<PermissionDtoListResultDto>;
+                    return _observableThrow(e) as any as Observable<FlatPermissionDtoListResultDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<PermissionDtoListResultDto>;
+                return _observableThrow(response_) as any as Observable<FlatPermissionDtoListResultDto>;
         }));
     }
 
-    protected processGetAllPermissions(response: HttpResponseBase): Observable<PermissionDtoListResultDto> {
+    protected processGetAllPermissions(response: HttpResponseBase): Observable<FlatPermissionDtoListResultDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -7882,7 +7882,7 @@ export class RoleServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PermissionDtoListResultDto.fromJS(resultData200);
+            result200 = FlatPermissionDtoListResultDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -13819,6 +13819,7 @@ export interface IEmployeeHistoryDtoPagedResultDto {
 }
 
 export class FlatPermissionDto implements IFlatPermissionDto {
+    parentName: string | undefined;
     name: string | undefined;
     displayName: string | undefined;
     description: string | undefined;
@@ -13834,6 +13835,7 @@ export class FlatPermissionDto implements IFlatPermissionDto {
 
     init(_data?: any) {
         if (_data) {
+            this.parentName = _data["parentName"];
             this.name = _data["name"];
             this.displayName = _data["displayName"];
             this.description = _data["description"];
@@ -13849,6 +13851,7 @@ export class FlatPermissionDto implements IFlatPermissionDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["parentName"] = this.parentName;
         data["name"] = this.name;
         data["displayName"] = this.displayName;
         data["description"] = this.description;
@@ -13864,9 +13867,61 @@ export class FlatPermissionDto implements IFlatPermissionDto {
 }
 
 export interface IFlatPermissionDto {
+    parentName: string | undefined;
     name: string | undefined;
     displayName: string | undefined;
     description: string | undefined;
+}
+
+export class FlatPermissionDtoListResultDto implements IFlatPermissionDtoListResultDto {
+    items: FlatPermissionDto[] | undefined;
+
+    constructor(data?: IFlatPermissionDtoListResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(FlatPermissionDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): FlatPermissionDtoListResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FlatPermissionDtoListResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+
+    clone(): FlatPermissionDtoListResultDto {
+        const json = this.toJSON();
+        let result = new FlatPermissionDtoListResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IFlatPermissionDtoListResultDto {
+    items: FlatPermissionDto[] | undefined;
 }
 
 export class FloorEntityDto implements IFloorEntityDto {
@@ -15955,112 +16010,6 @@ export class MainAccountHistoryDtoPagedResultDto implements IMainAccountHistoryD
 export interface IMainAccountHistoryDtoPagedResultDto {
     items: MainAccountHistoryDto[] | undefined;
     totalCount: number;
-}
-
-export class PermissionDto implements IPermissionDto {
-    id: number;
-    name: string | undefined;
-    displayName: string | undefined;
-    description: string | undefined;
-
-    constructor(data?: IPermissionDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.displayName = _data["displayName"];
-            this.description = _data["description"];
-        }
-    }
-
-    static fromJS(data: any): PermissionDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PermissionDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["displayName"] = this.displayName;
-        data["description"] = this.description;
-        return data;
-    }
-
-    clone(): PermissionDto {
-        const json = this.toJSON();
-        let result = new PermissionDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IPermissionDto {
-    id: number;
-    name: string | undefined;
-    displayName: string | undefined;
-    description: string | undefined;
-}
-
-export class PermissionDtoListResultDto implements IPermissionDtoListResultDto {
-    items: PermissionDto[] | undefined;
-
-    constructor(data?: IPermissionDtoListResultDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["items"])) {
-                this.items = [] as any;
-                for (let item of _data["items"])
-                    this.items.push(PermissionDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PermissionDtoListResultDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PermissionDtoListResultDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data;
-    }
-
-    clone(): PermissionDtoListResultDto {
-        const json = this.toJSON();
-        let result = new PermissionDtoListResultDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IPermissionDtoListResultDto {
-    items: PermissionDto[] | undefined;
 }
 
 export class RegionDto implements IRegionDto {

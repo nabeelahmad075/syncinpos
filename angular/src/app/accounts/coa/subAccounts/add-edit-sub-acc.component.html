@@ -15,24 +15,18 @@
           {{ "Account Type" | localize }}
         </label>
         <div class="">
-          <p-dropdown
-            [style]="{
-              width: '100%',
-              height: '38px',
-              lineHeight: '1',
-              marginTop: '-0.5rem'
-            }"
+          <p-select
             name="accountType"
             required
             [showClear]="!tblSubAccounts.id ? true : false"
             placeholder="Select Account Type"
             [options]="tblAccountType"
-            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+            [styleClass]="'text-sm h-10 border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblSubAccounts.accountTypeId"
             (onChange)="getIsControlAccount(tblSubAccounts.accountTypeId)"
             (onClear)="getIsControlAccount()"
           >
-          </p-dropdown>
+          </p-select>
         </div>
       </div>
       <div class="col-md-4 required">
@@ -40,22 +34,16 @@
           {{ "Main Account" | localize }}
         </label>
         <div class="">
-          <p-dropdown
-            [style]="{
-              width: '100%',
-              height: '38px',
-              lineHeight: '1',
-              marginTop: '-0.5rem'
-            }"
+          <p-select
             name="mainAcc"
             required
             placeholder="Select Main Account"
             [options]="tblMainAccounts"
-            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+            [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="tblSubAccounts.mainAccountId"
             (onChange)="getSubCode(tblSubAccounts.mainAccountId, tblSubAccounts.id)"
           >
-          </p-dropdown>
+          </p-select>
         </div>
       </div>
 

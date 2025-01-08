@@ -88,7 +88,7 @@ export class RolesComponent extends PagedListingComponentBase<RoleDto> {
     let createOrEditRoleDialog: BsModalRef;
     if (!id) {
       createOrEditRoleDialog = this._modalService.show(
-        CreateRoleDialogComponent,
+        EditRoleDialogComponent,
         {
           class: 'modal-lg',
         }

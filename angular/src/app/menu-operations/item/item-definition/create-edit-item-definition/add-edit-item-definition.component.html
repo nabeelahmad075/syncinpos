@@ -15,63 +15,44 @@
           {{ "Item Type" | localize }}
         </label>
         <div class="">
-          <p-dropdown
-            [style]="{
-              width: '100%',
-              height: '38px',
-              lineHeight: '1',
-              marginTop: '-0.5rem'
-            }"
+          <p-select
             name="itemType"
             required
-            
             [options]="tblItemTypes"
-            [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+            [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
             [(ngModel)]="itemTypeIdd"
             (ngModelChange)="getItemCategoryDropdown()"
           >
-          </p-dropdown>
+          </p-select>
         </div>
       </div>
       <div class="col-md-4 required">
         <label for="itemCategory">
           {{ "Category" | localize }}
         </label>
-        <p-dropdown
-          [style]="{
-            width: '100%',
-            height: '38px',
-            lineHeight: '1',
-            marginTop: '-0.5rem'
-          }"
+        <p-select
           name="itemCategory"
           required
           placeholder="Select Category"
           [options]="tblItemCategories"
-          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblItemDefinitions.itemCategoryId"
         >
-        </p-dropdown>
+        </p-select>
       </div>
       <div class="col-md-4 required">
         <label for="section">
           {{ "Section" | localize }}
         </label>
-        <p-dropdown
-          [style]="{
-            width: '100%',
-            height: '38px',
-            lineHeight: '1',
-            marginTop: '-0.5rem'
-          }"
+        <p-select
           name="section"
           required
           placeholder="Select Section"
           [options]="tblSections"
-          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblItemDefinitions.sectionId"
         >
-        </p-dropdown>
+        </p-select>
       </div>
     </div>
     <div class="form-row">
@@ -110,22 +91,16 @@
         <label for="uom">
           {{ "UOM" | localize }}
         </label>
-        <p-dropdown
-          [style]="{
-            width: '100%',
-            height: '38px',
-            lineHeight: '1',
-            marginTop: '-0.5rem'
-          }"
+        <p-select
           [filter]="true"
           name="uom"
           required
           placeholder="Select UOM"
           [options]="tblUnitOfMeasurements"
-          [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+          [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
           [(ngModel)]="tblItemDefinitions.uomId"
         >
-        </p-dropdown>
+        </p-select>
       </div>
     </div>
     <div class="form-row form-group">

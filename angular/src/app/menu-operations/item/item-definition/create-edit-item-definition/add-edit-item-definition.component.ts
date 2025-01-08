@@ -89,11 +89,9 @@ export class AddEditItemDefinitionComponent
 
   getItemTypeDropdown() {
     this.tblItemTypes = [];
-    debugger;
     this._itemTypeService.getItemTypeDropdown().subscribe((result) => {
       this.tblItemTypes = result;
       if (this.tblItemTypes && this.tblItemTypes.length && this.id == 0) {
-        debugger;
         this.itemTypeIdd = this.tblItemTypes[0].value;
       } // Assuming tblItemTypes has 'value' field
       this.cdr.detectChanges();
@@ -102,7 +100,6 @@ export class AddEditItemDefinitionComponent
 
   getItemCategoryDropdown(editMode: boolean = false) {
     this.tblItemCategories = [];
-    debugger;
     this._itemCategoryService
       .getItemCategoryDropdown(
         this.id,
@@ -188,7 +185,6 @@ export class AddEditItemDefinitionComponent
   getById() {
     this.itemTypeIdd = undefined;
     this._itemDefinitionService.get(this.id).subscribe((result) => {
-      debugger;
       this.tblItemDefinitions = result;
 
       this.itemTypeIdd = result.itemTypeId;

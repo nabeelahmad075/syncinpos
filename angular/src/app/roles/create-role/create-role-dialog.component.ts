@@ -11,9 +11,9 @@ import { AppComponentBase } from '@shared/app-component-base';
 import {
   RoleServiceProxy,
   RoleDto,
-  PermissionDto,
   CreateRoleDto,
-  PermissionDtoListResultDto
+  FlatPermissionDto,
+  GetRoleForEditOutput
 } from '@shared/service-proxies/service-proxies';
 import { forEach as _forEach, map as _map } from 'lodash-es';
 import { TreeNode } from '@node_modules/primeng/api';
@@ -25,7 +25,7 @@ export class CreateRoleDialogComponent extends AppComponentBase
   implements OnInit {
   saving = false;
   role = new RoleDto();
-  permissions: PermissionDto[] = [];
+  permissions: FlatPermissionDto[] = [];
   checkedPermissionsMap: { [key: string]: boolean } = {};
   defaultPermissionCheckedStatus = true;
 
@@ -41,13 +41,13 @@ export class CreateRoleDialogComponent extends AppComponentBase
   }
 
   ngOnInit(): void {
-    this._roleService
-      .getAllPermissions()
-      .subscribe((result: PermissionDtoListResultDto) => {
-        this.permissions = result.items;
-        this.setInitialPermissionsStatus();
-        this.cd.detectChanges();
-      });
+    // this._roleService
+    //   .getAllPermissions()
+    //   .subscribe((result: FlatPermissionDto) => {
+    //     this.permissions = result.permissions;
+    //     this.setInitialPermissionsStatus();
+    //     this.cd.detectChanges();
+    //   });
   }
 
   setInitialPermissionsStatus(): void {
@@ -64,7 +64,7 @@ export class CreateRoleDialogComponent extends AppComponentBase
     return this.defaultPermissionCheckedStatus;
   }
 
-  onPermissionChange(permission: PermissionDto, $event) {
+  onPermissionChange(permission: FlatPermissionDto, $event) {
     this.checkedPermissionsMap[permission.name] = $event.target.checked;
   }
 

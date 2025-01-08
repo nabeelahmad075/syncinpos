@@ -16,21 +16,15 @@
           <div class="col-md-4 required">
             <label class="" for="location">From Location</label>
             <div class="">
-                <p-dropdown
-                [style]="{
-                  width: '100%',
-                  height: '38px',
-                  lineHeight: '1',
-                  marginTop: '-0.5rem'
-                }"
+                <p-select
                 name="location"
                 required
                 placeholder="Select From Location"
-                [styleClass]="'border border-gray-300 rounded focus:outline-none'"
+                [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
                 [options]="tblLocation"
                 [(ngModel)]="fromLocationId"
               >
-              </p-dropdown>
+              </p-select>
             </div>
           </div>
           <div class="col-md-4 required">

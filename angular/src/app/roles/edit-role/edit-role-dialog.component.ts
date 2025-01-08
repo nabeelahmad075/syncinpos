@@ -17,7 +17,6 @@ import {
   RoleServiceProxy,
   GetRoleForEditOutput,
   RoleDto,
-  PermissionDto,
   RoleEditDto,
   FlatPermissionDto,
 } from "@shared/service-proxies/service-proxies";

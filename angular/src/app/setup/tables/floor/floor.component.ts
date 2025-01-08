@@ -79,25 +79,6 @@ export class FloorComponent extends AppComponentBase implements OnInit {
     if (this.id) {
       this.update();
     } else this.create();
-
-    // debugger
-    // if (this.saving) {
-    //   // this.id = 0;
-    //   // this.tblFloor = new FloorEntityDto();
-    //   // this.tblFloor.isActive = true;
-    //   //   this.getHistory(event);
-      
-    // // this.createFloorDialog = this._modalService.show(FloorComponent, {
-    // //   class: "modal-lg modal-dialog-centered",
-    // //   backdrop: "static",
-    // //   ignoreBackdropClick: true,
-    // // });
-    // // this.createFloorDialog.content.onSave.subscribe((value) => {
-    // //   if (value) {
-    // //     this.getHistory({});
-    // //   }
-    // // });
-    // }
   }
 
   update(): void {
@@ -153,7 +134,6 @@ export class FloorComponent extends AppComponentBase implements OnInit {
   }
 
   getHistory(event?: LazyLoadEvent) {
-    debugger
     if (this.primengTableHelper.shouldResetPaging(event)) {
       this.paginator.changePage(0);
       return;

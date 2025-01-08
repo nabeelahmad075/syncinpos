@@ -65,17 +65,17 @@
             </div>
             <div class="form-group col-md-4">
               <label for="itemPriceDate"> Date Effected </label>
-              <p-calendar
+              <p-datepicker
                 name="itemPriceDate"
                 id="itemPriceDate"
                 autoWidth="false"
-                [style]="{ width: '100%', height: '38px', marginTop: '-8px' }"
-                [styleClass]="'border border-gray-300 rounded text-sm'"
+                [style]="{ width: '100%', height: '38px', marginTop: '-8px', fontSize: '0.9rem' }"
+                [styleClass]="''"
                 placeholder="Date Effected"
                 [dateFormat]="'dd/mm/yy'"
                 [showIcon]="true"
                 [(ngModel)]="itemPriceDate"
-              ></p-calendar>
+              ></p-datepicker>
             </div>
           </div>
         </div>

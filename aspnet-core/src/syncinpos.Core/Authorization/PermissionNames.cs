@@ -92,6 +92,24 @@ namespace syncinpos.Authorization
         public const string Pages_Setup_Menu_Operations_Sections_Update = "Pages.Setup.Menu_Operations.Sections.Update";
         public const string Pages_Setup_Menu_Operations_Sections_View = "Pages.Setup.Menu_Operations.Sections.View";
 
+        //Category permissions
+        public const string Pages_Setup_Menu_Operations_Category = "Pages.Setup.Menu_Operations.Category";
+        public const string Pages_Setup_Menu_Operations_Category_Create = "Pages.Setup.Menu_Operations.Category.Create";
+        public const string Pages_Setup_Menu_Operations_Category_Update = "Pages.Setup.Menu_Operations.Category.Update";
+        public const string Pages_Setup_Menu_Operations_Category_View = "Pages.Setup.Menu_Operations.Category.View";
+
+        //ItemInformation permissions
+        public const string Pages_Setup_Menu_Operations_ItemInformation = "Pages.Setup.Menu_Operations.ItemInformation";
+        public const string Pages_Setup_Menu_Operations_ItemInformation_Create = "Pages.Setup.Menu_Operations.ItemInformation.Create";
+        public const string Pages_Setup_Menu_Operations_ItemInformation_Update = "Pages.Setup.Menu_Operations.ItemInformation.Update";
+        public const string Pages_Setup_Menu_Operations_ItemInformation_View = "Pages.Setup.Menu_Operations.ItemInformation.View";
+
+        //PriceList permissions
+        public const string Pages_Setup_Menu_Operations_PriceList = "Pages.Setup.Menu_Operations.PriceList";
+        public const string Pages_Setup_Menu_Operations_PriceList_Create = "Pages.Setup.Menu_Operations.PriceList.Create";
+        public const string Pages_Setup_Menu_Operations_PriceList_Update = "Pages.Setup.Menu_Operations.PriceList.Update";
+        public const string Pages_Setup_Menu_Operations_PriceList_View = "Pages.Setup.Menu_Operations.PriceList.View";
+
         //--------------------------------------------------------Items permissions End
 
         //--------------------------------------------------------Setup permissions End

@@ -62,7 +62,7 @@ namespace syncinpos.Authorization
             department.CreateChildPermission(PermissionNames.Pages_Setup_HR_Management_Department_View, L("View"));
 
             //Users permissions
-            var users = hrManagement.CreateChildPermission(PermissionNames.Pages_Setup_HR_Management_Users, L("Department"));
+            var users = hrManagement.CreateChildPermission(PermissionNames.Pages_Setup_HR_Management_Users, L("Users"));
             users.CreateChildPermission(PermissionNames.Pages_Setup_HR_Management_Users_Update, L("Update"));
             users.CreateChildPermission(PermissionNames.Pages_Setup_HR_Management_Users_View, L("View"));
             users.CreateChildPermission(PermissionNames.Pages_Setup_HR_Management_Users_Activation, L("Activation"));
@@ -85,9 +85,27 @@ namespace syncinpos.Authorization
             section.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_Sections_Update, L("Update"));
             section.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_Sections_View, L("View"));
 
-            //--------------------------------------------------------Items permissions End
+            //Category permissions
+            var category = menu_Operations.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_Category, L("Category"));
+            category.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_Category_Create, L("Create"));
+            category.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_Category_Update, L("Update"));
+            category.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_Category_View, L("View"));
 
-            //--------------------------------------------------------Setup permissions End
+            //ItemInformation permissions
+            var itemInformation = menu_Operations.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_ItemInformation, L("ItemInformation"));
+            itemInformation.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_ItemInformation_Create, L("Create"));
+            itemInformation.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_ItemInformation_Update, L("Update"));
+            itemInformation.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_ItemInformation_View, L("View"));
+
+            //PriceList permissions
+            var priceList = menu_Operations.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_PriceList, L("PriceList"));
+            priceList.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_PriceList_Create, L("Create"));
+            priceList.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_PriceList_Update, L("Update"));
+            priceList.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_PriceList_View, L("View"));
+
+        //--------------------------------------------------------Items permissions End
+
+        //--------------------------------------------------------Setup permissions End
 
         //var users = context.CreatePermission(PermissionNames.Pages_Users, L("Users"));
         //users.CreateChildPermission(PermissionNames.Pages_Users_Create, L("Create"));

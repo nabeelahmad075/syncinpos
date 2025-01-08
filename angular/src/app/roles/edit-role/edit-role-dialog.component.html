@@ -2,11 +2,11 @@
   class="form-horizontal"
   autocomplete="off"
   #editRoleForm="ngForm"
-  (ngSubmit)="save()"
+  (ngSubmit)="saveOrUpdate()"
 >
   <abp-modal-header
     [title]="'EditRole' | localize"
-    (onCloseClick)="bsModalRef.hide()"
+    (onCloseClick)="close(true)"
   ></abp-modal-header>
   <div class="modal-body">
     <tabset>

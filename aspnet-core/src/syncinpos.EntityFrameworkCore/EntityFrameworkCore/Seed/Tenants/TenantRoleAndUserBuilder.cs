@@ -15,9 +15,9 @@ namespace syncinpos.EntityFrameworkCore.Seed.Tenants
     public class TenantRoleAndUserBuilder
     {
         private readonly syncinposDbContext _context;
-        private readonly int _tenantId;
+        private readonly int? _tenantId;
 
-        public TenantRoleAndUserBuilder(syncinposDbContext context, int tenantId)
+        public TenantRoleAndUserBuilder(syncinposDbContext context, int? tenantId = null)
         {
             _context = context;
             _tenantId = tenantId;
@@ -25,17 +25,23 @@ namespace syncinpos.EntityFrameworkCore.Seed.Tenants
 
         public void Create()
         {
-            CreateRolesAndUsers();
+            //CreateRolesAndUsers();
+            //CreateRolesAndUsers(_tenantId);
+            var tenantIds = _context.Tenants.Select(a => a.Id).ToList();
+            foreach (var id in tenantIds)
+            {
+                CreateRolesAndUsers(id);
+            }
         }
 
-        private void CreateRolesAndUsers()
+        private void CreateRolesAndUsers(int? tenantId)
         {
             // Admin role
 
-            var adminRole = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == _tenantId && r.Name == StaticRoleNames.Tenants.Admin);
+            var adminRole = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == tenantId && r.Name == StaticRoleNames.Tenants.Admin);
             if (adminRole == null)
             {
-                adminRole = _context.Roles.Add(new Role(_tenantId, StaticRoleNames.Tenants.Admin, StaticRoleNames.Tenants.Admin) { IsStatic = true }).Entity;
+                adminRole = _context.Roles.Add(new Role(tenantId, StaticRoleNames.Tenants.Admin, StaticRoleNames.Tenants.Admin) { IsStatic = true }).Entity;
                 _context.SaveChanges();
             }
 
@@ -43,7 +49,7 @@ namespace syncinpos.EntityFrameworkCore.Seed.Tenants
 
             var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
                 .OfType<RolePermissionSetting>()
-                .Where(p => p.TenantId == _tenantId && p.RoleId == adminRole.Id)
+                .Where(p => p.TenantId == tenantId && p.RoleId == adminRole.Id)
                 .Select(p => p.Name)
                 .ToList();
 
@@ -58,7 +64,7 @@ namespace syncinpos.EntityFrameworkCore.Seed.Tenants
                 _context.Permissions.AddRange(
                     permissions.Select(permission => new RolePermissionSetting
                     {
-                        TenantId = _tenantId,
+                        TenantId = tenantId,
                         Name = permission.Name,
                         IsGranted = true,
                         RoleId = adminRole.Id
@@ -69,10 +75,10 @@ namespace syncinpos.EntityFrameworkCore.Seed.Tenants
 
             // Admin user
 
-            var adminUser = _context.Users.IgnoreQueryFilters().FirstOrDefault(u => u.TenantId == _tenantId && u.UserName == AbpUserBase.AdminUserName);
+            var adminUser = _context.Users.IgnoreQueryFilters().FirstOrDefault(u => u.TenantId == tenantId && u.UserName == AbpUserBase.AdminUserName);
             if (adminUser == null)
             {
-                adminUser = User.CreateTenantAdminUser(_tenantId, "admin@defaulttenant.com");
+                adminUser = User.CreateTenantAdminUser(tenantId.Value, "admin@defaulttenant.com");
                 adminUser.Password = new PasswordHasher<User>(new OptionsWrapper<PasswordHasherOptions>(new PasswordHasherOptions())).HashPassword(adminUser, "123qwe");
                 adminUser.IsEmailConfirmed = true;
                 adminUser.IsActive = true;
@@ -81,7 +87,7 @@ namespace syncinpos.EntityFrameworkCore.Seed.Tenants
                 _context.SaveChanges();
 
                 // Assign Admin role to admin user
-                _context.UserRoles.Add(new UserRole(_tenantId, adminUser.Id, adminRole.Id));
+                _context.UserRoles.Add(new UserRole(tenantId, adminUser.Id, adminRole.Id));
                 _context.SaveChanges();
             }
         }

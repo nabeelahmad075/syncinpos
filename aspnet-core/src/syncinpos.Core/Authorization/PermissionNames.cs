@@ -51,37 +51,48 @@ namespace syncinpos.Authorization
         public const string Pages_Setup_HR_Management = "Pages.Setup.HR_Management";
 
         //Employee permissions
-        public const string Pages_Setup_HR_Management_Employee = "Pages.Setup.Configuration.Employee";
-        public const string Pages_Setup_HR_Management_Employee_Create = "Pages.Setup.Configuration.Employee.Create";
-        public const string Pages_Setup_HR_Management_Employee_Update = "Pages.Setup.Configuration.Employee.Update";
-        public const string Pages_Setup_HR_Management_Employee_View = "Pages.Setup.Configuration.Employee.View";
-        public const string Pages_Setup_HR_Management_Employee_User_Control = "Pages.Setup.Configuration.Employee.User_Control";
+        public const string Pages_Setup_HR_Management_Employee = "Pages.Setup.HR_Management.Employee";
+        public const string Pages_Setup_HR_Management_Employee_Create = "Pages.Setup.HR_Management.Employee.Create";
+        public const string Pages_Setup_HR_Management_Employee_Update = "Pages.Setup.HR_Management.Employee.Update";
+        public const string Pages_Setup_HR_Management_Employee_View = "Pages.Setup.HR_Management.Employee.View";
+        public const string Pages_Setup_HR_Management_Employee_User_Control = "Pages.Setup.HR_Management.Employee.User_Control";
 
         //Designation permissions
-        public const string Pages_Setup_HR_Management_Designation = "Pages.Setup.Configuration.Designation";
-        public const string Pages_Setup_HR_Management_Designation_Create = "Pages.Setup.Configuration.Designation.Create";
-        public const string Pages_Setup_HR_Management_Designation_Update = "Pages.Setup.Configuration.Designation.Update";
-        public const string Pages_Setup_HR_Management_Designation_View = "Pages.Setup.Configuration.Designation.View";
+        public const string Pages_Setup_HR_Management_Designation = "Pages.Setup.HR_Management.Designation";
+        public const string Pages_Setup_HR_Management_Designation_Create = "Pages.Setup.HR_Management.Designation.Create";
+        public const string Pages_Setup_HR_Management_Designation_Update = "Pages.Setup.HR_Management.Designation.Update";
+        public const string Pages_Setup_HR_Management_Designation_View = "Pages.Setup.HR_Management.Designation.View";
 
         //Department permissions
-        public const string Pages_Setup_HR_Management_Department = "Pages.Setup.Configuration.Department";
-        public const string Pages_Setup_HR_Management_Department_Create = "Pages.Setup.Configuration.Department.Create";
-        public const string Pages_Setup_HR_Management_Department_Update = "Pages.Setup.Configuration.Department.Update";
-        public const string Pages_Setup_HR_Management_Department_View = "Pages.Setup.Configuration.FloDepartmentor.View";
+        public const string Pages_Setup_HR_Management_Department = "Pages.Setup.HR_Management.Department";
+        public const string Pages_Setup_HR_Management_Department_Create = "Pages.Setup.HR_Management.Department.Create";
+        public const string Pages_Setup_HR_Management_Department_Update = "Pages.Setup.HR_Management.Department.Update";
+        public const string Pages_Setup_HR_Management_Department_View = "Pages.Setup.HR_Management.FloDepartmentor.View";
 
         //Users permissions
-        public const string Pages_Setup_HR_Management_Users = "Pages.Setup.Configuration.Users";
-        public const string Pages_Setup_HR_Management_Users_Update = "Pages.Setup.Configuration.Users.Update";
-        public const string Pages_Setup_HR_Management_Users_View = "Pages.Setup.Configuration.Users.View";
-        public const string Pages_Setup_HR_Management_Users_Activation = "Pages.Setup.Configuration.Users.Activation";
+        public const string Pages_Setup_HR_Management_Users = "Pages.Setup.HR_Management.Users";
+        public const string Pages_Setup_HR_Management_Users_Update = "Pages.Setup.HR_Management.Users.Update";
+        public const string Pages_Setup_HR_Management_Users_View = "Pages.Setup.HR_Management.Users.View";
+        public const string Pages_Setup_HR_Management_Users_Activation = "Pages.Setup.HR_Management.Users.Activation";
 
         //Roles permissions
-        public const string Pages_Setup_HR_Management_Roles = "Pages.Setup.Configuration.Roles";
-        public const string Pages_Setup_HR_Management_Roles_Create = "Pages.Setup.Configuration.Roles.Create";
-        public const string Pages_Setup_HR_Management_Roles_Update = "Pages.Setup.Configuration.Roles.Update";
-        public const string Pages_Setup_HR_Management_Roles_View = "Pages.Setup.Configuration.Roles.View";
+        public const string Pages_Setup_HR_Management_Roles = "Pages.Setup.HR_Management.Roles";
+        public const string Pages_Setup_HR_Management_Roles_Create = "Pages.Setup.HR_Management.Roles.Create";
+        public const string Pages_Setup_HR_Management_Roles_Update = "Pages.Setup.HR_Management.Roles.Update";
+        public const string Pages_Setup_HR_Management_Roles_View = "Pages.Setup.HR_Management.Roles.View";
 
         //--------------------------------------------------------HR permissions End
+        //--------------------------------------------------------Items permissions Start
+
+        public const string Pages_Setup_Menu_Operations = "Pages.Setup.Menu_Operations";
+
+        //Sections permissions
+        public const string Pages_Setup_Menu_Operations_Sections = "Pages.Setup.Menu_Operations.Sections";
+        public const string Pages_Setup_Menu_Operations_Sections_Create = "Pages.Setup.Menu_Operations.Sections.Create";
+        public const string Pages_Setup_Menu_Operations_Sections_Update = "Pages.Setup.Menu_Operations.Sections.Update";
+        public const string Pages_Setup_Menu_Operations_Sections_View = "Pages.Setup.Menu_Operations.Sections.View";
+
+        //--------------------------------------------------------Items permissions End
 
         //--------------------------------------------------------Setup permissions End
     }

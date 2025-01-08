@@ -75,22 +75,33 @@ namespace syncinpos.Authorization
 
             //--------------------------------------------------------HR Management permissions End
 
+            //--------------------------------------------------------Menu Operations permissions Start
+
+            var menu_Operations = setup.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations, L("Menu_Operations"));
+
+            //Sections permissions
+            var section = menu_Operations.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_Sections, L("Section"));
+            section.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_Sections_Create, L("Create"));
+            section.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_Sections_Update, L("Update"));
+            section.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_Sections_View, L("View"));
+
+            //--------------------------------------------------------Items permissions End
 
             //--------------------------------------------------------Setup permissions End
 
-            //var users = context.CreatePermission(PermissionNames.Pages_Users, L("Users"));
-            //users.CreateChildPermission(PermissionNames.Pages_Users_Create, L("Create"));
+        //var users = context.CreatePermission(PermissionNames.Pages_Users, L("Users"));
+        //users.CreateChildPermission(PermissionNames.Pages_Users_Create, L("Create"));
 
-            ////context.CreatePermission(PermissionNames.Pages_Users_Activation, L("UsersActivation"));
-            //context.CreatePermission(PermissionNames.Pages_Roles, L("Roles"));
-
-
+        ////context.CreatePermission(PermissionNames.Pages_Users_Activation, L("UsersActivation"));
+        //context.CreatePermission(PermissionNames.Pages_Roles, L("Roles"));
 
 
 
-        }
 
-        private static ILocalizableString L(string name)
+
+    }
+
+    private static ILocalizableString L(string name)
         {
             return new LocalizableString(name, syncinposConsts.LocalizationSourceName);
         }

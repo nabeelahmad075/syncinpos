@@ -187,10 +187,10 @@ td > a > i {
   background-color: #508d4e;
 }
 
-.p-datepicker-panel{
+/* .p-datepicker-panel{
   transform: scale(0.75);
   transform-origin: top right;
-}
+} */
 
 .p-datepicker-title {
  font-size: 1.1rem;

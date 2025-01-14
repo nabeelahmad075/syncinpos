@@ -5,8 +5,8 @@
   (ngSubmit)="saveOrUpdate()"
 >
   <abp-modal-header
-    [title]="'EditRole' | localize"
-    (onCloseClick)="close(true)"
+    [title]="(id > 0 ? 'Edit Role' : 'Create Role') | localize"
+    (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
     <tabset>
@@ -117,6 +117,7 @@
   </div>
   <abp-modal-footer
     [cancelDisabled]="saving"
+    [saveLabel]="this.id > 0 ? 'Update' : 'Save'"
     [saveDisabled]="!editRoleForm.form.valid || saving"
     (onCancelClick)="bsModalRef.hide()"
   ></abp-modal-footer>

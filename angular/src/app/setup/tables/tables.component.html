@@ -6,10 +6,12 @@
           <h4>Tables</h4>
         </div>
         <div class="col-6 text-right">
+          @if(floorBtnPermission){
           <a class="btn button-new" (click)="showFloorDialog()">
             <i class="fa fa-plus" aria-hidden="true"></i>
             Floor
           </a>
+        }
           <a class="btn button-new" (click)="create()">
             <i class="fa fa-plus" aria-hidden="true"></i>
             Tables

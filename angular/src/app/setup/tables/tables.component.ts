@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   Injector,
+  OnInit,
   ViewChild,
   ViewEncapsulation,
 } from "@angular/core";
@@ -25,6 +26,7 @@ import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
 import { Paginator, PaginatorModule } from "primeng/paginator";
 import { LazyLoadEvent } from "primeng/api";
 import { FloorComponent } from "./floor/floor.component";
+import { AppConsts } from "@shared/AppConsts";
 
 @Component({
   selector: "app-tables",
@@ -32,12 +34,14 @@ import { FloorComponent } from "./floor/floor.component";
   styleUrls: ["./tables.component.css"],
   animations: [appModuleAnimation()],
 })
-export class TablesComponent extends AppComponentBase {
+export class TablesComponent extends AppComponentBase implements OnInit {
   tableHistory: TableHistoryDto[] = [];
   primengTableHelper: PrimengTableHelper = new PrimengTableHelper();
   @ViewChild("dataTable", { static: true }) dataTable: Table;
   @ViewChild("paginator", { static: true }) paginator: Paginator;
   eventClone: LazyLoadEvent;
+
+  floorBtnPermission: boolean = false;
 
   constructor(
     injector: Injector,
@@ -46,6 +50,11 @@ export class TablesComponent extends AppComponentBase {
     private cd: ChangeDetectorRef
   ) {
     super(injector);
+  }
+
+  ngOnInit(): void {
+    this.floorBtnPermission = abp.auth.isGranted("Pages.Setup.Configuration.Floor.View");
+    this.cd.detectChanges();
   }
 
   getHistory(event?: LazyLoadEvent) {
@@ -103,14 +112,27 @@ export class TablesComponent extends AppComponentBase {
   }
 
   create(): void {
+    if (!abp.auth.isGranted('Pages.Setup.Configuration.Table.Create')) {
+      abp.notify.error(AppConsts.permissionDeniedMessage);
+      return;
+    }
     this.showCreateOrEditDialog();
   }
 
   edit(tableHistory: TableHistoryDto): void {
+    if (!abp.auth.isGranted('Pages.Setup.Configuration.Table.Update')) {
+      abp.notify.error(AppConsts.permissionDeniedMessage);
+      return;
+    }
     this.showCreateOrEditDialog(tableHistory.id);
   }
 
-  showFloorDialog(): void {
+  showFloorDialog(): void { 
+    if (!abp.auth.isGranted('Pages.Setup.Configuration.Floor.Create')) {
+      abp.notify.error(AppConsts.permissionDeniedMessage);
+      return;
+    }
+
     let createFloorDialog: BsModalRef;
     createFloorDialog = this._modalService.show(FloorComponent, {
       class: "modal-lg modal-dialog-centered",

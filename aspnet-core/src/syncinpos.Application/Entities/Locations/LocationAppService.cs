@@ -1,9 +1,11 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
+using syncinpos.Authorization;
 using syncinpos.Entities.Locations.Dto;
 using syncinpos.Utility.SelectItemDto;
 using System;
@@ -15,11 +17,13 @@ using System.Threading.Tasks;
 
 namespace syncinpos.Entities.Locations
 {
+    [AbpAuthorize(PermissionNames.Pages_Setup_Configuration_Location)]
     public class LocationAppService : AsyncCrudAppService<Location, LocationDto>
     {
         public LocationAppService(
             IRepository<Location, int> repository
             ) : base(repository) { }
+        [AbpAuthorize(PermissionNames.Pages_Setup_Configuration_Location_Create)]
         public async override Task<LocationDto> CreateAsync(LocationDto input)
         {
             await IsCodeAlreadyTaken(input);
@@ -39,6 +43,7 @@ namespace syncinpos.Entities.Locations
                                     .WhereIf(id != null && id > 0, a => a.Id != id)
                                     .Where(a => a.LocationCode == code).AnyAsync();
         }
+        [AbpAuthorize(PermissionNames.Pages_Setup_Configuration_Location_Update)]
         public override async Task<LocationDto> UpdateAsync(LocationDto input)
         {
             await IsCodeAlreadyTaken(input);

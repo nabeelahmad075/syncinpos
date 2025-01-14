@@ -67,7 +67,7 @@ namespace syncinpos.Authorization
         public const string Pages_Setup_HR_Management_Department = "Pages.Setup.HR_Management.Department";
         public const string Pages_Setup_HR_Management_Department_Create = "Pages.Setup.HR_Management.Department.Create";
         public const string Pages_Setup_HR_Management_Department_Update = "Pages.Setup.HR_Management.Department.Update";
-        public const string Pages_Setup_HR_Management_Department_View = "Pages.Setup.HR_Management.FloDepartmentor.View";
+        public const string Pages_Setup_HR_Management_Department_View = "Pages.Setup.HR_Management.Department.View";
 
         //Users permissions
         public const string Pages_Setup_HR_Management_Users = "Pages.Setup.HR_Management.Users";
@@ -113,5 +113,63 @@ namespace syncinpos.Authorization
         //--------------------------------------------------------Items permissions End
 
         //--------------------------------------------------------Setup permissions End
+
+        //--------------------------------------------------------Accounts permissions Start
+
+        //Accounts permissions
+        public const string Pages_Accounts = "Pages.Accounts";
+
+        //--------------------------------------------------------Accounts Settings permissions Start
+
+        //Accounts_Settings permissions
+        public const string Pages_Accounts_Settings = "Pages.Accounts.Accounts_Settings";
+
+        //Main Accounts permissions
+        public const string Pages_Accounts_Settings_Main_Accounts = "Pages.Accounts.Accounts_Settings.Main_Accounts";
+        public const string Pages_Accounts_Settings_Main_Accounts_Create = "Pages.Accounts.Accounts_Settings.Main_Accounts.Create";
+        public const string Pages_Accounts_Settings_Main_Accounts_Update = "Pages.Accounts.Accounts_Settings.Main_Accounts.Update";
+        public const string Pages_Accounts_Settings_Main_Accounts_View = "Pages.Accounts.Accounts_Settings.Main_Accounts.View";
+
+        //Sub Accounts permissions
+        public const string Pages_Accounts_Settings_Sub_Accounts = "Pages.Accounts.Accounts_Settings.Sub_Accounts";
+        public const string Pages_Accounts_Settings_Sub_Accounts_Create = "Pages.Accounts.Accounts_Settings.Sub_Accounts.Create";
+        public const string Pages_Accounts_Settings_Sub_Accounts_Update = "Pages.Accounts.Accounts_Settings.Sub_Accounts.Update";
+        public const string Pages_Accounts_Settings_Sub_Accounts_View = "Pages.Accounts.Accounts_Settings.Sub_Accounts.View";
+
+        //Detail Accounts permissions
+        public const string Pages_Accounts_Settings_Detail_Accounts = "Pages.Accounts.Accounts_Settings.Detail_Accounts";
+        public const string Pages_Accounts_Settings_Detail_Accounts_Create = "Pages.Accounts.Accounts_Settings.Detail_Accounts.Create";
+        public const string Pages_Accounts_Settings_Detail_Accounts_Update = "Pages.Accounts.Accounts_Settings.Detail_Accounts.Update";
+        public const string Pages_Accounts_Settings_Detail_Accounts_View = "Pages.Accounts.Accounts_Settings.Detail_Accounts.View";
+
+        //--------------------------------------------------------Accounts Settings permissions End
+
+        //--------------------------------------------------------Accounts Transactions permissions Start
+
+        //Accounts_Transactions permissions
+        public const string Pages_Accounts_Transactions = "Pages.Accounts.Accounts_Transactions";
+
+        //Main Accounts permissions
+        public const string Pages_Accounts_Transactions_Voucher_Entry = "Pages.Accounts.Accounts_Transactions.Voucher_Entry";
+        public const string Pages_Accounts_Transactions_Voucher_Entry_Create = "Pages.Accounts.Accounts_Transactions.Voucher_Entry.Create";
+        public const string Pages_Accounts_Transactions_Voucher_Entry_Update = "Pages.Accounts.Accounts_Transactions.Voucher_Entry.Update";
+        public const string Pages_Accounts_Transactions_Voucher_Entry_View = "Pages.Accounts.Accounts_Transactions.Voucher_Entry.View";
+        public const string Pages_Accounts_Transactions_Voucher_Entry_Delete = "Pages.Accounts.Accounts_Transactions.Voucher_Entry.Delete";
+
+        ////Sub Accounts permissions
+        //public const string Pages_Accounts_Settings_Sub_Accounts = "Pages.Accounts.Accounts_Settings.Sub_Accounts";
+        //public const string Pages_Accounts_Settings_Sub_Accounts_Create = "Pages.Accounts.Accounts_Settings.Sub_Accounts.Create";
+        //public const string Pages_Accounts_Settings_Sub_Accounts_Update = "Pages.Accounts.Accounts_Settings.Sub_Accounts.Update";
+        //public const string Pages_Accounts_Settings_Sub_Accounts_View = "Pages.Accounts.Accounts_Settings.Sub_Accounts.View";
+
+        ////Detail Accounts permissions
+        //public const string Pages_Accounts_Settings_Detail_Accounts = "Pages.Accounts.Accounts_Settings.Detail_Accounts";
+        //public const string Pages_Accounts_Settings_Detail_Accounts_Create = "Pages.Accounts.Accounts_Settings.Detail_Accounts.Create";
+        //public const string Pages_Accounts_Settings_Detail_Accounts_Update = "Pages.Accounts.Accounts_Settings.Detail_Accounts.Update";
+        //public const string Pages_Accounts_Settings_Detail_Accounts_View = "Pages.Accounts.Accounts_Settings.Detail_Accounts.View";
+
+        //--------------------------------------------------------Accounts Settings permissions End
+
+        //--------------------------------------------------------Accounts permissions End
     }
 }

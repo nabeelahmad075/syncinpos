@@ -3,9 +3,11 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AbpHttpInterceptor } from 'abp-ng2-module';
 
 import * as ApiServiceProxies from './service-proxies';
+import { ArrayToTreeConverterService } from '@shared/ArrayToTreeConverterService';
 
 @NgModule({
     providers: [
+        ArrayToTreeConverterService,
         ApiServiceProxies.RoleServiceProxy,
         ApiServiceProxies.SessionServiceProxy,
         ApiServiceProxies.TenantServiceProxy,

@@ -66,6 +66,9 @@ export class EditRoleDialogComponent
     //     this.setInitialPermissionsStatus();
     //     this.cd.detectChanges();
     //   });
+
+debugger
+
     this.id =
       this.config?.data && this.config.data["id"]
         ? this.config.data["id"]
@@ -144,23 +147,83 @@ export class EditRoleDialogComponent
     return permissions;
   }
 
-  save(): void {
+  // save(): void {
+  //   this.saving = true;
+
+  //   const role = new RoleDto();
+  //   role.init(this.role);
+  //   role.grantedPermissions = this.getCheckedPermissions();
+
+  //   this._roleService.update(role).subscribe(
+  //     () => {
+  //       this.notify.info(this.l("SavedSuccessfully"));
+  //       this.bsModalRef.hide();
+  //       this.onSave.emit();
+  //     },
+  //     () => {
+  //       this.saving = false;
+  //     }
+  //   );
+  // }
+
+
+  saveOrUpdate() {
+    debugger
+    if (this.id) {
+      debugger
+      this.update();
+      return;
+    }
+    this.save();
+  }
+  save() {
     this.saving = true;
 
     const role = new RoleDto();
-    role.init(this.role);
-    role.grantedPermissions = this.getCheckedPermissions();
 
-    this._roleService.update(role).subscribe(
-      () => {
+    role.init(this.role);
+    role.grantedPermissions = this.getGrantedPermissionNames();
+    this._roleService.create(role).subscribe({
+      next: (value) => {
         this.notify.info(this.l("SavedSuccessfully"));
-        this.bsModalRef.hide();
-        this.onSave.emit();
+        this.close(true);
       },
-      () => {
+      error: (err) => {
         this.saving = false;
-      }
-    );
+      },
+    });
+  }
+  update(): void {
+    debugger
+    this.saving = true;
+    const role = new RoleDto();
+    role.init(this.role);
+    debugger
+    role.grantedPermissions = this.getGrantedPermissionNames();
+    
+    this._roleService.update(role).subscribe({
+      next: (value) => {
+        debugger
+        this.notify.info(this.l("SavedSuccessfully"));
+        this.close(true);
+      },
+      error: (err) => {
+        this.saving = false;
+      },
+    });
+  }
+
+  getGrantedPermissionNames(): string[] {
+    if (!this.selectedPermissions || !this.selectedPermissions.length) {
+      return [];
+    }
+
+    let permissionNames = [];
+    let isHr = 0;
+    for (let i = 0; i < this.selectedPermissions.length; i++) {
+      permissionNames.push(this.selectedPermissions[i].data.name);
+    }
+    return permissionNames;
   }
 
   setTreeData(permissions: FlatPermissionDto[]) {

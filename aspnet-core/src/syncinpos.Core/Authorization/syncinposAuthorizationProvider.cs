@@ -103,23 +103,66 @@ namespace syncinpos.Authorization
             priceList.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_PriceList_Update, L("Update"));
             priceList.CreateChildPermission(PermissionNames.Pages_Setup_Menu_Operations_PriceList_View, L("View"));
 
-        //--------------------------------------------------------Items permissions End
+            //--------------------------------------------------------Items permissions End
 
-        //--------------------------------------------------------Setup permissions End
+            //--------------------------------------------------------Setup permissions End
 
-        //var users = context.CreatePermission(PermissionNames.Pages_Users, L("Users"));
-        //users.CreateChildPermission(PermissionNames.Pages_Users_Create, L("Create"));
+            //--------------------------------------------------------Accounts permissions Start
 
-        ////context.CreatePermission(PermissionNames.Pages_Users_Activation, L("UsersActivation"));
-        //context.CreatePermission(PermissionNames.Pages_Roles, L("Roles"));
+            var accounts = context.CreatePermission(PermissionNames.Pages_Accounts, L("Accounts"));
+
+            //--------------------------------------------------------Accounts Settings permissions Start
+
+            var accounts_Settings = accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Settings, L("Accounts_Settings"));
+
+            //main_Accounts permissions
+            var main_Accounts = accounts_Settings.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Main_Accounts, L("Main_Accounts"));
+            main_Accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Main_Accounts_Create, L("Create"));
+            main_Accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Main_Accounts_Update, L("Update"));
+            main_Accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Main_Accounts_View, L("View"));
+
+            //sub_Accounts permissions
+            var sub_Accounts = accounts_Settings.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Sub_Accounts, L("Sub_Accounts"));
+            sub_Accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Sub_Accounts_Create, L("Create"));
+            sub_Accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Sub_Accounts_Update, L("Update"));
+            sub_Accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Sub_Accounts_View, L("View"));
+
+            //detail_Accounts permissions
+            var detail_Accounts = accounts_Settings.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Detail_Accounts, L("Detail_Accounts"));
+            detail_Accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Detail_Accounts_Create, L("Create"));
+            detail_Accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Detail_Accounts_Update, L("Update"));
+            detail_Accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Settings_Detail_Accounts_View, L("View"));
+
+            //--------------------------------------------------------Accounts Settings permissions End
+
+            //--------------------------------------------------------Accounts Transcations permissions Start
+
+            var accounts_Transactions = accounts.CreateChildPermission(PermissionNames.Pages_Accounts_Transactions, L("Accounts_Transactions"));
+            
+            //Voucher_Entry permissions
+            var voucher_Entry = accounts_Transactions.CreateChildPermission(PermissionNames.Pages_Accounts_Transactions_Voucher_Entry, L("Voucher_Entry"));
+            voucher_Entry.CreateChildPermission(PermissionNames.Pages_Accounts_Transactions_Voucher_Entry_Create, L("Create"));
+            voucher_Entry.CreateChildPermission(PermissionNames.Pages_Accounts_Transactions_Voucher_Entry_Update, L("Update"));
+            voucher_Entry.CreateChildPermission(PermissionNames.Pages_Accounts_Transactions_Voucher_Entry_View, L("View"));
+            voucher_Entry.CreateChildPermission(PermissionNames.Pages_Accounts_Transactions_Voucher_Entry_Delete, L("Delete"));
+
+            //--------------------------------------------------------Accounts Transcations permissions End
+
+            //--------------------------------------------------------Accounts permissions End
+
+            //var users = context.CreatePermission(PermissionNames.Pages_Users, L("Users"));
+            //users.CreateChildPermission(PermissionNames.Pages_Users_Create, L("Create"));
+
+            ////context.CreatePermission(PermissionNames.Pages_Users_Activation, L("UsersActivation"));
+            //context.CreatePermission(PermissionNames.Pages_Roles, L("Roles"));
 
 
 
 
 
-    }
+        }
 
-    private static ILocalizableString L(string name)
+        private static ILocalizableString L(string name)
         {
             return new LocalizableString(name, syncinposConsts.LocalizationSourceName);
         }

@@ -88,43 +88,47 @@ export class RolesComponent extends PagedListingComponentBase<RoleDto> {
   }
 
   showCreateOrEditRoleDialog(id?: number): void {
-    // let createOrEditRoleDialog: BsModalRef;
-    // if (!id) {
-    //   createOrEditRoleDialog = this._modalService.show(
-    //     EditRoleDialogComponent,
-    //     {
-    //       class: 'modal-lg',
-    //     }
-    //   );
-    // } else {
-    //   createOrEditRoleDialog = this._modalService.show(
-    //     EditRoleDialogComponent,
-    //     {
-    //       class: 'modal-lg',
-    //       initialState: {
-    //         id: id,
-    //       },
-    //     }
-    //   );
-    // }
+    let createOrEditRoleDialog: BsModalRef;
+    if (!id) {
+      createOrEditRoleDialog = this._modalService.show(
+        EditRoleDialogComponent,
+        {
+          class: "modal-lg modal-dialog-centered",
+        backdrop: "static",
+        ignoreBackdropClick: true,
+        }
+      );
+    } else {
+      createOrEditRoleDialog = this._modalService.show(
+        EditRoleDialogComponent,
+        {
+          class: "modal-lg modal-dialog-centered",
+        backdrop: "static",
+        ignoreBackdropClick: true,
+          initialState: {
+            id: id,
+          },
+        }
+      );
+    }
 
-    // createOrEditRoleDialog.content.onSave.subscribe(() => {
-    //   this.refresh();
-    // });
-
-
-    this.dialogService
-    .open(EditRoleDialogComponent, {
-      header: `${id > 0 ? "Update" : "Create"} Role`,
-      width: "60%",
-      data: {
-        id: id,
-      },
-    })
-    .onClose.subscribe((result) => {
-      if (result)
-        this.refresh();
+    createOrEditRoleDialog.content.onSave.subscribe(() => {
+      this.refresh();
     });
+
+
+    // this.dialogService
+    // .open(EditRoleDialogComponent, {
+    //   header: `${id > 0 ? "Update" : "Create"} Role`,
+    //   width: "60%",
+    //   data: {
+    //     id: id,
+    //   },
+    // })
+    // .onClose.subscribe((result) => {
+    //   if (result)
+    //     this.refresh();
+    // });
 
   }
 }

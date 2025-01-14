@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   Injector,
+  OnInit,
   ViewChild,
   ViewEncapsulation,
 } from "@angular/core";
@@ -25,6 +26,7 @@ import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
 import { Paginator, PaginatorModule } from "primeng/paginator";
 import { LazyLoadEvent } from "primeng/api";
 import { CreateDesignationDepartmentComponent } from "@app/hr/designation-department/create-designation-department.component";
+import { AppConsts } from "@shared/AppConsts";
 
 @Component({
   selector: "app-employee-history",
@@ -35,12 +37,17 @@ import { CreateDesignationDepartmentComponent } from "@app/hr/designation-depart
   animations: [appModuleAnimation()],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class EmployeeHistoryComponent extends AppComponentBase {
+export class EmployeeHistoryComponent
+  extends AppComponentBase
+{
   employeeHistory: EmployeeHistoryDto[] = [];
   primengTableHelper: PrimengTableHelper = new PrimengTableHelper();
   @ViewChild("dataTable", { static: true }) dataTable: Table;
   @ViewChild("paginator", { static: true }) paginator: Paginator;
   eventClone: LazyLoadEvent;
+
+  deptTabPermissions: boolean = false;
+  desigTabPermissions: boolean = false;
 
   constructor(
     injector: Injector,
@@ -114,6 +121,14 @@ export class EmployeeHistoryComponent extends AppComponentBase {
   }
 
   showDesignationDepartmentDialog(): void {
+    if (
+      !abp.auth.isGranted("Pages.Setup.HR_Management.Department.View") &&
+      !abp.auth.isGranted("Pages.Setup.HR_Management.Designation.View")
+    ) {
+      abp.notify.error(AppConsts.permissionDeniedMessage);
+      return;
+    }
+
     let createDesignationDepartmentDialog: BsModalRef;
     createDesignationDepartmentDialog = this._modalService.show(
       CreateDesignationDepartmentComponent,

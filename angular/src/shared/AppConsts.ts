@@ -37,4 +37,6 @@ export class AppConsts {
           value: Genders._2
         }
       ]
+
+  static readonly permissionDeniedMessage = 'Permission denied. Please Contact admin.'
 }

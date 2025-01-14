@@ -46,8 +46,8 @@ export class EditRoleDialogComponent
 
   constructor(
     injector: Injector,
-    public config: DynamicDialogConfig,
-    public ref: DynamicDialogRef,
+    // public config: DynamicDialogConfig,
+    // public ref: DynamicDialogRef,
     private _arrayToTreeConverterService: ArrayToTreeConverterService,
     private _roleService: RoleServiceProxy,
     public bsModalRef: BsModalRef,
@@ -69,10 +69,10 @@ export class EditRoleDialogComponent
 
 debugger
 
-    this.id =
-      this.config?.data && this.config.data["id"]
-        ? this.config.data["id"]
-        : undefined;
+    // this.id =
+    //   this.config?.data && this.config.data["id"]
+    //     ? this.config.data["id"]
+    //     : undefined;
     if (this.id) {
       this._roleService
         .getRoleForEdit(this.id)
@@ -90,6 +90,7 @@ debugger
         this.setSelectedNodes(this.grantedPermissionNames);
       });
     }
+    this.cd.detectChanges();
   }
 
   handleNodeToggle(event: any): void {
@@ -110,9 +111,9 @@ debugger
       this.pushPartialSelectedPermissionsToSelectedPermissions(node.parent);
   }
 
-  close(data?: any) {
-    this.ref.close(data);
-  }
+  // close(data?: any) {
+  //   this.ref.close(data);
+  // }
 
   pushPermission(permission: any) {
     let isAlreadyExist = this.selectedPermissions.findIndex(
@@ -185,8 +186,10 @@ debugger
     role.grantedPermissions = this.getGrantedPermissionNames();
     this._roleService.create(role).subscribe({
       next: (value) => {
-        this.notify.info(this.l("SavedSuccessfully"));
-        this.close(true);
+        this.notify.info(this.l("Saved Successfully"));
+        this.bsModalRef.hide();
+        this.onSave.emit(true);
+        // this.close(true);
       },
       error: (err) => {
         this.saving = false;
@@ -204,8 +207,11 @@ debugger
     this._roleService.update(role).subscribe({
       next: (value) => {
         debugger
-        this.notify.info(this.l("SavedSuccessfully"));
-        this.close(true);
+        this.notify.info(this.l("Update Successfuly"));
+        
+        this.bsModalRef.hide();
+        this.onSave.emit(true);
+        // this.close(true);
       },
       error: (err) => {
         this.saving = false;
@@ -252,6 +258,7 @@ debugger
         },
       ]
     );
+    this.cd.detectChanges();
   }
   setSelectedNodes(grantedPermissionNames: string[]) {
     _.forEach(grantedPermissionNames, (permission) => {
@@ -260,6 +267,7 @@ debugger
         this.selectedPermissions.push(item);
       }
     });
+    this.cd.detectChanges();
   }
 
   findNode(data, selector): any {

@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   Injector,
+  OnInit,
   ViewChild,
 } from "@angular/core";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
@@ -26,6 +27,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
 import { Paginator, PaginatorModule } from "primeng/paginator";
 import { LazyLoadEvent } from "primeng/api";
+import { AppConsts } from "@shared/AppConsts";
 
 @Component({
   selector: "app-location-history",
@@ -43,6 +45,8 @@ export class LocationHistoryComponent extends AppComponentBase {
   @ViewChild("dataTable", { static: true }) dataTable: Table;
   @ViewChild("paginator", { static: true }) paginator: Paginator;
   eventClone: LazyLoadEvent;
+
+  createBtnPermission: boolean = false;
 
   constructor(
     injector: Injector,
@@ -83,10 +87,18 @@ export class LocationHistoryComponent extends AppComponentBase {
   }
 
   createLocation(): void {
+    if (!abp.auth.isGranted('Pages.Setup.Configuration.Location.Create')) {
+      abp.notify.error(AppConsts.permissionDeniedMessage);
+      return;
+    }
     this.showCreateOrEditLocDialog();
   }
 
   editLocation(locationHistory: LocationHistoryDto): void {
+    if (!abp.auth.isGranted('Pages.Setup.Configuration.Location.Update')) {
+      abp.notify.error(AppConsts.permissionDeniedMessage);
+      return;
+    }
     this.showCreateOrEditLocDialog(locationHistory.id);
   }
 

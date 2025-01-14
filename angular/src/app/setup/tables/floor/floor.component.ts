@@ -27,6 +27,7 @@ import { Dropdown } from "primeng/dropdown";
 import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
 import { Table } from "primeng/table";
 import { Paginator } from "primeng/paginator";
+import { AppConsts } from "@shared/AppConsts";
 
 @Component({
   selector: "app-floor",
@@ -64,6 +65,7 @@ export class FloorComponent extends AppComponentBase implements OnInit {
       this.getById();
     }
     this.getLocationDropdown();
+    this.cdr.detectChanges();
   }
 
   getLocationDropdown() {
@@ -124,6 +126,10 @@ export class FloorComponent extends AppComponentBase implements OnInit {
   }
 
   getById(id?: number) {
+        if (!abp.auth.isGranted('Pages.Setup.Configuration.Floor.Update')) {
+          abp.notify.error(AppConsts.permissionDeniedMessage);
+          return;
+        }
     this._floorService.get(id).subscribe((result) => {
       if (result) this.id = result.id;
       else this.id = 0;

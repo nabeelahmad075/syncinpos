@@ -7,9 +7,18 @@
     />
   </a>
   <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+    
+    <div class="dropdown-item hover:!bg-transparent">
+      <i class="fa-solid fa-user"></i>&nbsp; 
+      <span>{{ shownLoginName }}</span>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
     <a class="dropdown-item" [routerLink]="['update-password']">
-      <i class="fas fa-user-edit"></i> {{ "UpdatePassword" | localize }}
+      <i class="fa-solid fa-key"></i> {{ "UpdatePassword" | localize }}
     </a>
+    
     <a class="dropdown-item" href="javascript:;" (click)="logout()">
       <i class="fas fa-sign-out-alt"></i> {{ "Logout" | localize }}
     </a>

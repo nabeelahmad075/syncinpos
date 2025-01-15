@@ -62,6 +62,7 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit(): void {
+
     if (this.id > 0) {
       this.getById();
     }
@@ -69,6 +70,8 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
     this.getDepartmentDropdown();
     this.getDesignationDropdown();
     this.joiningDate = new Date();
+
+    this.cdr.detectChanges();
   }
 
   getLocationDropdown() {

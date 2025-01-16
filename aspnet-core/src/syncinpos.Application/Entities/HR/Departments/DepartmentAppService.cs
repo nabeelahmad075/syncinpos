@@ -1,10 +1,12 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Events.Bus.Entities;
 using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
+using syncinpos.Authorization;
 using syncinpos.Entities.HR.Departments.Dto;
 using syncinpos.Entities.Locations.Dto;
 using syncinpos.Entities.Setups.Floor.Dto;
@@ -22,12 +24,16 @@ namespace syncinpos.Entities.HR.Departments
         public DepartmentAppService(
             IRepository<Department, int> repository
             ) : base(repository) { }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Department_Create)]
         public async override Task<DepartmentsDto> CreateAsync(DepartmentsDto input)
         {
             await IsAlreadyTaken(input);
             var created = await base.CreateAsync(input);
             return created;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Department_Update)]
         public async override Task<DepartmentsDto> UpdateAsync(DepartmentsDto input)
         {
             await IsAlreadyTaken(input);

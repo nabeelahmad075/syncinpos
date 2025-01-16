@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using syncinpos.Entities.Accounts.Types;
 using Abp.UI;
+using Abp.Authorization;
+using syncinpos.Authorization;
 
 namespace syncinpos.Entities.Accounts.MainAccounts
 {
@@ -25,11 +27,15 @@ namespace syncinpos.Entities.Accounts.MainAccounts
         {
             mainTypeRepository = _mainTypeRepository;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Accounts_Settings_Main_Accounts_Create)]
         public async override Task<MainAccountDto> CreateAsync(MainAccountDto input)
         {
             await IsAlreadyTaken(input);
             return await base.CreateAsync(input);
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Accounts_Settings_Main_Accounts_Update)]
         public async override Task<MainAccountDto> UpdateAsync(MainAccountDto input)
         {
             await IsAlreadyTaken(input);

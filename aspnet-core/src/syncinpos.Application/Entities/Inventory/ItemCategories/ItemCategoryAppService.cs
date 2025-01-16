@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using syncinpos.Utility.SelectItemDto;
 using Abp.UI;
 using syncinpos.Entities.Setups.Floor.Dto;
+using Abp.Authorization;
+using syncinpos.Authorization;
 
 namespace syncinpos.Entities.Inventory.ItemCategories
 {
@@ -20,12 +22,16 @@ namespace syncinpos.Entities.Inventory.ItemCategories
         public ItemCategoryAppService(
             IRepository<ItemCategory, int> repository
             ) : base(repository) { }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_Menu_Operations_Category_Create)]
         public async override Task<ItemCategoryDto> CreateAsync(ItemCategoryDto input)
         {
             await IsAlreadyTaken(input);
             var created = await base.CreateAsync(input);
             return created;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_Menu_Operations_Category_Update)]
         public async override Task<ItemCategoryDto> UpdateAsync(ItemCategoryDto input)
         {
             await IsAlreadyTaken(input);

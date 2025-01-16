@@ -25,7 +25,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace syncinpos.Users
 {
-    [AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Users)]
+    //[AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Users)]
     public class UserAppService : AsyncCrudAppService<User, UserDto, long, PagedUserResultRequestDto, CreateUserDto, UserDto>, IUserAppService
     {
         private readonly UserManager _userManager;
@@ -76,6 +76,7 @@ namespace syncinpos.Users
             return MapToEntityDto(user);
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Users_Update)]
         public override async Task<UserDto> UpdateAsync(UserDto input)
         {
             CheckUpdatePermission();

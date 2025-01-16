@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace syncinpos.Roles
 {
-    [AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Roles)]
+    //[AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Roles)]
     public class RoleAppService : AsyncCrudAppService<Role, RoleDto, int, PagedRoleResultRequestDto, CreateRoleDto, RoleDto>, IRoleAppService
     {
         private readonly RoleManager _roleManager;
@@ -30,6 +30,7 @@ namespace syncinpos.Roles
             _userManager = userManager;
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Roles_Create)]
         public override async Task<RoleDto> CreateAsync(CreateRoleDto input)
         {
             CheckCreatePermission();
@@ -62,6 +63,7 @@ namespace syncinpos.Roles
             return new ListResultDto<RoleListDto>(ObjectMapper.Map<List<RoleListDto>>(roles));
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Roles_Update)]
         public override async Task<RoleDto> UpdateAsync(RoleDto input)
         {
             CheckUpdatePermission();

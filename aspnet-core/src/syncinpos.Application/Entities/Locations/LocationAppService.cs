@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace syncinpos.Entities.Locations
 {
-    [AbpAuthorize(PermissionNames.Pages_Setup_Configuration_Location)]
+    //[AbpAuthorize(PermissionNames.Pages_Setup_Configuration_Location)]
     public class LocationAppService : AsyncCrudAppService<Location, LocationDto>
     {
         public LocationAppService(

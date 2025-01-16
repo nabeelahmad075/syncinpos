@@ -14,6 +14,8 @@ using syncinpos.Users.Dto;
 using syncinpos.Users;
 using syncinpos.Authorization.Roles;
 using Microsoft.AspNetCore.Identity;
+using Abp.Authorization;
+using syncinpos.Authorization;
 
 namespace syncinpos.Entities.HR.Employees
 {
@@ -36,6 +38,8 @@ namespace syncinpos.Entities.HR.Employees
             _roleManager = roleManager;
             _passwordHasher = passwordHasher;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Employee_Create)]
         public async override Task<EmployeeDto> CreateAsync(EmployeeDto input)
         {
             input.EmployeeCode = await GetNewEmployeeNoAsync(input.LocationId);
@@ -44,6 +48,8 @@ namespace syncinpos.Entities.HR.Employees
             var create = await base.CreateAsync(input);
             return create;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Employee_Update)]
         public async override Task<EmployeeDto> UpdateAsync(EmployeeDto input)
         {
             await IsAlreadyTaken(input);
@@ -51,6 +57,8 @@ namespace syncinpos.Entities.HR.Employees
             var updated = await base.UpdateAsync(input);
             return updated;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_HR_Management_Employee_User_Control)]
         private async Task<EmployeeDto> CreateUpdateUserByEmp(EmployeeDto input)
         {
             if (input.IsUser)

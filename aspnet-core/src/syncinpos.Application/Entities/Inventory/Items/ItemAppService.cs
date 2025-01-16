@@ -1,8 +1,10 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
+using syncinpos.Authorization;
 using syncinpos.Entities.Inventory.Items.Dto;
 using syncinpos.Utility.SelectItemDto;
 using System;
@@ -19,6 +21,17 @@ namespace syncinpos.Entities.Inventory.Items
             IRepository<Item, int> repository
             ) : base(repository) { }
 
+        [AbpAuthorize(PermissionNames.Pages_Setup_Menu_Operations_ItemInformation_Create)]
+        public async override Task<ItemDto> CreateAsync(ItemDto input)
+        {
+            return await base.CreateAsync(input);
+        }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_Menu_Operations_ItemInformation_Update)]
+        public async override Task<ItemDto> UpdateAsync(ItemDto input)
+        {
+            return await base.UpdateAsync(input);
+        }
         public async Task<List<SelectItemDto>> GetItemDropdownAsync()
         {
             var items = await Repository.GetAll()

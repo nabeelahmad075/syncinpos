@@ -34,6 +34,8 @@ namespace syncinpos.Entities.Inventory.ItemPrices
         {
             _itemRepository = itemRepository;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_Menu_Operations_PriceList_Create)]
         public async Task<List<ItemPriceListDto>> BulkCreateAsync(List<ItemPriceListDto> input)
         {
             var strLocationIds = input.Select(a => a.StrLocationIds).FirstOrDefault();

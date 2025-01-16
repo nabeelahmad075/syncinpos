@@ -13,6 +13,8 @@ using Abp.Linq.Extensions;
 using System.Threading.Tasks;
 using Abp.UI;
 using syncinpos.Entities.Setups.Tables.Dto;
+using Abp.Authorization;
+using syncinpos.Authorization;
 
 namespace syncinpos.Entities.Setups.Floor
 {
@@ -22,12 +24,15 @@ namespace syncinpos.Entities.Setups.Floor
             IRepository<FloorEntity, int> repository
             ) : base(repository) { }
 
+        [AbpAuthorize(PermissionNames.Pages_Setup_Configuration_Floor_Create)]
         public async override Task<FloorEntityDto> CreateAsync(FloorEntityDto input)
         {
             await IsAlreadyTaken(input);
             var created = await base.CreateAsync(input);
             return created;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_Configuration_Floor_Update)]
         public async override Task<FloorEntityDto> UpdateAsync(FloorEntityDto input)
         {
             await IsAlreadyTaken(input);

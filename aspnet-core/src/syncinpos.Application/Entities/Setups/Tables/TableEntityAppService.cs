@@ -14,6 +14,8 @@ using Abp.UI;
 using syncinpos.Entities.Locations.Dto;
 using System.Configuration;
 using Microsoft.AspNetCore.Components.Forms;
+using Abp.Authorization;
+using syncinpos.Authorization;
 
 namespace syncinpos.Entities.Setups.Tables
 {
@@ -22,12 +24,16 @@ namespace syncinpos.Entities.Setups.Tables
         public TableEntityAppService(
             IRepository<TableEntity, int> repository
             ) : base(repository) { }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_Configuration_Table_Create)]
         public async override Task<TableEntityDto> CreateAsync(TableEntityDto input)
         {
             await IsAlreadyTaken(input);
             var created = await base.CreateAsync(input);
             return created;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_Configuration_Table_Update)]
         public async override Task<TableEntityDto> UpdateAsync(TableEntityDto input)
         {
             await IsAlreadyTaken(input);

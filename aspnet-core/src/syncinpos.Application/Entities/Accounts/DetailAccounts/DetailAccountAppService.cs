@@ -1,10 +1,12 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
+using syncinpos.Authorization;
 using syncinpos.Entities.Accounts.DetailAccounts.Dto;
 using syncinpos.Entities.Accounts.MainAccounts;
 using syncinpos.Entities.Accounts.MainAccounts.Dto;
@@ -29,11 +31,15 @@ namespace syncinpos.Entities.Accounts.DetailAccounts
         {
             subAccountRepository = _subAccountRepository;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Accounts_Settings_Detail_Accounts_Create)]
         public async override Task<DetailAccountDto> CreateAsync(DetailAccountDto input)
         {
             await IsAlreadyTaken(input);
             return await base.CreateAsync(input);
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Accounts_Settings_Detail_Accounts_Update)]
         public async override Task<DetailAccountDto> UpdateAsync(DetailAccountDto input)
         {
             await IsAlreadyTaken(input);

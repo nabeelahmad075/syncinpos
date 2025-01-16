@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.EntityFramework.Repositories;
@@ -8,6 +9,7 @@ using Abp.UI;
 using AutoMapper.Execution;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
+using syncinpos.Authorization;
 using syncinpos.Entities.Accounts.MainAccounts;
 using syncinpos.Entities.Accounts.SubAccounts.Dto;
 using syncinpos.Entities.Accounts.Types;
@@ -34,11 +36,15 @@ namespace syncinpos.Entities.Accounts.SubAccounts
             accountTypeRepository = _accountTypeRepository;
             mainAccountRepository = _mainAccountRepository;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Accounts_Settings_Sub_Accounts_Create)]
         public async override Task<SubAccountDto> CreateAsync(SubAccountDto input)
         {
             await IsAlreadyTaken(input);
             return await base.CreateAsync(input);
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Accounts_Settings_Sub_Accounts_Update)]
         public async override Task<SubAccountDto> UpdateAsync(SubAccountDto input)
         {
             await IsAlreadyTaken(input);

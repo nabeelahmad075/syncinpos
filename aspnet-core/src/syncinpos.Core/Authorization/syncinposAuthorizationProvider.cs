@@ -150,16 +150,6 @@ namespace syncinpos.Authorization
 
             //--------------------------------------------------------Accounts permissions End
 
-            //var users = context.CreatePermission(PermissionNames.Pages_Users, L("Users"));
-            //users.CreateChildPermission(PermissionNames.Pages_Users_Create, L("Create"));
-
-            ////context.CreatePermission(PermissionNames.Pages_Users_Activation, L("UsersActivation"));
-            //context.CreatePermission(PermissionNames.Pages_Roles, L("Roles"));
-
-
-
-
-
         }
 
         private static ILocalizableString L(string name)

@@ -1,9 +1,11 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
+using syncinpos.Authorization;
 using syncinpos.Entities.Inventory.Sections.Dto;
 using syncinpos.Entities.Locations.Dto;
 using syncinpos.Entities.Setups.Floor.Dto;
@@ -22,12 +24,16 @@ namespace syncinpos.Entities.Inventory.Sections
         public SectionsAppService(
             IRepository<Section, int> repository
             ) : base(repository) { }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_Menu_Operations_Sections_Create)]
         public async override Task<SectionDto> CreateAsync(SectionDto input)
         {
             await IsAlreadyTaken(input);
             var created = await base.CreateAsync(input);
             return created;
         }
+
+        [AbpAuthorize(PermissionNames.Pages_Setup_Menu_Operations_Sections_Update)]
         public async override Task<SectionDto> UpdateAsync(SectionDto input)
         {
             await IsAlreadyTaken(input);

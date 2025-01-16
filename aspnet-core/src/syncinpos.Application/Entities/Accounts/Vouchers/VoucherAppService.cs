@@ -79,7 +79,7 @@ namespace syncinpos.Entities.Accounts.Vouchers
             return newMainCode;
         }
 
-        //[AbpAuthorize(PermissionNames.Pages_ProjectManagement_Transaction_BOQ_Create)]
+        [AbpAuthorize(PermissionNames.Pages_Accounts_Transactions_Voucher_Entry_Create)]
         public async override Task<VoucherMasterDto> CreateAsync(VoucherMasterDto input)
         {
             await DeleteRemovedDetails(input);
@@ -87,7 +87,7 @@ namespace syncinpos.Entities.Accounts.Vouchers
             return await base.CreateAsync(input);
         }
 
-        //[AbpAuthorize(PermissionNames.Pages_ProjectManagement_Transaction_BOQ_Update)]
+        [AbpAuthorize(PermissionNames.Pages_Accounts_Transactions_Voucher_Entry_Update)]
         public override async Task<VoucherMasterDto> UpdateAsync(VoucherMasterDto input)
         {
 

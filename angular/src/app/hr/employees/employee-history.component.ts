@@ -46,9 +46,6 @@ export class EmployeeHistoryComponent
   @ViewChild("paginator", { static: true }) paginator: Paginator;
   eventClone: LazyLoadEvent;
 
-  deptTabPermissions: boolean = false;
-  desigTabPermissions: boolean = false;
-
   constructor(
     injector: Injector,
     private _modalService: BsModalService,
@@ -122,8 +119,8 @@ export class EmployeeHistoryComponent
 
   showDesignationDepartmentDialog(): void {
     if (
-      !abp.auth.isGranted("Pages.Setup.HR_Management.Department.View") &&
-      !abp.auth.isGranted("Pages.Setup.HR_Management.Designation.View")
+      !abp.auth.isGranted("Pages.Setup.HR_Management.Department.Create") &&
+      !abp.auth.isGranted("Pages.Setup.HR_Management.Designation.Create")
     ) {
       abp.notify.error(AppConsts.permissionDeniedMessage);
       return;

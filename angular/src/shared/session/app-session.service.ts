@@ -46,7 +46,8 @@ export class AppSessionService {
             return userName;
         }
 
-        return (this._tenant ? this._tenant.tenancyName : '.') + '\\' + userName;
+        // return (this._tenant ? this._tenant.tenancyName : '.') + '\\' + userName;
+        return userName;
     }
 
     init(): Promise<boolean> {

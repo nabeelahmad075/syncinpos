@@ -123,13 +123,14 @@
                   <div class="form-group row mb-0">
                     @for (role of roles; track role; let i = $index) {
                       <div class="col-md-6">
-                        <div class="custom-control custom-checkbox">
+                        <div class="custom-control custom-radio">
                           <input
-                            type="checkbox"
+                            type="radio"
                             class="custom-control-input"
                             [id]="'role_' + i"
+                            name="roleSelection"
                             [checked]="isRoleChecked(role.normalizedName)"
-                            (change)="onRoleChange(role, $event)"
+                            (change)="onRoleChange(role)"
                             />
                             <label class="custom-control-label" [for]="'role_' + i">
                               {{ role.name }}

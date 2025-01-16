@@ -67,7 +67,7 @@ export class EditRoleDialogComponent
     //     this.cd.detectChanges();
     //   });
 
-debugger
+
 
     // this.id =
     //   this.config?.data && this.config.data["id"]
@@ -169,9 +169,9 @@ debugger
 
 
   saveOrUpdate() {
-    debugger
+    
     if (this.id) {
-      debugger
+      
       this.update();
       return;
     }
@@ -197,16 +197,16 @@ debugger
     });
   }
   update(): void {
-    debugger
+    
     this.saving = true;
     const role = new RoleDto();
     role.init(this.role);
-    debugger
+    
     role.grantedPermissions = this.getGrantedPermissionNames();
     
     this._roleService.update(role).subscribe({
       next: (value) => {
-        debugger
+        
         this.notify.info(this.l("Update Successfuly"));
         
         this.bsModalRef.hide();

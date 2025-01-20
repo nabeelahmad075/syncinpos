@@ -110,10 +110,22 @@ export class EmployeeHistoryComponent
   }
 
   create(): void {
+    if (
+      !abp.auth.isGranted("Pages.Setup.HR_Management.Employee.Create")
+    ) {
+      abp.notify.error(AppConsts.permissionDeniedMessage);
+      return;
+    }
     this.showCreateOrEditDialog();
   }
 
   edit(empHistory: EmployeeHistoryDto): void {
+    if (
+      !abp.auth.isGranted("Pages.Setup.HR_Management.Employee.Update")
+    ) {
+      abp.notify.error(AppConsts.permissionDeniedMessage);
+      return;
+    }
     this.showCreateOrEditDialog(empHistory.id);
   }
 

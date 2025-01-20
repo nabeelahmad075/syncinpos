@@ -148,6 +148,7 @@
             class="custom-control-input"
             name="userId"
             id="userId"
+            [disabled]="!userControlPermission"
             [(ngModel)]="tblEmployee.isUser"
           />
           <label class="custom-control-label" for="userId"></label>

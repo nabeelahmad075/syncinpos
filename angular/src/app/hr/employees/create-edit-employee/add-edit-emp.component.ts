@@ -48,6 +48,8 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
   joiningDate: Date = new Date();
   eventClone: LazyLoadEvent;
 
+  userControlPermission: boolean = false;
+
   constructor(
     injector: Injector,
     private _departmentService: DepartmentServiceProxy,
@@ -70,6 +72,8 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
     this.getDepartmentDropdown();
     this.getDesignationDropdown();
     this.joiningDate = new Date();
+
+    this.userControlPermission = abp.auth.isGranted("Pages.Setup.HR_Management.Employee.User_Control");
 
     this.cdr.detectChanges();
   }

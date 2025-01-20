@@ -19,7 +19,7 @@ export class HeaderUserMenuComponent extends AppComponentBase implements OnInit 
   ) {super(injector);}
 
   ngOnInit(): void {
-    this.shownLoginName = this.appSession.getShownLoginName();
+    this.shownLoginName = this.appSession.user.userName;
   }
 
   logout(): void {

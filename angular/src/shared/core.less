@@ -207,3 +207,46 @@ div.p-select-list-container{
 }
 
 //--------------------------------hand wave animation end-----------------------------------------//
+
+//--------------------------------greeting text styling start-------------------------------------//
+
+.greeting-container {
+  margin-left: 1%; /* Use percentage to make it responsive */
+  display: flex; /* Using Flexbox for alignment */
+  align-items: center; /* Vertically align items */
+}
+
+.greeting-container h5 {
+  margin-top: 0.3rem;
+}
+
+.greeting-container img.wave {
+  width: 20px; /* Adjust image size in relative units */
+  margin-left: 0.01rem; /* Adjust spacing around the image */
+}
+
+/* Media Queries for different screen sizes */
+@media (max-width: 768px) {
+
+  .greeting-container h5 {
+    font-size: 0.8rem;
+  }
+
+  .greeting-container img.wave {
+    width: 16px; /* Smaller image size for mobile screens */
+    margin-left: 0.01rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .greeting-container h5 {
+    font-size: 0.8rem;
+  }
+
+  .greeting-container img.wave {
+    width: 12px; /* Further reduce image size for very small screens */
+  }
+}
+
+//--------------------------------greeting text styling end-------------------------------------//

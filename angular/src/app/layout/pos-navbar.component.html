@@ -1,0 +1,23 @@
+<li class="nav-item dropdown nav-user-menu" dropdown>
+    <a href="javascript:;" class="nav-link img-hover" dropdownToggle>
+      <img
+        class="user-image img-circle elevation-2"
+        src="assets/img/user.png"
+        alt="User Image"
+      />
+    </a>
+    <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+      
+      <div class="dropdown-item hover:!bg-transparent">
+        <i class="fa-solid fa-user"></i>&nbsp; 
+        <span>{{ shownLoginName }}</span>
+      </div>
+  
+      <div class="dropdown-divider"></div>
+      
+      <a class="dropdown-item" href="javascript:;" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> {{ "Logout" | localize }}
+      </a>
+    </div>
+  </li>
+  

@@ -59,6 +59,9 @@ import { SalesMenuComponent} from './navbar-menu/sales-menu/sales-menu.component
 import { AccountsMenuComponent } from './navbar-menu/accounts-menu/accounts-menu.component';
 import { HeaderDateComponent } from './layout/header-date.component';
 import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.component';
+import { PosNavbarComponent } from './layout/pos-navbar.component';
+import { PosNavMenuComponent } from './sales/pos/pos-layouts/pos-nav-menu.component'
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -102,7 +105,9 @@ import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.co
         SalesMenuComponent,
         AccountsMenuComponent,
         HeaderDateComponent,
-        DayCloseHistoryComponent
+        DayCloseHistoryComponent,
+        PosNavbarComponent,
+        PosNavMenuComponent
     ],
     imports: [
         AppRoutingModule,

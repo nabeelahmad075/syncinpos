@@ -14,6 +14,7 @@ using syncinpos.Authorization.Users;
 using syncinpos.Roles.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace syncinpos.Roles
 {
@@ -143,6 +144,27 @@ namespace syncinpos.Roles
                 Role = roleEditDto,
                 Permissions = ObjectMapper.Map<List<FlatPermissionDto>>(permissions).OrderBy(p => p.DisplayName).ToList(),
                 GrantedPermissionNames = grantedPermissions.Select(p => p.Name).ToList()
+            };
+        }
+        public async Task<PagedResultDto<RolesHistoryDto>> GetRolesHistoryAsync(RolesHistoryPagedAndSortedResultRequestDto input)
+        {
+            var sqlQuery = Repository.GetAll()
+                                     .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
+                                         x => x.Name.ToLower().Contains(input.Keyword.ToLower()) ||
+                                         x.DisplayName.ToLower().Contains(input.Keyword.ToLower()))
+                                     .Select(a => new RolesHistoryDto
+                                     { 
+                                       Id = a.Id,
+                                       RoleName = a.Name,
+                                       DisplayName = a.DisplayName
+                                     });
+
+            var sortedQuery = sqlQuery.OrderBy(x => input.Sorting);
+            var pagedQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);
+            return new PagedResultDto<RolesHistoryDto>
+            {
+                Items = await pagedQuery.ToListAsync(),
+                TotalCount = sqlQuery.Count()
             };
         }
     }

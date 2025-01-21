@@ -22,6 +22,7 @@ using syncinpos.Roles.Dto;
 using syncinpos.Users.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Abp.Collections.Extensions;
 
 namespace syncinpos.Users
 {
@@ -247,6 +248,113 @@ namespace syncinpos.Users
 
             return true;
         }
+        //public async Task<PagedResultDto<UserHistoryDto>> GetUsersHistoryAsync(UserHistoryPagedAndSortedResultRequestDto input)
+        //{
+        //    var userRoles = Repository.GetAll()
+        //                                .SelectMany(x => x.Roles, (user, role) => new
+        //                                {
+        //                                    userId = user.Id,
+        //                                    roleId = role.RoleId
+        //                                }).ToList();
+
+        //    var sqlQuery = Repository.GetAll()
+        //                             .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
+        //                             x => x.UserName.ToLower().Contains(input.Keyword.ToLower()) ||
+        //                             x.Name.Contains(input.Keyword.ToLower()))
+        //                             .Select(a => new UserHistoryDto
+        //                             { 
+        //                                Id = a.Id,
+        //                                Name = a.Name,
+        //                                Username = a.UserName,
+        //                                RoleAssigned = string.Join(", ", userRoles
+        //                                                .Where(ur => ur.userId == a.Id)
+        //                                                .Select(ur => ur.roleId.ToString())),
+        //                                IsActive = a.IsActive
+        //                             });
+
+        //    var sortedQuery = sqlQuery.OrderBy(x => input.Sorting);
+        //    var pagedQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);
+        //    return new PagedResultDto<UserHistoryDto>
+        //    {
+        //        Items = await pagedQuery.ToListAsync(),
+        //        TotalCount = sqlQuery.Count()
+        //    };
+        //}
+
+
+        public async Task<PagedResultDto<UserHistoryDto>> GetUsersHistoryAsync(UserHistoryPagedAndSortedResultRequestDto input)
+        {
+            var sqlQuery = Repository.GetAll()
+                //.WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
+                //    x => x.UserName.ToLower().Contains(input.Keyword.ToLower()) ||
+                //         x.Name.Contains(input.Keyword.ToLower()))
+                .Select(a => new
+                {
+                    a.Id,
+                    a.Name,
+                    a.Surname,
+                    a.UserName,
+                    a.IsActive
+                });
+
+            var userRoles = Repository.GetAll()
+                .SelectMany(x => x.Roles, (user, role) => new
+                {
+                    userId = user.Id,
+                    roleId = role.RoleId
+                }).ToList();
+
+            var roles = _roleRepository.GetAll().Select(a => new
+            { 
+                a.Id,
+                a.DisplayName 
+            }).ToList();
+
+            var roleNames = userRoles
+                                .GroupJoin(
+                                    roles,
+                                    ur => ur.roleId, 
+                                    r => r.Id,  
+                                    (ur, roleGroup) => new
+                                    {
+                                        ur.userId, 
+                                        RoleNames = string.Join(", ", roleGroup.Select(r => r.DisplayName)) 
+                                    })
+                                .ToList();
+
+            var userHistoryDtos = await sqlQuery.ToListAsync();
+
+            var result = userHistoryDtos.Select(user => new UserHistoryDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                SurName = user.Surname,
+                Username = user.UserName,
+                IsActive = user.IsActive,
+                RoleAssigned = string.Join(", ", roleNames
+                    .Where(ur => ur.userId == user.Id)
+                    .Select(ur => ur.RoleNames.ToString()))  
+            }).ToList();
+
+            if (!string.IsNullOrWhiteSpace(input.Keyword))
+            {
+                result = result
+                    .Where(x => x.Username.ToLower().Contains(input.Keyword.ToLower()) ||
+                                x.Name.ToLower().Contains(input.Keyword.ToLower()) ||
+                                x.RoleAssigned.ToLower().Contains(input.Keyword.ToLower()))
+                    .ToList();
+            }
+
+            var totalCount = sqlQuery.Count();
+
+            return new PagedResultDto<UserHistoryDto>
+            {
+                Items = result.Skip(input.SkipCount).Take(input.MaxResultCount).ToList(),
+                TotalCount = totalCount
+            };
+        }
+
+
     }
 }
 

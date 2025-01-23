@@ -127,7 +127,7 @@ namespace syncinpos.Entities.HR.Employees
                                                .ToListAsync();
 
             var roleIds = user.Select(x => x.Roles.Select(r => r.RoleId).ToArray()).FirstOrDefault();
-            var roles = _roleManager.Roles.Where(r => roleIds.Contains(r.Id)).Select(r => r.NormalizedName);
+            var roles = _roleManager.Roles.Where(r => roleIds.Contains(r.Id)).Select(r => r.Name);
             employee.Result.RolesNames = roles.ToArray();
 
             return employee.Result;

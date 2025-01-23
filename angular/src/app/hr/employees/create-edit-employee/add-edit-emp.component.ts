@@ -43,10 +43,14 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
   tblLocation: SelectItem[] = [];
   tblDesignation: SelectItem[] = [];
   tblDepartment: SelectItem[] = [];
+  tblRole: RoleDto[] = [];
+  tblRoles: SelectItem[] = [];
   tblEmployee: EmployeeDto = new EmployeeDto();
   @Output() onSave = new EventEmitter<any>();
   joiningDate: Date = new Date();
   eventClone: LazyLoadEvent;
+
+  roleName: string;
 
   userControlPermission: boolean = false;
 
@@ -55,6 +59,7 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
     private _departmentService: DepartmentServiceProxy,
     private _designationService: DesignationServiceProxy,
     private _locationService: LocationServiceProxy,
+    private _roleService: UserServiceProxy,
     private _empService: EmployeeServiceProxy,
     public bsModalRef: BsModalRef,
     private cdr: ChangeDetectorRef
@@ -71,6 +76,8 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
     this.getLocationDropdown();
     this.getDepartmentDropdown();
     this.getDesignationDropdown();
+    this.getRolesDropdown();
+
     this.joiningDate = new Date();
 
     this.userControlPermission = abp.auth.isGranted("Pages.Setup.HR_Management.Employee.User_Control");
@@ -102,9 +109,25 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
     });
   }
 
+  getRolesDropdown() {
+    this._roleService.getRoles().subscribe((result) => {
+      this.tblRole = result.items;
+      console.log(this.tblRole);
+
+      this.tblRole.forEach((x) => {
+        this.tblRoles.push({label: x.name, value: x.name});
+      });
+      
+           console.log(this.tblRoles);
+
+      this.cdr.detectChanges();
+    });
+  }
+
   save(): void {
     this.saving = true;
     this.tblEmployee.employeeCode = this.empCode;
+    this.tblEmployee.rolesNames = this.tblRole.filter((x) => x.name==this.roleName).map((x) => x.name);
     this.tblEmployee.joiningDate = moment(this.joiningDate);
     if (this.id) {
       this.update();
@@ -166,6 +189,7 @@ export class AddEditEmpComponent extends AppComponentBase implements OnInit {
       this.tblEmployee = result;
       this.empCode = result.employeeCode;
       this.joiningDate = this.tblEmployee.joiningDate.toDate();
+      this.roleName = this.tblEmployee.rolesNames[0];
       this.cdr.detectChanges();
     });
   }

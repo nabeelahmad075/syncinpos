@@ -50,6 +50,8 @@ export class CreateDesignationDepartmentComponent extends AppComponentBase imple
     this.flgDesignation = true;
     this.getDepartmentHistory();
     this.getDesignationHistory();
+
+    this.tblDesignation.designationType = 4;
   }
 
   getDesignationById(id?: number) {
@@ -235,6 +237,7 @@ export class CreateDesignationDepartmentComponent extends AppComponentBase imple
   newDesignation(){
     this.id = 0;
     this.tblDesignation = new DesignationsDto();
+    this.tblDesignation.designationType = 4;
   }
 
   newDepartment(){
@@ -250,6 +253,19 @@ export class CreateDesignationDepartmentComponent extends AppComponentBase imple
   else
     this.flgDesignation = false;
 
+ }
+
+ getMeDesignationType(designationType: number){
+  if(designationType == 1)
+    return "Order Taker";
+  else if(designationType == 2)
+    return "Delivery Man";
+  else if(designationType == 3)
+    return "Cashier";
+  else if(designationType == 4)
+    return "Others";
+  else
+    return "";
  }
 
 }

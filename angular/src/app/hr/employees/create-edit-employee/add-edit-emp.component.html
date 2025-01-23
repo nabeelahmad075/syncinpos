@@ -20,7 +20,9 @@
             required
             placeholder="Select Location"
             [options]="tblLocation"
-            [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
+            [styleClass]="
+              'text-sm h-10 border border-gray-300 rounded focus:outline-none'
+            "
             [(ngModel)]="tblEmployee.locationId"
             (onChange)="getNewEmployeeNo(tblEmployee.locationId)"
           >
@@ -36,7 +38,9 @@
           required
           placeholder="Select Designation"
           [options]="tblDesignation"
-          [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
+          [styleClass]="
+            'text-sm h-10 border border-gray-300 rounded focus:outline-none'
+          "
           [(ngModel)]="tblEmployee.designationId"
         >
         </p-select>
@@ -50,7 +54,9 @@
           required
           placeholder="Select Department"
           [options]="tblDepartment"
-          [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
+          [styleClass]="
+            'text-sm h-10 border border-gray-300 rounded focus:outline-none'
+          "
           [(ngModel)]="tblEmployee.departmentId"
         >
         </p-select>
@@ -114,7 +120,12 @@
           name="joiningDate"
           id="joiningDate"
           autowidth="false"
-          [style]="{ width: '100%', height: '38px', marginTop: '-8px', fontSize: '0.9rem' }"
+          [style]="{
+            width: '100%',
+            height: '38px',
+            marginTop: '-8px',
+            fontSize: '0.9rem'
+          }"
           [styleClass]="''"
           placeholder="Joining Date"
           [dateFormat]="'dd/mm/yy'"
@@ -142,7 +153,7 @@
         <label for="userId" class="mr-2">
           {{ "Is This Employee Needs User ID?" | localize }}
         </label>
-        <div class="custom-control custom-checkbox" style="margin-top: -6px">
+        <div class="custom-control custom-checkbox" style="margin-top: -6px; z-index: 0;">
           <input
             type="checkbox"
             class="custom-control-input"
@@ -155,85 +166,107 @@
         </div>
       </div>
     </div>
-    <div *ngIf="tblEmployee.isUser" 
-    [ngClass]="{
-      'fade-in': tblEmployee.isUser,
-      'fade-out': !tblEmployee.isUser
-    }">
-    <div class="form-row form-group">
-      <div class="form-group col-md-4">
-        <label for="userIdName">
-          {{ "Username" | localize }}
-        </label>
-        <input
-          style="margin-top: -8px"
-          type="text"
-          class="form-control"
-          name="userIdName"
-          id="userIdName"
-          required
-          minlength="3"
-          maxlength="500"
-          [(ngModel)]="tblEmployee.username"
-        />
+    <div
+      *ngIf="tblEmployee.isUser"
+      [ngClass]="{
+        'fade-in': tblEmployee.isUser,
+        'fade-out': !tblEmployee.isUser
+      }"
+    >
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="userIdName">
+            {{ "Username" | localize }}
+          </label>
+          <input
+            style="margin-top: -8px"
+            type="text"
+            class="form-control"
+            name="userIdName"
+            id="userIdName"
+            required
+            minlength="3"
+            maxlength="500"
+            [(ngModel)]="tblEmployee.username"
+          />
+        </div>
+        <div class="form-group col-md-4" *ngIf="!tblEmployee.userId">
+          <label for="password">
+            {{ "Password" | localize }}
+          </label>
+          <input
+            style="margin-top: -8px"
+            type="text"
+            class="form-control"
+            name="password"
+            id="password"
+            required
+            minlength="2"
+            maxlength="500"
+            [(ngModel)]="tblEmployee.password"
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label for="email">
+            {{ "Email" | localize }}
+          </label>
+          <input
+            style="margin-top: -8px"
+            type="email"
+            class="form-control"
+            name="email"
+            id="email"
+            required
+            minlength="2"
+            maxlength="500"
+            [(ngModel)]="tblEmployee.emailAddress"
+          />
+        </div>
       </div>
-      <div class="form-group col-md-4" *ngIf="!tblEmployee.userId">
-        <label for="password">
-          {{ "Password" | localize }}
-        </label>
-        <input
-          style="margin-top: -8px"
-          type="text"
-          class="form-control"
-          name="password"
-          id="password"
-          required
-          minlength="2"
-          maxlength="500"
-          [(ngModel)]="tblEmployee.password"
-        />
-      </div>
-      <div class="form-group col-md-4">
-        <label for="email">
-          {{ "Email" | localize }}
-        </label>
-        <input
-          style="margin-top: -8px"
-          type="email"
-          class="form-control"
-          name="email"
-          id="email"
-          required
-          minlength="2"
-          maxlength="500"
-          [(ngModel)]="tblEmployee.emailAddress"
-        />
-      </div>
-    </div>
-  </div>
-    <div class="form-row form-group">
-      <div class="form-group col-md-4">
-        <!-- <label class="col-md-3">
-          {{ "" }}
-        </label> -->
-        <div class="col-md-9">
-          <div class="custom-control custom-checkbox" >
-            <input
-              style="margin-top: -8px"
-              type="checkbox"
-              class="custom-control-input"
-              name="isActive"
-              id="isActive"
-              [(ngModel)]="tblEmployee.isActive"
-            />
-            <label class="custom-control-label mt-2" for="isActive"
-              >Active</label
-            >
+      <div class="form-row form-group">
+        <div class="col-md-4 required">
+          <label for="roles">
+            {{ "Roles" | localize }}
+          </label>
+          <p-select
+            name="roles"
+            required
+            placeholder="Select Role"
+            [options]="tblRoles"
+            [styleClass]="
+              'text-sm border border-gray-300 rounded focus:outline-none'
+            "
+            [(ngModel)]="roleName"
+            
+          >
+          </p-select>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="col-md-3">
+              {{ "" }}
+            </label>
+          <div class="col-md-9 ">
+            <div class="custom-control custom-checkbox">
+              <input
+                style="margin-top: -8px"
+                type="checkbox"
+                class="custom-control-input"
+                name="isActive"
+                id="isActive"
+                [(ngModel)]="tblEmployee.isActive"
+              />
+              <label class="custom-control-label mt-2" for="isActive"
+                >Active</label
+              >
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- <div class="form-row form-group">
+
+  </div> -->
   <abp-modal-footer
     [cancelDisabled]="saving"
     [saveLabel]="this.id > 0 ? 'Update' : 'Save'"

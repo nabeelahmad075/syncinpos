@@ -97,7 +97,7 @@ export class PriceHistoryComponent extends AppComponentBase implements OnInit {
 
   getCategoryWiseItemPrice(categoryId: number) {
     this._itemPriceService
-      .getCategoryWiseItems(categoryId)
+      .getCategoryWiseItemsPriceList(categoryId)
       .subscribe((result) => {
         this.tblPriceList = result;
         this.cd.detectChanges();

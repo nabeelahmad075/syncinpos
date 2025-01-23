@@ -11,8 +11,8 @@
   <div class="modal-body">
     <tabset>
       <tab
-      (selectTab)="getMeTab(0)"
-      onselect="getMeTab(0)"
+        (selectTab)="getMeTab(0)"
+        onselect="getMeTab(0)"
         id="designation"
         [heading]="'Designation' | localize"
         class="pt-3 px-2"
@@ -23,13 +23,13 @@
               for="designation"
               style="line-height: 2rem; margin-left: 0.6rem"
             >
-              {{ "Designation Title" | localize }}
+              {{ "Designation Title:" | localize }}
             </label>
           </div>
           <div class="col-md-6">
             <input
-            (ngModelChange)="flgDesignation=true"
-              style="font-size: 0.8rem; height: 32px" 
+              (ngModelChange)="flgDesignation = true"
+              style="font-size: 0.8rem; height: 32px"
               type="text"
               class="form-control"
               name="designation"
@@ -38,10 +38,80 @@
             />
           </div>
           <div class="col-md-3">
-            <a class="btn bg-blue btnNav" (click)="newDesignation()">
+            <a class="btn bg-danger btnNav" (click)="newDesignation()">
               <i class="fa fa-times" aria-hidden="true"></i>
               Clear
             </a>
+          </div>
+        </div>
+        <div class="form-group form-row">
+          <div class="col-md-3">
+            <label
+              for="designationtype"
+              style=" margin-left: 0.6rem"
+            >
+              {{ "Designation Type:" | localize }}
+            </label>
+          </div>
+          <div class="col-md-2">
+            <div class="custom-control custom-radio">
+              <input
+                type="radio"
+                class="custom-control-input"
+                [id]="'1'"
+                name="desgtype"
+                [(ngModel)]="tblDesignation.designationType"
+                [value]="1"
+              />
+              <label class="custom-control-label" [for]="'1'">
+                Order Taker
+              </label>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="custom-control custom-radio">
+              <input
+                type="radio"
+                class="custom-control-input"
+                [id]="'2'"
+                name="desgtype"
+                [(ngModel)]="tblDesignation.designationType"
+                [value]="2"
+              />
+              <label class="custom-control-label" [for]="'2'">
+                Delivery Man
+              </label>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="custom-control custom-radio">
+              <input
+                type="radio"
+                class="custom-control-input"
+                [id]="'3'"
+                name="desgtype"
+                [(ngModel)]="tblDesignation.designationType"
+                [value]="3"
+              />
+              <label class="custom-control-label" [for]="'3'">
+                Cashier
+              </label>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="custom-control custom-radio">
+              <input
+                type="radio"
+                class="custom-control-input"
+                [id]="'4'"
+                name="desgtype"
+                [(ngModel)]="tblDesignation.designationType"
+                [value]="4"
+              />
+              <label class="custom-control-label" [for]="'4'">
+                Others
+              </label>
+            </div>
           </div>
         </div>
         <div class="container-fluid" style="width: 100%">
@@ -79,12 +149,14 @@
                 <ng-template pTemplate="header">
                   <tr class="table-tr">
                     <th>Designation Title</th>
+                    <th>Designation Type</th>
                     <th style="text-align: center">Action</th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-designation>
                   <tr>
-                    <td style="width: 91%">{{ designation.title }}</td>
+                    <td style="width: 70%">{{ designation.title }}</td>
+                    <td>{{ getMeDesignationType(designation.designationType) }}</td>
                     <td style="text-align: center">
                       <a
                         type="button"
@@ -125,8 +197,8 @@
         </div>
       </tab>
       <tab
-      (selectTab)="getMeTab(1)"
-      onselect="getMeTab(1)"
+        (selectTab)="getMeTab(1)"
+        onselect="getMeTab(1)"
         id="department"
         [heading]="'Department' | localize"
         class="pt-3 px-2"
@@ -137,13 +209,13 @@
               for="department"
               style="line-height: 2rem; margin-left: 0.6rem"
             >
-              {{ "Department Title" | localize }}
+              {{ "Department Title:" | localize }}
             </label>
           </div>
           <div class="col-md-6">
             <input
-            (ngModelChange)="flgDesignation=false"
-              style="font-size: 0.8rem; height: 32px" 
+              (ngModelChange)="flgDesignation = false"
+              style="font-size: 0.8rem; height: 32px"
               type="text"
               class="form-control"
               name="department"
@@ -152,7 +224,7 @@
             />
           </div>
           <div class="col-md-3">
-            <a class="btn bg-blue btnNav" (click)="newDepartment()">
+            <a class="btn bg-danger btnNav" (click)="newDepartment()">
               <i class="fa fa-times" aria-hidden="true"></i>
               Clear
             </a>

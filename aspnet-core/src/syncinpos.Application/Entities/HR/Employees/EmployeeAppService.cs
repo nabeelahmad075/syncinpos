@@ -16,6 +16,8 @@ using syncinpos.Authorization.Roles;
 using Microsoft.AspNetCore.Identity;
 using Abp.Authorization;
 using syncinpos.Authorization;
+using syncinpos.Utility.SelectItemDto;
+using System.Collections.Generic;
 
 namespace syncinpos.Entities.HR.Employees
 {
@@ -197,6 +199,17 @@ namespace syncinpos.Entities.HR.Employees
                 Items = await pageQuery.ToListAsync(),
                 TotalCount = sqlQuery.Count()
             };
+        }
+        public async Task<List<SelectItemDto>> GetEmployeesDropdownAsync(int? designationTypeId)
+        {
+            var employees = await Repository.GetAll()
+                                            .Where(a => a.Designation.DesignationType == designationTypeId && a.IsActive == true)
+                                            .Select(a => new SelectItemDto
+                                            {
+                                                Label = a.EmployeeName,
+                                                Value = a.Id
+                                            }).ToListAsync();
+            return employees;
         }
     }
 }

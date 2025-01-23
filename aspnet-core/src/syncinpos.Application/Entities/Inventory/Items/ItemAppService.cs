@@ -51,16 +51,17 @@ namespace syncinpos.Entities.Inventory.Items
             return items;
         }
 
-        public async Task<List<SelectItemDto>> GetCategoryWiseItemDropdownAsync(int? itemCategoryId, int? locationId)
+        public async Task<List<SelectItemDto>> GetCategoryWiseItemsListAsync(int? itemCategoryId, int? locationId, DateTime? effectedDate)
         {
 
             var itemsWithPrice = await _itemPriceRepo.GetAll()
-                                                     .Where(a => a.LocationId == locationId && )
+                                                     .Where(a => a.LocationId == locationId && a.ItemCategoryId == itemCategoryId && a.Price > 0 && a.EffectedDate <= effectedDate)
+                                                     .OrderByDescending(a => a.EffectedDate)
                                                      .Select(a => a.ItemId)
                                                      .ToListAsync();
 
             var items = await Repository.GetAll()
-                                        .WhereIf(itemCategoryId.HasValue, a => a.IsActive == true && a.ItemCategoryId == itemCategoryId)
+                                        .Where(a => a.IsActive == true && itemsWithPrice.Contains(a.Id))
                                         .Select(a => new SelectItemDto
                                         {
                                             Label = a.ItemName,

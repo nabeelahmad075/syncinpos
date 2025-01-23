@@ -53,10 +53,10 @@ namespace syncinpos.Entities.Setups.Tables
                                     .WhereIf(id != null && id > 0, a => a.Id != id)
                                     .Where(a => a.Title == TableName && a.LocationId == LocationId && a.FloorId == FloorId).AnyAsync();
         }
-        public async Task<List<SelectItemDto>> GetTableDropdownAsync(int? LocationId)
+        public async Task<List<SelectItemDto>> GetTableDropdownAsync(int? LocationId, int? floorId)
         {
             var floors = await Repository.GetAll()
-                                         .Where(a => a.IsActive == true && a.LocationId == LocationId)
+                                         .Where(a => a.IsActive == true && a.LocationId == LocationId && a.FloorId == floorId)
                                          .Select(a => new SelectItemDto
                                          {
                                              Label = a.Title,

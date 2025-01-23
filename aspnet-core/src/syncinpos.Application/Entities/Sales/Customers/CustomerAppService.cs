@@ -108,10 +108,10 @@ namespace syncinpos.Entities.Sales.Customers
                                    .Where(a => a.Name == customerName && a.ContactNo == contactNo && a.Address == address)
                                    .AnyAsync();
         }
-        public async Task<List<SelectItemDto>> GetCustomerDropdown()
+        public async Task<List<SelectItemDto>> GetCustomerDropdown(int? locationId)
         {
             var customers = await Repository.GetAll()
-                                            .Where(a => a.IsActive == true)
+                                            .Where(a => a.IsActive == true && a.LocationId == locationId)
                                             .Select(a => new SelectItemDto
                                             {
                                                 Label = a.Name,

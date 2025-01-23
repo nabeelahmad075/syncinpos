@@ -35,6 +35,19 @@ namespace syncinpos.Entities.Inventory.Items
         public async Task<List<SelectItemDto>> GetItemDropdownAsync()
         {
             var items = await Repository.GetAll()
+                                        .Where(a => a.IsActive == true)
+                                        .Select(a => new SelectItemDto
+                                        {
+                                            Label = a.ItemName,
+                                            Value = a.Id
+                                        }).ToListAsync();
+            return items;
+        }
+
+        public async Task<List<SelectItemDto>> GetCategoryWiseItemDropdownAsync(int? itemCategoryId)
+        {
+            var items = await Repository.GetAll()
+                                        .WhereIf(itemCategoryId.HasValue, a => a.IsActive == true && a.ItemCategoryId == itemCategoryId)
                                         .Select(a => new SelectItemDto
                                         {
                                             Label = a.ItemName,

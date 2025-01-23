@@ -120,10 +120,10 @@ namespace syncinpos.Entities.Inventory.ItemPrices
             };
 
         }
-        public async Task<List<ItemPriceListDto>> GetCategoryWiseItems(int itemCategoryId)
+        public async Task<List<ItemPriceListDto>> GetCategoryWiseItemsPriceList(int itemCategoryId)
         {
             var itemsQuery = await _itemRepository.GetAll()
-                                            .Where(item => item.ItemCategoryId == itemCategoryId)
+                                            .Where(item => item.IsActive == true && item.ItemCategoryId == itemCategoryId)
                                             .Select(item => new ItemPriceListDto
                                             {
                                                 TenantId = AbpSession.TenantId,

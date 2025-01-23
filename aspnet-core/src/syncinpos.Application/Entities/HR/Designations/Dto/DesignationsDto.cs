@@ -14,5 +14,6 @@ namespace syncinpos.Entities.HR.Designations.Dto
     {
         public int TenantId { get; set; }
         public string Title { get; set; }
+        public int DesignationType { get; set; }
     }
 }

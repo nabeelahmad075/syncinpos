@@ -13,5 +13,6 @@ namespace syncinpos.Entities.HR.Designations
         public int TenantId { get; set; }
         [MaxLength(150)]
         public string Title { get; set; }
+        public int DesignationType { get; set; }
     }
 }

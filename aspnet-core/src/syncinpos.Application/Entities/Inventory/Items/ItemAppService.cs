@@ -5,11 +5,13 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
 using syncinpos.Authorization;
+using syncinpos.Entities.Inventory.ItemPrices;
 using syncinpos.Entities.Inventory.Items.Dto;
 using syncinpos.Utility.SelectItemDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,9 +19,14 @@ namespace syncinpos.Entities.Inventory.Items
 {
     public class ItemAppService : AsyncCrudAppService<Item, ItemDto>
     {
+        private readonly IRepository<ItemPriceList, long> _itemPriceRepo;
         public ItemAppService(
-            IRepository<Item, int> repository
-            ) : base(repository) { }
+            IRepository<Item, int> repository,
+            IRepository<ItemPriceList, long> itemPriceRepo
+            ) : base(repository) 
+        {
+            _itemPriceRepo = itemPriceRepo;
+        }
 
         [AbpAuthorize(PermissionNames.Pages_Setup_Menu_Operations_ItemInformation_Create)]
         public async override Task<ItemDto> CreateAsync(ItemDto input)
@@ -44,8 +51,14 @@ namespace syncinpos.Entities.Inventory.Items
             return items;
         }
 
-        public async Task<List<SelectItemDto>> GetCategoryWiseItemDropdownAsync(int? itemCategoryId)
+        public async Task<List<SelectItemDto>> GetCategoryWiseItemDropdownAsync(int? itemCategoryId, int? locationId)
         {
+
+            var itemsWithPrice = await _itemPriceRepo.GetAll()
+                                                     .Where(a => a.LocationId == locationId && )
+                                                     .Select(a => a.ItemId)
+                                                     .ToListAsync();
+
             var items = await Repository.GetAll()
                                         .WhereIf(itemCategoryId.HasValue, a => a.IsActive == true && a.ItemCategoryId == itemCategoryId)
                                         .Select(a => new SelectItemDto

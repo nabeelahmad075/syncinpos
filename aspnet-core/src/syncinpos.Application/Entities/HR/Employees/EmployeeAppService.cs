@@ -72,7 +72,8 @@ namespace syncinpos.Entities.HR.Employees
                         EmailAddress = input.EmailAddress,
                         UserName = input.Username,
                         Password = input.Password,
-                        IsActive = input.IsActive
+                        IsActive = input.IsActive,
+                        RoleNames = input.RolesNames
                     };
 
                     var user = await _userAppService.CreateAsync(userCreateInput);

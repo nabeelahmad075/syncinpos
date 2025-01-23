@@ -73,6 +73,7 @@ namespace syncinpos.Entities.HR.Designations
                 {
                     Id = x.Id,
                     Title = x.Title,
+                    DesignationType = x.DesignationType
                 });
             var sortedQuery = sqlQuery.OrderBy(x => input.Sorting);
             var pageQuery = sortedQuery.Skip(input.SkipCount).Take(input.MaxResultCount);

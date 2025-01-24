@@ -17,35 +17,38 @@
         [heading]="'Designation' | localize"
         class="pt-3 px-2"
       >
-        <div class="form-row form-group">
-          <div class="col-md-3">
+        <div class="form-row form-group flex flex-wrap items-center gap-2 sm:gap-4">
+          <div class="w-full sm:w-auto">
             <label
               for="designation"
-              style="line-height: 2rem; margin-left: 0.6rem"
+              class="block sm:inline-block font-medium mb-0 ml-[0.8rem]"
             >
               {{ "Designation Title:" | localize }}
             </label>
           </div>
-          <div class="col-md-6">
+          <div class="w-full sm:w-1/2">
             <input
               (ngModelChange)="flgDesignation = true"
-              style="font-size: 0.8rem; height: 32px"
+              class="form-control block w-full !text-[0.8rem] !h-8 py-1.5 px-2 border rounded"
               type="text"
-              class="form-control"
               name="designation"
               id="designation"
               [(ngModel)]="tblDesignation.title"
             />
           </div>
-          <div class="col-md-3">
-            <a class="btn bg-danger btnNav" (click)="newDesignation()">
-              <i class="fa fa-times" aria-hidden="true"></i>
+          <div class="w-full sm:w-auto">
+            <a
+              class="btn bg-danger btnNav inline-flex items-center justify-center text-white rounded text-sm"
+              (click)="newDesignation()"
+            >
+              <i class="fa fa-times mr-1" aria-hidden="true"></i>
               Clear
             </a>
           </div>
         </div>
+        
         <div class="form-group form-row">
-          <div class="col-md-3">
+          <div class="col-md-2">
             <label
               for="designationtype"
               style=" margin-left: 0.6rem"
@@ -58,12 +61,12 @@
               <input
                 type="radio"
                 class="custom-control-input"
-                [id]="'1'"
+                [id]="'ordertaker'"
                 name="desgtype"
                 [(ngModel)]="tblDesignation.designationType"
                 [value]="1"
               />
-              <label class="custom-control-label" [for]="'1'">
+              <label class="custom-control-label" [for]="'ordertaker'">
                 Order Taker
               </label>
             </div>
@@ -73,12 +76,12 @@
               <input
                 type="radio"
                 class="custom-control-input"
-                [id]="'2'"
+                [id]="'deliveryman'"
                 name="desgtype"
                 [(ngModel)]="tblDesignation.designationType"
                 [value]="2"
               />
-              <label class="custom-control-label" [for]="'2'">
+              <label class="custom-control-label" [for]="'deliveryman'">
                 Delivery Man
               </label>
             </div>
@@ -88,12 +91,12 @@
               <input
                 type="radio"
                 class="custom-control-input"
-                [id]="'3'"
+                [id]="'cashier'"
                 name="desgtype"
                 [(ngModel)]="tblDesignation.designationType"
                 [value]="3"
               />
-              <label class="custom-control-label" [for]="'3'">
+              <label class="custom-control-label" [for]="'cashier'">
                 Cashier
               </label>
             </div>
@@ -103,12 +106,12 @@
               <input
                 type="radio"
                 class="custom-control-input"
-                [id]="'4'"
+                [id]="'others'"
                 name="desgtype"
                 [(ngModel)]="tblDesignation.designationType"
                 [value]="4"
               />
-              <label class="custom-control-label" [for]="'4'">
+              <label class="custom-control-label" [for]="'others'">
                 Others
               </label>
             </div>
@@ -203,8 +206,8 @@
         [heading]="'Department' | localize"
         class="pt-3 px-2"
       >
-        <div class="form-row form-group">
-          <div class="col-md-3">
+        <!-- <div class="form-row form-group">
+          <div class="col-md-2">
             <label
               for="department"
               style="line-height: 2rem; margin-left: 0.6rem"
@@ -226,6 +229,35 @@
           <div class="col-md-3">
             <a class="btn bg-danger btnNav" (click)="newDepartment()">
               <i class="fa fa-times" aria-hidden="true"></i>
+              Clear
+            </a>
+          </div>
+        </div> -->
+        <div class="form-row form-group flex flex-wrap items-center gap-2 sm:gap-4">
+          <div class="w-full sm:w-auto">
+            <label
+              for="department"
+              class="block sm:inline-block font-medium mb-0 ml-[0.8rem]"
+            >
+              {{ "Department Title:" | localize }}
+            </label>
+          </div>
+          <div class="w-full sm:w-1/2">
+            <input
+              (ngModelChange)="flgDesignation = true"
+              class="form-control block w-full !text-[0.8rem] !h-8 py-1.5 px-2 border rounded"
+              type="text"
+              name="department"
+              id="department"
+              [(ngModel)]="tblDepartment.title"
+            />
+          </div>
+          <div class="w-full sm:w-auto">
+            <a
+              class="btn bg-danger btnNav inline-flex items-center justify-center text-white rounded text-sm"
+              (click)="newDesignation()"
+            >
+              <i class="fa fa-times mr-1" aria-hidden="true"></i>
               Clear
             </a>
           </div>

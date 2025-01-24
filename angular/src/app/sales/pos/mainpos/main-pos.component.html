@@ -25,7 +25,12 @@
     <div
       class="w-56 bg-[#FDFDFD] rounded-r-lg p-4 flex items-center justify-center mr-1"
     >
-      <p class="text-xl font-bold text-[#374151]">Categories</p>
+      <!-- <p class="text-xl font-bold text-[#374151]">Categories</p> -->
+       <p-listBox
+      [options]="tblCategory"
+      [(ngModel)] = "categoryId"
+      (ngModelChange)="getItemsByCategory()"
+       ></p-listBox>
     </div>
 
     <div class="flex-1 flex flex-col">
@@ -45,7 +50,9 @@
         </div>
 
         <div class="h-[35.5rem] bg-[#FDFDFD]">
-          <p class="text-xl font-bold">Items</p>
+          <p-listBox
+            [options]="tblItems"
+            ></p-listBox>
         </div>
 
         <!-- SECTION-3 -->

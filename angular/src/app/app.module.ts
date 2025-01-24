@@ -18,6 +18,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
+import { ListboxModule } from 'primeng/listbox';
 // layout
 import { HeaderComponent } from './layout/header.component';
 import { HeaderLeftNavbarComponent } from './layout/header-left-navbar.component';
@@ -128,7 +129,8 @@ import { PosNavMenuComponent } from './sales/pos/pos-layouts/pos-nav-menu.compon
         CalendarModule,
         MultiSelectModule,
         SelectModule,
-        DatePickerModule
+        DatePickerModule,
+        ListboxModule
     ],
     providers: []
 })

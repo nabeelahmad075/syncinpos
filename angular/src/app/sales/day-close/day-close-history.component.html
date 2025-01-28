@@ -6,9 +6,13 @@
           <h4>Day Close Status</h4>
         </div>
         <div class="col-6 text-right">
-          <a class="btn button-new" style="background-color: red !important;">
+          <a class="btn button-new" style="background-color: red !important;" (click)="reversedDay()">
             <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
             Day Reverse
+          </a>
+          <a class="btn button-new" style="background-color: red !important;" (click)="closeReversedDay()">
+            <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+            Close Reverse
           </a>
           <a class="btn button-new" (click)="dayCloseBtn()">
             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
@@ -47,6 +51,7 @@
               <th>Location Type</th>
               <th>Location</th>
               <th>Address</th>
+              <th style="text-align: center;">Reversed</th>
               <th>Current Date</th>
               <th>Last Day Close</th>
               <th>Closed On</th>
@@ -73,6 +78,17 @@
               <td>{{ history.locationType }}</td>
               <td>{{ history.locationName }}</td>
               <td>{{ history.address }}</td>
+              <td style="text-align: center">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    disabled
+                    [checked]="history.isReversed"
+                  />
+                  <label class="custom-control-label"></label>
+                </div>
+              </td>
               <td>{{ history.currentDate | date : "dd-MMM-yyyy" }}</td>
               <td>{{ history.lastDayClosed | date : "dd-MMM-yyyy" }}</td>
               <td>{{ history.closedOn | date : "dd-MMM-yyyy hh:mm:ss a" }}</td>

@@ -33,5 +33,6 @@ namespace syncinpos.Entities.Sales.DayCloses.Dto
         public string ClosedBy { get; set; }
         [NotMapped]
         public bool IsMarked { get; set; }
+        public bool IsReversed { get; set; }
     }
 }

@@ -70,6 +70,34 @@ export class DayCloseHistoryComponent
     });
   }
 
+  reversedDay(){
+    let isAnyRowSelected = this.dayCloseHistory.some((item) => item.isMarked);
+    if (!isAnyRowSelected) {
+      abp.notify.error("Please select at least one row to reverse the day.");
+      return;
+    }
+
+    this._dayCloseService.reverseDay(this.dayCloseHistory).subscribe(() => {
+      abp.notify.success("Day reversed on selected locations");
+      this.getHistory();
+      this.allSelected = false;
+    });
+  }
+
+  closeReversedDay(){
+    let isAnyRowSelected = this.dayCloseHistory.some((item) => item.isMarked);
+    if (!isAnyRowSelected) {
+      abp.notify.error("Please select at least one row to close the day reversed.");
+      return;
+    }
+
+    this._dayCloseService.closeReversedDay(this.dayCloseHistory).subscribe(() => {
+      abp.notify.success("Reverse closed on selected locations");
+      this.getHistory();
+      this.allSelected = false;
+    });
+  }
+
   selectAll($event: any) {
     this.allSelected = $event.target.checked;
     if (this.allSelected) {

@@ -19,5 +19,6 @@ namespace syncinpos.Entities.Sales.DayCloses
         public DateTime CurrentDate { get; set; }
         [MaxLength(10)]
         public string Status { get; set; }
+        public bool IsReversed { get; set; }
     }
 }

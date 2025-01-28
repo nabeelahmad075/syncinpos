@@ -60,5 +60,6 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<VoucherMaster> tblVoucherMaster { get; set; }
         public DbSet<VoucherDetail> tblVoucherDetail { get; set; }
         public DbSet<DayClose> tblDayClose { get; set; }
+        public DbSet<DayReversedHistory> tblDayReversedHistory { get; set; }
     }
 }

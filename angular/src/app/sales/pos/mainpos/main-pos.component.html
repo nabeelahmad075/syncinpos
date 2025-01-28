@@ -7,8 +7,11 @@
     left: 0;
     width: 100%;
     margin-left: 0px !important;
+    padding: 0;
+    height: 3.5rem;
   "
 >
+<logo></logo>
   <ul class="navbar-nav ml-auto flex space-x-4">
     <!-- Custom Navbar Content -->
     <!-- <pos-nav-menu></pos-nav-menu> -->
@@ -23,14 +26,21 @@
   <div class="flex-1 flex flex-row mb-1 mt-[-0.2rem]">
     <!-- LEFT CONTAINER START -->
     <div class="w-56 bg-[#FDFDFD] rounded-r-lg p-2 flex mr-1">
-      <tabset class="w-full">
+      <tabset class="w-full pos-tabset">
         <tab heading="Category">
           <div class="h-full bg-transparent">
-            <p-listBox
+            <p-listbox
               [options]="tblCategory"
               [(ngModel)]="categoryId"
-              (ngModelChange)="getItemsByCategory()"
-            ></p-listBox>
+              (onChange)="getItemsByCategory()"
+              styleClass="w-full text-center"
+            >
+              <ng-template let-item pTemplate="item">
+                <div class="flex justify-center items-center w-full h-full">
+                  {{ item.label }}
+                </div>
+              </ng-template>
+            </p-listbox>
           </div>
         </tab>
         <tab heading="Deals"></tab>

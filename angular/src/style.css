@@ -322,3 +322,26 @@ html {
   overflow: unset;
   margin-top: -0.6rem;
 }
+
+.pos-tabset>ul>li>a.nav-link.active{
+  border: none !important;
+  background: green !important;
+  color: white !important;
+  border-radius: 0.5rem !important;
+  margin-bottom: 0.3rem !important;
+  font-weight: bold;
+}
+
+.pos-tabset>ul>li>a{
+  border: 1px green solid !important;
+  background: white !important;
+  color: green !important;
+  border-radius: 0.5rem !important;
+  margin-bottom: 0.3rem !important;
+}
+
+.pos-tabset>ul{
+border-bottom: none !important;
+display: flex;
+gap: 0.3rem;
+}

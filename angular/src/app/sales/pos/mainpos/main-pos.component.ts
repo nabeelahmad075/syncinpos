@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, Injector, OnInit } from "@angular/core";
 import * as moment from "moment";
-import { SelectItem } from "@node_modules/primeng/select";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
   ItemCategoryServiceProxy,

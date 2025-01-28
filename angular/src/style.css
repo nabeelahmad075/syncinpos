@@ -304,3 +304,21 @@ html {
 .p-paginator-page.p-paginator-page-selected{
   border-radius: 20px;
 }
+
+.p-listbox{
+  border: none !important;
+  /* background-color: red; */
+}
+
+.p-listbox-option{
+  @apply bg-gray-700 text-white rounded-full text-[0.9rem];
+}
+
+.p-listbox-list{
+  row-gap: 0.1rem;
+}
+
+.p-listbox-list-container{
+  overflow: unset;
+  margin-top: -0.6rem;
+}

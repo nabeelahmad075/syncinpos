@@ -1058,6 +1058,110 @@ export class DayCloseServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return OK
+     */
+    reverseDay(body: DayCloseDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/DayClose/ReverseDay";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processReverseDay(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processReverseDay(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processReverseDay(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    closeReversedDay(body: DayCloseDto[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/DayClose/CloseReversedDay";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseReversedDay(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseReversedDay(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCloseReversedDay(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return OK
      */
@@ -7753,6 +7857,304 @@ export class RegionServiceProxy {
 }
 
 @Injectable()
+export class ReversedDayHistoryServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @return OK
+     */
+    get(id: number | undefined): Observable<DayReversedHistoryDto> {
+        let url_ = this.baseUrl + "/api/services/app/ReversedDayHistory/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<DayReversedHistoryDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<DayReversedHistoryDto>;
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<DayReversedHistoryDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DayReversedHistoryDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return OK
+     */
+    getAll(sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<DayReversedHistoryDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/ReversedDayHistory/GetAll?";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<DayReversedHistoryDtoPagedResultDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<DayReversedHistoryDtoPagedResultDto>;
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<DayReversedHistoryDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DayReversedHistoryDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    create(body: DayReversedHistoryDto | undefined): Observable<DayReversedHistoryDto> {
+        let url_ = this.baseUrl + "/api/services/app/ReversedDayHistory/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<DayReversedHistoryDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<DayReversedHistoryDto>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<DayReversedHistoryDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DayReversedHistoryDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    update(body: DayReversedHistoryDto | undefined): Observable<DayReversedHistoryDto> {
+        let url_ = this.baseUrl + "/api/services/app/ReversedDayHistory/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<DayReversedHistoryDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<DayReversedHistoryDto>;
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<DayReversedHistoryDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DayReversedHistoryDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return OK
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ReversedDayHistory/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -12129,6 +12531,61 @@ export class VoucherServiceProxy {
     }
 }
 
+export class AccountType implements IAccountType {
+    id: number;
+    title: string | undefined;
+    alias: string | undefined;
+    isControlAccount: boolean;
+
+    constructor(data?: IAccountType) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.alias = _data["alias"];
+            this.isControlAccount = _data["isControlAccount"];
+        }
+    }
+
+    static fromJS(data: any): AccountType {
+        data = typeof data === 'object' ? data : {};
+        let result = new AccountType();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["alias"] = this.alias;
+        data["isControlAccount"] = this.isControlAccount;
+        return data;
+    }
+
+    clone(): AccountType {
+        const json = this.toJSON();
+        let result = new AccountType();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAccountType {
+    id: number;
+    title: string | undefined;
+    alias: string | undefined;
+    isControlAccount: boolean;
+}
+
 export class ApplicationInfoDto implements IApplicationInfoDto {
     version: string | undefined;
     releaseDate: moment.Moment;
@@ -12932,6 +13389,113 @@ export interface ICustomerHistoryDtoPagedResultDto {
     totalCount: number;
 }
 
+export class DayClose implements IDayClose {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creatorUser: User;
+    lastModifierUser: User;
+    isDeleted: boolean;
+    deleterUser: User;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    location: Location;
+    locationId: number;
+    currentDate: moment.Moment;
+    status: string | undefined;
+    isReversed: boolean;
+
+    constructor(data?: IDayClose) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.creatorUser = _data["creatorUser"] ? User.fromJS(_data["creatorUser"]) : <any>undefined;
+            this.lastModifierUser = _data["lastModifierUser"] ? User.fromJS(_data["lastModifierUser"]) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUser = _data["deleterUser"] ? User.fromJS(_data["deleterUser"]) : <any>undefined;
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.tenantId = _data["tenantId"];
+            this.location = _data["location"] ? Location.fromJS(_data["location"]) : <any>undefined;
+            this.locationId = _data["locationId"];
+            this.currentDate = _data["currentDate"] ? moment(_data["currentDate"].toString()) : <any>undefined;
+            this.status = _data["status"];
+            this.isReversed = _data["isReversed"];
+        }
+    }
+
+    static fromJS(data: any): DayClose {
+        data = typeof data === 'object' ? data : {};
+        let result = new DayClose();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creatorUser"] = this.creatorUser ? this.creatorUser.toJSON() : <any>undefined;
+        data["lastModifierUser"] = this.lastModifierUser ? this.lastModifierUser.toJSON() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUser"] = this.deleterUser ? this.deleterUser.toJSON() : <any>undefined;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["tenantId"] = this.tenantId;
+        data["location"] = this.location ? this.location.toJSON() : <any>undefined;
+        data["locationId"] = this.locationId;
+        data["currentDate"] = this.currentDate ? this.currentDate.toISOString() : <any>undefined;
+        data["status"] = this.status;
+        data["isReversed"] = this.isReversed;
+        return data;
+    }
+
+    clone(): DayClose {
+        const json = this.toJSON();
+        let result = new DayClose();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDayClose {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creatorUser: User;
+    lastModifierUser: User;
+    isDeleted: boolean;
+    deleterUser: User;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    location: Location;
+    locationId: number;
+    currentDate: moment.Moment;
+    status: string | undefined;
+    isReversed: boolean;
+}
+
 export class DayCloseDto implements IDayCloseDto {
     id: number;
     creationTime: moment.Moment;
@@ -12953,6 +13517,7 @@ export class DayCloseDto implements IDayCloseDto {
     closedOn: moment.Moment | undefined;
     closedBy: string | undefined;
     isMarked: boolean;
+    isReversed: boolean;
 
     constructor(data?: IDayCloseDto) {
         if (data) {
@@ -12985,6 +13550,7 @@ export class DayCloseDto implements IDayCloseDto {
             this.closedOn = _data["closedOn"] ? moment(_data["closedOn"].toString()) : <any>undefined;
             this.closedBy = _data["closedBy"];
             this.isMarked = _data["isMarked"];
+            this.isReversed = _data["isReversed"];
         }
     }
 
@@ -13017,6 +13583,7 @@ export class DayCloseDto implements IDayCloseDto {
         data["closedOn"] = this.closedOn ? this.closedOn.toISOString() : <any>undefined;
         data["closedBy"] = this.closedBy;
         data["isMarked"] = this.isMarked;
+        data["isReversed"] = this.isReversed;
         return data;
     }
 
@@ -13049,6 +13616,7 @@ export interface IDayCloseDto {
     closedOn: moment.Moment | undefined;
     closedBy: string | undefined;
     isMarked: boolean;
+    isReversed: boolean;
 }
 
 export class DayCloseDtoPagedResultDto implements IDayCloseDtoPagedResultDto {
@@ -13103,6 +13671,144 @@ export class DayCloseDtoPagedResultDto implements IDayCloseDtoPagedResultDto {
 
 export interface IDayCloseDtoPagedResultDto {
     items: DayCloseDto[] | undefined;
+    totalCount: number;
+}
+
+export class DayReversedHistoryDto implements IDayReversedHistoryDto {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    dayClose: DayClose;
+    dayCloseId: number;
+
+    constructor(data?: IDayReversedHistoryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.tenantId = _data["tenantId"];
+            this.dayClose = _data["dayClose"] ? DayClose.fromJS(_data["dayClose"]) : <any>undefined;
+            this.dayCloseId = _data["dayCloseId"];
+        }
+    }
+
+    static fromJS(data: any): DayReversedHistoryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DayReversedHistoryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["tenantId"] = this.tenantId;
+        data["dayClose"] = this.dayClose ? this.dayClose.toJSON() : <any>undefined;
+        data["dayCloseId"] = this.dayCloseId;
+        return data;
+    }
+
+    clone(): DayReversedHistoryDto {
+        const json = this.toJSON();
+        let result = new DayReversedHistoryDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDayReversedHistoryDto {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    dayClose: DayClose;
+    dayCloseId: number;
+}
+
+export class DayReversedHistoryDtoPagedResultDto implements IDayReversedHistoryDtoPagedResultDto {
+    items: DayReversedHistoryDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IDayReversedHistoryDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(DayReversedHistoryDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): DayReversedHistoryDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DayReversedHistoryDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): DayReversedHistoryDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new DayReversedHistoryDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDayReversedHistoryDtoPagedResultDto {
+    items: DayReversedHistoryDto[] | undefined;
     totalCount: number;
 }
 
@@ -13528,6 +14234,101 @@ export class DesignationsDtoPagedResultDto implements IDesignationsDtoPagedResul
 export interface IDesignationsDtoPagedResultDto {
     items: DesignationsDto[] | undefined;
     totalCount: number;
+}
+
+export class DetailAccount implements IDetailAccount {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    subAccount: SubAccount;
+    subAccountId: number;
+    detailCode: string | undefined;
+    detailTitle: string | undefined;
+    isActive: boolean;
+
+    constructor(data?: IDetailAccount) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.tenantId = _data["tenantId"];
+            this.subAccount = _data["subAccount"] ? SubAccount.fromJS(_data["subAccount"]) : <any>undefined;
+            this.subAccountId = _data["subAccountId"];
+            this.detailCode = _data["detailCode"];
+            this.detailTitle = _data["detailTitle"];
+            this.isActive = _data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): DetailAccount {
+        data = typeof data === 'object' ? data : {};
+        let result = new DetailAccount();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["tenantId"] = this.tenantId;
+        data["subAccount"] = this.subAccount ? this.subAccount.toJSON() : <any>undefined;
+        data["subAccountId"] = this.subAccountId;
+        data["detailCode"] = this.detailCode;
+        data["detailTitle"] = this.detailTitle;
+        data["isActive"] = this.isActive;
+        return data;
+    }
+
+    clone(): DetailAccount {
+        const json = this.toJSON();
+        let result = new DetailAccount();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDetailAccount {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    subAccount: SubAccount;
+    subAccountId: number;
+    detailCode: string | undefined;
+    detailTitle: string | undefined;
+    isActive: boolean;
 }
 
 export class DetailAccountDto implements IDetailAccountDto {
@@ -15586,6 +16387,221 @@ export interface IItemTypeDtoPagedResultDto {
     totalCount: number;
 }
 
+export class Location implements ILocation {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    region: Region;
+    regionId: number;
+    locationType: LocationType;
+    locationTypeId: number;
+    locationCode: string | undefined;
+    locationName: string | undefined;
+    address: string | undefined;
+    contactPerson: string | undefined;
+    contactNumber: string | undefined;
+    isActive: boolean;
+    taxTitle: string | undefined;
+    taxRegistrationNo: string | undefined;
+    taxPercentOnCash: number;
+    taxPercentOnCreditCard: number;
+    taxPercentOnCredit: number;
+    taxPercentOnBank: number;
+    serviceChargesLabel: string | undefined;
+    serviceCharges: number;
+    enableServicesCharges: boolean;
+    fixedServicesCharges: boolean;
+    deliveryCharges: number;
+    enableDeliveryCharges: boolean;
+    fixedDeliveryCharges: boolean;
+    bankChargesLabel: string | undefined;
+    bankChargesPercent: number;
+    enableBankCharges: boolean;
+    slipNotes: string | undefined;
+    cashTaxDetailAccount: DetailAccount;
+    cashTaxDetailAccountId: number | undefined;
+    creditTaxDetailAccount: DetailAccount;
+    creditTaxDetailAccountId: number | undefined;
+    creditCardTaxDetailAccount: DetailAccount;
+    creditCardTaxDetailAccountId: number | undefined;
+    bankTaxDetailAccount: DetailAccount;
+    bankTaxDetailAccountId: number | undefined;
+
+    constructor(data?: ILocation) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.tenantId = _data["tenantId"];
+            this.region = _data["region"] ? Region.fromJS(_data["region"]) : <any>undefined;
+            this.regionId = _data["regionId"];
+            this.locationType = _data["locationType"] ? LocationType.fromJS(_data["locationType"]) : <any>undefined;
+            this.locationTypeId = _data["locationTypeId"];
+            this.locationCode = _data["locationCode"];
+            this.locationName = _data["locationName"];
+            this.address = _data["address"];
+            this.contactPerson = _data["contactPerson"];
+            this.contactNumber = _data["contactNumber"];
+            this.isActive = _data["isActive"];
+            this.taxTitle = _data["taxTitle"];
+            this.taxRegistrationNo = _data["taxRegistrationNo"];
+            this.taxPercentOnCash = _data["taxPercentOnCash"];
+            this.taxPercentOnCreditCard = _data["taxPercentOnCreditCard"];
+            this.taxPercentOnCredit = _data["taxPercentOnCredit"];
+            this.taxPercentOnBank = _data["taxPercentOnBank"];
+            this.serviceChargesLabel = _data["serviceChargesLabel"];
+            this.serviceCharges = _data["serviceCharges"];
+            this.enableServicesCharges = _data["enableServicesCharges"];
+            this.fixedServicesCharges = _data["fixedServicesCharges"];
+            this.deliveryCharges = _data["deliveryCharges"];
+            this.enableDeliveryCharges = _data["enableDeliveryCharges"];
+            this.fixedDeliveryCharges = _data["fixedDeliveryCharges"];
+            this.bankChargesLabel = _data["bankChargesLabel"];
+            this.bankChargesPercent = _data["bankChargesPercent"];
+            this.enableBankCharges = _data["enableBankCharges"];
+            this.slipNotes = _data["slipNotes"];
+            this.cashTaxDetailAccount = _data["cashTaxDetailAccount"] ? DetailAccount.fromJS(_data["cashTaxDetailAccount"]) : <any>undefined;
+            this.cashTaxDetailAccountId = _data["cashTaxDetailAccountId"];
+            this.creditTaxDetailAccount = _data["creditTaxDetailAccount"] ? DetailAccount.fromJS(_data["creditTaxDetailAccount"]) : <any>undefined;
+            this.creditTaxDetailAccountId = _data["creditTaxDetailAccountId"];
+            this.creditCardTaxDetailAccount = _data["creditCardTaxDetailAccount"] ? DetailAccount.fromJS(_data["creditCardTaxDetailAccount"]) : <any>undefined;
+            this.creditCardTaxDetailAccountId = _data["creditCardTaxDetailAccountId"];
+            this.bankTaxDetailAccount = _data["bankTaxDetailAccount"] ? DetailAccount.fromJS(_data["bankTaxDetailAccount"]) : <any>undefined;
+            this.bankTaxDetailAccountId = _data["bankTaxDetailAccountId"];
+        }
+    }
+
+    static fromJS(data: any): Location {
+        data = typeof data === 'object' ? data : {};
+        let result = new Location();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["tenantId"] = this.tenantId;
+        data["region"] = this.region ? this.region.toJSON() : <any>undefined;
+        data["regionId"] = this.regionId;
+        data["locationType"] = this.locationType ? this.locationType.toJSON() : <any>undefined;
+        data["locationTypeId"] = this.locationTypeId;
+        data["locationCode"] = this.locationCode;
+        data["locationName"] = this.locationName;
+        data["address"] = this.address;
+        data["contactPerson"] = this.contactPerson;
+        data["contactNumber"] = this.contactNumber;
+        data["isActive"] = this.isActive;
+        data["taxTitle"] = this.taxTitle;
+        data["taxRegistrationNo"] = this.taxRegistrationNo;
+        data["taxPercentOnCash"] = this.taxPercentOnCash;
+        data["taxPercentOnCreditCard"] = this.taxPercentOnCreditCard;
+        data["taxPercentOnCredit"] = this.taxPercentOnCredit;
+        data["taxPercentOnBank"] = this.taxPercentOnBank;
+        data["serviceChargesLabel"] = this.serviceChargesLabel;
+        data["serviceCharges"] = this.serviceCharges;
+        data["enableServicesCharges"] = this.enableServicesCharges;
+        data["fixedServicesCharges"] = this.fixedServicesCharges;
+        data["deliveryCharges"] = this.deliveryCharges;
+        data["enableDeliveryCharges"] = this.enableDeliveryCharges;
+        data["fixedDeliveryCharges"] = this.fixedDeliveryCharges;
+        data["bankChargesLabel"] = this.bankChargesLabel;
+        data["bankChargesPercent"] = this.bankChargesPercent;
+        data["enableBankCharges"] = this.enableBankCharges;
+        data["slipNotes"] = this.slipNotes;
+        data["cashTaxDetailAccount"] = this.cashTaxDetailAccount ? this.cashTaxDetailAccount.toJSON() : <any>undefined;
+        data["cashTaxDetailAccountId"] = this.cashTaxDetailAccountId;
+        data["creditTaxDetailAccount"] = this.creditTaxDetailAccount ? this.creditTaxDetailAccount.toJSON() : <any>undefined;
+        data["creditTaxDetailAccountId"] = this.creditTaxDetailAccountId;
+        data["creditCardTaxDetailAccount"] = this.creditCardTaxDetailAccount ? this.creditCardTaxDetailAccount.toJSON() : <any>undefined;
+        data["creditCardTaxDetailAccountId"] = this.creditCardTaxDetailAccountId;
+        data["bankTaxDetailAccount"] = this.bankTaxDetailAccount ? this.bankTaxDetailAccount.toJSON() : <any>undefined;
+        data["bankTaxDetailAccountId"] = this.bankTaxDetailAccountId;
+        return data;
+    }
+
+    clone(): Location {
+        const json = this.toJSON();
+        let result = new Location();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILocation {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    region: Region;
+    regionId: number;
+    locationType: LocationType;
+    locationTypeId: number;
+    locationCode: string | undefined;
+    locationName: string | undefined;
+    address: string | undefined;
+    contactPerson: string | undefined;
+    contactNumber: string | undefined;
+    isActive: boolean;
+    taxTitle: string | undefined;
+    taxRegistrationNo: string | undefined;
+    taxPercentOnCash: number;
+    taxPercentOnCreditCard: number;
+    taxPercentOnCredit: number;
+    taxPercentOnBank: number;
+    serviceChargesLabel: string | undefined;
+    serviceCharges: number;
+    enableServicesCharges: boolean;
+    fixedServicesCharges: boolean;
+    deliveryCharges: number;
+    enableDeliveryCharges: boolean;
+    fixedDeliveryCharges: boolean;
+    bankChargesLabel: string | undefined;
+    bankChargesPercent: number;
+    enableBankCharges: boolean;
+    slipNotes: string | undefined;
+    cashTaxDetailAccount: DetailAccount;
+    cashTaxDetailAccountId: number | undefined;
+    creditTaxDetailAccount: DetailAccount;
+    creditTaxDetailAccountId: number | undefined;
+    creditCardTaxDetailAccount: DetailAccount;
+    creditCardTaxDetailAccountId: number | undefined;
+    bankTaxDetailAccount: DetailAccount;
+    bankTaxDetailAccountId: number | undefined;
+}
+
 export class LocationDto implements ILocationDto {
     id: number;
     tenantId: number;
@@ -15942,6 +16958,53 @@ export interface ILocationHistoryDtoPagedResultDto {
     totalCount: number;
 }
 
+export class LocationType implements ILocationType {
+    id: number;
+    title: string | undefined;
+
+    constructor(data?: ILocationType) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+        }
+    }
+
+    static fromJS(data: any): LocationType {
+        data = typeof data === 'object' ? data : {};
+        let result = new LocationType();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        return data;
+    }
+
+    clone(): LocationType {
+        const json = this.toJSON();
+        let result = new LocationType();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILocationType {
+    id: number;
+    title: string | undefined;
+}
+
 export class LocationTypeDto implements ILocationTypeDto {
     id: number;
     title: string | undefined;
@@ -16042,6 +17105,109 @@ export class LocationTypeDtoPagedResultDto implements ILocationTypeDtoPagedResul
 export interface ILocationTypeDtoPagedResultDto {
     items: LocationTypeDto[] | undefined;
     totalCount: number;
+}
+
+export class MainAccount implements IMainAccount {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    location: Location;
+    locationId: number | undefined;
+    mainType: MainType;
+    mainTypeId: number;
+    mainCode: string | undefined;
+    mainTitle: string | undefined;
+    isActive: boolean;
+
+    constructor(data?: IMainAccount) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.tenantId = _data["tenantId"];
+            this.location = _data["location"] ? Location.fromJS(_data["location"]) : <any>undefined;
+            this.locationId = _data["locationId"];
+            this.mainType = _data["mainType"] ? MainType.fromJS(_data["mainType"]) : <any>undefined;
+            this.mainTypeId = _data["mainTypeId"];
+            this.mainCode = _data["mainCode"];
+            this.mainTitle = _data["mainTitle"];
+            this.isActive = _data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): MainAccount {
+        data = typeof data === 'object' ? data : {};
+        let result = new MainAccount();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["tenantId"] = this.tenantId;
+        data["location"] = this.location ? this.location.toJSON() : <any>undefined;
+        data["locationId"] = this.locationId;
+        data["mainType"] = this.mainType ? this.mainType.toJSON() : <any>undefined;
+        data["mainTypeId"] = this.mainTypeId;
+        data["mainCode"] = this.mainCode;
+        data["mainTitle"] = this.mainTitle;
+        data["isActive"] = this.isActive;
+        return data;
+    }
+
+    clone(): MainAccount {
+        const json = this.toJSON();
+        let result = new MainAccount();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMainAccount {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    location: Location;
+    locationId: number | undefined;
+    mainType: MainType;
+    mainTypeId: number;
+    mainCode: string | undefined;
+    mainTitle: string | undefined;
+    isActive: boolean;
 }
 
 export class MainAccountDto implements IMainAccountDto {
@@ -16306,6 +17472,108 @@ export class MainAccountHistoryDtoPagedResultDto implements IMainAccountHistoryD
 export interface IMainAccountHistoryDtoPagedResultDto {
     items: MainAccountHistoryDto[] | undefined;
     totalCount: number;
+}
+
+export class MainType implements IMainType {
+    id: number;
+    title: string | undefined;
+    alias: string | undefined;
+    isActive: boolean;
+
+    constructor(data?: IMainType) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.alias = _data["alias"];
+            this.isActive = _data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): MainType {
+        data = typeof data === 'object' ? data : {};
+        let result = new MainType();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["alias"] = this.alias;
+        data["isActive"] = this.isActive;
+        return data;
+    }
+
+    clone(): MainType {
+        const json = this.toJSON();
+        let result = new MainType();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMainType {
+    id: number;
+    title: string | undefined;
+    alias: string | undefined;
+    isActive: boolean;
+}
+
+export class Region implements IRegion {
+    id: number;
+    title: string | undefined;
+
+    constructor(data?: IRegion) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+        }
+    }
+
+    static fromJS(data: any): Region {
+        data = typeof data === 'object' ? data : {};
+        let result = new Region();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        return data;
+    }
+
+    clone(): Region {
+        const json = this.toJSON();
+        let result = new Region();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRegion {
+    id: number;
+    title: string | undefined;
 }
 
 export class RegionDto implements IRegionDto {
@@ -17294,6 +18562,188 @@ export interface ISelectItemDto {
     other: any | undefined;
 }
 
+export class Setting implements ISetting {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    tenantId: number | undefined;
+    userId: number | undefined;
+    name: string;
+    value: string | undefined;
+
+    constructor(data?: ISetting) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.tenantId = _data["tenantId"];
+            this.userId = _data["userId"];
+            this.name = _data["name"];
+            this.value = _data["value"];
+        }
+    }
+
+    static fromJS(data: any): Setting {
+        data = typeof data === 'object' ? data : {};
+        let result = new Setting();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["tenantId"] = this.tenantId;
+        data["userId"] = this.userId;
+        data["name"] = this.name;
+        data["value"] = this.value;
+        return data;
+    }
+
+    clone(): Setting {
+        const json = this.toJSON();
+        let result = new Setting();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISetting {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    tenantId: number | undefined;
+    userId: number | undefined;
+    name: string;
+    value: string | undefined;
+}
+
+export class SubAccount implements ISubAccount {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    mainAccount: MainAccount;
+    mainAccountId: number;
+    accountType: AccountType;
+    accountTypeId: number;
+    subCode: string | undefined;
+    subTitle: string | undefined;
+    isActive: boolean;
+    isControlAccount: boolean;
+
+    constructor(data?: ISubAccount) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.tenantId = _data["tenantId"];
+            this.mainAccount = _data["mainAccount"] ? MainAccount.fromJS(_data["mainAccount"]) : <any>undefined;
+            this.mainAccountId = _data["mainAccountId"];
+            this.accountType = _data["accountType"] ? AccountType.fromJS(_data["accountType"]) : <any>undefined;
+            this.accountTypeId = _data["accountTypeId"];
+            this.subCode = _data["subCode"];
+            this.subTitle = _data["subTitle"];
+            this.isActive = _data["isActive"];
+            this.isControlAccount = _data["isControlAccount"];
+        }
+    }
+
+    static fromJS(data: any): SubAccount {
+        data = typeof data === 'object' ? data : {};
+        let result = new SubAccount();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["tenantId"] = this.tenantId;
+        data["mainAccount"] = this.mainAccount ? this.mainAccount.toJSON() : <any>undefined;
+        data["mainAccountId"] = this.mainAccountId;
+        data["accountType"] = this.accountType ? this.accountType.toJSON() : <any>undefined;
+        data["accountTypeId"] = this.accountTypeId;
+        data["subCode"] = this.subCode;
+        data["subTitle"] = this.subTitle;
+        data["isActive"] = this.isActive;
+        data["isControlAccount"] = this.isControlAccount;
+        return data;
+    }
+
+    clone(): SubAccount {
+        const json = this.toJSON();
+        let result = new SubAccount();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISubAccount {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    mainAccount: MainAccount;
+    mainAccountId: number;
+    accountType: AccountType;
+    accountTypeId: number;
+    subCode: string | undefined;
+    subTitle: string | undefined;
+    isActive: boolean;
+    isControlAccount: boolean;
+}
+
 export class SubAccountDto implements ISubAccountDto {
     id: number;
     creationTime: moment.Moment;
@@ -18083,6 +19533,316 @@ export interface IUnitOfMeasurementDtoPagedResultDto {
     totalCount: number;
 }
 
+export class User implements IUser {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    authenticationSource: string | undefined;
+    userName: string;
+    tenantId: number | undefined;
+    emailAddress: string;
+    name: string;
+    surname: string;
+    readonly fullName: string | undefined;
+    password: string;
+    emailConfirmationCode: string | undefined;
+    passwordResetCode: string | undefined;
+    lockoutEndDateUtc: moment.Moment | undefined;
+    accessFailedCount: number;
+    isLockoutEnabled: boolean;
+    phoneNumber: string | undefined;
+    isPhoneNumberConfirmed: boolean;
+    securityStamp: string | undefined;
+    isTwoFactorEnabled: boolean;
+    logins: UserLogin[] | undefined;
+    roles: UserRole[] | undefined;
+    claims: UserClaim[] | undefined;
+    permissions: UserPermissionSetting[] | undefined;
+    settings: Setting[] | undefined;
+    isEmailConfirmed: boolean;
+    isActive: boolean;
+    normalizedUserName: string;
+    normalizedEmailAddress: string;
+    concurrencyStamp: string | undefined;
+    tokens: UserToken[] | undefined;
+    deleterUser: User;
+    creatorUser: User;
+    lastModifierUser: User;
+
+    constructor(data?: IUser) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.authenticationSource = _data["authenticationSource"];
+            this.userName = _data["userName"];
+            this.tenantId = _data["tenantId"];
+            this.emailAddress = _data["emailAddress"];
+            this.name = _data["name"];
+            this.surname = _data["surname"];
+            (<any>this).fullName = _data["fullName"];
+            this.password = _data["password"];
+            this.emailConfirmationCode = _data["emailConfirmationCode"];
+            this.passwordResetCode = _data["passwordResetCode"];
+            this.lockoutEndDateUtc = _data["lockoutEndDateUtc"] ? moment(_data["lockoutEndDateUtc"].toString()) : <any>undefined;
+            this.accessFailedCount = _data["accessFailedCount"];
+            this.isLockoutEnabled = _data["isLockoutEnabled"];
+            this.phoneNumber = _data["phoneNumber"];
+            this.isPhoneNumberConfirmed = _data["isPhoneNumberConfirmed"];
+            this.securityStamp = _data["securityStamp"];
+            this.isTwoFactorEnabled = _data["isTwoFactorEnabled"];
+            if (Array.isArray(_data["logins"])) {
+                this.logins = [] as any;
+                for (let item of _data["logins"])
+                    this.logins.push(UserLogin.fromJS(item));
+            }
+            if (Array.isArray(_data["roles"])) {
+                this.roles = [] as any;
+                for (let item of _data["roles"])
+                    this.roles.push(UserRole.fromJS(item));
+            }
+            if (Array.isArray(_data["claims"])) {
+                this.claims = [] as any;
+                for (let item of _data["claims"])
+                    this.claims.push(UserClaim.fromJS(item));
+            }
+            if (Array.isArray(_data["permissions"])) {
+                this.permissions = [] as any;
+                for (let item of _data["permissions"])
+                    this.permissions.push(UserPermissionSetting.fromJS(item));
+            }
+            if (Array.isArray(_data["settings"])) {
+                this.settings = [] as any;
+                for (let item of _data["settings"])
+                    this.settings.push(Setting.fromJS(item));
+            }
+            this.isEmailConfirmed = _data["isEmailConfirmed"];
+            this.isActive = _data["isActive"];
+            this.normalizedUserName = _data["normalizedUserName"];
+            this.normalizedEmailAddress = _data["normalizedEmailAddress"];
+            this.concurrencyStamp = _data["concurrencyStamp"];
+            if (Array.isArray(_data["tokens"])) {
+                this.tokens = [] as any;
+                for (let item of _data["tokens"])
+                    this.tokens.push(UserToken.fromJS(item));
+            }
+            this.deleterUser = _data["deleterUser"] ? User.fromJS(_data["deleterUser"]) : <any>undefined;
+            this.creatorUser = _data["creatorUser"] ? User.fromJS(_data["creatorUser"]) : <any>undefined;
+            this.lastModifierUser = _data["lastModifierUser"] ? User.fromJS(_data["lastModifierUser"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): User {
+        data = typeof data === 'object' ? data : {};
+        let result = new User();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["authenticationSource"] = this.authenticationSource;
+        data["userName"] = this.userName;
+        data["tenantId"] = this.tenantId;
+        data["emailAddress"] = this.emailAddress;
+        data["name"] = this.name;
+        data["surname"] = this.surname;
+        data["fullName"] = this.fullName;
+        data["password"] = this.password;
+        data["emailConfirmationCode"] = this.emailConfirmationCode;
+        data["passwordResetCode"] = this.passwordResetCode;
+        data["lockoutEndDateUtc"] = this.lockoutEndDateUtc ? this.lockoutEndDateUtc.toISOString() : <any>undefined;
+        data["accessFailedCount"] = this.accessFailedCount;
+        data["isLockoutEnabled"] = this.isLockoutEnabled;
+        data["phoneNumber"] = this.phoneNumber;
+        data["isPhoneNumberConfirmed"] = this.isPhoneNumberConfirmed;
+        data["securityStamp"] = this.securityStamp;
+        data["isTwoFactorEnabled"] = this.isTwoFactorEnabled;
+        if (Array.isArray(this.logins)) {
+            data["logins"] = [];
+            for (let item of this.logins)
+                data["logins"].push(item.toJSON());
+        }
+        if (Array.isArray(this.roles)) {
+            data["roles"] = [];
+            for (let item of this.roles)
+                data["roles"].push(item.toJSON());
+        }
+        if (Array.isArray(this.claims)) {
+            data["claims"] = [];
+            for (let item of this.claims)
+                data["claims"].push(item.toJSON());
+        }
+        if (Array.isArray(this.permissions)) {
+            data["permissions"] = [];
+            for (let item of this.permissions)
+                data["permissions"].push(item.toJSON());
+        }
+        if (Array.isArray(this.settings)) {
+            data["settings"] = [];
+            for (let item of this.settings)
+                data["settings"].push(item.toJSON());
+        }
+        data["isEmailConfirmed"] = this.isEmailConfirmed;
+        data["isActive"] = this.isActive;
+        data["normalizedUserName"] = this.normalizedUserName;
+        data["normalizedEmailAddress"] = this.normalizedEmailAddress;
+        data["concurrencyStamp"] = this.concurrencyStamp;
+        if (Array.isArray(this.tokens)) {
+            data["tokens"] = [];
+            for (let item of this.tokens)
+                data["tokens"].push(item.toJSON());
+        }
+        data["deleterUser"] = this.deleterUser ? this.deleterUser.toJSON() : <any>undefined;
+        data["creatorUser"] = this.creatorUser ? this.creatorUser.toJSON() : <any>undefined;
+        data["lastModifierUser"] = this.lastModifierUser ? this.lastModifierUser.toJSON() : <any>undefined;
+        return data;
+    }
+
+    clone(): User {
+        const json = this.toJSON();
+        let result = new User();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUser {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    authenticationSource: string | undefined;
+    userName: string;
+    tenantId: number | undefined;
+    emailAddress: string;
+    name: string;
+    surname: string;
+    fullName: string | undefined;
+    password: string;
+    emailConfirmationCode: string | undefined;
+    passwordResetCode: string | undefined;
+    lockoutEndDateUtc: moment.Moment | undefined;
+    accessFailedCount: number;
+    isLockoutEnabled: boolean;
+    phoneNumber: string | undefined;
+    isPhoneNumberConfirmed: boolean;
+    securityStamp: string | undefined;
+    isTwoFactorEnabled: boolean;
+    logins: UserLogin[] | undefined;
+    roles: UserRole[] | undefined;
+    claims: UserClaim[] | undefined;
+    permissions: UserPermissionSetting[] | undefined;
+    settings: Setting[] | undefined;
+    isEmailConfirmed: boolean;
+    isActive: boolean;
+    normalizedUserName: string;
+    normalizedEmailAddress: string;
+    concurrencyStamp: string | undefined;
+    tokens: UserToken[] | undefined;
+    deleterUser: User;
+    creatorUser: User;
+    lastModifierUser: User;
+}
+
+export class UserClaim implements IUserClaim {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    tenantId: number | undefined;
+    userId: number;
+    claimType: string | undefined;
+    claimValue: string | undefined;
+
+    constructor(data?: IUserClaim) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.tenantId = _data["tenantId"];
+            this.userId = _data["userId"];
+            this.claimType = _data["claimType"];
+            this.claimValue = _data["claimValue"];
+        }
+    }
+
+    static fromJS(data: any): UserClaim {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserClaim();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["tenantId"] = this.tenantId;
+        data["userId"] = this.userId;
+        data["claimType"] = this.claimType;
+        data["claimValue"] = this.claimValue;
+        return data;
+    }
+
+    clone(): UserClaim {
+        const json = this.toJSON();
+        let result = new UserClaim();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserClaim {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    tenantId: number | undefined;
+    userId: number;
+    claimType: string | undefined;
+    claimValue: string | undefined;
+}
+
 export class UserDto implements IUserDto {
     id: number;
     userName: string;
@@ -18343,6 +20103,65 @@ export interface IUserHistoryDtoPagedResultDto {
     totalCount: number;
 }
 
+export class UserLogin implements IUserLogin {
+    id: number;
+    tenantId: number | undefined;
+    userId: number;
+    loginProvider: string;
+    providerKey: string;
+
+    constructor(data?: IUserLogin) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.tenantId = _data["tenantId"];
+            this.userId = _data["userId"];
+            this.loginProvider = _data["loginProvider"];
+            this.providerKey = _data["providerKey"];
+        }
+    }
+
+    static fromJS(data: any): UserLogin {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserLogin();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["tenantId"] = this.tenantId;
+        data["userId"] = this.userId;
+        data["loginProvider"] = this.loginProvider;
+        data["providerKey"] = this.providerKey;
+        return data;
+    }
+
+    clone(): UserLogin {
+        const json = this.toJSON();
+        let result = new UserLogin();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserLogin {
+    id: number;
+    tenantId: number | undefined;
+    userId: number;
+    loginProvider: string;
+    providerKey: string;
+}
+
 export class UserLoginInfoDto implements IUserLoginInfoDto {
     id: number;
     name: string | undefined;
@@ -18400,6 +20219,203 @@ export interface IUserLoginInfoDto {
     surname: string | undefined;
     userName: string | undefined;
     emailAddress: string | undefined;
+}
+
+export class UserPermissionSetting implements IUserPermissionSetting {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    tenantId: number | undefined;
+    name: string;
+    isGranted: boolean;
+    userId: number;
+
+    constructor(data?: IUserPermissionSetting) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.tenantId = _data["tenantId"];
+            this.name = _data["name"];
+            this.isGranted = _data["isGranted"];
+            this.userId = _data["userId"];
+        }
+    }
+
+    static fromJS(data: any): UserPermissionSetting {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserPermissionSetting();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["tenantId"] = this.tenantId;
+        data["name"] = this.name;
+        data["isGranted"] = this.isGranted;
+        data["userId"] = this.userId;
+        return data;
+    }
+
+    clone(): UserPermissionSetting {
+        const json = this.toJSON();
+        let result = new UserPermissionSetting();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserPermissionSetting {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    tenantId: number | undefined;
+    name: string;
+    isGranted: boolean;
+    userId: number;
+}
+
+export class UserRole implements IUserRole {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    tenantId: number | undefined;
+    userId: number;
+    roleId: number;
+
+    constructor(data?: IUserRole) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.tenantId = _data["tenantId"];
+            this.userId = _data["userId"];
+            this.roleId = _data["roleId"];
+        }
+    }
+
+    static fromJS(data: any): UserRole {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRole();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["tenantId"] = this.tenantId;
+        data["userId"] = this.userId;
+        data["roleId"] = this.roleId;
+        return data;
+    }
+
+    clone(): UserRole {
+        const json = this.toJSON();
+        let result = new UserRole();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserRole {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    tenantId: number | undefined;
+    userId: number;
+    roleId: number;
+}
+
+export class UserToken implements IUserToken {
+    id: number;
+    tenantId: number | undefined;
+    userId: number;
+    loginProvider: string | undefined;
+    name: string | undefined;
+    value: string | undefined;
+    expireDate: moment.Moment | undefined;
+
+    constructor(data?: IUserToken) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.tenantId = _data["tenantId"];
+            this.userId = _data["userId"];
+            this.loginProvider = _data["loginProvider"];
+            this.name = _data["name"];
+            this.value = _data["value"];
+            this.expireDate = _data["expireDate"] ? moment(_data["expireDate"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UserToken {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserToken();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["tenantId"] = this.tenantId;
+        data["userId"] = this.userId;
+        data["loginProvider"] = this.loginProvider;
+        data["name"] = this.name;
+        data["value"] = this.value;
+        data["expireDate"] = this.expireDate ? this.expireDate.toISOString() : <any>undefined;
+        return data;
+    }
+
+    clone(): UserToken {
+        const json = this.toJSON();
+        let result = new UserToken();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserToken {
+    id: number;
+    tenantId: number | undefined;
+    userId: number;
+    loginProvider: string | undefined;
+    name: string | undefined;
+    value: string | undefined;
+    expireDate: moment.Moment | undefined;
 }
 
 export class VoucherDetailDto implements IVoucherDetailDto {

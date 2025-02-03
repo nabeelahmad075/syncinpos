@@ -10,7 +10,10 @@ import { AppComponentBase } from '../../shared/app-component-base';
 export class HeaderDateComponent extends AppComponentBase implements OnInit{
   
   softwareDate: Date;
-    constructor(injector: Injector) {
+
+    constructor(
+      injector: Injector,
+    ) {
       super(injector);
     }
 

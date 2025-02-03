@@ -345,3 +345,8 @@ border-bottom: none !important;
 display: flex;
 gap: 0.3rem;
 }
+
+.orderTakerDDL .p-select-list .p-select-option {
+  font-size: 1.2rem;
+  padding: 6px 0px 6px 15px;
+}

@@ -41,6 +41,7 @@ export class AddEditItemDefinitionComponent
   saving = false;
   id: number = 0;
   itemTypeIdd: number;
+
   tblItemTypes: SelectItem[] = [];
   tblItemCategories: SelectItem[] = [];
   tblSections: SelectItem[] = [];
@@ -80,11 +81,11 @@ export class AddEditItemDefinitionComponent
     this.cdr.detectChanges();
 
     // Log values for debugging
-    console.log(
-      "ngAfterViewInit - tblItemDefinitions:",
-      this.tblItemDefinitions
-    );
-    console.log("ngAfterViewInit - itemTypeIdd:", this.itemTypeIdd);
+    // console.log(
+    //   "ngAfterViewInit - tblItemDefinitions:",
+    //   this.tblItemDefinitions
+    // );
+    // console.log("ngAfterViewInit - itemTypeIdd:", this.itemTypeIdd);
   }
 
   getItemTypeDropdown() {
@@ -160,24 +161,57 @@ export class AddEditItemDefinitionComponent
     });
   }
 
+  // create(): void {
+  //   if (!this.tblItemDefinitions.itemTypeId) {
+  //     abp.notify.error("Please Select Item Type.");
+  //   }
+  //   if (!this.tblItemDefinitions.itemCategoryId) {
+  //     abp.notify.error("Please Select Category.");
+  //   }
+  //   if (!this.tblItemDefinitions.sectionId) {
+  //     abp.notify.error("Please Select Section.");
+  //   }
+  //   this._itemDefinitionService.create(this.tblItemDefinitions).subscribe({
+  //     next: () => {
+  //       this.notify.success("Saved Successfuly");
+  //       // this.bsModalRef.hide();
+  //       this.onSave.emit(true);
+  //     },
+  //     error: (err) => {
+  //       this.saving = false;
+  //     },
+  //   });
+  // }
+
   create(): void {
     if (!this.tblItemDefinitions.itemTypeId) {
       abp.notify.error("Please Select Item Type.");
+      return;
     }
     if (!this.tblItemDefinitions.itemCategoryId) {
       abp.notify.error("Please Select Category.");
+      return;
     }
     if (!this.tblItemDefinitions.sectionId) {
       abp.notify.error("Please Select Section.");
+      return;
     }
+
     this._itemDefinitionService.create(this.tblItemDefinitions).subscribe({
       next: () => {
-        this.notify.success("Saved Successfuly");
-        this.bsModalRef.hide();
+        this.notify.success("Saved Successfully");
+
+        // Emit an event to notify the parent component
         this.onSave.emit(true);
+
+        // Reset the form or state to allow new data entry
+        this.tblItemDefinitions.itemName = "";
+        this.cdr.detectChanges();
+        this.saving = false;
       },
       error: (err) => {
         this.saving = false;
+        abp.notify.error("An error occurred while saving.");
       },
     });
   }

@@ -11,7 +11,7 @@
   <div class="modal-body">
     <div class="container-fluid">
     <div class="form-row form-group">
-      <div class="col-md-4 required">
+      <div class="col-md-3 required">
         <label for="location">
           {{ "Item Type" | localize }}
         </label>
@@ -25,23 +25,39 @@
         >
         </p-select>
       </div>
-      <div class="col-md-4 required">
-        <label for="designation">
+      <div class="col-md-3 required">
+        <label for="category">
           {{ "Category" | localize }}
         </label>
         <input
           style="margin-top: -8px"
           type="text"
           class="form-control"
-          name="empName"
-          id="empName"
+          name="category"
+          id="category"
           required
           minlength="2"
           maxlength="500"
           [(ngModel)]="tblItemCategories.title"
         />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3 required">
+          <label for="sort">
+            {{ "Sort No." | localize }}
+          </label>
+          <input
+            style="margin-top: -8px"
+            type="text"
+            class="form-control"
+            name="sort"
+            id="sort"
+            required
+            minlength="2"
+            maxlength="500"
+            [(ngModel)]="tblItemCategories.title"
+          />
+          </div>
+        <div class="col-md-3">
           <div class="custom-control custom-checkbox" style="padding: 1.2rem;">
             <input
 

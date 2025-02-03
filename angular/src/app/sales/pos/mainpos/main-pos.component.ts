@@ -2,10 +2,12 @@ import { ChangeDetectorRef, Component, Injector, OnInit } from "@angular/core";
 import * as moment from "moment";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
+  EmployeeServiceProxy,
   ItemCategoryServiceProxy,
   ItemServiceProxy,
   SelectItemDto,
 } from "@shared/service-proxies/service-proxies";
+import { SelectItem } from "@node_modules/primeng/api";
 
 @Component({
   selector: "app-main-pos",
@@ -19,14 +21,18 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
   categoryId: number;
   softwareDate: Date = new Date();
   selectedItem: number;
+  desigTypeId: number;
+  selectedServiceType: string = 'Order Taker';
 
   tblCategory: SelectItemDto[] = [];
   tblItems: SelectItemDto[] = [];
+  tblEmployee: SelectItem[] = [];
 
   constructor(
     injector: Injector,
     private _categoryService: ItemCategoryServiceProxy,
     private _itemService: ItemServiceProxy,
+    private _orderTakerService: EmployeeServiceProxy,
 
     private cd: ChangeDetectorRef
   ) {
@@ -66,5 +72,17 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     this.selectedItem = item;
     // console.log("Selected Item:", this.selectedItem);
     // this.cd.detectChanges();
+  }
+
+  getOrderTakersDropdown(desigTypeId: number) {
+    this.tblEmployee = [];
+    this._orderTakerService.getEmployeesDropdown(desigTypeId).subscribe((result) => {
+      this.tblEmployee = result;
+    });
+    if (desigTypeId === 1) {
+      this.selectedServiceType = 'Order Taker';  
+    } else if (desigTypeId === 2) {
+      this.selectedServiceType = 'Delivery Man';  
+    }
   }
 }

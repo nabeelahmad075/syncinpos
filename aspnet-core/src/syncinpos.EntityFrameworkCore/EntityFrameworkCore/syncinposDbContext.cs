@@ -25,6 +25,7 @@ using syncinpos.Entities.Sales.Customers;
 using syncinpos.Entities.Inventory.ItemPrices;
 using syncinpos.Entities.Accounts.Vouchers;
 using syncinpos.Entities.Sales.DayCloses;
+using syncinpos.Entities.Sales.POS;
 
 namespace syncinpos.EntityFrameworkCore
 {
@@ -61,5 +62,7 @@ namespace syncinpos.EntityFrameworkCore
         public DbSet<VoucherDetail> tblVoucherDetail { get; set; }
         public DbSet<DayClose> tblDayClose { get; set; }
         public DbSet<DayReversedHistory> tblDayReversedHistory { get; set; }
+        public DbSet<POSMaster> tblPOSMaster { get; set; }
+        public DbSet<POSDetail> tblPOSDetail { get; set; }
     }
 }

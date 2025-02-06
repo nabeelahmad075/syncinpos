@@ -14,9 +14,7 @@ namespace syncinpos.Entities.Sales.POS.Dto
     [AutoMapFrom(typeof(POSDetail)), AutoMapTo(typeof(POSDetail))]
     public class POSDetailDto : FullAuditedEntityDto<long>
     {
-        public POSMaster POSMaster { get; set; }
         public long POSMasterId { get; set; }
-        public Item Item { get; set; }
         public int ItemId { get; set; }
         public decimal Qty { get; set; }
         public decimal Price { get; set; }

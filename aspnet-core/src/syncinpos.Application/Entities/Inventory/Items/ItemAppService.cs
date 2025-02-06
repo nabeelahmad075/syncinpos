@@ -65,7 +65,11 @@ namespace syncinpos.Entities.Inventory.Items
                                         .Select(a => new SelectItemDto
                                         {
                                             Label = a.ItemName,
-                                            Value = a.Id
+                                            Value = a.Id,
+                                            Other = new
+                                            {
+                                                Price = 0
+                                            }
                                         }).ToListAsync();
             return items;
         }

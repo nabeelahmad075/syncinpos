@@ -12,3 +12,4 @@ aspnet-core/docker/mvc/Mvc-Logs/
 
 angular/yarn.lock
 aspnet-core/src/syncinpos.Web.Host/appsettings.json
+angular/package-lock

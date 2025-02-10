@@ -20,7 +20,7 @@
   </ul>
 </nav>
 
-<!-- Main Content Area -->
+<!-- Main Content Area Start -->
 <div class="flex content h-screen pt-16 bg-[#dbe3ea]">
   <!-- Added padding to prevent overlap with navbar -->
   <div class="flex-1 flex flex-row mb-1 mt-[-0.2rem]">
@@ -82,10 +82,10 @@
                 <span>Pending Orders</span>
               </button>
               <button
-              class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-            >
-              <span>Reprint</span>
-            </button>
+                class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+              >
+                <span>Reprint</span>
+              </button>
             </div>
           </div>
           <!-- POS UPPER BUTTONS END -->
@@ -93,7 +93,7 @@
         <!-- SECTION-2 END -->
         <!-- ITEM LIST SECTION START -->
         <div class="h-[35.5rem] bg-[#FDFDFD] p-2">
-          <div class="flex flex-wrap gap-2 button-row  mt-[0.6rem]">
+          <div class="flex flex-wrap gap-2 button-row mt-[0.6rem]">
             <button
               *ngFor="let item of tblItems"
               (click)="onItemClick(item.value)"
@@ -110,10 +110,13 @@
         <!-- ITEM LIST SECTION END -->
 
         <!-- SECTION-3 START -->
-        <div style="height: 5rem;">
+        <div style="height: 5rem">
           <!-- POS LOWER BUTTONS START -->
           <div class="h-[35.5rem] bg-[#FDFDFD]">
-            <div class="flex justify-center items-center gap-2" style="margin-top: -1rem;">
+            <div
+              class="flex justify-center items-center gap-2"
+              style="margin-top: -1rem"
+            >
               <button
                 class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
               >
@@ -137,7 +140,7 @@
       </div>
     </div>
 
-    <!-- RIGHT CONTAINER -->
+    <!-- RIGHT CONTAINER START -->
     <div class="w-1/3 bg-[#FDFDFD] rounded-l-lg p-2 flex flex-col gap-y-5 ml-1">
       <!-- SERVICE TYPE BUTTONS START -->
       <div
@@ -187,7 +190,16 @@
       <!-- ORDER TAKER & KOT NUMBER TEXTBOX END -->
       <!-- ORDER GRID START -->
       <div class="w-full flex justify-between items-center gap-x-2 mt-[-1rem]">
-        <p-table>
+        <p-table
+        [value]="tblPosMaster.posDetails"
+        styleClass="p-datatable-gridlines"
+        [style]="{ width: '100%' }"
+        [tableStyle]="{
+          'max-height': '20rem',
+          'display': 'block',
+          'overflow-y': 'scroll'
+        }"
+      >
           <ng-template pTemplate="header">
             <tr class="text-sm">
               <th class="p-1.5 w-[17rem] border-2 border-solid border-black">
@@ -215,9 +227,166 @@
               </th>
             </tr>
           </ng-template>
-        </p-table>
+          <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+            <tr [pEditableRow]="rowData">
+              <td>{{ rowData['itemName'] }}</td>
+              <td>
+                {{ rowData.qty}}</td>
+              <td>{{rowData.price}}</td>
+              <td>{{rowData.amount}}</td>
+              <td>
+                <!-- <a type="button" (click)="addVoucherDetails(index)">
+                  <i class="fa-solid fa-plus"></i> </a
+                ><b style="color: #508d4e">&nbsp;&nbsp;|</b>&nbsp; -->
+                <a
+                  type="button"
+                  style="font-size: 16px"
+                  (click)="removeDetail(index)"
+                >
+                  <i
+                    class="fa-solid fa-trash-can !text-red-500 hover:text-red-600"
+                  ></i>
+                </a>
+              </td>
+            </tr>
+          </ng-template>
+
+              <!-- <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+                <tr [pEditableRow]="rowData">
+                  <td>{{ index + 1 }}</td>
+                  <td>
+                    <p-select
+                      [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
+                      placeholder="Select Detail Account"
+                      appendTo="body"
+                      [options]="tblDetailAccounts"
+                      [(ngModel)]="rowData.detailAccountId"
+                      [filter]="true"
+                      [ngModelOptions]="{ name: 'detailAcc' + rowData.uid }"
+                    ></p-select>
+                  </td>
+                  <td>
+                    <p-cellEditor pEditableColumn>
+                      <ng-template pTemplate="input">
+                        <textarea
+                          type="text"
+                          pInputText
+                          class="form-control"
+                          id="description"
+                          [(ngModel)]="rowData.description"
+                          [ngModelOptions]="{ name: 'description' + rowData.uid }"
+                        ></textarea>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        <span
+                          class="one-rem-font scroll-y-on-hover d-block w-100"
+                          style="
+                            height: 30px;
+                            width: 100%;
+                            border: 1px solid #ccc;
+                            border-radius: 3px;
+                          "
+                        >
+                          {{ rowData.description ? rowData.description : " - " }}
+                        </span>
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+                  <td>
+                    <p-cellEditor pEditableColumn>
+                      <ng-template pTemplate="input">
+                        <input
+                          type="number"
+                          pInputText
+                          class="form-control"
+                          id="debit"
+                          [min]="0"
+                          [(ngModel)]="rowData.debitAmount"
+                          [ngModelOptions]="{ name: 'debit' + rowData.uid }"
+                          [disabled]="rowData.creditAmount > 0 ? true : false"
+                        />
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        <span
+                          class="one-rem-font d-block w-100"
+                          style="
+                            border: 1px solid #ccc;
+                            border-radius: 3px;
+                            font-size: 0.9rem;
+                            height: 30px;
+                            line-height: 27px;
+                          "
+                          >{{
+                            rowData.debitAmount ? (rowData.debitAmount | number) : 0
+                          }}</span
+                        >
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+                  <td>
+                    <p-cellEditor pEditableColumn>
+                      <ng-template pTemplate="input">
+                        <input
+                          type="number"
+                          pInputText
+                          class="form-control"
+                          id="creditAmount"
+                          [min]="0"
+                          [(ngModel)]="rowData.creditAmount"
+                          [ngModelOptions]="{ name: 'creditAmount' + rowData.uid }"
+                          [disabled]="rowData.debitAmount > 0 ? true : false"
+                        />
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        <span
+                          class="one-rem-font d-block w-100"
+                          style="
+                            border: 1px solid #ccc;
+                            border-radius: 3px;
+                            font-size: 0.9rem;
+                            height: 30px;
+                            line-height: 27px;
+                          "
+                          >{{
+                            rowData.creditAmount
+                              ? (rowData.creditAmount | number)
+                              : 0
+                          }}</span
+                        >
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+                  <td>
+                    <a type="button" (click)="addVoucherDetails(index)">
+                      <i class="fa-solid fa-plus"></i> </a
+                    ><b style="color: #508d4e">&nbsp;&nbsp;|</b>&nbsp;
+                    <a
+                      type="button"
+                      style="font-size: 16px"
+                      (click)="removeVoucherDetails(index)"
+                    >
+                      <i
+                        class="fa-solid fa-trash-can !text-red-500 hover:text-red-600"
+                      ></i>
+                    </a>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                <tr>
+                  <td>Total</td>
+                  <td></td>
+                  <td></td>
+                  <td>{{ sum("debitAmount") ?? 0 | number }}</td>
+                  <td>{{ sum("creditAmount") ?? 0 | number }}</td>
+                  <td></td>
+                </tr>
+              </ng-template> -->
+            </p-table>
       </div>
       <!-- ORDER GRID END -->
     </div>
+    <!-- RIGHT CONTAINER END -->
   </div>
 </div>
+<!-- Main Content Area End -->

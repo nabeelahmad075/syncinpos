@@ -7501,6 +7501,536 @@ export class MainAccountServiceProxy {
 }
 
 @Injectable()
+export class POSServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    create(body: POSMasterDto | undefined): Observable<POSMasterDto> {
+        let url_ = this.baseUrl + "/api/services/app/POS/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<POSMasterDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<POSMasterDto>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<POSMasterDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = POSMasterDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    update(body: POSMasterDto | undefined): Observable<POSMasterDto> {
+        let url_ = this.baseUrl + "/api/services/app/POS/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<POSMasterDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<POSMasterDto>;
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<POSMasterDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = POSMasterDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param tenantId (optional) 
+     * @param invoiceNo (optional) 
+     * @param orderNo (optional) 
+     * @param invoiceDate (optional) 
+     * @param locationId (optional) 
+     * @param customerId (optional) 
+     * @param employeeId (optional) 
+     * @param isPrinted (optional) 
+     * @param printDate (optional) 
+     * @param serviceTypeId (optional) 
+     * @param paymentMode (optional) 
+     * @param coverTable (optional) 
+     * @param tableId (optional) 
+     * @param deliveryChargesPer (optional) 
+     * @param deliveryCharges (optional) 
+     * @param serviceChargesPer (optional) 
+     * @param serviceCharges (optional) 
+     * @param bankChargesPer (optional) 
+     * @param bankCharges (optional) 
+     * @param salesTaxPer (optional) 
+     * @param salesTaxAmount (optional) 
+     * @param discountPer (optional) 
+     * @param discountAmount (optional) 
+     * @param grossAmount (optional) 
+     * @param netAmount (optional) 
+     * @param paymentIn (optional) 
+     * @param balance (optional) 
+     * @param pOSDetails (optional) 
+     * @param isDeleted (optional) 
+     * @param deleterUserId (optional) 
+     * @param deletionTime (optional) 
+     * @param lastModificationTime (optional) 
+     * @param lastModifierUserId (optional) 
+     * @param creationTime (optional) 
+     * @param creatorUserId (optional) 
+     * @param id (optional) 
+     * @return OK
+     */
+    deleteRemovedDetails(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isPrinted: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/POS/DeleteRemovedDetails?";
+        if (tenantId === null)
+            throw new Error("The parameter 'tenantId' cannot be null.");
+        else if (tenantId !== undefined)
+            url_ += "TenantId=" + encodeURIComponent("" + tenantId) + "&";
+        if (invoiceNo === null)
+            throw new Error("The parameter 'invoiceNo' cannot be null.");
+        else if (invoiceNo !== undefined)
+            url_ += "InvoiceNo=" + encodeURIComponent("" + invoiceNo) + "&";
+        if (orderNo === null)
+            throw new Error("The parameter 'orderNo' cannot be null.");
+        else if (orderNo !== undefined)
+            url_ += "OrderNo=" + encodeURIComponent("" + orderNo) + "&";
+        if (invoiceDate === null)
+            throw new Error("The parameter 'invoiceDate' cannot be null.");
+        else if (invoiceDate !== undefined)
+            url_ += "InvoiceDate=" + encodeURIComponent(invoiceDate ? "" + invoiceDate.toISOString() : "") + "&";
+        if (locationId === null)
+            throw new Error("The parameter 'locationId' cannot be null.");
+        else if (locationId !== undefined)
+            url_ += "LocationId=" + encodeURIComponent("" + locationId) + "&";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "CustomerId=" + encodeURIComponent("" + customerId) + "&";
+        if (employeeId === null)
+            throw new Error("The parameter 'employeeId' cannot be null.");
+        else if (employeeId !== undefined)
+            url_ += "EmployeeId=" + encodeURIComponent("" + employeeId) + "&";
+        if (isPrinted === null)
+            throw new Error("The parameter 'isPrinted' cannot be null.");
+        else if (isPrinted !== undefined)
+            url_ += "IsPrinted=" + encodeURIComponent("" + isPrinted) + "&";
+        if (printDate === null)
+            throw new Error("The parameter 'printDate' cannot be null.");
+        else if (printDate !== undefined)
+            url_ += "PrintDate=" + encodeURIComponent(printDate ? "" + printDate.toISOString() : "") + "&";
+        if (serviceTypeId === null)
+            throw new Error("The parameter 'serviceTypeId' cannot be null.");
+        else if (serviceTypeId !== undefined)
+            url_ += "ServiceTypeId=" + encodeURIComponent("" + serviceTypeId) + "&";
+        if (paymentMode === null)
+            throw new Error("The parameter 'paymentMode' cannot be null.");
+        else if (paymentMode !== undefined)
+            url_ += "PaymentMode=" + encodeURIComponent("" + paymentMode) + "&";
+        if (coverTable === null)
+            throw new Error("The parameter 'coverTable' cannot be null.");
+        else if (coverTable !== undefined)
+            url_ += "CoverTable=" + encodeURIComponent("" + coverTable) + "&";
+        if (tableId === null)
+            throw new Error("The parameter 'tableId' cannot be null.");
+        else if (tableId !== undefined)
+            url_ += "TableId=" + encodeURIComponent("" + tableId) + "&";
+        if (deliveryChargesPer === null)
+            throw new Error("The parameter 'deliveryChargesPer' cannot be null.");
+        else if (deliveryChargesPer !== undefined)
+            url_ += "DeliveryChargesPer=" + encodeURIComponent("" + deliveryChargesPer) + "&";
+        if (deliveryCharges === null)
+            throw new Error("The parameter 'deliveryCharges' cannot be null.");
+        else if (deliveryCharges !== undefined)
+            url_ += "DeliveryCharges=" + encodeURIComponent("" + deliveryCharges) + "&";
+        if (serviceChargesPer === null)
+            throw new Error("The parameter 'serviceChargesPer' cannot be null.");
+        else if (serviceChargesPer !== undefined)
+            url_ += "ServiceChargesPer=" + encodeURIComponent("" + serviceChargesPer) + "&";
+        if (serviceCharges === null)
+            throw new Error("The parameter 'serviceCharges' cannot be null.");
+        else if (serviceCharges !== undefined)
+            url_ += "ServiceCharges=" + encodeURIComponent("" + serviceCharges) + "&";
+        if (bankChargesPer === null)
+            throw new Error("The parameter 'bankChargesPer' cannot be null.");
+        else if (bankChargesPer !== undefined)
+            url_ += "BankChargesPer=" + encodeURIComponent("" + bankChargesPer) + "&";
+        if (bankCharges === null)
+            throw new Error("The parameter 'bankCharges' cannot be null.");
+        else if (bankCharges !== undefined)
+            url_ += "BankCharges=" + encodeURIComponent("" + bankCharges) + "&";
+        if (salesTaxPer === null)
+            throw new Error("The parameter 'salesTaxPer' cannot be null.");
+        else if (salesTaxPer !== undefined)
+            url_ += "SalesTaxPer=" + encodeURIComponent("" + salesTaxPer) + "&";
+        if (salesTaxAmount === null)
+            throw new Error("The parameter 'salesTaxAmount' cannot be null.");
+        else if (salesTaxAmount !== undefined)
+            url_ += "SalesTaxAmount=" + encodeURIComponent("" + salesTaxAmount) + "&";
+        if (discountPer === null)
+            throw new Error("The parameter 'discountPer' cannot be null.");
+        else if (discountPer !== undefined)
+            url_ += "DiscountPer=" + encodeURIComponent("" + discountPer) + "&";
+        if (discountAmount === null)
+            throw new Error("The parameter 'discountAmount' cannot be null.");
+        else if (discountAmount !== undefined)
+            url_ += "DiscountAmount=" + encodeURIComponent("" + discountAmount) + "&";
+        if (grossAmount === null)
+            throw new Error("The parameter 'grossAmount' cannot be null.");
+        else if (grossAmount !== undefined)
+            url_ += "GrossAmount=" + encodeURIComponent("" + grossAmount) + "&";
+        if (netAmount === null)
+            throw new Error("The parameter 'netAmount' cannot be null.");
+        else if (netAmount !== undefined)
+            url_ += "NetAmount=" + encodeURIComponent("" + netAmount) + "&";
+        if (paymentIn === null)
+            throw new Error("The parameter 'paymentIn' cannot be null.");
+        else if (paymentIn !== undefined)
+            url_ += "PaymentIn=" + encodeURIComponent("" + paymentIn) + "&";
+        if (balance === null)
+            throw new Error("The parameter 'balance' cannot be null.");
+        else if (balance !== undefined)
+            url_ += "Balance=" + encodeURIComponent("" + balance) + "&";
+        if (pOSDetails === null)
+            throw new Error("The parameter 'pOSDetails' cannot be null.");
+        else if (pOSDetails !== undefined)
+            pOSDetails && pOSDetails.forEach((item, index) => {
+                for (const attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "POSDetails[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+        			}
+            });
+        if (isDeleted === null)
+            throw new Error("The parameter 'isDeleted' cannot be null.");
+        else if (isDeleted !== undefined)
+            url_ += "IsDeleted=" + encodeURIComponent("" + isDeleted) + "&";
+        if (deleterUserId === null)
+            throw new Error("The parameter 'deleterUserId' cannot be null.");
+        else if (deleterUserId !== undefined)
+            url_ += "DeleterUserId=" + encodeURIComponent("" + deleterUserId) + "&";
+        if (deletionTime === null)
+            throw new Error("The parameter 'deletionTime' cannot be null.");
+        else if (deletionTime !== undefined)
+            url_ += "DeletionTime=" + encodeURIComponent(deletionTime ? "" + deletionTime.toISOString() : "") + "&";
+        if (lastModificationTime === null)
+            throw new Error("The parameter 'lastModificationTime' cannot be null.");
+        else if (lastModificationTime !== undefined)
+            url_ += "LastModificationTime=" + encodeURIComponent(lastModificationTime ? "" + lastModificationTime.toISOString() : "") + "&";
+        if (lastModifierUserId === null)
+            throw new Error("The parameter 'lastModifierUserId' cannot be null.");
+        else if (lastModifierUserId !== undefined)
+            url_ += "LastModifierUserId=" + encodeURIComponent("" + lastModifierUserId) + "&";
+        if (creationTime === null)
+            throw new Error("The parameter 'creationTime' cannot be null.");
+        else if (creationTime !== undefined)
+            url_ += "CreationTime=" + encodeURIComponent(creationTime ? "" + creationTime.toISOString() : "") + "&";
+        if (creatorUserId === null)
+            throw new Error("The parameter 'creatorUserId' cannot be null.");
+        else if (creatorUserId !== undefined)
+            url_ += "CreatorUserId=" + encodeURIComponent("" + creatorUserId) + "&";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteRemovedDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteRemovedDetails(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDeleteRemovedDetails(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return OK
+     */
+    get(id: number | undefined): Observable<POSMasterDto> {
+        let url_ = this.baseUrl + "/api/services/app/POS/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<POSMasterDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<POSMasterDto>;
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<POSMasterDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = POSMasterDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return OK
+     */
+    getAll(sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<POSMasterDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/POS/GetAll?";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<POSMasterDtoPagedResultDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<POSMasterDtoPagedResultDto>;
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<POSMasterDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = POSMasterDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return OK
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/POS/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class RegionServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -17527,6 +18057,355 @@ export interface IMainType {
     title: string | undefined;
     alias: string | undefined;
     isActive: boolean;
+}
+
+export class POSDetailDto implements IPOSDetailDto {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    posMasterId: number;
+    itemId: number;
+    qty: number;
+    price: number;
+    amount: number;
+    remarks: string | undefined;
+    cancelled: boolean | undefined;
+    cancelledOn: moment.Moment | undefined;
+
+    constructor(data?: IPOSDetailDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.posMasterId = _data["posMasterId"];
+            this.itemId = _data["itemId"];
+            this.qty = _data["qty"];
+            this.price = _data["price"];
+            this.amount = _data["amount"];
+            this.remarks = _data["remarks"];
+            this.cancelled = _data["cancelled"];
+            this.cancelledOn = _data["cancelledOn"] ? moment(_data["cancelledOn"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): POSDetailDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new POSDetailDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["posMasterId"] = this.posMasterId;
+        data["itemId"] = this.itemId;
+        data["qty"] = this.qty;
+        data["price"] = this.price;
+        data["amount"] = this.amount;
+        data["remarks"] = this.remarks;
+        data["cancelled"] = this.cancelled;
+        data["cancelledOn"] = this.cancelledOn ? this.cancelledOn.toISOString() : <any>undefined;
+        return data;
+    }
+
+    clone(): POSDetailDto {
+        const json = this.toJSON();
+        let result = new POSDetailDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPOSDetailDto {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    posMasterId: number;
+    itemId: number;
+    qty: number;
+    price: number;
+    amount: number;
+    remarks: string | undefined;
+    cancelled: boolean | undefined;
+    cancelledOn: moment.Moment | undefined;
+}
+
+export class POSMasterDto implements IPOSMasterDto {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    invoiceNo: number | undefined;
+    orderNo: number;
+    invoiceDate: moment.Moment | undefined;
+    locationId: number;
+    customerId: number;
+    employeeId: number;
+    isPrinted: boolean | undefined;
+    printDate: moment.Moment | undefined;
+    serviceTypeId: number;
+    paymentMode: number | undefined;
+    coverTable: number | undefined;
+    tableId: number | undefined;
+    deliveryChargesPer: number;
+    deliveryCharges: number;
+    serviceChargesPer: number;
+    serviceCharges: number;
+    bankChargesPer: number;
+    bankCharges: number;
+    salesTaxPer: number;
+    salesTaxAmount: number;
+    discountPer: number;
+    discountAmount: number;
+    grossAmount: number;
+    netAmount: number;
+    paymentIn: number;
+    balance: number;
+    posDetails: POSDetailDto[] | undefined;
+
+    constructor(data?: IPOSMasterDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.tenantId = _data["tenantId"];
+            this.invoiceNo = _data["invoiceNo"];
+            this.orderNo = _data["orderNo"];
+            this.invoiceDate = _data["invoiceDate"] ? moment(_data["invoiceDate"].toString()) : <any>undefined;
+            this.locationId = _data["locationId"];
+            this.customerId = _data["customerId"];
+            this.employeeId = _data["employeeId"];
+            this.isPrinted = _data["isPrinted"];
+            this.printDate = _data["printDate"] ? moment(_data["printDate"].toString()) : <any>undefined;
+            this.serviceTypeId = _data["serviceTypeId"];
+            this.paymentMode = _data["paymentMode"];
+            this.coverTable = _data["coverTable"];
+            this.tableId = _data["tableId"];
+            this.deliveryChargesPer = _data["deliveryChargesPer"];
+            this.deliveryCharges = _data["deliveryCharges"];
+            this.serviceChargesPer = _data["serviceChargesPer"];
+            this.serviceCharges = _data["serviceCharges"];
+            this.bankChargesPer = _data["bankChargesPer"];
+            this.bankCharges = _data["bankCharges"];
+            this.salesTaxPer = _data["salesTaxPer"];
+            this.salesTaxAmount = _data["salesTaxAmount"];
+            this.discountPer = _data["discountPer"];
+            this.discountAmount = _data["discountAmount"];
+            this.grossAmount = _data["grossAmount"];
+            this.netAmount = _data["netAmount"];
+            this.paymentIn = _data["paymentIn"];
+            this.balance = _data["balance"];
+            if (Array.isArray(_data["posDetails"])) {
+                this.posDetails = [] as any;
+                for (let item of _data["posDetails"])
+                    this.posDetails.push(POSDetailDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): POSMasterDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new POSMasterDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["tenantId"] = this.tenantId;
+        data["invoiceNo"] = this.invoiceNo;
+        data["orderNo"] = this.orderNo;
+        data["invoiceDate"] = this.invoiceDate ? this.invoiceDate.toISOString() : <any>undefined;
+        data["locationId"] = this.locationId;
+        data["customerId"] = this.customerId;
+        data["employeeId"] = this.employeeId;
+        data["isPrinted"] = this.isPrinted;
+        data["printDate"] = this.printDate ? this.printDate.toISOString() : <any>undefined;
+        data["serviceTypeId"] = this.serviceTypeId;
+        data["paymentMode"] = this.paymentMode;
+        data["coverTable"] = this.coverTable;
+        data["tableId"] = this.tableId;
+        data["deliveryChargesPer"] = this.deliveryChargesPer;
+        data["deliveryCharges"] = this.deliveryCharges;
+        data["serviceChargesPer"] = this.serviceChargesPer;
+        data["serviceCharges"] = this.serviceCharges;
+        data["bankChargesPer"] = this.bankChargesPer;
+        data["bankCharges"] = this.bankCharges;
+        data["salesTaxPer"] = this.salesTaxPer;
+        data["salesTaxAmount"] = this.salesTaxAmount;
+        data["discountPer"] = this.discountPer;
+        data["discountAmount"] = this.discountAmount;
+        data["grossAmount"] = this.grossAmount;
+        data["netAmount"] = this.netAmount;
+        data["paymentIn"] = this.paymentIn;
+        data["balance"] = this.balance;
+        if (Array.isArray(this.posDetails)) {
+            data["posDetails"] = [];
+            for (let item of this.posDetails)
+                data["posDetails"].push(item.toJSON());
+        }
+        return data;
+    }
+
+    clone(): POSMasterDto {
+        const json = this.toJSON();
+        let result = new POSMasterDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPOSMasterDto {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    tenantId: number;
+    invoiceNo: number | undefined;
+    orderNo: number;
+    invoiceDate: moment.Moment | undefined;
+    locationId: number;
+    customerId: number;
+    employeeId: number;
+    isPrinted: boolean | undefined;
+    printDate: moment.Moment | undefined;
+    serviceTypeId: number;
+    paymentMode: number | undefined;
+    coverTable: number | undefined;
+    tableId: number | undefined;
+    deliveryChargesPer: number;
+    deliveryCharges: number;
+    serviceChargesPer: number;
+    serviceCharges: number;
+    bankChargesPer: number;
+    bankCharges: number;
+    salesTaxPer: number;
+    salesTaxAmount: number;
+    discountPer: number;
+    discountAmount: number;
+    grossAmount: number;
+    netAmount: number;
+    paymentIn: number;
+    balance: number;
+    posDetails: POSDetailDto[] | undefined;
+}
+
+export class POSMasterDtoPagedResultDto implements IPOSMasterDtoPagedResultDto {
+    items: POSMasterDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IPOSMasterDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(POSMasterDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): POSMasterDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new POSMasterDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): POSMasterDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new POSMasterDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPOSMasterDtoPagedResultDto {
+    items: POSMasterDto[] | undefined;
+    totalCount: number;
 }
 
 export class Region implements IRegion {

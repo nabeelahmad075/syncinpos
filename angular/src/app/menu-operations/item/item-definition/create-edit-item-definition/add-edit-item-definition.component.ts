@@ -206,6 +206,7 @@ export class AddEditItemDefinitionComponent
 
         // Reset the form or state to allow new data entry
         this.tblItemDefinitions.itemName = "";
+        this.tblItemDefinitions.barcode = "";
         this.cdr.detectChanges();
         this.saving = false;
       },

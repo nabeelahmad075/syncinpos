@@ -5,6 +5,9 @@ import {
   EmployeeServiceProxy,
   ItemCategoryServiceProxy,
   ItemServiceProxy,
+  POSDetailDto,
+  POSMasterDto,
+  POSServiceProxy,
   SelectItemDto,
 } from "@shared/service-proxies/service-proxies";
 import { SelectItem } from "@node_modules/primeng/api";
@@ -27,12 +30,14 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
   tblCategory: SelectItemDto[] = [];
   tblItems: SelectItemDto[] = [];
   tblEmployee: SelectItem[] = [];
+  tblPosMaster: POSMasterDto = new POSMasterDto();
 
   constructor(
     injector: Injector,
     private _categoryService: ItemCategoryServiceProxy,
     private _itemService: ItemServiceProxy,
     private _orderTakerService: EmployeeServiceProxy,
+    private _posService: POSServiceProxy,
 
     private cd: ChangeDetectorRef
   ) {
@@ -68,10 +73,38 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
       });
   }
 
-  onItemClick(item: number) {
-    this.selectedItem = item;
-    // console.log("Selected Item:", this.selectedItem);
-    // this.cd.detectChanges();
+  onItemClick(itemId: number) {
+    this.selectedItem = itemId;
+
+    if (!this.tblPosMaster.posDetails) {
+      this.tblPosMaster.posDetails = [];
+    }
+
+    let itemFoundInGrid = this.tblPosMaster.posDetails.find(element => element.itemId === itemId);
+    let itemPrice = this.tblItems.find(element => element.value === itemId).other.price;
+    let itemName = this.tblItems.find(element => element.value === itemId).label;
+
+    if (itemFoundInGrid) {
+      itemFoundInGrid.qty += 1;
+    } else {
+      let posDetail = new POSDetailDto();
+      posDetail.itemId = itemId;
+      posDetail.qty = 1;
+      posDetail.price = itemPrice;
+      posDetail['itemName'] = itemName;
+      this.tblPosMaster.posDetails.push(posDetail);
+      itemFoundInGrid = posDetail;
+    }
+  
+    itemFoundInGrid.amount = itemFoundInGrid.qty * itemFoundInGrid.price;
+
+
+    console.log(this.tblPosMaster);
+
+  }
+
+  removeDetail(index: number) {
+    this.tblPosMaster.posDetails.splice(index, 1);
   }
 
   getOrderTakersDropdown(desigTypeId: number) {

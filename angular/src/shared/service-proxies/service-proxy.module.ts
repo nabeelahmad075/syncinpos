@@ -35,6 +35,7 @@ import { ArrayToTreeConverterService } from '@shared/ArrayToTreeConverterService
         ApiServiceProxies.ItemPriceServiceProxy,
         ApiServiceProxies.VoucherServiceProxy,
         ApiServiceProxies.DayCloseServiceProxy,
+        ApiServiceProxies.POSServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })

@@ -195,7 +195,7 @@ export class EditUserDialogComponent extends AppComponentBase
     // Update user with selected role
     this._userService.update(this.user).subscribe(
       () => {
-        this.notify.info(this.l('SavedSuccessfully'));
+        this.notify.success(this.l('Update Successfully'));
         this.bsModalRef.hide();
         this.onSave.emit();
       },

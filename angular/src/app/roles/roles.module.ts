@@ -4,9 +4,14 @@ import { RolesRoutingModule } from './roles-routing.module';
 import { RolesComponent } from './roles.component';
 import { CreateRoleDialogComponent } from './create-role/create-role-dialog.component';
 import { EditRoleDialogComponent } from './edit-role/edit-role-dialog.component';
+import { PaginatorModule } from 'primeng/paginator';
+import { TableModule } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { MenuModule } from 'primeng/menu';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
     declarations: [RolesComponent, CreateRoleDialogComponent, EditRoleDialogComponent],
-    imports: [SharedModule, RolesRoutingModule],
+    imports: [SharedModule, RolesRoutingModule, PaginatorModule, TableModule, CommonModule, MenuModule, ButtonModule],
 })
 export class RolesModule {}

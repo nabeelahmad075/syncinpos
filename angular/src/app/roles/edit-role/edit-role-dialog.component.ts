@@ -186,7 +186,7 @@ export class EditRoleDialogComponent
     role.grantedPermissions = this.getGrantedPermissionNames();
     this._roleService.create(role).subscribe({
       next: (value) => {
-        this.notify.info(this.l("Saved Successfully"));
+        this.notify.success(this.l("Saved Successfully"));
         this.bsModalRef.hide();
         this.onSave.emit(true);
         // this.close(true);
@@ -207,7 +207,7 @@ export class EditRoleDialogComponent
     this._roleService.update(role).subscribe({
       next: (value) => {
         
-        this.notify.info(this.l("Update Successfuly"));
+        this.notify.success(this.l("Update Successfully"));
         
         this.bsModalRef.hide();
         this.onSave.emit(true);

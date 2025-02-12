@@ -168,7 +168,7 @@ export class UsersComponent extends AppComponentBase {
       {
         label: "Edit",
         icon: "fas fa-pencil-alt",
-        command: () => this.showCreateOrEditUserDialog(user.id),
+        command: () => this.editUser(user),
       },
       { separator: true },
       {

@@ -8,24 +8,14 @@ import {
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { AddEditLocComponent } from "./create-edit-location/add-edit-loc.component";
-import { extend, sortBy } from "lodash-es";
 import { AppComponentBase } from "@shared/app-component-base";
 import {
   LocationServiceProxy,
-  LocationHistoryDtoPagedResultDto,
   LocationHistoryDto,
-  LocationDtoPagedResultDto,
-  LocationDto,
 } from "@shared/service-proxies/service-proxies";
-import {
-  PagedListingComponentBase,
-  PagedRequestDto,
-} from "@shared/paged-listing-component-base";
-import { finalize } from "rxjs/operators";
-import { TableModule, Table } from "primeng/table";
-import { DropdownModule } from "primeng/dropdown";
+import { Table } from "primeng/table";
 import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
-import { Paginator, PaginatorModule } from "primeng/paginator";
+import { Paginator } from "primeng/paginator";
 import { LazyLoadEvent } from "primeng/api";
 import { AppConsts } from "@shared/AppConsts";
 

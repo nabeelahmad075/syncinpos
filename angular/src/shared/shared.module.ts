@@ -20,6 +20,7 @@ import { EqualValidator } from './directives/equal-validator.directive';
 
 import { TreeModule } from 'primeng/tree';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { MenuModule } from 'primeng/menu';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
         NgxPaginationModule,
         FormsModule, 
         TreeModule,
-        TabsModule
+        TabsModule,
+        MenuModule
     ],
     declarations: [
         AbpPaginationControlsComponent,

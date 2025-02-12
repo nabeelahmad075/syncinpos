@@ -6,9 +6,14 @@ import { ResetPasswordDialogComponent } from './reset-password/reset-password.co
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
+import { PaginatorModule } from 'primeng/paginator';
+import { TableModule } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { MenuModule } from 'primeng/menu';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
     declarations: [UsersComponent, ResetPasswordDialogComponent, EditUserDialogComponent, CreateUserDialogComponent, ChangePasswordComponent],
-    imports: [SharedModule, UsersRoutingModule],
+    imports: [SharedModule, UsersRoutingModule, PaginatorModule, TableModule, CommonModule, MenuModule, ButtonModule],
 })
 export class UsersModule {}

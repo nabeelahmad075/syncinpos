@@ -5,12 +5,12 @@
 @layer tailwind-base, primeng, tailwind-utilities;
 
 @layer tailwind-base {
-@tailwind base;
+  @tailwind base;
 }
 
 @layer tailwind-utilities {
-@tailwind components;
-@tailwind utilities;
+  @tailwind components;
+  @tailwind utilities;
 }
 
 .p-datatable .p-datatable-header {
@@ -57,18 +57,18 @@ tabset {
   line-height: 0.6rem;
 }
 
-.p-paginator p-selectitem>li {
+.p-paginator p-selectitem > li {
   padding: 8px 0px 8px 10px;
 }
 
-.p-paginator .p-paginator-page{
+.p-paginator .p-paginator-page {
   height: 40px;
   width: 40px;
   font-size: 0.9rem;
   margin: 0;
 }
 
-p-select{
+p-select {
   /* height: 38px;
   line-height: 1.2; */
   margin-top: -0.5rem;
@@ -76,11 +76,11 @@ p-select{
   font-size: 0.9rem;
 }
 
-p-selectitem>li {
+p-selectitem > li {
   padding: 1px 0px 1px 13px;
 }
 
-.p-select-list-container>ul {
+.p-select-list-container > ul {
   margin-bottom: 0;
 }
 
@@ -182,7 +182,8 @@ td > a > i {
   background-color: #d6efd8 !important;
 }
 
-.p-datepicker-dropdown, calendaricon {
+.p-datepicker-dropdown,
+calendaricon {
   color: #ffffff;
   background-color: #508d4e;
 }
@@ -193,7 +194,7 @@ td > a > i {
 } */
 
 .p-datepicker-title {
- font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 input[role="searchbox"] {
@@ -240,12 +241,14 @@ input[type="number"] {
 }
 
 @keyframes pulse {
-  0%, 50% {
+  0%,
+  50% {
     opacity: 1;
     background-color: #b3e2a7;
     color: #508d4e;
   }
-  51%, 100% {
+  51%,
+  100% {
     opacity: 1;
     background-color: #508d4e;
     color: #b3e2a7;
@@ -302,30 +305,29 @@ html {
   width: 80px !important;
 } */
 
-
-.p-paginator-page.p-paginator-page-selected{
+.p-paginator-page.p-paginator-page-selected {
   border-radius: 20px;
 }
 
-.p-listbox{
+.p-listbox {
   border: none !important;
   /* background-color: red; */
 }
 
-.p-listbox-option{
+.p-listbox-option {
   @apply bg-gray-700 text-white rounded-full text-[0.9rem];
 }
 
-.p-listbox-list{
+.p-listbox-list {
   row-gap: 0.1rem;
 }
 
-.p-listbox-list-container{
+.p-listbox-list-container {
   overflow: unset;
   margin-top: -0.6rem;
 }
 
-.pos-tabset>ul>li>a.nav-link.active{
+.pos-tabset > ul > li > a.nav-link.active {
   border: none !important;
   background: green !important;
   color: white !important;
@@ -334,7 +336,7 @@ html {
   font-weight: bold;
 }
 
-.pos-tabset>ul>li>a{
+.pos-tabset > ul > li > a {
   border: 1px green solid !important;
   background: white !important;
   color: green !important;
@@ -342,13 +344,34 @@ html {
   margin-bottom: 0.3rem !important;
 }
 
-.pos-tabset>ul{
-border-bottom: none !important;
-display: flex;
-gap: 0.3rem;
+.pos-tabset > ul {
+  border-bottom: none !important;
+  display: flex;
+  gap: 0.3rem;
 }
 
 .orderTakerDDL .p-select-list .p-select-option {
   font-size: 1.2rem;
   padding: 6px 0px 6px 15px;
+}
+
+.p-menu-dots > .p-button.p-button-icon-only {
+  background-color: #d6efd8;
+  height: 1.6rem;
+  color: #508d4e;
+  width: 2rem;
+  border: 1px solid;
+  border-radius: 5px;
+}
+
+.p-menu-list {
+  margin-bottom: 0rem !important;
+  padding: 0rem !important;
+}
+
+.p-menu-item-link,
+.p-menu-item-icon {
+  color: #508d4e !important;
+  font-weight: bold;
+  font-size: smaller;
 }

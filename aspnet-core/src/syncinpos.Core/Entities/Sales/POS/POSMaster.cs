@@ -25,7 +25,7 @@ namespace syncinpos.Entities.Sales.POS
         public int CustomerId { get; set; }
         public Employee Employee { get; set; }
         public int EmployeeId { get; set; }
-        public bool? IsPrinted { get; set; }
+        public bool? IsInvoiced { get; set; }
         public DateTime? PrintDate { get; set; }
         public int ServiceTypeId { get; set; }
         public int? PaymentMode { get; set; }

@@ -52,7 +52,7 @@ namespace syncinpos.Entities.Sales.POS
                                               LocationId = a.LocationId,
                                               CustomerId = a.CustomerId,
                                               EmployeeId = a.EmployeeId,
-                                              IsPrinted = a.IsPrinted,
+                                              IsInvoiced = a.IsInvoiced,
                                               PrintDate = a.PrintDate,
                                               ServiceTypeId = a.ServiceTypeId,
                                               PaymentMode = a.PaymentMode,

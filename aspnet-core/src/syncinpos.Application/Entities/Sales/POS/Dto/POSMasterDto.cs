@@ -22,7 +22,7 @@ namespace syncinpos.Entities.Sales.POS.Dto
         public int LocationId { get; set; }
         public int CustomerId { get; set; }
         public int EmployeeId { get; set; }
-        public bool? IsPrinted { get; set; }
+        public bool? IsInvoiced { get; set; }
         public DateTime? PrintDate { get; set; }
         public int ServiceTypeId { get; set; }
         public int? PaymentMode { get; set; }

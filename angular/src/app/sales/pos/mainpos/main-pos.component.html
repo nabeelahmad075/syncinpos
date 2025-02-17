@@ -147,23 +147,35 @@
         class="w-full flex justify-between items-center h-3 gap-x-2 mt-[0.7rem]"
       >
         <button
-          (click)="getOrderTakersDropdown(1)"
+          (click)="getOrderTakersDropdown(orderTakerTypeId, dineInServiceType)"
           class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-        >
+          [ngClass]="{
+            'bg-blue-500 text-white': tblPosMaster.serviceTypeId === dineInServiceType,
+            'bg-gray-300 hover:bg-gray-400': tblPosMaster.serviceTypeId !== dineInServiceType
+          }"
+          >
           <i class="fa-solid fa-utensils fill-current w-4 h-4 mr-2"></i>
           <span class="uppercase">Dine In</span>
         </button>
         <button
-          (click)="getOrderTakersDropdown(1)"
+          (click)="getOrderTakersDropdown(orderTakerTypeId,takeAwayServiceType)"
           class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-        >
+          [ngClass]="{
+            'bg-blue-500 text-white': tblPosMaster.serviceTypeId === takeAwayServiceType,
+            'bg-gray-300 hover:bg-gray-400': tblPosMaster.serviceTypeId !== takeAwayServiceType
+          }"
+          >
           <i class="fa-solid fa-bag-shopping fill-current w-4 h-4 mr-2"></i>
           <span class="uppercase">Takeaway</span>
         </button>
         <button
-          (click)="getOrderTakersDropdown(2)"
+          (click)="getOrderTakersDropdown(deliveryManTypeId,deliveryManServiceType)"
           class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-        >
+          [ngClass]="{
+            'bg-blue-500 text-white': tblPosMaster.serviceTypeId === deliveryManServiceType,
+            'bg-gray-300 hover:bg-gray-400': tblPosMaster.serviceTypeId !== deliveryManServiceType
+          }"
+          >
           <i class="fa-solid fa-person-biking fill-current w-4 h-4 mr-2"></i>
           <span class="uppercase">Delivery</span>
         </button>
@@ -177,7 +189,7 @@
           name="ordertaker"
           [placeholder]="selectedServiceType"
           [options]="tblEmployee"
-          [(ngModel)]="desigTypeId"
+          [(ngModel)]="tblPosMaster.employeeId"
           class="flex-1 h-[2.4rem] border-2 border-gray-200 rounded shadow-none mt-0 leading-none"
         >
         </p-select>
@@ -251,6 +263,9 @@
           </ng-template>
         </p-table>
       </div>
+      <button (click)="clearState()">New Order</button>
+      <button>Place Order</button>
+      <button>Invoice</button>
       <!-- ORDER GRID END -->
     </div>
     <!-- RIGHT CONTAINER END -->

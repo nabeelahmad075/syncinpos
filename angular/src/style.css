@@ -375,3 +375,11 @@ html {
   font-weight: bold;
   font-size: smaller;
 }
+
+/* For Bootstrap checkboxes */
+.custom-checkbox-red
+  > .custom-control-input:checked
+  ~ .custom-control-label::before {
+  background-color: red !important;
+  border-color: red !important;
+}

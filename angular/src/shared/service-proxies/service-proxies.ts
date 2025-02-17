@@ -7631,7 +7631,7 @@ export class POSServiceProxy {
      * @param locationId (optional) 
      * @param customerId (optional) 
      * @param employeeId (optional) 
-     * @param isPrinted (optional) 
+     * @param isInvoiced (optional) 
      * @param printDate (optional) 
      * @param serviceTypeId (optional) 
      * @param paymentMode (optional) 
@@ -7662,7 +7662,7 @@ export class POSServiceProxy {
      * @param id (optional) 
      * @return OK
      */
-    deleteRemovedDetails(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isPrinted: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<void> {
+    deleteRemovedDetails(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isInvoiced: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/POS/DeleteRemovedDetails?";
         if (tenantId === null)
             throw new Error("The parameter 'tenantId' cannot be null.");
@@ -7692,10 +7692,10 @@ export class POSServiceProxy {
             throw new Error("The parameter 'employeeId' cannot be null.");
         else if (employeeId !== undefined)
             url_ += "EmployeeId=" + encodeURIComponent("" + employeeId) + "&";
-        if (isPrinted === null)
-            throw new Error("The parameter 'isPrinted' cannot be null.");
-        else if (isPrinted !== undefined)
-            url_ += "IsPrinted=" + encodeURIComponent("" + isPrinted) + "&";
+        if (isInvoiced === null)
+            throw new Error("The parameter 'isInvoiced' cannot be null.");
+        else if (isInvoiced !== undefined)
+            url_ += "IsInvoiced=" + encodeURIComponent("" + isInvoiced) + "&";
         if (printDate === null)
             throw new Error("The parameter 'printDate' cannot be null.");
         else if (printDate !== undefined)
@@ -18178,7 +18178,7 @@ export class POSMasterDto implements IPOSMasterDto {
     locationId: number;
     customerId: number;
     employeeId: number;
-    isPrinted: boolean | undefined;
+    isInvoiced: boolean | undefined;
     printDate: moment.Moment | undefined;
     serviceTypeId: number;
     paymentMode: number | undefined;
@@ -18226,7 +18226,7 @@ export class POSMasterDto implements IPOSMasterDto {
             this.locationId = _data["locationId"];
             this.customerId = _data["customerId"];
             this.employeeId = _data["employeeId"];
-            this.isPrinted = _data["isPrinted"];
+            this.isInvoiced = _data["isInvoiced"];
             this.printDate = _data["printDate"] ? moment(_data["printDate"].toString()) : <any>undefined;
             this.serviceTypeId = _data["serviceTypeId"];
             this.paymentMode = _data["paymentMode"];
@@ -18278,7 +18278,7 @@ export class POSMasterDto implements IPOSMasterDto {
         data["locationId"] = this.locationId;
         data["customerId"] = this.customerId;
         data["employeeId"] = this.employeeId;
-        data["isPrinted"] = this.isPrinted;
+        data["isInvoiced"] = this.isInvoiced;
         data["printDate"] = this.printDate ? this.printDate.toISOString() : <any>undefined;
         data["serviceTypeId"] = this.serviceTypeId;
         data["paymentMode"] = this.paymentMode;
@@ -18330,7 +18330,7 @@ export interface IPOSMasterDto {
     locationId: number;
     customerId: number;
     employeeId: number;
-    isPrinted: boolean | undefined;
+    isInvoiced: boolean | undefined;
     printDate: moment.Moment | undefined;
     serviceTypeId: number;
     paymentMode: number | undefined;

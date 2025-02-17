@@ -133,7 +133,7 @@ export class RolesComponent extends AppComponentBase{
     // })
     // .onClose.subscribe((result) => {
     //   if (result)
-    //     this.refresh();
+    //     this.getHistory({});
     // });
   }
 

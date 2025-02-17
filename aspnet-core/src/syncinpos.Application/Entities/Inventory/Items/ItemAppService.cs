@@ -54,23 +54,32 @@ namespace syncinpos.Entities.Inventory.Items
         public async Task<List<SelectItemDto>> GetCategoryWiseItemsListAsync(int? itemCategoryId, int? locationId, DateTime? effectedDate)
         {
 
-            var itemsWithPrice = await _itemPriceRepo.GetAll()
+            var itemsResult = await _itemPriceRepo.GetAll()
                                                      .Where(a => a.LocationId == locationId && a.ItemCategoryId == itemCategoryId && a.Price > 0 && a.EffectedDate <= effectedDate)
-                                                     .OrderByDescending(a => a.EffectedDate)
-                                                     .Select(a => a.ItemId)
+                                                     .GroupBy(a => a.ItemId)
+                                                     .Select(g => g.OrderByDescending(a => a.EffectedDate).FirstOrDefault())
                                                      .ToListAsync();
 
+            var itemsWithPrice = itemsResult.Select(a => new
+            {
+                a.ItemId,
+                a.Price
+            }).ToList();
+
+            var priceLookup = itemsWithPrice.ToDictionary(x => x.ItemId, x => x.Price);
+
             var items = await Repository.GetAll()
-                                        .Where(a => a.IsActive == true && itemsWithPrice.Contains(a.Id))
+                                        .Where(a => a.IsActive == true && itemsWithPrice.Select(x => x.ItemId).Contains(a.Id))
                                         .Select(a => new SelectItemDto
                                         {
                                             Label = a.ItemName,
                                             Value = a.Id,
                                             Other = new
                                             {
-                                                Price = 0
+                                                Price = priceLookup.ContainsKey(a.Id) ? priceLookup[a.Id] : 0
                                             }
                                         }).ToListAsync();
+
             return items;
         }
 

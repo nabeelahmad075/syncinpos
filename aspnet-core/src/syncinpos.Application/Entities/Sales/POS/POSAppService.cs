@@ -3,6 +3,7 @@ using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Abp.Threading;
 using Microsoft.EntityFrameworkCore;
+using syncinpos.Entities.Locations;
 using syncinpos.Entities.Sales.POS.Dto;
 using System;
 using System.Collections.Generic;
@@ -90,9 +91,6 @@ namespace syncinpos.Entities.Sales.POS
         }
         public async Task<List<PendingOrdersDto>> GetPendingOrders(int serviceTypeId, int locationId)
         {
-            var dineInOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 1 && a.LocationId == locationId);
-            var takeawayOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 2 && a.LocationId == locationId);
-            var deliveryOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 3 && a.LocationId == locationId);
             var pendingOrders = await Repository.GetAll()
                                           .Where(a => a.IsInvoiced == false && a.ServiceTypeId == serviceTypeId && a.LocationId == locationId)
                                           .Select(a => new PendingOrdersDto
@@ -103,12 +101,18 @@ namespace syncinpos.Entities.Sales.POS
                                               Table = a.TableId.ToString(),
                                               Customer = a.Customer.Name,
                                               ReservedTime = a.InvoiceDate,
-                                              Amount = a.NetAmount,
-                                              DineInOrders = dineInOrders,
-                                              TakeawayOrders = takeawayOrders,
-                                              DeliveryOrders = deliveryOrders
+                                              Amount = a.NetAmount
                                           }).ToListAsync();
             return pendingOrders;
+        }
+        public async Task<PendingOrdersCountDto> GetPendingOrdersCount(int locationId)
+        {
+            var ordersCount = new PendingOrdersCountDto();
+            ordersCount.DineInOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 1 && a.LocationId == locationId);
+            ordersCount.TakeawayOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 2 && a.LocationId == locationId);
+            ordersCount.DeliveryOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 3 && a.LocationId == locationId);
+
+            return ordersCount;
         }
     }
 }

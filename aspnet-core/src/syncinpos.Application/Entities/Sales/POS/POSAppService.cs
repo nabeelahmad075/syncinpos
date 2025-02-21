@@ -88,10 +88,13 @@ namespace syncinpos.Entities.Sales.POS
 
             return posData;
         }
-        public async Task<List<PendingOrdersDto>> GetPendingOrders(int serviceTypeId)
+        public async Task<List<PendingOrdersDto>> GetPendingOrders(int serviceTypeId, int locationId)
         {
+            var dineInOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 1 && a.LocationId == locationId);
+            var takeawayOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 2 && a.LocationId == locationId);
+            var deliveryOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 3 && a.LocationId == locationId);
             var pendingOrders = await Repository.GetAll()
-                                          .Where(a => a.IsInvoiced == false && a.ServiceTypeId == serviceTypeId)
+                                          .Where(a => a.IsInvoiced == false && a.ServiceTypeId == serviceTypeId && a.LocationId == locationId)
                                           .Select(a => new PendingOrdersDto
                                           {
                                               Id = a.Id,
@@ -100,7 +103,10 @@ namespace syncinpos.Entities.Sales.POS
                                               Table = a.TableId.ToString(),
                                               Customer = a.Customer.Name,
                                               ReservedTime = a.InvoiceDate,
-                                              Amount = a.NetAmount
+                                              Amount = a.NetAmount,
+                                              DineInOrders = dineInOrders,
+                                              TakeawayOrders = takeawayOrders,
+                                              DeliveryOrders = deliveryOrders
                                           }).ToListAsync();
             return pendingOrders;
         }

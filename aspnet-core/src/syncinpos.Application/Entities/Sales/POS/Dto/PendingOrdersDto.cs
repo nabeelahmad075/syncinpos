@@ -15,5 +15,8 @@ namespace syncinpos.Entities.Sales.POS.Dto
         public string Customer { get; set; }
         public DateTime? ReservedTime { get; set; }
         public decimal Amount { get; set; }
+        public int DineInOrders { get; set; }
+        public int TakeawayOrders { get; set; }
+        public int DeliveryOrders { get; set; }
     }
 }

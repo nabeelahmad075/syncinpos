@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace syncinpos.Entities.Sales.DayCloses.Dto
 {
     [AutoMapFrom(typeof(DayReversedHistory)), AutoMapTo(typeof(DayReversedHistory))]
-    public class DayReversedHistoryDto : FullAuditedEntityDto<long>
+    public class DayReversedHistoryDto : EntityDto<long>
     {
         public int TenantId { get; set; }
         public DayClose DayClose { get; set; }

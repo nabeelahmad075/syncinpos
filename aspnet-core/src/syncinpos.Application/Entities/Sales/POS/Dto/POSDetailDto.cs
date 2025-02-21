@@ -12,7 +12,7 @@ using Abp.AutoMapper;
 namespace syncinpos.Entities.Sales.POS.Dto
 {
     [AutoMapFrom(typeof(POSDetail)), AutoMapTo(typeof(POSDetail))]
-    public class POSDetailDto : FullAuditedEntityDto<long>
+    public class POSDetailDto : EntityDto<long>
     {
         public long POSMasterId { get; set; }
         public int ItemId { get; set; }

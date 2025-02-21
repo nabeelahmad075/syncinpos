@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace syncinpos.Entities.Accounts.MainAccounts.Dto
 {
     [AutoMapFrom(typeof(MainAccount)), AutoMapTo(typeof(MainAccount))]
-    public class MainAccountDto : FullAuditedEntityDto
+    public class MainAccountDto : EntityDto
     {
         public int TenantId { get; set; }
         public int? LocationId { get; set; }

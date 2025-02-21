@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace syncinpos.Entities.Accounts.Vouchers.Dto
 {
     [AutoMapFrom(typeof(VoucherMaster)), AutoMapTo(typeof(VoucherMaster))]
-    public class VoucherMasterDto : FullAuditedEntityDto<long>
+    public class VoucherMasterDto : EntityDto<long>
     {
         public int TenantId { get; set; }
         public int LocationId { get; set; }

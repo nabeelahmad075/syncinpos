@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace syncinpos.Entities.Sales.Customers.Dto
 {
     [AutoMapFrom(typeof(Customer)), AutoMapTo(typeof(Customer))]
-    public class CustomerDto : FullAuditedEntityDto
+    public class CustomerDto : EntityDto
     {
         public int TenantId { get; set; }
         public int LocationId { get; set; }

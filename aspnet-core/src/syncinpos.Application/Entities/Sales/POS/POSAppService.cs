@@ -88,5 +88,21 @@ namespace syncinpos.Entities.Sales.POS
 
             return posData;
         }
+        public async Task<List<PendingOrdersDto>> getPendingOrders(int serviceTypeId)
+        {
+            var pendingOrders = await Repository.GetAll()
+                                          .Where(a => a.IsInvoiced == false && a.ServiceTypeId == serviceTypeId)
+                                          .Select(a => new PendingOrdersDto
+                                          {
+                                              Id = a.Id,
+                                              InvoiceNo = a.InvoiceNo,
+                                              KOTNo = a.OrderNo,
+                                              Table = a.TableId.ToString(),
+                                              Customer = a.Customer.Name,
+                                              ReservedTime = a.InvoiceDate,
+                                              Amount = a.NetAmount
+                                          }).ToListAsync();
+            return pendingOrders;
+        }
     }
 }

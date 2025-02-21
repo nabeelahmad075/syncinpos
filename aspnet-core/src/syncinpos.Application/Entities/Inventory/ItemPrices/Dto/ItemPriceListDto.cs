@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace syncinpos.Entities.Inventory.ItemPrices.Dto
 {
     [AutoMapFrom(typeof(ItemPriceList)), AutoMapTo(typeof(ItemPriceList))]
-    public class ItemPriceListDto : FullAuditedEntityDto<long>
+    public class ItemPriceListDto : EntityDto<long>
     {
         public int? TenantId { get; set; }
         public int LocationId { get; set; }

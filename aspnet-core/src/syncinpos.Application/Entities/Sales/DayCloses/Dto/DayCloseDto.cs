@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace syncinpos.Entities.Sales.DayCloses.Dto
 {
     [AutoMapFrom(typeof(DayClose)), AutoMapTo(typeof(DayClose))]
-    public class DayCloseDto : FullAuditedEntityDto
+    public class DayCloseDto : EntityDto
     {
         public int TenantId { get; set; }
         public int LocationId { get; set; }

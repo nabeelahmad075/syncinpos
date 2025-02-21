@@ -17,5 +17,6 @@ namespace syncinpos.Entities.Accounts.Vouchers.Dto
         public string Description { get; set; }
         public decimal DebitAmount { get; set; }
         public decimal CreditAmount { get; set; }
+        public long? CreatorUserId { get; set; }
     }
 }

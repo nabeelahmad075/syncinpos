@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using syncinpos.Authorization.Users;
 using syncinpos.Entities.Accounts.Types;
 using syncinpos.Entities.Locations;
 using System;
@@ -19,6 +20,7 @@ namespace syncinpos.Entities.Accounts.Vouchers.Dto
         public DateTime VoucherDate { get; set; }
         public int VoucherTypeId { get; set; }
         public string Remarks { get; set; }
+        public long? CreatorUserId { get; set; }
         public ICollection<VoucherDetailDto> VoucherDetails { get; set; } = [];
     }
 }

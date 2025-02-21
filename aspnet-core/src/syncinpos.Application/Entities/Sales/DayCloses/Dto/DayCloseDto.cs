@@ -34,5 +34,6 @@ namespace syncinpos.Entities.Sales.DayCloses.Dto
         [NotMapped]
         public bool IsMarked { get; set; }
         public bool IsReversed { get; set; }
+        public long? CreatorUserId { get; set; }
     }
 }

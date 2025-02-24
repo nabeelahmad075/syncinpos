@@ -11,12 +11,17 @@ import {
   SelectItemDto,
 } from "@shared/service-proxies/service-proxies";
 import { SelectItem } from "@node_modules/primeng/api";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { PendingOrdersComponent } from "../pending-orders/pending-orders.component";
+import { Subscription } from "rxjs";
+import { appModuleAnimation } from "@shared/animations/routerTransition";
 
 @Component({
   selector: "app-main-pos",
   // standalone: true,
   // imports: [],
   templateUrl: "./main-pos.component.html",
+  animations: [appModuleAnimation()],
   styleUrl: "./main-pos.component.css",
 })
 export class MainPosComponent extends AppComponentBase implements OnInit {
@@ -31,6 +36,8 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
   takeAwayServiceType: number = 2;
   deliveryManServiceType: number = 3;
 
+  private subscription!: Subscription;
+
   tblCategory: SelectItemDto[] = [];
   tblItems: SelectItemDto[] = [];
   tblEmployee: SelectItem[] = [];
@@ -42,6 +49,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     private _itemService: ItemServiceProxy,
     private _orderTakerService: EmployeeServiceProxy,
     private _posService: POSServiceProxy,
+    private _modalService: BsModalService,
 
     private cd: ChangeDetectorRef
   ) {
@@ -111,19 +119,34 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     this.tblPosMaster.posDetails.splice(index, 1);
   }
 
-  getOrderTakersDropdown(desigTypeId: number, serviceTypeId: number) {
+  getOrderTakersDropdown(serviceTypeId: number) {
     this.tblEmployee = [];
+
+    this.tblPosMaster.serviceTypeId = serviceTypeId;
+
+    let desigTypeId;
+    if (
+      this.tblPosMaster.serviceTypeId === this.dineInServiceType ||
+      this.tblPosMaster.serviceTypeId === this.takeAwayServiceType
+    ) {
+      desigTypeId = this.orderTakerTypeId;
+      this.selectedServiceType = "Order Taker";
+    } else if (
+      this.tblPosMaster.serviceTypeId === this.deliveryManServiceType
+    ) {
+      desigTypeId = this.deliveryManTypeId;
+      this.selectedServiceType = "Delivery Man";
+    }
+
     this._orderTakerService
       .getEmployeesDropdown(desigTypeId)
       .subscribe((result) => {
         this.tblEmployee = result;
       });
-    this.tblPosMaster.serviceTypeId = serviceTypeId;
-    if (desigTypeId === this.orderTakerTypeId) {
-      this.selectedServiceType = "Order Taker";
-    } else if (desigTypeId === this.deliveryManTypeId) {
-      this.selectedServiceType = "Delivery Man";
-    }
+
+    setTimeout(() => {
+      this.cd.detectChanges();
+    }, 0);
   }
 
   clearState() {
@@ -155,12 +178,78 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     this.tblPosMaster.paymentIn = 0;
     this.tblPosMaster.balance = 0;
     this.tblPosMaster.posDetails = [];
-    this.getOrderTakersDropdown(
-      this.orderTakerTypeId,
-      this.tblPosMaster.serviceTypeId
-    );
+    this.getOrderTakersDropdown(this.tblPosMaster.serviceTypeId);
     this.getCategories();
     this.tblItems = [];
     this.cd.detectChanges();
+  }
+
+  placeOrder() {
+    if (this.tblPosMaster.posDetails.length === 0) {
+      this.notify.error("Please! Select item to place order.");
+      return;
+    }
+    if (this.tblPosMaster.employeeId === undefined) {
+      
+      this.notify.error("Please! Select "+ this.selectedServiceType+".");
+      return;
+    }
+
+    if (this.tblPosMaster.id > 0) {
+      this._posService.update(this.tblPosMaster).subscribe((result) => {
+        if (result) {
+          this.clearState();
+          this.notify.success("Order Updated Successfully");
+        } else {
+          this.notify.error("Failed to place order. Please try again.");
+        }
+      });
+    } else {
+      this._posService.create(this.tblPosMaster).subscribe((result) => {
+        if (result) {
+          this.clearState();
+          this.notify.success("Order Placed Successfully");
+        } else {
+          this.notify.error("Failed to place order. Please try again.");
+        }
+      });
+    }
+  }
+
+  showPendingOrdersDialog(): void {
+    let pendingOrdersDialog: BsModalRef;
+    pendingOrdersDialog = this._modalService.show(PendingOrdersComponent, {
+      class: "modal-lg modal-dialog-centered",
+      backdrop: "static",
+      ignoreBackdropClick: true,
+      initialState: {
+        locationId: this.locationId,
+      },
+    });
+
+    this.subscription = pendingOrdersDialog.content?.orderSelected.subscribe(
+      (orderId: number) => {
+        console.log("Selected Order ID:", orderId);
+        this.viewPendingOrder(orderId); // Navigate to order details
+      }
+    );
+
+    // Cleanup subscription when modal is hidden
+    pendingOrdersDialog.onHidden?.subscribe(() => {
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
+    });
+  }
+
+  viewPendingOrder(orderId: number) {
+    this._posService.get(orderId).subscribe((result) => {
+      this.tblPosMaster = result;
+      this.getOrderTakersDropdown(result.serviceTypeId);
+      setTimeout(() => {
+        this.cd.detectChanges();
+      }, 100);
+      console.log(result);
+    });
   }
 }

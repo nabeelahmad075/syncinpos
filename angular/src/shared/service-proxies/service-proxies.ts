@@ -7912,6 +7912,130 @@ export class POSServiceProxy {
     }
 
     /**
+     * @param serviceTypeId (optional) 
+     * @param locationId (optional) 
+     * @return OK
+     */
+    getPendingOrders(serviceTypeId: number | undefined, locationId: number | undefined): Observable<PendingOrdersDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/POS/GetPendingOrders?";
+        if (serviceTypeId === null)
+            throw new Error("The parameter 'serviceTypeId' cannot be null.");
+        else if (serviceTypeId !== undefined)
+            url_ += "serviceTypeId=" + encodeURIComponent("" + serviceTypeId) + "&";
+        if (locationId === null)
+            throw new Error("The parameter 'locationId' cannot be null.");
+        else if (locationId !== undefined)
+            url_ += "locationId=" + encodeURIComponent("" + locationId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPendingOrders(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPendingOrders(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PendingOrdersDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PendingOrdersDto[]>;
+        }));
+    }
+
+    protected processGetPendingOrders(response: HttpResponseBase): Observable<PendingOrdersDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(PendingOrdersDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param locationId (optional) 
+     * @return OK
+     */
+    getPendingOrdersCount(locationId: number | undefined): Observable<PendingOrdersCountDto> {
+        let url_ = this.baseUrl + "/api/services/app/POS/GetPendingOrdersCount?";
+        if (locationId === null)
+            throw new Error("The parameter 'locationId' cannot be null.");
+        else if (locationId !== undefined)
+            url_ += "locationId=" + encodeURIComponent("" + locationId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPendingOrdersCount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPendingOrdersCount(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PendingOrdersCountDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PendingOrdersCountDto>;
+        }));
+    }
+
+    protected processGetPendingOrdersCount(response: HttpResponseBase): Observable<PendingOrdersCountDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PendingOrdersCountDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
@@ -13625,13 +13749,6 @@ export interface ICreateUserDto {
 
 export class CustomerDto implements ICustomerDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     locationId: number;
     subAccountId: number | undefined;
@@ -13656,13 +13773,6 @@ export class CustomerDto implements ICustomerDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.tenantId = _data["tenantId"];
             this.locationId = _data["locationId"];
             this.subAccountId = _data["subAccountId"];
@@ -13687,13 +13797,6 @@ export class CustomerDto implements ICustomerDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["tenantId"] = this.tenantId;
         data["locationId"] = this.locationId;
         data["subAccountId"] = this.subAccountId;
@@ -13718,13 +13821,6 @@ export class CustomerDto implements ICustomerDto {
 
 export interface ICustomerDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     locationId: number;
     subAccountId: number | undefined;
@@ -14028,13 +14124,6 @@ export interface IDayClose {
 
 export class DayCloseDto implements IDayCloseDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     locationId: number;
     currentDate: moment.Moment;
@@ -14048,6 +14137,7 @@ export class DayCloseDto implements IDayCloseDto {
     closedBy: string | undefined;
     isMarked: boolean;
     isReversed: boolean;
+    creatorUserId: number | undefined;
 
     constructor(data?: IDayCloseDto) {
         if (data) {
@@ -14061,13 +14151,6 @@ export class DayCloseDto implements IDayCloseDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.tenantId = _data["tenantId"];
             this.locationId = _data["locationId"];
             this.currentDate = _data["currentDate"] ? moment(_data["currentDate"].toString()) : <any>undefined;
@@ -14081,6 +14164,7 @@ export class DayCloseDto implements IDayCloseDto {
             this.closedBy = _data["closedBy"];
             this.isMarked = _data["isMarked"];
             this.isReversed = _data["isReversed"];
+            this.creatorUserId = _data["creatorUserId"];
         }
     }
 
@@ -14094,13 +14178,6 @@ export class DayCloseDto implements IDayCloseDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["tenantId"] = this.tenantId;
         data["locationId"] = this.locationId;
         data["currentDate"] = this.currentDate ? this.currentDate.toISOString() : <any>undefined;
@@ -14114,6 +14191,7 @@ export class DayCloseDto implements IDayCloseDto {
         data["closedBy"] = this.closedBy;
         data["isMarked"] = this.isMarked;
         data["isReversed"] = this.isReversed;
+        data["creatorUserId"] = this.creatorUserId;
         return data;
     }
 
@@ -14127,13 +14205,6 @@ export class DayCloseDto implements IDayCloseDto {
 
 export interface IDayCloseDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     locationId: number;
     currentDate: moment.Moment;
@@ -14147,6 +14218,7 @@ export interface IDayCloseDto {
     closedBy: string | undefined;
     isMarked: boolean;
     isReversed: boolean;
+    creatorUserId: number | undefined;
 }
 
 export class DayCloseDtoPagedResultDto implements IDayCloseDtoPagedResultDto {
@@ -14206,13 +14278,6 @@ export interface IDayCloseDtoPagedResultDto {
 
 export class DayReversedHistoryDto implements IDayReversedHistoryDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     dayClose: DayClose;
     dayCloseId: number;
@@ -14229,13 +14294,6 @@ export class DayReversedHistoryDto implements IDayReversedHistoryDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.tenantId = _data["tenantId"];
             this.dayClose = _data["dayClose"] ? DayClose.fromJS(_data["dayClose"]) : <any>undefined;
             this.dayCloseId = _data["dayCloseId"];
@@ -14252,13 +14310,6 @@ export class DayReversedHistoryDto implements IDayReversedHistoryDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["tenantId"] = this.tenantId;
         data["dayClose"] = this.dayClose ? this.dayClose.toJSON() : <any>undefined;
         data["dayCloseId"] = this.dayCloseId;
@@ -14275,13 +14326,6 @@ export class DayReversedHistoryDto implements IDayReversedHistoryDto {
 
 export interface IDayReversedHistoryDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     dayClose: DayClose;
     dayCloseId: number;
@@ -14863,13 +14907,6 @@ export interface IDetailAccount {
 
 export class DetailAccountDto implements IDetailAccountDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     subAccountId: number;
     detailCode: string | undefined;
@@ -14888,13 +14925,6 @@ export class DetailAccountDto implements IDetailAccountDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.tenantId = _data["tenantId"];
             this.subAccountId = _data["subAccountId"];
             this.detailCode = _data["detailCode"];
@@ -14913,13 +14943,6 @@ export class DetailAccountDto implements IDetailAccountDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["tenantId"] = this.tenantId;
         data["subAccountId"] = this.subAccountId;
         data["detailCode"] = this.detailCode;
@@ -14938,13 +14961,6 @@ export class DetailAccountDto implements IDetailAccountDto {
 
 export interface IDetailAccountDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     subAccountId: number;
     detailCode: string | undefined;
@@ -16529,13 +16545,6 @@ export interface IItemHistoryDtoPagedResultDto {
 
 export class ItemPriceListDto implements IItemPriceListDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number | undefined;
     locationId: number;
     itemCategoryId: number;
@@ -16557,13 +16566,6 @@ export class ItemPriceListDto implements IItemPriceListDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.tenantId = _data["tenantId"];
             this.locationId = _data["locationId"];
             this.itemCategoryId = _data["itemCategoryId"];
@@ -16589,13 +16591,6 @@ export class ItemPriceListDto implements IItemPriceListDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["tenantId"] = this.tenantId;
         data["locationId"] = this.locationId;
         data["itemCategoryId"] = this.itemCategoryId;
@@ -16621,13 +16616,6 @@ export class ItemPriceListDto implements IItemPriceListDto {
 
 export interface IItemPriceListDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number | undefined;
     locationId: number;
     itemCategoryId: number;
@@ -17742,13 +17730,6 @@ export interface IMainAccount {
 
 export class MainAccountDto implements IMainAccountDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     locationId: number | undefined;
     mainTypeId: number;
@@ -17768,13 +17749,6 @@ export class MainAccountDto implements IMainAccountDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.tenantId = _data["tenantId"];
             this.locationId = _data["locationId"];
             this.mainTypeId = _data["mainTypeId"];
@@ -17794,13 +17768,6 @@ export class MainAccountDto implements IMainAccountDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["tenantId"] = this.tenantId;
         data["locationId"] = this.locationId;
         data["mainTypeId"] = this.mainTypeId;
@@ -17820,13 +17787,6 @@ export class MainAccountDto implements IMainAccountDto {
 
 export interface IMainAccountDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     locationId: number | undefined;
     mainTypeId: number;
@@ -18061,13 +18021,6 @@ export interface IMainType {
 
 export class POSDetailDto implements IPOSDetailDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     posMasterId: number;
     itemId: number;
     qty: number;
@@ -18089,13 +18042,6 @@ export class POSDetailDto implements IPOSDetailDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.posMasterId = _data["posMasterId"];
             this.itemId = _data["itemId"];
             this.qty = _data["qty"];
@@ -18117,13 +18063,6 @@ export class POSDetailDto implements IPOSDetailDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["posMasterId"] = this.posMasterId;
         data["itemId"] = this.itemId;
         data["qty"] = this.qty;
@@ -18145,13 +18084,6 @@ export class POSDetailDto implements IPOSDetailDto {
 
 export interface IPOSDetailDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     posMasterId: number;
     itemId: number;
     qty: number;
@@ -18406,6 +18338,124 @@ export class POSMasterDtoPagedResultDto implements IPOSMasterDtoPagedResultDto {
 export interface IPOSMasterDtoPagedResultDto {
     items: POSMasterDto[] | undefined;
     totalCount: number;
+}
+
+export class PendingOrdersCountDto implements IPendingOrdersCountDto {
+    dineInOrders: number;
+    takeawayOrders: number;
+    deliveryOrders: number;
+
+    constructor(data?: IPendingOrdersCountDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.dineInOrders = _data["dineInOrders"];
+            this.takeawayOrders = _data["takeawayOrders"];
+            this.deliveryOrders = _data["deliveryOrders"];
+        }
+    }
+
+    static fromJS(data: any): PendingOrdersCountDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PendingOrdersCountDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dineInOrders"] = this.dineInOrders;
+        data["takeawayOrders"] = this.takeawayOrders;
+        data["deliveryOrders"] = this.deliveryOrders;
+        return data;
+    }
+
+    clone(): PendingOrdersCountDto {
+        const json = this.toJSON();
+        let result = new PendingOrdersCountDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPendingOrdersCountDto {
+    dineInOrders: number;
+    takeawayOrders: number;
+    deliveryOrders: number;
+}
+
+export class PendingOrdersDto implements IPendingOrdersDto {
+    id: number;
+    invoiceNo: number | undefined;
+    kotNo: number;
+    table: string | undefined;
+    customer: string | undefined;
+    reservedTime: moment.Moment | undefined;
+    amount: number;
+
+    constructor(data?: IPendingOrdersDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.invoiceNo = _data["invoiceNo"];
+            this.kotNo = _data["kotNo"];
+            this.table = _data["table"];
+            this.customer = _data["customer"];
+            this.reservedTime = _data["reservedTime"] ? moment(_data["reservedTime"].toString()) : <any>undefined;
+            this.amount = _data["amount"];
+        }
+    }
+
+    static fromJS(data: any): PendingOrdersDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PendingOrdersDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["invoiceNo"] = this.invoiceNo;
+        data["kotNo"] = this.kotNo;
+        data["table"] = this.table;
+        data["customer"] = this.customer;
+        data["reservedTime"] = this.reservedTime ? this.reservedTime.toISOString() : <any>undefined;
+        data["amount"] = this.amount;
+        return data;
+    }
+
+    clone(): PendingOrdersDto {
+        const json = this.toJSON();
+        let result = new PendingOrdersDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPendingOrdersDto {
+    id: number;
+    invoiceNo: number | undefined;
+    kotNo: number;
+    table: string | undefined;
+    customer: string | undefined;
+    reservedTime: moment.Moment | undefined;
+    amount: number;
 }
 
 export class Region implements IRegion {
@@ -19625,13 +19675,6 @@ export interface ISubAccount {
 
 export class SubAccountDto implements ISubAccountDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     mainAccountId: number;
     accountTypeId: number;
@@ -19652,13 +19695,6 @@ export class SubAccountDto implements ISubAccountDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.tenantId = _data["tenantId"];
             this.mainAccountId = _data["mainAccountId"];
             this.accountTypeId = _data["accountTypeId"];
@@ -19679,13 +19715,6 @@ export class SubAccountDto implements ISubAccountDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["tenantId"] = this.tenantId;
         data["mainAccountId"] = this.mainAccountId;
         data["accountTypeId"] = this.accountTypeId;
@@ -19706,13 +19735,6 @@ export class SubAccountDto implements ISubAccountDto {
 
 export interface ISubAccountDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     mainAccountId: number;
     accountTypeId: number;
@@ -21299,18 +21321,12 @@ export interface IUserToken {
 
 export class VoucherDetailDto implements IVoucherDetailDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     voucherMasterId: number;
     detailAccountId: number;
     description: string | undefined;
     debitAmount: number;
     creditAmount: number;
+    creatorUserId: number | undefined;
 
     constructor(data?: IVoucherDetailDto) {
         if (data) {
@@ -21324,18 +21340,12 @@ export class VoucherDetailDto implements IVoucherDetailDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.voucherMasterId = _data["voucherMasterId"];
             this.detailAccountId = _data["detailAccountId"];
             this.description = _data["description"];
             this.debitAmount = _data["debitAmount"];
             this.creditAmount = _data["creditAmount"];
+            this.creatorUserId = _data["creatorUserId"];
         }
     }
 
@@ -21349,18 +21359,12 @@ export class VoucherDetailDto implements IVoucherDetailDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["voucherMasterId"] = this.voucherMasterId;
         data["detailAccountId"] = this.detailAccountId;
         data["description"] = this.description;
         data["debitAmount"] = this.debitAmount;
         data["creditAmount"] = this.creditAmount;
+        data["creatorUserId"] = this.creatorUserId;
         return data;
     }
 
@@ -21374,18 +21378,12 @@ export class VoucherDetailDto implements IVoucherDetailDto {
 
 export interface IVoucherDetailDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     voucherMasterId: number;
     detailAccountId: number;
     description: string | undefined;
     debitAmount: number;
     creditAmount: number;
+    creatorUserId: number | undefined;
 }
 
 export class VoucherHistoryDto implements IVoucherHistoryDto {
@@ -21512,19 +21510,13 @@ export interface IVoucherHistoryDtoPagedResultDto {
 
 export class VoucherMasterDto implements IVoucherMasterDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     locationId: number;
     voucherNo: string | undefined;
     voucherDate: moment.Moment;
     voucherTypeId: number;
     remarks: string | undefined;
+    creatorUserId: number | undefined;
     voucherDetails: VoucherDetailDto[] | undefined;
 
     constructor(data?: IVoucherMasterDto) {
@@ -21539,19 +21531,13 @@ export class VoucherMasterDto implements IVoucherMasterDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.tenantId = _data["tenantId"];
             this.locationId = _data["locationId"];
             this.voucherNo = _data["voucherNo"];
             this.voucherDate = _data["voucherDate"] ? moment(_data["voucherDate"].toString()) : <any>undefined;
             this.voucherTypeId = _data["voucherTypeId"];
             this.remarks = _data["remarks"];
+            this.creatorUserId = _data["creatorUserId"];
             if (Array.isArray(_data["voucherDetails"])) {
                 this.voucherDetails = [] as any;
                 for (let item of _data["voucherDetails"])
@@ -21570,19 +21556,13 @@ export class VoucherMasterDto implements IVoucherMasterDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["tenantId"] = this.tenantId;
         data["locationId"] = this.locationId;
         data["voucherNo"] = this.voucherNo;
         data["voucherDate"] = this.voucherDate ? this.voucherDate.toISOString() : <any>undefined;
         data["voucherTypeId"] = this.voucherTypeId;
         data["remarks"] = this.remarks;
+        data["creatorUserId"] = this.creatorUserId;
         if (Array.isArray(this.voucherDetails)) {
             data["voucherDetails"] = [];
             for (let item of this.voucherDetails)
@@ -21601,19 +21581,13 @@ export class VoucherMasterDto implements IVoucherMasterDto {
 
 export interface IVoucherMasterDto {
     id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
     tenantId: number;
     locationId: number;
     voucherNo: string | undefined;
     voucherDate: moment.Moment;
     voucherTypeId: number;
     remarks: string | undefined;
+    creatorUserId: number | undefined;
     voucherDetails: VoucherDetailDto[] | undefined;
 }
 

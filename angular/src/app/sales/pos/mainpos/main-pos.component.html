@@ -1,3 +1,4 @@
+<div [@routerTransition]>
 <!-- Navbar -->
 <nav
   class="main-header navbar navbar-expand navbar-white navbar-light drop-shadow"
@@ -78,7 +79,7 @@
               </button>
               <button
                 class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-              >
+                (click)="showPendingOrdersDialog()">
                 <span>Pending Orders</span>
               </button>
               <button
@@ -147,7 +148,7 @@
         class="w-full flex justify-between items-center h-3 gap-x-2 mt-[0.7rem]"
       >
         <button
-          (click)="getOrderTakersDropdown(orderTakerTypeId, dineInServiceType)"
+          (click)="getOrderTakersDropdown(dineInServiceType)"
           class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
           [ngClass]="{
             'bg-blue-500 text-white': tblPosMaster.serviceTypeId === dineInServiceType,
@@ -158,7 +159,7 @@
           <span class="uppercase">Dine In</span>
         </button>
         <button
-          (click)="getOrderTakersDropdown(orderTakerTypeId,takeAwayServiceType)"
+          (click)="getOrderTakersDropdown(takeAwayServiceType)"
           class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
           [ngClass]="{
             'bg-blue-500 text-white': tblPosMaster.serviceTypeId === takeAwayServiceType,
@@ -169,7 +170,7 @@
           <span class="uppercase">Takeaway</span>
         </button>
         <button
-          (click)="getOrderTakersDropdown(deliveryManTypeId,deliveryManServiceType)"
+          (click)="getOrderTakersDropdown(deliveryManServiceType)"
           class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
           [ngClass]="{
             'bg-blue-500 text-white': tblPosMaster.serviceTypeId === deliveryManServiceType,
@@ -264,7 +265,7 @@
         </p-table>
       </div>
       <button (click)="clearState()">New Order</button>
-      <button>Place Order</button>
+      <button (click)="placeOrder()">Place Order</button>
       <button>Invoice</button>
       <!-- ORDER GRID END -->
     </div>
@@ -272,3 +273,4 @@
   </div>
 </div>
 <!-- Main Content Area End -->
+</div>

@@ -63,6 +63,7 @@ import { DayCloseHistoryComponent } from './sales/day-close/day-close-history.co
 import { PosNavbarComponent } from './layout/pos-navbar.component';
 import { PosNavMenuComponent } from './sales/pos/pos-layouts/pos-nav-menu.component';
 import { LogoComponent } from './sales/pos/pos-layouts/logo.component';
+import { PendingOrdersComponent } from './sales/pos/pending-orders/pending-orders.component';
 
 @NgModule({
     declarations: [
@@ -110,7 +111,8 @@ import { LogoComponent } from './sales/pos/pos-layouts/logo.component';
         DayCloseHistoryComponent,
         PosNavbarComponent,
         PosNavMenuComponent,
-        LogoComponent
+        LogoComponent,
+        PendingOrdersComponent
     ],
     imports: [
         AppRoutingModule,

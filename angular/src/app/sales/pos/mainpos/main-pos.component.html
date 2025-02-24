@@ -1,276 +1,352 @@
 <div [@routerTransition]>
-<!-- Navbar -->
-<nav
-  class="main-header navbar navbar-expand navbar-white navbar-light drop-shadow"
-  style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    margin-left: 0px !important;
-    padding: 0;
-    height: 3.5rem;
-  "
->
-  <logo></logo>
-  <ul class="navbar-nav ml-auto flex space-x-4">
-    <!-- Custom Navbar Content -->
-    <!-- <pos-nav-menu></pos-nav-menu> -->
-    <header-date></header-date>
-    <pos-navbar></pos-navbar>
-  </ul>
-</nav>
+  <!-- Navbar -->
+  <nav
+    class="main-header navbar navbar-expand navbar-white navbar-light drop-shadow"
+    style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      margin-left: 0px !important;
+      padding: 0;
+      height: 3.5rem;
+    "
+  >
+    <logo></logo>
+    <ul class="navbar-nav ml-auto flex space-x-4">
+      <!-- Custom Navbar Content -->
+      <!-- <pos-nav-menu></pos-nav-menu> -->
+      <header-date></header-date>
+      <pos-navbar></pos-navbar>
+    </ul>
+  </nav>
 
-<!-- Main Content Area Start -->
-<div class="flex content h-screen pt-16 bg-[#dbe3ea]">
-  <!-- Added padding to prevent overlap with navbar -->
-  <div class="flex-1 flex flex-row mb-1 mt-[-0.2rem]">
-    <!-- LEFT CONTAINER START -->
-    <div class="w-56 bg-[#FDFDFD] rounded-r-lg p-2 flex mr-1">
-      <tabset class="w-full pos-tabset">
-        <tab heading="Category">
-          <div class="h-full bg-transparent">
-            <p-listbox
-              [options]="tblCategory"
-              [(ngModel)]="categoryId"
-              (onChange)="getItemsByCategory()"
-              styleClass="w-full text-center"
-            >
-              <ng-template let-item pTemplate="item">
-                <div
-                  class="flex justify-center items-center w-full h-full uppercase font-bold"
-                >
-                  {{ item.label }}
-                </div>
-              </ng-template>
-            </p-listbox>
-          </div>
-        </tab>
-        <tab heading="Deals"></tab>
-      </tabset>
-    </div>
-    <!-- LEFT CONTAINER END -->
+  <!-- Main Content Area Start -->
+  <div class="flex content h-screen pt-16 bg-[#dbe3ea]">
+    <!-- Added padding to prevent overlap with navbar -->
+    <div class="flex-1 flex flex-row mb-1 mt-[-0.2rem]">
+      <!-- LEFT CONTAINER START -->
+      <div class="w-56 bg-[#FDFDFD] rounded-r-lg p-2 flex mr-1">
+        <tabset class="w-full pos-tabset">
+          <tab heading="Category">
+            <div class="h-full bg-transparent">
+              <p-listbox
+                [options]="tblCategory"
+                [(ngModel)]="categoryId"
+                (onChange)="getItemsByCategory()"
+                styleClass="w-full text-center"
+              >
+                <ng-template let-item pTemplate="item">
+                  <div
+                    class="flex justify-center items-center w-full h-full uppercase font-bold"
+                  >
+                    {{ item.label }}
+                  </div>
+                </ng-template>
+              </p-listbox>
+            </div>
+          </tab>
+          <tab heading="Deals"></tab>
+        </tabset>
+      </div>
+      <!-- LEFT CONTAINER END -->
 
-    <div class="flex-1 flex flex-col">
-      <!-- Message SECTION -->
-      <!-- <div
+      <div class="flex-1 flex flex-col">
+        <!-- Message SECTION -->
+        <!-- <div
       class="h-[1.3rem] bg-transparent flex items-center justify-center rounded-lg mb-1"
     >
       <p class="text-sm font-bold text-red-600 mt-3">Software License Will Be Expired After 1 Day(s). 
         Please Pay Monthly Subscription Fee To Continue Uninterpreted Services. Thank You!</p>
     </div> -->
 
-      <!-- CENTER CONTAINER -->
-      <div class="border border-gray-300 rounded-lg mb-0 overflow-hidden">
-        <!-- SECTION-2 START -->
-        <div class="bg-[#FDFDFD] h-12">
-          <!-- POS UPPER BUTTONS START -->
-          <div class="h-[35.5rem] bg-[#FDFDFD]">
-            <div class="flex justify-center items-center gap-2">
+        <!-- CENTER CONTAINER -->
+        <div class="border border-gray-300 rounded-lg mb-0 overflow-hidden">
+          <!-- SECTION-2 START -->
+          <div class="bg-[#FDFDFD] h-12">
+            <!-- POS UPPER BUTTONS START -->
+            <div class="h-[35.5rem] bg-[#FDFDFD]">
+              <div class="flex justify-center items-center gap-2">
+                <button
+                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                >
+                  <span>Item Search</span>
+                </button>
+                <button
+                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                >
+                  <span>Customers</span>
+                </button>
+                <button
+                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                  (click)="showPendingOrdersDialog()"
+                >
+                  <span>Pending Orders (0)</span>
+                </button>
+                <button
+                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                >
+                  <span>Reprint</span>
+                </button>
+              </div>
+            </div>
+            <!-- POS UPPER BUTTONS END -->
+          </div>
+          <!-- SECTION-2 END -->
+          <!-- ITEM LIST SECTION START -->
+          <div class="h-[35.5rem] bg-[#FDFDFD] p-2">
+            <div class="flex flex-wrap gap-2 button-row mt-[0.6rem]">
               <button
-                class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                *ngFor="let item of tblItems"
+                (click)="onItemClick(item.value)"
+                [ngClass]="{
+                  'bg-blue-500 text-white': selectedItem === item.value,
+                  'bg-gray-300 hover:bg-gray-400': selectedItem !== item.value
+                }"
+                class="button-container py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
               >
-                <span>Item Search</span>
-              </button>
-              <button
-                class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-              >
-                <span>Customers</span>
-              </button>
-              <button
-                class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-                (click)="showPendingOrdersDialog()">
-                <span>Pending Orders</span>
-              </button>
-              <button
-                class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-              >
-                <span>Reprint</span>
+                {{ item.label }}
               </button>
             </div>
           </div>
-          <!-- POS UPPER BUTTONS END -->
-        </div>
-        <!-- SECTION-2 END -->
-        <!-- ITEM LIST SECTION START -->
-        <div class="h-[35.5rem] bg-[#FDFDFD] p-2">
-          <div class="flex flex-wrap gap-2 button-row mt-[0.6rem]">
-            <button
-              *ngFor="let item of tblItems"
-              (click)="onItemClick(item.value)"
-              [ngClass]="{
-                'bg-blue-500 text-white': selectedItem === item.value,
-                'bg-gray-300 hover:bg-gray-400': selectedItem !== item.value
-              }"
-              class="button-container py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-            >
-              {{ item.label }}
-            </button>
-          </div>
-        </div>
-        <!-- ITEM LIST SECTION END -->
+          <!-- ITEM LIST SECTION END -->
 
-        <!-- SECTION-3 START -->
-        <div style="height: 5rem">
-          <!-- POS LOWER BUTTONS START -->
-          <div class="h-[35.5rem] bg-[#FDFDFD]">
-            <div
-              class="flex justify-center items-center gap-2"
-              style="margin-top: -1rem"
-            >
-              <button
-                class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+          <!-- SECTION-3 START -->
+          <div style="height: 5rem">
+            <!-- POS LOWER BUTTONS START -->
+            <div class="h-[35.5rem] bg-[#FDFDFD]">
+              <div
+                class="flex justify-center items-center gap-2"
+                style="margin-top: -1rem"
               >
-                <span>Split Bill</span>
-              </button>
-              <button
-                class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-              >
-                <span>Manager Access</span>
-              </button>
-              <button
-                class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-              >
-                <span>Reports</span>
-              </button>
+                <button
+                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                >
+                  <span>Split Bill</span>
+                </button>
+                <button
+                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                >
+                  <span>Manager Access</span>
+                </button>
+                <button
+                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                >
+                  <span>Reports</span>
+                </button>
+              </div>
             </div>
+            <!-- POS LOWER BUTTONS END -->
           </div>
-          <!-- POS LOWER BUTTONS END -->
+          <!-- SECTION-3 END -->
         </div>
-        <!-- SECTION-3 END -->
       </div>
-    </div>
 
-    <!-- RIGHT CONTAINER START -->
-    <div class="w-1/3 bg-[#FDFDFD] rounded-l-lg p-2 flex flex-col gap-y-5 ml-1">
-      <!-- SERVICE TYPE BUTTONS START -->
+      <!-- RIGHT CONTAINER START -->
       <div
-        class="w-full flex justify-between items-center h-3 gap-x-2 mt-[0.7rem]"
+        class="w-1/3 bg-[#FDFDFD] rounded-l-lg p-2 flex flex-col gap-y-5 ml-1"
       >
-        <button
-          (click)="getOrderTakersDropdown(dineInServiceType)"
-          class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-          [ngClass]="{
-            'bg-blue-500 text-white': tblPosMaster.serviceTypeId === dineInServiceType,
-            'bg-gray-300 hover:bg-gray-400': tblPosMaster.serviceTypeId !== dineInServiceType
-          }"
-          >
-          <i class="fa-solid fa-utensils fill-current w-4 h-4 mr-2"></i>
-          <span class="uppercase">Dine In</span>
-        </button>
-        <button
-          (click)="getOrderTakersDropdown(takeAwayServiceType)"
-          class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-          [ngClass]="{
-            'bg-blue-500 text-white': tblPosMaster.serviceTypeId === takeAwayServiceType,
-            'bg-gray-300 hover:bg-gray-400': tblPosMaster.serviceTypeId !== takeAwayServiceType
-          }"
-          >
-          <i class="fa-solid fa-bag-shopping fill-current w-4 h-4 mr-2"></i>
-          <span class="uppercase">Takeaway</span>
-        </button>
-        <button
-          (click)="getOrderTakersDropdown(deliveryManServiceType)"
-          class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-          [ngClass]="{
-            'bg-blue-500 text-white': tblPosMaster.serviceTypeId === deliveryManServiceType,
-            'bg-gray-300 hover:bg-gray-400': tblPosMaster.serviceTypeId !== deliveryManServiceType
-          }"
-          >
-          <i class="fa-solid fa-person-biking fill-current w-4 h-4 mr-2"></i>
-          <span class="uppercase">Delivery</span>
-        </button>
-      </div>
-      <!-- SERVICE TYPE BUTTONS END -->
-      <!-- ORDER TAKER & KOT NUMBER TEXTBOX START -->
-      <div
-        class="orderTakerDDL w-full flex justify-between items-center gap-x-2"
-      >
-        <p-select
-          name="ordertaker"
-          [placeholder]="selectedServiceType"
-          [options]="tblEmployee"
-          [(ngModel)]="tblPosMaster.employeeId"
-          class="flex-1 h-[2.4rem] border-2 border-gray-200 rounded shadow-none mt-0 leading-none"
+        <!-- SERVICE TYPE BUTTONS START -->
+        <div
+          class="w-full flex justify-between items-center h-3 gap-x-2 mt-[0.7rem]"
         >
-        </p-select>
-        <input
-          type="text"
-          placeholder="Manual KOT/Token Number"
-          class="flex-1 h-[2.5rem] border-2 border-gray-200 py-2 px-2 rounded text-sm"
-        />
-      </div>
-      <!-- ORDER TAKER & KOT NUMBER TEXTBOX END -->
-      <!-- ORDER GRID START -->
-      <div class="w-full flex justify-between items-center gap-x-2 mt-[-1rem]">
-        <p-table
-          [value]="tblPosMaster.posDetails"
-          styleClass="p-datatable-gridlines"
-          [style]="{ width: '100%' }"
-          [tableStyle]="{
-            'max-height': '20rem',
-            display: 'block',
-            'overflow-y': 'scroll'
-          }"
+          <button
+            (click)="getOrderTakersDropdown(dineInServiceType)"
+            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            [ngClass]="{
+              'bg-blue-500 text-white':
+                tblPosMaster.serviceTypeId === dineInServiceType,
+              'bg-gray-300 hover:bg-gray-400':
+                tblPosMaster.serviceTypeId !== dineInServiceType
+            }"
+          >
+            <i class="fa-solid fa-utensils fill-current w-4 h-4 mr-2"></i>
+            <span class="uppercase">Dine In</span>
+          </button>
+          <button
+            (click)="getOrderTakersDropdown(takeAwayServiceType)"
+            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            [ngClass]="{
+              'bg-blue-500 text-white':
+                tblPosMaster.serviceTypeId === takeAwayServiceType,
+              'bg-gray-300 hover:bg-gray-400':
+                tblPosMaster.serviceTypeId !== takeAwayServiceType
+            }"
+          >
+            <i class="fa-solid fa-bag-shopping fill-current w-4 h-4 mr-2"></i>
+            <span class="uppercase">Takeaway</span>
+          </button>
+          <button
+            (click)="getOrderTakersDropdown(deliveryManServiceType)"
+            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            [ngClass]="{
+              'bg-blue-500 text-white':
+                tblPosMaster.serviceTypeId === deliveryManServiceType,
+              'bg-gray-300 hover:bg-gray-400':
+                tblPosMaster.serviceTypeId !== deliveryManServiceType
+            }"
+          >
+            <i class="fa-solid fa-person-biking fill-current w-4 h-4 mr-2"></i>
+            <span class="uppercase">Delivery</span>
+          </button>
+        </div>
+        <!-- SERVICE TYPE BUTTONS END -->
+        <!-- ORDER TAKER & KOT NUMBER TEXTBOX START -->
+        <div
+          class="orderTakerDDL w-full flex justify-between items-center gap-x-2"
         >
-          <ng-template pTemplate="header">
-            <tr class="text-sm">
-              <th class="p-1.5 w-[17rem] border-2 border-solid border-black">
-                Item Name
-              </th>
-              <th
-                class="p-1.5 w-[3.5rem] text-center border-2 border-solid border-black"
-              >
-                Qty
-              </th>
-              <th
-                class="p-1.5 w-[3.5rem] text-center border-2 border-solid border-black"
-              >
-                Rate
-              </th>
-              <th
-                class="p-1.5 w-[3.5rem] text-center border-2 border-solid border-black"
-              >
-                Amount
-              </th>
-              <th
-                class="p-1.5 w-[3.5rem] text-center border-2 border-solid border-black"
-              >
-                Action
-              </th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-rowData let-index="rowIndex">
-            <tr [pEditableRow]="rowData">
-              <td>{{ rowData["itemName"] }}</td>
-              <td class="text-center">{{ rowData.qty }}</td>
-              <td class="text-center">{{ rowData.price }}</td>
-              <td class="text-center">{{ rowData.amount }}</td>
-              <td class="text-center">
-                <!-- <a type="button" (click)="addVoucherDetails(index)">
+          <p-select
+            name="ordertaker"
+            [placeholder]="selectedServiceType"
+            [options]="tblEmployee"
+            [(ngModel)]="tblPosMaster.employeeId"
+            class="flex-1 h-[2.4rem] border-2 border-gray-200 rounded shadow-none mt-0 leading-none"
+          >
+          </p-select>
+          <input
+            type="text"
+            placeholder="Manual KOT/Token Number"
+            class="flex-1 h-[2.5rem] border-2 border-gray-200 py-2 px-2 rounded text-sm"
+          />
+        </div>
+        <!-- ORDER TAKER & KOT NUMBER TEXTBOX END -->
+        <!-- ORDER GRID START -->
+        <div
+          class="w-full flex justify-between items-center gap-x-2 mt-[-1rem]"
+        >
+          <p-table
+            [value]="tblPosMaster.posDetails"
+            styleClass="p-datatable-gridlines"
+            [style]="{ width: '100%' }"
+            [tableStyle]="{
+              'max-height': '22rem',
+              'display': 'block',
+              'overflow-y': 'scroll'
+            }"
+          >
+            <ng-template pTemplate="header">
+              <tr class="text-sm">
+                <th class="p-1.5 w-[16rem] border-2 border-solid border-black">
+                  Item Name
+                </th>
+                <th
+                  class="p-1.5 w-[4.5rem] text-center border-2 border-solid border-black"
+                >
+                  Qty
+                </th>
+                <th
+                  class="p-1.5 w-[3.5rem] text-center border-2 border-solid border-black"
+                >
+                  Rate
+                </th>
+                <th
+                  class="p-1.5 w-[3.5rem] text-center border-2 border-solid border-black"
+                >
+                  Amount
+                </th>
+                <th
+                  class="p-1.5 w-[3.5rem] text-center border-2 border-solid border-black"
+                >
+                  Action
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+              <tr [pEditableRow]="rowData">
+                <td>{{ rowData["itemName"] }}</td>
+                <td class="text-center">
+                  <button type="button" (click)="addQty(false, index)">
+                    <i class="fa-solid fa-minus text-[0.7rem] mr-[0.1rem]"></i>
+                  </button>
+                  {{ rowData.qty }}
+                  <button type="button" (click)="addQty(true, index)">
+                    <i class="fa-solid fa-plus text-[0.7rem] ml-[0.1rem]"></i>
+                  </button>
+                </td>
+                <td class="text-center">{{ rowData.price }}</td>
+                <td class="text-center">{{ rowData.amount }}</td>
+                <td class="text-center">
+                  <!-- <a type="button" (click)="addVoucherDetails(index)">
                   <i class="fa-solid fa-plus"></i> </a
                 ><b style="color: #508d4e">&nbsp;&nbsp;|</b>&nbsp; -->
-                <a
-                  type="button"
-                  style="font-size: 16px"
-                  (click)="removeDetail(index)"
-                >
-                  <i
-                    class="fa-solid fa-trash-can !text-red-500 hover:text-red-600"
-                  ></i>
-                </a>
-              </td>
+                  <a
+                    type="button"
+                    style="font-size: 16px"
+                    (click)="removeDetail(index)"
+                  >
+                    <i
+                      class="fa-solid fa-trash-can !text-red-500 hover:text-red-600"
+                    ></i>
+                  </a>
+                </td>
+              </tr>
+            
+            </ng-template>
+          </p-table>
+        </div>
+        <!-- ORDER GRID END -->
+        <!-- CALCULATIONS START -->
+        <div class="mt-auto bg-white pb-0 pr-2 pl-2 pt-2 shadow-md border-t border-gray-300">
+          <table class="w-full border-b border-t border-gray-500">
+            <tr>
+              <th class="w-[80%]">Sub Total</th>
+              <th class="w-[20%] text-right whitespace-nowrap overflow-hidden">{{ tblPosMaster.grossAmount }}</th>
             </tr>
-          </ng-template>
-        </p-table>
+          </table>
+      
+          <table class="w-full mt-[0.1rem]">
+            <tr>
+              <th class="w-[80%]">Total &#64; 16&#37; ({{cashTaxAmount}})</th>
+              <th class="w-[20%] text-right whitespace-nowrap overflow-hidden">{{ cashAmount }}</th>
+            </tr>
+            <tr>
+              <th class="w-[80%]">Total &#64; 5&#37; ({{cardTaxAmount}})</th>
+              <th class="w-[20%] text-right whitespace-nowrap overflow-hidden">{{ cardAmount }}</th>
+            </tr>
+          </table>
+        </div>
+        <!-- CALCULATIONS END -->
+        <!-- 3 BUTTONS GRID START -->
+        <div
+          class="w-full flex justify-between items-center h-3 gap-x-2 mt-[0.2rem]"
+        >
+          <button
+            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            (click)="newOrder()"
+          >
+            <i class="fa-solid fa-plus mr-1"></i>
+            New Order
+          </button>
+          <button
+            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            (click)="placeOrder()"
+          >
+            <i class="fa-solid fa-clipboard-list mr-1"></i>
+            Place Order
+          </button>
+          <button
+            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+          >
+            <i class="fa-solid fa-rectangle-list mr-1"></i>
+            Print KOT
+          </button>
+        </div>
+        <!-- 3 BUTTONS GRID END -->
+        <!-- PAYMENT BUTTON START -->
+        <div
+          class="w-full flex justify-between items-center h-3 gap-x-2 mt-[1rem] mb-[1rem]"
+        >
+          <button
+            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+          >
+            <i class="fa-solid fa-cash-register mr-1"></i>
+            Payment
+          </button>
+        </div>
+        <!-- PAYMENT BUTTON END -->
       </div>
-      <button (click)="clearState()">New Order</button>
-      <button (click)="placeOrder()">Place Order</button>
-      <button>Invoice</button>
-      <!-- ORDER GRID END -->
+      <!-- RIGHT CONTAINER END -->
     </div>
-    <!-- RIGHT CONTAINER END -->
   </div>
-</div>
-<!-- Main Content Area End -->
+  <!-- Main Content Area End -->
 </div>

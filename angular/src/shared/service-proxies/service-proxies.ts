@@ -18023,6 +18023,7 @@ export class POSDetailDto implements IPOSDetailDto {
     id: number;
     posMasterId: number;
     itemId: number;
+    itemName: string | undefined;
     qty: number;
     price: number;
     amount: number;
@@ -18044,6 +18045,7 @@ export class POSDetailDto implements IPOSDetailDto {
             this.id = _data["id"];
             this.posMasterId = _data["posMasterId"];
             this.itemId = _data["itemId"];
+            this.itemName = _data["itemName"];
             this.qty = _data["qty"];
             this.price = _data["price"];
             this.amount = _data["amount"];
@@ -18065,6 +18067,7 @@ export class POSDetailDto implements IPOSDetailDto {
         data["id"] = this.id;
         data["posMasterId"] = this.posMasterId;
         data["itemId"] = this.itemId;
+        data["itemName"] = this.itemName;
         data["qty"] = this.qty;
         data["price"] = this.price;
         data["amount"] = this.amount;
@@ -18086,6 +18089,7 @@ export interface IPOSDetailDto {
     id: number;
     posMasterId: number;
     itemId: number;
+    itemName: string | undefined;
     qty: number;
     price: number;
     amount: number;

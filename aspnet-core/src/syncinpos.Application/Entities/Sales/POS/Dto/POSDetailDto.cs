@@ -16,6 +16,8 @@ namespace syncinpos.Entities.Sales.POS.Dto
     {
         public long POSMasterId { get; set; }
         public int ItemId { get; set; }
+        [NotMapped]
+        public string ItemName { get; set; }
         public decimal Qty { get; set; }
         public decimal Price { get; set; }
         public decimal Amount { get; set; }

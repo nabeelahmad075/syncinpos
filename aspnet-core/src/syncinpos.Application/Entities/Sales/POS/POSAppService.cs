@@ -78,6 +78,7 @@ namespace syncinpos.Entities.Sales.POS
                                                   Id = x.Id,
                                                   POSMasterId = x.POSMasterId,
                                                   ItemId = x.ItemId,
+                                                  ItemName = x.Item.ItemName,
                                                   Qty = x.Qty,
                                                   Price = x.Price,
                                                   Amount = x.Amount,

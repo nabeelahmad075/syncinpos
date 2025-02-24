@@ -5,8 +5,10 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
 using syncinpos.Authorization;
+using syncinpos.Entities.Inventory.ItemCategories;
 using syncinpos.Entities.Inventory.ItemPrices;
 using syncinpos.Entities.Inventory.Items.Dto;
+using syncinpos.Entities.Locations;
 using syncinpos.Utility.SelectItemDto;
 using System;
 using System.Collections.Generic;
@@ -108,6 +110,51 @@ namespace syncinpos.Entities.Inventory.Items
             return new PagedResultDto<ItemHistoryDto>()
             {
                 Items = await pagedQuery.ToListAsync(),
+                TotalCount = sqlQuery.Count()
+            };
+        }
+        public async Task<PagedResultDto<SearchItemDto>> GetSearchedItemAsync(ItemSearchSortedAndResultRequestDto input)
+        {
+            var itemsResult = await _itemPriceRepo.GetAll()
+            .Where(a => a.LocationId == input.LocationId && a.Price > 0 && a.EffectedDate <= input.EffectedDate)
+            .WhereIf(input.Price > 0, a => a.Price.ToString().Contains(input.Price.ToString()))
+            .GroupBy(a => a.ItemId)
+                                                     .Select(g => g.OrderByDescending(a => a.EffectedDate).FirstOrDefault())
+                                                     .ToListAsync();
+
+            var itemsWithPrice = itemsResult.Select(a => new
+            {
+                a.ItemId,
+                a.Price
+            }).ToList();
+
+            var priceLookup = itemsWithPrice.ToDictionary(x => x.ItemId, x => x.Price);
+
+            var sqlQuery = CreateFilteredQuery(input)
+                            .Where(a => itemsWithPrice.Select(p => p.ItemId).Contains(a.Id))
+                            .WhereIf(!string.IsNullOrEmpty(input.Section), a => a.Section.Title.ToLower().Contains(input.Section.ToLower()))
+                            .WhereIf(!string.IsNullOrEmpty(input.Category), a => a.ItemCategory.Title.ToLower().Contains(input.Category.ToLower()))
+                            .WhereIf(!string.IsNullOrEmpty(input.ItemName), a => a.ItemName.ToLower().Contains(input.ItemName.ToLower()))
+                            .WhereIf(!string.IsNullOrEmpty(input.Barcode), a => a.Barcode.ToString().ToLower().Contains(input.Barcode.ToString().ToLower()))
+                            .WhereIf(!string.IsNullOrEmpty(input.UOM), a => a.UOM.Title.ToLower().Contains(input.UOM.ToLower()));
+
+            var sortedQuery = ApplySorting(sqlQuery, input);
+            var pagedQuery = ApplyPaging(sortedQuery, input);
+
+            var resultQuery = pagedQuery.Select(a => new SearchItemDto
+            {
+                ItemId = a.Id,
+                Section = a.Section.Title,
+                Category = a.ItemCategory.Title,
+                ItemName = a.ItemName,
+                Barcode = a.Barcode.ToString(),
+                UOM = a.UOM.Title,
+                Price = priceLookup.ContainsKey(a.Id) ? priceLookup[a.Id] : 0
+            });
+
+            return new PagedResultDto<SearchItemDto>
+            {
+                Items = await resultQuery.ToListAsync(),
                 TotalCount = sqlQuery.Count()
             };
         }

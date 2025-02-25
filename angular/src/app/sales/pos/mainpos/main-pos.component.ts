@@ -35,6 +35,10 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
   dineInServiceType: number = 1;
   takeAwayServiceType: number = 2;
   deliveryManServiceType: number = 3;
+  cashAmount: number = 0;
+  cashTaxAmount: number = 0;
+cardAmount: number = 0;
+cardTaxAmount: number = 0;
 
   private subscription!: Subscription;
 
@@ -58,7 +62,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit() {
-    this.clearState();
+    this.newOrder();
   }
 
   getCategories() {
@@ -113,10 +117,12 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     }
 
     itemFoundInGrid.amount = itemFoundInGrid.qty * itemFoundInGrid.price;
+    this.calculateAmounts();
   }
 
   removeDetail(index: number) {
     this.tblPosMaster.posDetails.splice(index, 1);
+    this.calculateAmounts();
   }
 
   getOrderTakersDropdown(serviceTypeId: number) {
@@ -149,8 +155,10 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     }, 0);
   }
 
-  clearState() {
+  newOrder() {
+    
     this.tblPosMaster = new POSMasterDto();
+   
     this.tblPosMaster.invoiceNo = 123;
     this.tblPosMaster.orderNo = 456;
     this.tblPosMaster.invoiceDate = moment(this.softwareDate);
@@ -181,6 +189,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     this.getOrderTakersDropdown(this.tblPosMaster.serviceTypeId);
     this.getCategories();
     this.tblItems = [];
+    this.taxCalculation();
     this.cd.detectChanges();
   }
 
@@ -190,15 +199,14 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
       return;
     }
     if (this.tblPosMaster.employeeId === undefined) {
-      
-      this.notify.error("Please! Select "+ this.selectedServiceType+".");
+      this.notify.error("Please! Select " + this.selectedServiceType + ".");
       return;
     }
 
     if (this.tblPosMaster.id > 0) {
       this._posService.update(this.tblPosMaster).subscribe((result) => {
         if (result) {
-          this.clearState();
+          this.newOrder();
           this.notify.success("Order Updated Successfully");
         } else {
           this.notify.error("Failed to place order. Please try again.");
@@ -207,7 +215,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     } else {
       this._posService.create(this.tblPosMaster).subscribe((result) => {
         if (result) {
-          this.clearState();
+          this.newOrder();
           this.notify.success("Order Placed Successfully");
         } else {
           this.notify.error("Failed to place order. Please try again.");
@@ -245,11 +253,51 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
   viewPendingOrder(orderId: number) {
     this._posService.get(orderId).subscribe((result) => {
       this.tblPosMaster = result;
+      this.calculateAmounts();
       this.getOrderTakersDropdown(result.serviceTypeId);
       setTimeout(() => {
         this.cd.detectChanges();
       }, 100);
       console.log(result);
     });
+  }
+
+  addQty(flgAdd: boolean, index: number) {
+    if (this.tblPosMaster.posDetails[index].qty === 1 && !flgAdd) {
+      return;
+    }
+    this.tblPosMaster.posDetails[index].qty = flgAdd
+      ? this.tblPosMaster.posDetails[index].qty + 1
+      : this.tblPosMaster.posDetails[index].qty - 1;
+    this.tblPosMaster.posDetails[index].amount =
+      this.tblPosMaster.posDetails[index].qty *
+      this.tblPosMaster.posDetails[index].price;
+    this.calculateAmounts();
+  }
+
+  sum(colName: string = "amount"): number {
+    let sumvar = this.tblPosMaster.posDetails.reduce(
+      (sum, current) => sum + (current[colName] ?? 0),
+      0
+    );
+    return sumvar;
+  }
+
+  taxCalculation(): number {
+    this.cashTaxAmount = (this.tblPosMaster.grossAmount * 16) / 100;
+    this.cashAmount = (this.tblPosMaster.grossAmount * 16) / 100 + this.tblPosMaster.grossAmount;
+    this.cardTaxAmount = (this.tblPosMaster.grossAmount * 5) / 100;
+    this.cardAmount = (this.tblPosMaster.grossAmount * 5) / 100 + this.tblPosMaster.grossAmount;
+    // this.tblPosMaster.salesTaxPer = 16;
+    this.cd.detectChanges();
+    return (this.tblPosMaster.grossAmount * this.tblPosMaster.salesTaxPer) / 100;
+  }
+
+  calculateAmounts() {
+    this.tblPosMaster.grossAmount = this.sum();
+    this.tblPosMaster.salesTaxAmount = this.taxCalculation();
+    this.tblPosMaster.netAmount = this.tblPosMaster.grossAmount + this.tblPosMaster.salesTaxAmount;
+    this.cd.detectChanges();
+    // this.tblPosMaster.netAmount = this.tblPosMaster.grossAmount - this.tblPosMaster.discountAmount + this.tblPosMaster.salesTaxAmount + this.tblPosMaster.deliveryCharges + this.tblPosMaster.serviceCharges + this.tblPosMaster.bankCharges;
   }
 }

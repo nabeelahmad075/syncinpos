@@ -5,7 +5,7 @@
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'Item Definition' | localize"
+    [title]="(id > 0 ? 'Edit Item Definition' : 'Create Item Definition') | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">

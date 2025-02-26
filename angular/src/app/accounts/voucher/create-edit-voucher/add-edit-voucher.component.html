@@ -5,7 +5,7 @@
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'Voucher Entry' | localize"
+    [title]="(id > 0 ? 'Edit Voucher Entry' : 'Create Voucher Entry') | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">

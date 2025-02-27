@@ -4164,10 +4164,20 @@ export class ItemServiceProxy {
     }
 
     /**
+     * @param locationId (optional) 
+     * @param effectedDate (optional) 
      * @return OK
      */
-    getItemDropdown(): Observable<SelectItemDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Item/GetItemDropdown";
+    getItemDropdown(locationId: number | undefined, effectedDate: moment.Moment | undefined): Observable<SelectItemDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Item/GetItemDropdown?";
+        if (locationId === null)
+            throw new Error("The parameter 'locationId' cannot be null.");
+        else if (locationId !== undefined)
+            url_ += "locationId=" + encodeURIComponent("" + locationId) + "&";
+        if (effectedDate === null)
+            throw new Error("The parameter 'effectedDate' cannot be null.");
+        else if (effectedDate !== undefined)
+            url_ += "effectedDate=" + encodeURIComponent(effectedDate ? "" + effectedDate.toISOString() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

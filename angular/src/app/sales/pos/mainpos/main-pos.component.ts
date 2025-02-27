@@ -45,6 +45,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
 
   tblCategory: SelectItemDto[] = [];
   tblItems: SelectItemDto[] = [];
+  tblAllItems: SelectItemDto[] = [];
   tblEmployee: SelectItem[] = [];
   tblPosMaster: POSMasterDto = new POSMasterDto();
 
@@ -75,20 +76,29 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
         this.cd.detectChanges();
       });
   }
+  
+  getAllItems() {
+    
+    this._itemService
+      .getItemDropdown(
+        this.locationId,
+        moment(this.softwareDate)
+      )
+      .subscribe((result) => {
+        this.tblAllItems = result;
+        this.selectedItem = undefined;
+        this.cd.detectChanges();
+      });
+  }
 
-  getItemsByCategory(itemId: number = undefined) {
-    debugger
-
-    if (itemId !== undefined) {
-      this.categoryId = undefined;
-    }
+  getItemsByCategory() {
 
     this._itemService
       .getCategoryWiseItemsList(
         this.categoryId,
         this.locationId,
         moment(this.softwareDate),
-        itemId
+        undefined
       )
       .subscribe((result) => {
         this.tblItems = result;
@@ -99,7 +109,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
 
   onItemClick(itemId: number) {
     debugger    
-    console.log(this.tblItems);
+    console.log(this.tblAllItems);
     this.selectedItem = itemId;
     this.cd.detectChanges();
     if (!this.tblPosMaster.posDetails) {
@@ -109,9 +119,9 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     let itemFoundInGrid = this.tblPosMaster.posDetails.find(
       (element) => element.itemId === itemId
     );
-    let itemPrice = this.tblItems.find((element) => element.value === itemId)
+    let itemPrice = this.tblAllItems.find((element) => element.value === itemId)
       .other.price;
-    let itemName = this.tblItems.find(
+    let itemName = this.tblAllItems.find(
       (element) => element.value === itemId
     ).label;
 
@@ -198,6 +208,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     this.tblPosMaster.posDetails = [];
     this.getOrderTakersDropdown(this.tblPosMaster.serviceTypeId);
     this.getCategories();
+    this.getAllItems();
     this.tblItems = [];
     this.taxCalculation();
     this.cd.detectChanges();
@@ -315,7 +326,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
   showItemSearchDialog(): void {
     let itemSearchDialog: BsModalRef;
     itemSearchDialog = this._modalService.show(ItemSearchHistoryComponent, {
-      class: "modal-lg modal-dialog-centered",
+      class: "modal-xl modal-dialog-centered",
       backdrop: "static",
       ignoreBackdropClick: true,
       initialState: {
@@ -328,7 +339,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     this.subscription = itemSearchDialog.content?.itemSelected.subscribe(
       (itemId: number) => {
         console.log(itemId);
-        this.getItemsByCategory(itemId);
+        // this.getAllItems();
         this.onItemClick(itemId); // Navigate to order details
       }
     );

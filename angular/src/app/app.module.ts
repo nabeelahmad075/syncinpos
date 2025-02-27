@@ -19,6 +19,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ListboxModule } from 'primeng/listbox';
+import { SkeletonModule } from 'primeng/skeleton';
 // layout
 import { HeaderComponent } from './layout/header.component';
 import { HeaderLeftNavbarComponent } from './layout/header-left-navbar.component';
@@ -64,6 +65,7 @@ import { PosNavbarComponent } from './layout/pos-navbar.component';
 import { PosNavMenuComponent } from './sales/pos/pos-layouts/pos-nav-menu.component';
 import { LogoComponent } from './sales/pos/pos-layouts/logo.component';
 import { PendingOrdersComponent } from './sales/pos/pending-orders/pending-orders.component';
+import { ItemSearchHistoryComponent } from './sales/pos/item-search/item-search-history.component';
 
 @NgModule({
     declarations: [
@@ -112,7 +114,8 @@ import { PendingOrdersComponent } from './sales/pos/pending-orders/pending-order
         PosNavbarComponent,
         PosNavMenuComponent,
         LogoComponent,
-        PendingOrdersComponent
+        PendingOrdersComponent,
+        ItemSearchHistoryComponent
     ],
     imports: [
         AppRoutingModule,
@@ -134,7 +137,8 @@ import { PendingOrdersComponent } from './sales/pos/pending-orders/pending-order
         MultiSelectModule,
         SelectModule,
         DatePickerModule,
-        ListboxModule
+        ListboxModule,
+        SkeletonModule
     ],
     providers: []
 })

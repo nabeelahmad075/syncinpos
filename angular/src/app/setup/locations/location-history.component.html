@@ -1,20 +1,38 @@
 <div [@routerTransition]>
-  <section class="content-header" style="padding: 1px .5rem;">
-    <div class="container-fluid" style="width: 97%; margin-top: 5px;">
+  <section class="content-header" style="padding: 1px 0.5rem">
+    <div class="container-fluid" style="width: 97%; margin-top: 5px">
       <div class="row">
         <div class="col-6">
-          <h4>Locations</h4>
+          <ng-container *ngIf="!isLoading; else headerSkeleton">
+            <h4>Locations</h4>
+          </ng-container>
+          <ng-template #headerSkeleton>
+            <p-skeleton width="10rem" height="2rem"></p-skeleton>
+          </ng-template>
         </div>
-        <div class="col-6 text-right">
+        <!-- <div class="col-6 text-right">
           <a class="btn button-new" (click)="createLocation()">
             <i class="fa fa-plus hover:animate-spin"></i>
             Create
           </a>
+        </div> -->
+        <div class="col-6 text-right">
+          <ng-container *ngIf="!isLoading; else buttonSkeleton">
+            <a class="btn button-new" (click)="createLocation()">
+              <i class="fa fa-plus hover:animate-spin"></i>
+              Create
+            </a>
+          </ng-container>
+          <ng-template #buttonSkeleton>
+            <div class="btn" style="padding: 0">
+              <p-skeleton width="100px" height="34px"></p-skeleton>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>
   </section>
-  <div class="container-fluid" style="width: 97%;">
+  <div class="container-fluid" style="width: 97%">
     <div class="card main-content rounded">
       <div class="card-content table-bordered">
         <p-table
@@ -22,20 +40,23 @@
           [value]="primengTableHelper.records"
           [lazy]="true"
           [scrollable]="true"
-          [style]="{ width: '100%', fontSize:'0.8rem'}"
+          [style]="{ width: '100%', fontSize: '0.8rem' }"
           (onLazyLoad)="getHistory($event)"
           class="p-table-page table-sm table-hover"
           [rows]="primengTableHelper.defaultRecordsCountPerPage"
+          [globalFilterFields]="['regionName']"
         >
           <ng-template pTemplate="caption">
             <div class="d-flex flex-row-reverse">
               <span>
                 <input
-                [style]="{width:'100%', fontSize:'0.8rem'}"
+                  [style]="{ width: '100%', fontSize: '0.8rem' }"
                   pInputText
                   type="text"
                   class="table-search-input form-control w-100"
-                  (input)="dataTable.filterGlobal($event.target.value, 'contains')"
+                  (input)="
+                    dataTable.filterGlobal($event.target.value, 'contains')
+                  "
                   placeholder="Search"
                 />
               </span>
@@ -49,8 +70,8 @@
               <th>Address</th>
               <th>Contact Person</th>
               <th>Contact Number</th>
-              <th style="text-align: center;">Status</th>
-              <th style="text-align: center;">Action</th>
+              <th style="text-align: center">Status</th>
+              <th style="text-align: center">Action</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-locationHistory>
@@ -74,12 +95,12 @@
               </td>
               <td style="text-align: center">
                 <a
-                type="button"
+                  type="button"
                   class="mx-2 edit-btn"
                   (click)="editLocation(locationHistory)"
                 >
                   <i class="fa fa-pencil"></i>
-              </a>
+                </a>
               </td>
             </tr>
           </ng-template>
@@ -91,10 +112,10 @@
         >
           <p class="p-0 m-0">No Data</p>
         </div>
-        <span class="" style="margin-left: 15px; font-size: 0.9rem;">
-            {{ primengTableHelper.totalRecordsCount | number : "2." }} records
-            found!
-          </span>
+        <span class="" style="margin-left: 15px; font-size: 0.9rem">
+          {{ primengTableHelper.totalRecordsCount | number : "2." }} records
+          found!
+        </span>
         <div class="">
           <p-paginator
             [rows]="primengTableHelper.defaultRecordsCountPerPage"
@@ -102,9 +123,10 @@
             (onPageChange)="getHistory($event)"
             [totalRecords]="primengTableHelper.totalRecordsCount"
             [rowsPerPageOptions]="
-              primengTableHelper.predefinedRecordsCountPerPage">
+              primengTableHelper.predefinedRecordsCountPerPage
+            "
+          >
           </p-paginator>
-
         </div>
       </div>
     </div>

@@ -37,6 +37,7 @@ export class LocationHistoryComponent extends AppComponentBase {
   eventClone: LazyLoadEvent;
 
   createBtnPermission: boolean = false;
+  isLoading: boolean = true;
 
   constructor(
     injector: Injector,
@@ -45,6 +46,15 @@ export class LocationHistoryComponent extends AppComponentBase {
     private cd: ChangeDetectorRef
   ) {
     super(injector);
+    this.skeletonLoading();
+  }
+
+  skeletonLoading() {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+      this.cd.detectChanges();
+    }, 5000); // Simulate a 5-second loading period
   }
 
   getHistory(event?: LazyLoadEvent) {
@@ -77,18 +87,18 @@ export class LocationHistoryComponent extends AppComponentBase {
   }
 
   createLocation(): void {
-    if (!abp.auth.isGranted('Pages.Setup.Configuration.Location.Create')) {
+    if (!abp.auth.isGranted("Pages.Setup.Configuration.Location.Create")) {
       abp.notify.error(AppConsts.permissionDeniedMessage);
-      return;
-    }
+      return;
+    }
     this.showCreateOrEditLocDialog();
   }
 
   editLocation(locationHistory: LocationHistoryDto): void {
-    if (!abp.auth.isGranted('Pages.Setup.Configuration.Location.Update')) {
+    if (!abp.auth.isGranted("Pages.Setup.Configuration.Location.Update")) {
       abp.notify.error(AppConsts.permissionDeniedMessage);
-      return;
-    }
+      return;
+    }
     this.showCreateOrEditLocDialog(locationHistory.id);
   }
 

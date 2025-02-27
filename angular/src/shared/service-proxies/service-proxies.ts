@@ -4225,9 +4225,10 @@ export class ItemServiceProxy {
      * @param itemCategoryId (optional) 
      * @param locationId (optional) 
      * @param effectedDate (optional) 
+     * @param itemId (optional) 
      * @return OK
      */
-    getCategoryWiseItemsList(itemCategoryId: number | undefined, locationId: number | undefined, effectedDate: moment.Moment | undefined): Observable<SelectItemDto[]> {
+    getCategoryWiseItemsList(itemCategoryId: number | undefined, locationId: number | undefined, effectedDate: moment.Moment | undefined, itemId: number | undefined): Observable<SelectItemDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Item/GetCategoryWiseItemsList?";
         if (itemCategoryId === null)
             throw new Error("The parameter 'itemCategoryId' cannot be null.");
@@ -4241,6 +4242,10 @@ export class ItemServiceProxy {
             throw new Error("The parameter 'effectedDate' cannot be null.");
         else if (effectedDate !== undefined)
             url_ += "effectedDate=" + encodeURIComponent(effectedDate ? "" + effectedDate.toISOString() : "") + "&";
+        if (itemId === null)
+            throw new Error("The parameter 'itemId' cannot be null.");
+        else if (itemId !== undefined)
+            url_ += "itemId=" + encodeURIComponent("" + itemId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4355,6 +4360,112 @@ export class ItemServiceProxy {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = ItemHistoryDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param section (optional) 
+     * @param category (optional) 
+     * @param itemName (optional) 
+     * @param barcode (optional) 
+     * @param uOM (optional) 
+     * @param price (optional) 
+     * @param locationId (optional) 
+     * @param effectedDate (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return OK
+     */
+    getSearchedItem(section: string | undefined, category: string | undefined, itemName: string | undefined, barcode: string | undefined, uOM: string | undefined, price: number | undefined, locationId: number | undefined, effectedDate: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<SearchItemDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Item/GetSearchedItem?";
+        if (section === null)
+            throw new Error("The parameter 'section' cannot be null.");
+        else if (section !== undefined)
+            url_ += "Section=" + encodeURIComponent("" + section) + "&";
+        if (category === null)
+            throw new Error("The parameter 'category' cannot be null.");
+        else if (category !== undefined)
+            url_ += "Category=" + encodeURIComponent("" + category) + "&";
+        if (itemName === null)
+            throw new Error("The parameter 'itemName' cannot be null.");
+        else if (itemName !== undefined)
+            url_ += "ItemName=" + encodeURIComponent("" + itemName) + "&";
+        if (barcode === null)
+            throw new Error("The parameter 'barcode' cannot be null.");
+        else if (barcode !== undefined)
+            url_ += "Barcode=" + encodeURIComponent("" + barcode) + "&";
+        if (uOM === null)
+            throw new Error("The parameter 'uOM' cannot be null.");
+        else if (uOM !== undefined)
+            url_ += "UOM=" + encodeURIComponent("" + uOM) + "&";
+        if (price === null)
+            throw new Error("The parameter 'price' cannot be null.");
+        else if (price !== undefined)
+            url_ += "Price=" + encodeURIComponent("" + price) + "&";
+        if (locationId === null)
+            throw new Error("The parameter 'locationId' cannot be null.");
+        else if (locationId !== undefined)
+            url_ += "LocationId=" + encodeURIComponent("" + locationId) + "&";
+        if (effectedDate === null)
+            throw new Error("The parameter 'effectedDate' cannot be null.");
+        else if (effectedDate !== undefined)
+            url_ += "EffectedDate=" + encodeURIComponent(effectedDate ? "" + effectedDate.toISOString() : "") + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSearchedItem(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSearchedItem(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SearchItemDtoPagedResultDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SearchItemDtoPagedResultDto>;
+        }));
+    }
+
+    protected processGetSearchedItem(response: HttpResponseBase): Observable<SearchItemDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SearchItemDtoPagedResultDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -7846,6 +7957,480 @@ export class POSServiceProxy {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param tenantId (optional) 
+     * @param invoiceNo (optional) 
+     * @param orderNo (optional) 
+     * @param invoiceDate (optional) 
+     * @param locationId (optional) 
+     * @param customerId (optional) 
+     * @param employeeId (optional) 
+     * @param isInvoiced (optional) 
+     * @param printDate (optional) 
+     * @param serviceTypeId (optional) 
+     * @param paymentMode (optional) 
+     * @param coverTable (optional) 
+     * @param tableId (optional) 
+     * @param deliveryChargesPer (optional) 
+     * @param deliveryCharges (optional) 
+     * @param serviceChargesPer (optional) 
+     * @param serviceCharges (optional) 
+     * @param bankChargesPer (optional) 
+     * @param bankCharges (optional) 
+     * @param salesTaxPer (optional) 
+     * @param salesTaxAmount (optional) 
+     * @param discountPer (optional) 
+     * @param discountAmount (optional) 
+     * @param grossAmount (optional) 
+     * @param netAmount (optional) 
+     * @param paymentIn (optional) 
+     * @param balance (optional) 
+     * @param pOSDetails (optional) 
+     * @param isDeleted (optional) 
+     * @param deleterUserId (optional) 
+     * @param deletionTime (optional) 
+     * @param lastModificationTime (optional) 
+     * @param lastModifierUserId (optional) 
+     * @param creationTime (optional) 
+     * @param creatorUserId (optional) 
+     * @param id (optional) 
+     * @return OK
+     */
+    getNewInvoiceNo(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isInvoiced: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/POS/GetNewInvoiceNo?";
+        if (tenantId === null)
+            throw new Error("The parameter 'tenantId' cannot be null.");
+        else if (tenantId !== undefined)
+            url_ += "TenantId=" + encodeURIComponent("" + tenantId) + "&";
+        if (invoiceNo === null)
+            throw new Error("The parameter 'invoiceNo' cannot be null.");
+        else if (invoiceNo !== undefined)
+            url_ += "InvoiceNo=" + encodeURIComponent("" + invoiceNo) + "&";
+        if (orderNo === null)
+            throw new Error("The parameter 'orderNo' cannot be null.");
+        else if (orderNo !== undefined)
+            url_ += "OrderNo=" + encodeURIComponent("" + orderNo) + "&";
+        if (invoiceDate === null)
+            throw new Error("The parameter 'invoiceDate' cannot be null.");
+        else if (invoiceDate !== undefined)
+            url_ += "InvoiceDate=" + encodeURIComponent(invoiceDate ? "" + invoiceDate.toISOString() : "") + "&";
+        if (locationId === null)
+            throw new Error("The parameter 'locationId' cannot be null.");
+        else if (locationId !== undefined)
+            url_ += "LocationId=" + encodeURIComponent("" + locationId) + "&";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "CustomerId=" + encodeURIComponent("" + customerId) + "&";
+        if (employeeId === null)
+            throw new Error("The parameter 'employeeId' cannot be null.");
+        else if (employeeId !== undefined)
+            url_ += "EmployeeId=" + encodeURIComponent("" + employeeId) + "&";
+        if (isInvoiced === null)
+            throw new Error("The parameter 'isInvoiced' cannot be null.");
+        else if (isInvoiced !== undefined)
+            url_ += "IsInvoiced=" + encodeURIComponent("" + isInvoiced) + "&";
+        if (printDate === null)
+            throw new Error("The parameter 'printDate' cannot be null.");
+        else if (printDate !== undefined)
+            url_ += "PrintDate=" + encodeURIComponent(printDate ? "" + printDate.toISOString() : "") + "&";
+        if (serviceTypeId === null)
+            throw new Error("The parameter 'serviceTypeId' cannot be null.");
+        else if (serviceTypeId !== undefined)
+            url_ += "ServiceTypeId=" + encodeURIComponent("" + serviceTypeId) + "&";
+        if (paymentMode === null)
+            throw new Error("The parameter 'paymentMode' cannot be null.");
+        else if (paymentMode !== undefined)
+            url_ += "PaymentMode=" + encodeURIComponent("" + paymentMode) + "&";
+        if (coverTable === null)
+            throw new Error("The parameter 'coverTable' cannot be null.");
+        else if (coverTable !== undefined)
+            url_ += "CoverTable=" + encodeURIComponent("" + coverTable) + "&";
+        if (tableId === null)
+            throw new Error("The parameter 'tableId' cannot be null.");
+        else if (tableId !== undefined)
+            url_ += "TableId=" + encodeURIComponent("" + tableId) + "&";
+        if (deliveryChargesPer === null)
+            throw new Error("The parameter 'deliveryChargesPer' cannot be null.");
+        else if (deliveryChargesPer !== undefined)
+            url_ += "DeliveryChargesPer=" + encodeURIComponent("" + deliveryChargesPer) + "&";
+        if (deliveryCharges === null)
+            throw new Error("The parameter 'deliveryCharges' cannot be null.");
+        else if (deliveryCharges !== undefined)
+            url_ += "DeliveryCharges=" + encodeURIComponent("" + deliveryCharges) + "&";
+        if (serviceChargesPer === null)
+            throw new Error("The parameter 'serviceChargesPer' cannot be null.");
+        else if (serviceChargesPer !== undefined)
+            url_ += "ServiceChargesPer=" + encodeURIComponent("" + serviceChargesPer) + "&";
+        if (serviceCharges === null)
+            throw new Error("The parameter 'serviceCharges' cannot be null.");
+        else if (serviceCharges !== undefined)
+            url_ += "ServiceCharges=" + encodeURIComponent("" + serviceCharges) + "&";
+        if (bankChargesPer === null)
+            throw new Error("The parameter 'bankChargesPer' cannot be null.");
+        else if (bankChargesPer !== undefined)
+            url_ += "BankChargesPer=" + encodeURIComponent("" + bankChargesPer) + "&";
+        if (bankCharges === null)
+            throw new Error("The parameter 'bankCharges' cannot be null.");
+        else if (bankCharges !== undefined)
+            url_ += "BankCharges=" + encodeURIComponent("" + bankCharges) + "&";
+        if (salesTaxPer === null)
+            throw new Error("The parameter 'salesTaxPer' cannot be null.");
+        else if (salesTaxPer !== undefined)
+            url_ += "SalesTaxPer=" + encodeURIComponent("" + salesTaxPer) + "&";
+        if (salesTaxAmount === null)
+            throw new Error("The parameter 'salesTaxAmount' cannot be null.");
+        else if (salesTaxAmount !== undefined)
+            url_ += "SalesTaxAmount=" + encodeURIComponent("" + salesTaxAmount) + "&";
+        if (discountPer === null)
+            throw new Error("The parameter 'discountPer' cannot be null.");
+        else if (discountPer !== undefined)
+            url_ += "DiscountPer=" + encodeURIComponent("" + discountPer) + "&";
+        if (discountAmount === null)
+            throw new Error("The parameter 'discountAmount' cannot be null.");
+        else if (discountAmount !== undefined)
+            url_ += "DiscountAmount=" + encodeURIComponent("" + discountAmount) + "&";
+        if (grossAmount === null)
+            throw new Error("The parameter 'grossAmount' cannot be null.");
+        else if (grossAmount !== undefined)
+            url_ += "GrossAmount=" + encodeURIComponent("" + grossAmount) + "&";
+        if (netAmount === null)
+            throw new Error("The parameter 'netAmount' cannot be null.");
+        else if (netAmount !== undefined)
+            url_ += "NetAmount=" + encodeURIComponent("" + netAmount) + "&";
+        if (paymentIn === null)
+            throw new Error("The parameter 'paymentIn' cannot be null.");
+        else if (paymentIn !== undefined)
+            url_ += "PaymentIn=" + encodeURIComponent("" + paymentIn) + "&";
+        if (balance === null)
+            throw new Error("The parameter 'balance' cannot be null.");
+        else if (balance !== undefined)
+            url_ += "Balance=" + encodeURIComponent("" + balance) + "&";
+        if (pOSDetails === null)
+            throw new Error("The parameter 'pOSDetails' cannot be null.");
+        else if (pOSDetails !== undefined)
+            pOSDetails && pOSDetails.forEach((item, index) => {
+                for (const attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "POSDetails[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+        			}
+            });
+        if (isDeleted === null)
+            throw new Error("The parameter 'isDeleted' cannot be null.");
+        else if (isDeleted !== undefined)
+            url_ += "IsDeleted=" + encodeURIComponent("" + isDeleted) + "&";
+        if (deleterUserId === null)
+            throw new Error("The parameter 'deleterUserId' cannot be null.");
+        else if (deleterUserId !== undefined)
+            url_ += "DeleterUserId=" + encodeURIComponent("" + deleterUserId) + "&";
+        if (deletionTime === null)
+            throw new Error("The parameter 'deletionTime' cannot be null.");
+        else if (deletionTime !== undefined)
+            url_ += "DeletionTime=" + encodeURIComponent(deletionTime ? "" + deletionTime.toISOString() : "") + "&";
+        if (lastModificationTime === null)
+            throw new Error("The parameter 'lastModificationTime' cannot be null.");
+        else if (lastModificationTime !== undefined)
+            url_ += "LastModificationTime=" + encodeURIComponent(lastModificationTime ? "" + lastModificationTime.toISOString() : "") + "&";
+        if (lastModifierUserId === null)
+            throw new Error("The parameter 'lastModifierUserId' cannot be null.");
+        else if (lastModifierUserId !== undefined)
+            url_ += "LastModifierUserId=" + encodeURIComponent("" + lastModifierUserId) + "&";
+        if (creationTime === null)
+            throw new Error("The parameter 'creationTime' cannot be null.");
+        else if (creationTime !== undefined)
+            url_ += "CreationTime=" + encodeURIComponent(creationTime ? "" + creationTime.toISOString() : "") + "&";
+        if (creatorUserId === null)
+            throw new Error("The parameter 'creatorUserId' cannot be null.");
+        else if (creatorUserId !== undefined)
+            url_ += "CreatorUserId=" + encodeURIComponent("" + creatorUserId) + "&";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNewInvoiceNo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNewInvoiceNo(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<number>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<number>;
+        }));
+    }
+
+    protected processGetNewInvoiceNo(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param tenantId (optional) 
+     * @param invoiceNo (optional) 
+     * @param orderNo (optional) 
+     * @param invoiceDate (optional) 
+     * @param locationId (optional) 
+     * @param customerId (optional) 
+     * @param employeeId (optional) 
+     * @param isInvoiced (optional) 
+     * @param printDate (optional) 
+     * @param serviceTypeId (optional) 
+     * @param paymentMode (optional) 
+     * @param coverTable (optional) 
+     * @param tableId (optional) 
+     * @param deliveryChargesPer (optional) 
+     * @param deliveryCharges (optional) 
+     * @param serviceChargesPer (optional) 
+     * @param serviceCharges (optional) 
+     * @param bankChargesPer (optional) 
+     * @param bankCharges (optional) 
+     * @param salesTaxPer (optional) 
+     * @param salesTaxAmount (optional) 
+     * @param discountPer (optional) 
+     * @param discountAmount (optional) 
+     * @param grossAmount (optional) 
+     * @param netAmount (optional) 
+     * @param paymentIn (optional) 
+     * @param balance (optional) 
+     * @param pOSDetails (optional) 
+     * @param isDeleted (optional) 
+     * @param deleterUserId (optional) 
+     * @param deletionTime (optional) 
+     * @param lastModificationTime (optional) 
+     * @param lastModifierUserId (optional) 
+     * @param creationTime (optional) 
+     * @param creatorUserId (optional) 
+     * @param id (optional) 
+     * @return OK
+     */
+    getNewOrderNo(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isInvoiced: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/POS/GetNewOrderNo?";
+        if (tenantId === null)
+            throw new Error("The parameter 'tenantId' cannot be null.");
+        else if (tenantId !== undefined)
+            url_ += "TenantId=" + encodeURIComponent("" + tenantId) + "&";
+        if (invoiceNo === null)
+            throw new Error("The parameter 'invoiceNo' cannot be null.");
+        else if (invoiceNo !== undefined)
+            url_ += "InvoiceNo=" + encodeURIComponent("" + invoiceNo) + "&";
+        if (orderNo === null)
+            throw new Error("The parameter 'orderNo' cannot be null.");
+        else if (orderNo !== undefined)
+            url_ += "OrderNo=" + encodeURIComponent("" + orderNo) + "&";
+        if (invoiceDate === null)
+            throw new Error("The parameter 'invoiceDate' cannot be null.");
+        else if (invoiceDate !== undefined)
+            url_ += "InvoiceDate=" + encodeURIComponent(invoiceDate ? "" + invoiceDate.toISOString() : "") + "&";
+        if (locationId === null)
+            throw new Error("The parameter 'locationId' cannot be null.");
+        else if (locationId !== undefined)
+            url_ += "LocationId=" + encodeURIComponent("" + locationId) + "&";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "CustomerId=" + encodeURIComponent("" + customerId) + "&";
+        if (employeeId === null)
+            throw new Error("The parameter 'employeeId' cannot be null.");
+        else if (employeeId !== undefined)
+            url_ += "EmployeeId=" + encodeURIComponent("" + employeeId) + "&";
+        if (isInvoiced === null)
+            throw new Error("The parameter 'isInvoiced' cannot be null.");
+        else if (isInvoiced !== undefined)
+            url_ += "IsInvoiced=" + encodeURIComponent("" + isInvoiced) + "&";
+        if (printDate === null)
+            throw new Error("The parameter 'printDate' cannot be null.");
+        else if (printDate !== undefined)
+            url_ += "PrintDate=" + encodeURIComponent(printDate ? "" + printDate.toISOString() : "") + "&";
+        if (serviceTypeId === null)
+            throw new Error("The parameter 'serviceTypeId' cannot be null.");
+        else if (serviceTypeId !== undefined)
+            url_ += "ServiceTypeId=" + encodeURIComponent("" + serviceTypeId) + "&";
+        if (paymentMode === null)
+            throw new Error("The parameter 'paymentMode' cannot be null.");
+        else if (paymentMode !== undefined)
+            url_ += "PaymentMode=" + encodeURIComponent("" + paymentMode) + "&";
+        if (coverTable === null)
+            throw new Error("The parameter 'coverTable' cannot be null.");
+        else if (coverTable !== undefined)
+            url_ += "CoverTable=" + encodeURIComponent("" + coverTable) + "&";
+        if (tableId === null)
+            throw new Error("The parameter 'tableId' cannot be null.");
+        else if (tableId !== undefined)
+            url_ += "TableId=" + encodeURIComponent("" + tableId) + "&";
+        if (deliveryChargesPer === null)
+            throw new Error("The parameter 'deliveryChargesPer' cannot be null.");
+        else if (deliveryChargesPer !== undefined)
+            url_ += "DeliveryChargesPer=" + encodeURIComponent("" + deliveryChargesPer) + "&";
+        if (deliveryCharges === null)
+            throw new Error("The parameter 'deliveryCharges' cannot be null.");
+        else if (deliveryCharges !== undefined)
+            url_ += "DeliveryCharges=" + encodeURIComponent("" + deliveryCharges) + "&";
+        if (serviceChargesPer === null)
+            throw new Error("The parameter 'serviceChargesPer' cannot be null.");
+        else if (serviceChargesPer !== undefined)
+            url_ += "ServiceChargesPer=" + encodeURIComponent("" + serviceChargesPer) + "&";
+        if (serviceCharges === null)
+            throw new Error("The parameter 'serviceCharges' cannot be null.");
+        else if (serviceCharges !== undefined)
+            url_ += "ServiceCharges=" + encodeURIComponent("" + serviceCharges) + "&";
+        if (bankChargesPer === null)
+            throw new Error("The parameter 'bankChargesPer' cannot be null.");
+        else if (bankChargesPer !== undefined)
+            url_ += "BankChargesPer=" + encodeURIComponent("" + bankChargesPer) + "&";
+        if (bankCharges === null)
+            throw new Error("The parameter 'bankCharges' cannot be null.");
+        else if (bankCharges !== undefined)
+            url_ += "BankCharges=" + encodeURIComponent("" + bankCharges) + "&";
+        if (salesTaxPer === null)
+            throw new Error("The parameter 'salesTaxPer' cannot be null.");
+        else if (salesTaxPer !== undefined)
+            url_ += "SalesTaxPer=" + encodeURIComponent("" + salesTaxPer) + "&";
+        if (salesTaxAmount === null)
+            throw new Error("The parameter 'salesTaxAmount' cannot be null.");
+        else if (salesTaxAmount !== undefined)
+            url_ += "SalesTaxAmount=" + encodeURIComponent("" + salesTaxAmount) + "&";
+        if (discountPer === null)
+            throw new Error("The parameter 'discountPer' cannot be null.");
+        else if (discountPer !== undefined)
+            url_ += "DiscountPer=" + encodeURIComponent("" + discountPer) + "&";
+        if (discountAmount === null)
+            throw new Error("The parameter 'discountAmount' cannot be null.");
+        else if (discountAmount !== undefined)
+            url_ += "DiscountAmount=" + encodeURIComponent("" + discountAmount) + "&";
+        if (grossAmount === null)
+            throw new Error("The parameter 'grossAmount' cannot be null.");
+        else if (grossAmount !== undefined)
+            url_ += "GrossAmount=" + encodeURIComponent("" + grossAmount) + "&";
+        if (netAmount === null)
+            throw new Error("The parameter 'netAmount' cannot be null.");
+        else if (netAmount !== undefined)
+            url_ += "NetAmount=" + encodeURIComponent("" + netAmount) + "&";
+        if (paymentIn === null)
+            throw new Error("The parameter 'paymentIn' cannot be null.");
+        else if (paymentIn !== undefined)
+            url_ += "PaymentIn=" + encodeURIComponent("" + paymentIn) + "&";
+        if (balance === null)
+            throw new Error("The parameter 'balance' cannot be null.");
+        else if (balance !== undefined)
+            url_ += "Balance=" + encodeURIComponent("" + balance) + "&";
+        if (pOSDetails === null)
+            throw new Error("The parameter 'pOSDetails' cannot be null.");
+        else if (pOSDetails !== undefined)
+            pOSDetails && pOSDetails.forEach((item, index) => {
+                for (const attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "POSDetails[" + index + "]." + attr + "=" + encodeURIComponent("" + (item as any)[attr]) + "&";
+        			}
+            });
+        if (isDeleted === null)
+            throw new Error("The parameter 'isDeleted' cannot be null.");
+        else if (isDeleted !== undefined)
+            url_ += "IsDeleted=" + encodeURIComponent("" + isDeleted) + "&";
+        if (deleterUserId === null)
+            throw new Error("The parameter 'deleterUserId' cannot be null.");
+        else if (deleterUserId !== undefined)
+            url_ += "DeleterUserId=" + encodeURIComponent("" + deleterUserId) + "&";
+        if (deletionTime === null)
+            throw new Error("The parameter 'deletionTime' cannot be null.");
+        else if (deletionTime !== undefined)
+            url_ += "DeletionTime=" + encodeURIComponent(deletionTime ? "" + deletionTime.toISOString() : "") + "&";
+        if (lastModificationTime === null)
+            throw new Error("The parameter 'lastModificationTime' cannot be null.");
+        else if (lastModificationTime !== undefined)
+            url_ += "LastModificationTime=" + encodeURIComponent(lastModificationTime ? "" + lastModificationTime.toISOString() : "") + "&";
+        if (lastModifierUserId === null)
+            throw new Error("The parameter 'lastModifierUserId' cannot be null.");
+        else if (lastModifierUserId !== undefined)
+            url_ += "LastModifierUserId=" + encodeURIComponent("" + lastModifierUserId) + "&";
+        if (creationTime === null)
+            throw new Error("The parameter 'creationTime' cannot be null.");
+        else if (creationTime !== undefined)
+            url_ += "CreationTime=" + encodeURIComponent(creationTime ? "" + creationTime.toISOString() : "") + "&";
+        if (creatorUserId === null)
+            throw new Error("The parameter 'creatorUserId' cannot be null.");
+        else if (creatorUserId !== undefined)
+            url_ += "CreatorUserId=" + encodeURIComponent("" + creatorUserId) + "&";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNewOrderNo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNewOrderNo(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<number>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<number>;
+        }));
+    }
+
+    protected processGetNewOrderNo(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -18108,9 +18693,9 @@ export class POSMasterDto implements IPOSMasterDto {
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
     tenantId: number;
-    invoiceNo: number | undefined;
+    invoiceNo: number;
     orderNo: number;
-    invoiceDate: moment.Moment | undefined;
+    invoiceDate: moment.Moment;
     locationId: number;
     customerId: number;
     employeeId: number;
@@ -18260,9 +18845,9 @@ export interface IPOSMasterDto {
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
     tenantId: number;
-    invoiceNo: number | undefined;
+    invoiceNo: number;
     orderNo: number;
-    invoiceDate: moment.Moment | undefined;
+    invoiceDate: moment.Moment;
     locationId: number;
     customerId: number;
     employeeId: number;
@@ -19221,6 +19806,128 @@ export class RolesHistoryDtoPagedResultDto implements IRolesHistoryDtoPagedResul
 
 export interface IRolesHistoryDtoPagedResultDto {
     items: RolesHistoryDto[] | undefined;
+    totalCount: number;
+}
+
+export class SearchItemDto implements ISearchItemDto {
+    section: string | undefined;
+    category: string | undefined;
+    itemId: number;
+    itemName: string | undefined;
+    barcode: string | undefined;
+    uom: string | undefined;
+    price: number;
+
+    constructor(data?: ISearchItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.section = _data["section"];
+            this.category = _data["category"];
+            this.itemId = _data["itemId"];
+            this.itemName = _data["itemName"];
+            this.barcode = _data["barcode"];
+            this.uom = _data["uom"];
+            this.price = _data["price"];
+        }
+    }
+
+    static fromJS(data: any): SearchItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["section"] = this.section;
+        data["category"] = this.category;
+        data["itemId"] = this.itemId;
+        data["itemName"] = this.itemName;
+        data["barcode"] = this.barcode;
+        data["uom"] = this.uom;
+        data["price"] = this.price;
+        return data;
+    }
+
+    clone(): SearchItemDto {
+        const json = this.toJSON();
+        let result = new SearchItemDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISearchItemDto {
+    section: string | undefined;
+    category: string | undefined;
+    itemId: number;
+    itemName: string | undefined;
+    barcode: string | undefined;
+    uom: string | undefined;
+    price: number;
+}
+
+export class SearchItemDtoPagedResultDto implements ISearchItemDtoPagedResultDto {
+    items: SearchItemDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: ISearchItemDtoPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(SearchItemDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): SearchItemDtoPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchItemDtoPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): SearchItemDtoPagedResultDto {
+        const json = this.toJSON();
+        let result = new SearchItemDtoPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISearchItemDtoPagedResultDto {
+    items: SearchItemDto[] | undefined;
     totalCount: number;
 }
 

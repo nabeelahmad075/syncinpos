@@ -15,6 +15,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { PendingOrdersComponent } from "../pending-orders/pending-orders.component";
 import { Subscription } from "rxjs";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
+import { ItemSearchHistoryComponent } from "../item-search/item-search-history.component";
 
 @Component({
   selector: "app-main-pos",
@@ -37,8 +38,8 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
   deliveryManServiceType: number = 3;
   cashAmount: number = 0;
   cashTaxAmount: number = 0;
-cardAmount: number = 0;
-cardTaxAmount: number = 0;
+  cardAmount: number = 0;
+  cardTaxAmount: number = 0;
 
   private subscription!: Subscription;
 
@@ -63,6 +64,7 @@ cardTaxAmount: number = 0;
 
   ngOnInit() {
     this.newOrder();
+    this.cd.detectChanges();
   }
 
   getCategories() {
@@ -74,12 +76,19 @@ cardTaxAmount: number = 0;
       });
   }
 
-  getItemsByCategory() {
+  getItemsByCategory(itemId: number = undefined) {
+    debugger
+
+    if (itemId !== undefined) {
+      this.categoryId = undefined;
+    }
+
     this._itemService
       .getCategoryWiseItemsList(
         this.categoryId,
         this.locationId,
-        moment(this.softwareDate)
+        moment(this.softwareDate),
+        itemId
       )
       .subscribe((result) => {
         this.tblItems = result;
@@ -89,8 +98,10 @@ cardTaxAmount: number = 0;
   }
 
   onItemClick(itemId: number) {
+    debugger    
+    console.log(this.tblItems);
     this.selectedItem = itemId;
-
+    this.cd.detectChanges();
     if (!this.tblPosMaster.posDetails) {
       this.tblPosMaster.posDetails = [];
     }
@@ -118,6 +129,7 @@ cardTaxAmount: number = 0;
 
     itemFoundInGrid.amount = itemFoundInGrid.qty * itemFoundInGrid.price;
     this.calculateAmounts();
+    this.cd.detectChanges();
   }
 
   removeDetail(index: number) {
@@ -156,9 +168,7 @@ cardTaxAmount: number = 0;
   }
 
   newOrder() {
-    
     this.tblPosMaster = new POSMasterDto();
-   
     this.tblPosMaster.invoiceNo = 123;
     this.tblPosMaster.orderNo = 456;
     this.tblPosMaster.invoiceDate = moment(this.softwareDate);
@@ -237,7 +247,6 @@ cardTaxAmount: number = 0;
 
     this.subscription = pendingOrdersDialog.content?.orderSelected.subscribe(
       (orderId: number) => {
-        console.log("Selected Order ID:", orderId);
         this.viewPendingOrder(orderId); // Navigate to order details
       }
     );
@@ -258,7 +267,6 @@ cardTaxAmount: number = 0;
       setTimeout(() => {
         this.cd.detectChanges();
       }, 100);
-      console.log(result);
     });
   }
 
@@ -285,19 +293,51 @@ cardTaxAmount: number = 0;
 
   taxCalculation(): number {
     this.cashTaxAmount = (this.tblPosMaster.grossAmount * 16) / 100;
-    this.cashAmount = (this.tblPosMaster.grossAmount * 16) / 100 + this.tblPosMaster.grossAmount;
+    this.cashAmount = this.cashTaxAmount + this.tblPosMaster.grossAmount;
     this.cardTaxAmount = (this.tblPosMaster.grossAmount * 5) / 100;
-    this.cardAmount = (this.tblPosMaster.grossAmount * 5) / 100 + this.tblPosMaster.grossAmount;
+    this.cardAmount = this.cardTaxAmount + this.tblPosMaster.grossAmount;
     // this.tblPosMaster.salesTaxPer = 16;
     this.cd.detectChanges();
-    return (this.tblPosMaster.grossAmount * this.tblPosMaster.salesTaxPer) / 100;
+    return (
+      (this.tblPosMaster.grossAmount * this.tblPosMaster.salesTaxPer) / 100
+    );
   }
 
   calculateAmounts() {
     this.tblPosMaster.grossAmount = this.sum();
     this.tblPosMaster.salesTaxAmount = this.taxCalculation();
-    this.tblPosMaster.netAmount = this.tblPosMaster.grossAmount + this.tblPosMaster.salesTaxAmount;
+    this.tblPosMaster.netAmount =
+      this.tblPosMaster.grossAmount + this.tblPosMaster.salesTaxAmount;
     this.cd.detectChanges();
     // this.tblPosMaster.netAmount = this.tblPosMaster.grossAmount - this.tblPosMaster.discountAmount + this.tblPosMaster.salesTaxAmount + this.tblPosMaster.deliveryCharges + this.tblPosMaster.serviceCharges + this.tblPosMaster.bankCharges;
+  }
+
+  showItemSearchDialog(): void {
+    let itemSearchDialog: BsModalRef;
+    itemSearchDialog = this._modalService.show(ItemSearchHistoryComponent, {
+      class: "modal-lg modal-dialog-centered",
+      backdrop: "static",
+      ignoreBackdropClick: true,
+      initialState: {
+        locationId: this.locationId,
+        effectedDate: this.softwareDate,
+      },
+    });
+
+    
+    this.subscription = itemSearchDialog.content?.itemSelected.subscribe(
+      (itemId: number) => {
+        console.log(itemId);
+        this.getItemsByCategory(itemId);
+        this.onItemClick(itemId); // Navigate to order details
+      }
+    );
+
+    // Cleanup subscription when modal is hidden
+    itemSearchDialog.onHidden?.subscribe(() => {
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
+    });
   }
 }

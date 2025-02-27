@@ -68,23 +68,24 @@
             <div class="h-[35.5rem] bg-[#FDFDFD]">
               <div class="flex justify-center items-center gap-2">
                 <button
-                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-                >
+                  class="top-button-container px-2 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                (click)="showItemSearchDialog()"
+                  >
                   <span>Item Search</span>
                 </button>
                 <button
-                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                  class="top-button-container px-2 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
                 >
                   <span>Customers</span>
                 </button>
                 <button
-                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                  class="top-button-container px-2 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
                   (click)="showPendingOrdersDialog()"
                 >
                   <span>Pending Orders (0)</span>
                 </button>
                 <button
-                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
+                  class="top-button-container px-2 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
                 >
                   <span>Reprint</span>
                 </button>
@@ -203,9 +204,17 @@
             class="flex-1 h-[2.4rem] border-2 border-gray-200 rounded shadow-none mt-0 leading-none"
           >
           </p-select>
+          <p-select
+          name="ordertaker"
+          placeholder="Select MOP"
+          [options]="tblEmployee"
+          [(ngModel)]="tblPosMaster.employeeId"
+          class="flex-1 h-[2.4rem] border-2 border-gray-200 rounded shadow-none mt-0 leading-none"
+        >
+        </p-select>
           <input
             type="text"
-            placeholder="Manual KOT/Token Number"
+            placeholder="Manual KOT/Token #"
             class="flex-1 h-[2.5rem] border-2 border-gray-200 py-2 px-2 rounded text-sm"
           />
         </div>

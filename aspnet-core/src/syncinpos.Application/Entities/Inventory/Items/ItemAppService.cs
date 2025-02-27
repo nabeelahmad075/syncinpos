@@ -41,14 +41,31 @@ namespace syncinpos.Entities.Inventory.Items
         {
             return await base.UpdateAsync(input);
         }
-        public async Task<List<SelectItemDto>> GetItemDropdownAsync()
+        public async Task<List<SelectItemDto>> GetItemDropdownAsync(int? locationId, DateTime? effectedDate)
         {
+            var itemsResult = await _itemPriceRepo.GetAll()
+                                                     .Where(a => a.LocationId == locationId && a.Price > 0 && a.EffectedDate <= effectedDate)
+                                                     .GroupBy(a => a.ItemId)
+                                                     .Select(g => g.OrderByDescending(a => a.EffectedDate).FirstOrDefault())
+                                                     .ToListAsync();
+
+            var itemsWithPrice = itemsResult.Select(a => new
+            {
+                a.ItemId,
+                a.Price
+            }).ToList();
+
+            var priceLookup = itemsWithPrice.ToDictionary(x => x.ItemId, x => x.Price);
+
             var items = await Repository.GetAll()
                                         .Where(a => a.IsActive == true)
                                         .Select(a => new SelectItemDto
                                         {
                                             Label = a.ItemName,
-                                            Value = a.Id
+                                            Value = a.Id,
+                                            Other = new {
+                                                Price = priceLookup.ContainsKey(a.Id) ? priceLookup[a.Id] : 0
+                                            }
                                         }).ToListAsync();
             return items;
         }

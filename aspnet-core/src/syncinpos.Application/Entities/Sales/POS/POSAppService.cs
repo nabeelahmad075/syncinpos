@@ -27,6 +27,8 @@ namespace syncinpos.Entities.Sales.POS
         }
         public async override Task<POSMasterDto> CreateAsync(POSMasterDto input)
         {
+            await IsInvoiceNoAlreadyExists(input);
+            await IsOrderNoAlreadyExists(input);
             await DeleteRemovedDetails(input);
             return await base.CreateAsync(input);
         }
@@ -38,6 +40,42 @@ namespace syncinpos.Entities.Sales.POS
         public async Task DeleteRemovedDetails(POSMasterDto input)
         {
             await _detailRepo.DeleteAsync(a => !input.POSDetails.Select(b => b.Id).Contains(a.Id) && a.POSMasterId == input.Id);
+        }
+        public async Task<long> GetNewInvoiceNo(POSMasterDto input)
+        {
+            var invoiceNo = await Repository.GetAll()
+                                            .Where(a => a.LocationId == input.LocationId)
+                                            .OrderByDescending(a => a.InvoiceNo)
+                                            .Select(a => a.InvoiceNo)
+                                            .FirstOrDefaultAsync();
+            invoiceNo += 1;
+            return invoiceNo;
+        }
+        public async Task<int> GetNewOrderNo(POSMasterDto input)
+        {
+            var orderNo = await Repository.GetAll()
+                                            .Where(a => a.LocationId == input.LocationId && a.InvoiceDate == input.InvoiceDate)
+                                            .OrderByDescending(a => a.OrderNo)
+                                            .Select(a => a.OrderNo)
+                                            .FirstOrDefaultAsync();
+            orderNo += 1;
+            return orderNo;
+        }
+        private async Task IsInvoiceNoAlreadyExists(POSMasterDto input)
+        {
+            var isInvoiceNoExists = await Repository.GetAll().AnyAsync(a => a.InvoiceNo == input.InvoiceNo && a.LocationId == input.LocationId);
+            if ((isInvoiceNoExists && input.InvoiceNo != null) || input.Id == 0)
+            {
+                input.InvoiceNo = await GetNewInvoiceNo(input);
+            }
+        }
+        private async Task IsOrderNoAlreadyExists(POSMasterDto input)
+        {
+            var isOrderNoExists = await Repository.GetAll().AnyAsync(a => a.OrderNo == input.OrderNo && a.LocationId == input.LocationId && a.InvoiceDate.Date == input.InvoiceDate.Date);
+            if ((isOrderNoExists && input.OrderNo != null) || input.Id == 0)
+            {
+                input.OrderNo = await GetNewOrderNo(input);
+            }
         }
         public async override Task<POSMasterDto> GetAsync(EntityDto<long> input)
         {
@@ -108,10 +146,20 @@ namespace syncinpos.Entities.Sales.POS
         }
         public async Task<PendingOrdersCountDto> GetPendingOrdersCount(int locationId)
         {
+
+            var pendingOrders = await Repository.GetAll()
+                                                 .Where(a => a.IsInvoiced == false && a.LocationId == locationId)
+                                                 .Select(a => new
+                                                 {
+                                                     a.Id,
+                                                     a.ServiceTypeId
+                                                 }).ToListAsync();
+
             var ordersCount = new PendingOrdersCountDto();
-            ordersCount.DineInOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 1 && a.LocationId == locationId);
-            ordersCount.TakeawayOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 2 && a.LocationId == locationId);
-            ordersCount.DeliveryOrders = await Repository.GetAll().CountAsync(a => a.IsInvoiced == false && a.ServiceTypeId == 3 && a.LocationId == locationId);
+
+            ordersCount.DineInOrders = pendingOrders.Count(a => a.ServiceTypeId == 1);
+            ordersCount.TakeawayOrders = pendingOrders.Count(a => a.ServiceTypeId == 2);
+            ordersCount.DeliveryOrders = pendingOrders.Count(a => a.ServiceTypeId == 3);
 
             return ordersCount;
         }

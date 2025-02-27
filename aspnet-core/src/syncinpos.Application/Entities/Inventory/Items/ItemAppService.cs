@@ -53,11 +53,11 @@ namespace syncinpos.Entities.Inventory.Items
             return items;
         }
 
-        public async Task<List<SelectItemDto>> GetCategoryWiseItemsListAsync(int? itemCategoryId, int? locationId, DateTime? effectedDate)
+        public async Task<List<SelectItemDto>> GetCategoryWiseItemsListAsync(int? itemCategoryId, int? locationId, DateTime? effectedDate, int? itemId)
         {
 
             var itemsResult = await _itemPriceRepo.GetAll()
-                                                     .Where(a => a.LocationId == locationId && a.ItemCategoryId == itemCategoryId && a.Price > 0 && a.EffectedDate <= effectedDate)
+                                                     .Where(a => a.LocationId == locationId && (a.ItemCategoryId == itemCategoryId || a.ItemId == itemId) && a.Price > 0 && a.EffectedDate <= effectedDate)
                                                      .GroupBy(a => a.ItemId)
                                                      .Select(g => g.OrderByDescending(a => a.EffectedDate).FirstOrDefault())
                                                      .ToListAsync();

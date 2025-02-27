@@ -16,9 +16,9 @@ namespace syncinpos.Entities.Sales.POS
     public class POSMaster : FullAuditedEntity<long>, IMustHaveTenant
     {
         public int TenantId { get; set; }
-        public long? InvoiceNo { get; set; }
+        public long InvoiceNo { get; set; }
         public int OrderNo { get; set; }
-        public DateTime? InvoiceDate { get; set; }
+        public DateTime InvoiceDate { get; set; }
         public Location Location { get; set; }
         public int LocationId { get; set; }
         public Customer Customer { get; set; }

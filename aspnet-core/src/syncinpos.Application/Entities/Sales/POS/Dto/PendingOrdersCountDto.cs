@@ -11,5 +11,6 @@ namespace syncinpos.Entities.Sales.POS.Dto
         public int DineInOrders { get; set; }
         public int TakeawayOrders { get; set; }
         public int DeliveryOrders { get; set; }
+        public int TotalPendingOrders { get; set; }
     }
 }

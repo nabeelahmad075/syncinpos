@@ -58,7 +58,7 @@ namespace syncinpos.Entities.Inventory.Items
             var priceLookup = itemsWithPrice.ToDictionary(x => x.ItemId, x => x.Price);
 
             var items = await Repository.GetAll()
-                                        .Where(a => a.IsActive == true)
+                                        .Where(a => a.IsActive == true && itemsWithPrice.Select(x => x.ItemId).Contains(a.Id))
                                         .Select(a => new SelectItemDto
                                         {
                                             Label = a.ItemName,
@@ -70,11 +70,11 @@ namespace syncinpos.Entities.Inventory.Items
             return items;
         }
 
-        public async Task<List<SelectItemDto>> GetCategoryWiseItemsListAsync(int? itemCategoryId, int? locationId, DateTime? effectedDate, int? itemId)
+        public async Task<List<SelectItemDto>> GetCategoryWiseItemsListAsync(int? itemCategoryId, int? locationId, DateTime? effectedDate)
         {
 
             var itemsResult = await _itemPriceRepo.GetAll()
-                                                     .Where(a => a.LocationId == locationId && (a.ItemCategoryId == itemCategoryId || a.ItemId == itemId) && a.Price > 0 && a.EffectedDate <= effectedDate)
+                                                     .Where(a => a.LocationId == locationId && a.ItemCategoryId == itemCategoryId && a.Price > 0 && a.EffectedDate <= effectedDate)
                                                      .GroupBy(a => a.ItemId)
                                                      .Select(g => g.OrderByDescending(a => a.EffectedDate).FirstOrDefault())
                                                      .ToListAsync();
@@ -133,11 +133,11 @@ namespace syncinpos.Entities.Inventory.Items
         public async Task<PagedResultDto<SearchItemDto>> GetSearchedItemAsync(ItemSearchSortedAndResultRequestDto input)
         {
             var itemsResult = await _itemPriceRepo.GetAll()
-            .Where(a => a.LocationId == input.LocationId && a.Price > 0 && a.EffectedDate <= input.EffectedDate)
-            .WhereIf(input.Price > 0, a => a.Price.ToString().Contains(input.Price.ToString()))
-            .GroupBy(a => a.ItemId)
-                                                     .Select(g => g.OrderByDescending(a => a.EffectedDate).FirstOrDefault())
-                                                     .ToListAsync();
+                                                  .Where(a => a.LocationId == input.LocationId && a.Price > 0 && a.EffectedDate <= input.EffectedDate)
+                                                  .WhereIf(input.Price > 0, a => a.Price.ToString().Contains(input.Price.ToString()))
+                                                  .GroupBy(a => a.ItemId)
+                                                  .Select(g => g.OrderByDescending(a => a.EffectedDate).FirstOrDefault())
+                                                  .ToListAsync();
 
             var itemsWithPrice = itemsResult.Select(a => new
             {
@@ -159,21 +159,21 @@ namespace syncinpos.Entities.Inventory.Items
             var pagedQuery = ApplyPaging(sortedQuery, input);
 
             var resultQuery = pagedQuery.Select(a => new SearchItemDto
-            {
-                ItemId = a.Id,
-                Section = a.Section.Title,
-                Category = a.ItemCategory.Title,
-                ItemName = a.ItemName,
-                Barcode = a.Barcode.ToString(),
-                UOM = a.UOM.Title,
-                Price = priceLookup.ContainsKey(a.Id) ? priceLookup[a.Id] : 0
-            });
+                                                    {
+                                                        ItemId = a.Id,
+                                                        Section = a.Section.Title,
+                                                        Category = a.ItemCategory.Title,
+                                                        ItemName = a.ItemName,
+                                                        Barcode = a.Barcode.ToString(),
+                                                        UOM = a.UOM.Title,
+                                                        Price = priceLookup.ContainsKey(a.Id) ? priceLookup[a.Id] : 0
+                                                    });
 
             return new PagedResultDto<SearchItemDto>
-            {
-                Items = await resultQuery.ToListAsync(),
-                TotalCount = sqlQuery.Count()
-            };
+                    {
+                        Items = await resultQuery.ToListAsync(),
+                        TotalCount = sqlQuery.Count()
+                    };
         }
     }
 }

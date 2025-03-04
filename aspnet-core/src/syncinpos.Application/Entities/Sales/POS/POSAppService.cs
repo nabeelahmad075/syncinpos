@@ -157,6 +157,7 @@ namespace syncinpos.Entities.Sales.POS
 
             var ordersCount = new PendingOrdersCountDto();
 
+            ordersCount.TotalPendingOrders = pendingOrders.Count();
             ordersCount.DineInOrders = pendingOrders.Count(a => a.ServiceTypeId == 1);
             ordersCount.TakeawayOrders = pendingOrders.Count(a => a.ServiceTypeId == 2);
             ordersCount.DeliveryOrders = pendingOrders.Count(a => a.ServiceTypeId == 3);

@@ -55,14 +55,19 @@ namespace syncinpos.Entities.Setups.Tables
         }
         public async Task<List<SelectItemDto>> GetTableDropdownAsync(int? LocationId, int? floorId)
         {
-            var floors = await Repository.GetAll()
-                                         .Where(a => a.IsActive == true && a.LocationId == LocationId && a.FloorId == floorId)
+            var tables = await Repository.GetAll()
+                                         .WhereIf(floorId.HasValue, a => a.FloorId == floorId)
+                                         .Where(a => a.IsActive == true && a.LocationId == LocationId)
                                          .Select(a => new SelectItemDto
                                          {
                                              Label = a.Title,
-                                             Value = a.Id
+                                             Value = a.Id,
+                                             Other = new 
+                                             {
+                                                 FloorTitle = a.Floor.Title
+                                             }
                                          }).ToListAsync();
-            return floors;
+            return tables;
         }
 
         public async Task<PagedResultDto<TableHistoryDto>> GetTableHistory(TableHistoryPagedAndSortedResultRequestDto input)

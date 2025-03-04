@@ -1,0 +1,30 @@
+<div [@routerTransition]>
+  <abp-modal-header
+    [title]="'Tables & Covers' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="flex flex-wrap gap-2 button-row mt-[0.6rem]" *ngFor="let table of tablesList">
+        <div>
+            {{ getFloorTitle(table.value) }}
+          </div>
+      <button
+        class="button-container py-2 font-bold !capitalize rounded"
+      >
+        {{ table.label }}
+      </button>
+    </div>
+
+    <div class="flex flex-wrap gap-2 button-row mt-[0.6rem]">
+      <label>Covers</label>
+      <input placeholder="Enter Covers" />
+    </div>
+  </div>
+</div>
+
+<!-- [ngClass]="{
+    'bg-gradient-to-b from-blue-800 to-indigo-900 !text-white':
+      selectedItem === table.value,
+    'bg-gradient-to-r from-cyan-500 to-blue-500 text-white':
+      selectedItem !== table.value
+  }" -->

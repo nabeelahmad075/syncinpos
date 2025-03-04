@@ -54,6 +54,7 @@ export class ItemSearchHistoryComponent extends AppComponentBase implements OnIn
 
   ngOnInit(): void {
     this.getHistory();
+    this.cd.detectChanges(); 
   }
 
   getHistory(event?: LazyLoadEvent) {

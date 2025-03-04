@@ -4235,10 +4235,9 @@ export class ItemServiceProxy {
      * @param itemCategoryId (optional) 
      * @param locationId (optional) 
      * @param effectedDate (optional) 
-     * @param itemId (optional) 
      * @return OK
      */
-    getCategoryWiseItemsList(itemCategoryId: number | undefined, locationId: number | undefined, effectedDate: moment.Moment | undefined, itemId: number | undefined): Observable<SelectItemDto[]> {
+    getCategoryWiseItemsList(itemCategoryId: number | undefined, locationId: number | undefined, effectedDate: moment.Moment | undefined): Observable<SelectItemDto[]> {
         let url_ = this.baseUrl + "/api/services/app/Item/GetCategoryWiseItemsList?";
         if (itemCategoryId === null)
             throw new Error("The parameter 'itemCategoryId' cannot be null.");
@@ -4252,10 +4251,6 @@ export class ItemServiceProxy {
             throw new Error("The parameter 'effectedDate' cannot be null.");
         else if (effectedDate !== undefined)
             url_ += "effectedDate=" + encodeURIComponent(effectedDate ? "" + effectedDate.toISOString() : "") + "&";
-        if (itemId === null)
-            throw new Error("The parameter 'itemId' cannot be null.");
-        else if (itemId !== undefined)
-            url_ += "itemId=" + encodeURIComponent("" + itemId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -18943,6 +18938,7 @@ export class PendingOrdersCountDto implements IPendingOrdersCountDto {
     dineInOrders: number;
     takeawayOrders: number;
     deliveryOrders: number;
+    totalPendingOrders: number;
 
     constructor(data?: IPendingOrdersCountDto) {
         if (data) {
@@ -18958,6 +18954,7 @@ export class PendingOrdersCountDto implements IPendingOrdersCountDto {
             this.dineInOrders = _data["dineInOrders"];
             this.takeawayOrders = _data["takeawayOrders"];
             this.deliveryOrders = _data["deliveryOrders"];
+            this.totalPendingOrders = _data["totalPendingOrders"];
         }
     }
 
@@ -18973,6 +18970,7 @@ export class PendingOrdersCountDto implements IPendingOrdersCountDto {
         data["dineInOrders"] = this.dineInOrders;
         data["takeawayOrders"] = this.takeawayOrders;
         data["deliveryOrders"] = this.deliveryOrders;
+        data["totalPendingOrders"] = this.totalPendingOrders;
         return data;
     }
 
@@ -18988,6 +18986,7 @@ export interface IPendingOrdersCountDto {
     dineInOrders: number;
     takeawayOrders: number;
     deliveryOrders: number;
+    totalPendingOrders: number;
 }
 
 export class PendingOrdersDto implements IPendingOrdersDto {

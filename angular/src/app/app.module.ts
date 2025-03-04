@@ -66,6 +66,7 @@ import { PosNavMenuComponent } from './sales/pos/pos-layouts/pos-nav-menu.compon
 import { LogoComponent } from './sales/pos/pos-layouts/logo.component';
 import { PendingOrdersComponent } from './sales/pos/pending-orders/pending-orders.component';
 import { ItemSearchHistoryComponent } from './sales/pos/item-search/item-search-history.component';
+import { TablesCoversComponent } from './sales/pos/tables-covers/tables-covers.component';
 
 @NgModule({
     declarations: [
@@ -115,7 +116,8 @@ import { ItemSearchHistoryComponent } from './sales/pos/item-search/item-search-
         PosNavMenuComponent,
         LogoComponent,
         PendingOrdersComponent,
-        ItemSearchHistoryComponent
+        ItemSearchHistoryComponent,
+        TablesCoversComponent
     ],
     imports: [
         AppRoutingModule,

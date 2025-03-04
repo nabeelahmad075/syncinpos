@@ -136,12 +136,12 @@ toggleMenuItem(item: MenuItem): void {
   item.isCollapsed = !item.isCollapsed;
 
   // If expanding this item, ensure its parent remains open
-  if (!item.isCollapsed && item.parentId) {
-    const parentItem = this.menuItemsMap[item.parentId];
-    if (parentItem) {
-      parentItem.isCollapsed = false; // Expand the parent
-    }
-  }
+  // if (!item.isCollapsed && item.parentId) {
+  //   const parentItem = this.menuItemsMap[item.parentId];
+  //   if (parentItem) {
+  //     parentItem.isCollapsed = false; // Expand the parent
+  //   }
+  // }
 }
 
 activateMenuItems(url: string): void {

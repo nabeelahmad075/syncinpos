@@ -5,6 +5,7 @@ import {
   EmployeeServiceProxy,
   ItemCategoryServiceProxy,
   ItemServiceProxy,
+  PendingOrdersCountDto,
   POSDetailDto,
   POSMasterDto,
   POSServiceProxy,
@@ -16,6 +17,7 @@ import { PendingOrdersComponent } from "../pending-orders/pending-orders.compone
 import { Subscription } from "rxjs";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { ItemSearchHistoryComponent } from "../item-search/item-search-history.component";
+import { TablesCoversComponent } from "../tables-covers/tables-covers.component";
 
 @Component({
   selector: "app-main-pos",
@@ -48,6 +50,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
   tblAllItems: SelectItemDto[] = [];
   tblEmployee: SelectItem[] = [];
   tblPosMaster: POSMasterDto = new POSMasterDto();
+pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
 
   constructor(
     injector: Injector,
@@ -97,8 +100,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
       .getCategoryWiseItemsList(
         this.categoryId,
         this.locationId,
-        moment(this.softwareDate),
-        undefined
+        moment(this.softwareDate)
       )
       .subscribe((result) => {
         this.tblItems = result;
@@ -107,9 +109,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
       });
   }
 
-  onItemClick(itemId: number) {
-    debugger    
-    console.log(this.tblAllItems);
+  onItemClick(itemId: number) {    
     this.selectedItem = itemId;
     this.cd.detectChanges();
     if (!this.tblPosMaster.posDetails) {
@@ -211,6 +211,7 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
     this.getAllItems();
     this.tblItems = [];
     this.taxCalculation();
+    this.getPendingOrdersCount();
     this.cd.detectChanges();
   }
 
@@ -350,5 +351,55 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
         this.subscription.unsubscribe();
       }
     });
+  }
+
+  // Define your options here
+  options: any[] = [
+    { label: 'Cash', value: '1' },
+    { label: 'Credit Card', value: '2' },
+    { label: 'Credit', value: '3' },
+    { label: 'Bank Transfer', value: '4' }
+  ];
+
+  // Selected value
+  mopOption: any;
+
+  
+  showTablesCoversDialog(): void {
+    let tableCoverDialog: BsModalRef;
+    tableCoverDialog = this._modalService.show(TablesCoversComponent, {
+      class: "modal-lg modal-dialog-centered",
+      backdrop: "static",
+      ignoreBackdropClick: true,
+      initialState: {
+        locationId: this.locationId,
+      },
+    });
+
+    this.subscription = tableCoverDialog.content?.tableCoverSelected.subscribe(
+      (tableId: number, covers: number) => {
+        this.tblPosMaster.tableId = tableId;
+        this.tblPosMaster.coverTable = covers;
+        this.cd.detectChanges();
+      }
+    );
+
+    // Cleanup subscription when modal is hidden
+    tableCoverDialog.onHidden?.subscribe(() => {
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
+    });
+  }
+
+  getPendingOrdersCount() {
+    abp.ui.setBusy();
+    this._posService
+      .getPendingOrdersCount(this.locationId)
+      .subscribe((result) => {
+        this.pendingOrdersCount = result;
+        this.cd.detectChanges();
+      })
+      .add(() => abp.ui.clearBusy());
   }
 }

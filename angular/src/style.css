@@ -315,7 +315,7 @@ html {
 }
 
 .p-listbox-option {
-  @apply bg-gray-700 text-white rounded-full text-[0.9rem];
+  @apply w-[13rem] transform skew-x-[-15deg] text-[0.9rem] bg-gradient-to-b from-emerald-500 to-emerald-900 text-white p-0 h-[2.2rem];
 }
 
 .p-listbox-list {
@@ -383,3 +383,4 @@ html {
   background-color: red !important;
   border-color: red !important;
 }
+

@@ -384,3 +384,13 @@ html {
   border-color: red !important;
 }
 
+.p-tooltip-text{
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.p-tooltip{
+--p-tooltip-border-radius : 0;
+--p-tooltip-padding: 0.5rem 0.5rem;
+--p-tooltip-background: #488ff6;
+}

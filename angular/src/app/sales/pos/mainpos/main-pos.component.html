@@ -13,6 +13,65 @@
     "
   >
     <logo></logo>
+    <!-- NAVBAR ICON BUTTONS START -->
+    <div>
+      <!-- FULLSCREEN BTN START -->
+      <button
+        (click)="toggleFullscreen()"
+        pTooltip="{{ isFullscreen ? 'Exit Fullscreen' : 'Fullscreen' }}"
+        tooltipPosition="bottom"
+        class="ml-4"
+      >
+        <i
+          class="fa-solid fa-maximize mt-[0.5rem] text-[1.2rem] text-[#9431ee]"
+        ></i>
+      </button>
+      <!-- FULLSCREEN BTN END -->
+      <!-- ITEM SEARCH BTN START -->
+      <button
+        (click)="showItemSearchDialog()"
+        pTooltip="Item Search"
+        tooltipPosition="bottom"
+      >
+        <i
+          class="fa-solid fa-magnifying-glass mt-[0.5rem] text-[1.2rem] ml-[0.8rem] text-[#9431ee]"
+        ></i>
+      </button>
+      <!-- ITEM SEARCH BTN END -->
+      <!-- REPRINT BTN START -->
+      <button pTooltip="Reprint" tooltipPosition="bottom">
+        <i
+          class="fa-solid fa-print mt-[0.5rem] text-[1.2rem] ml-[0.8rem] text-[#9431ee]"
+        ></i>
+      </button>
+      <!-- REPRINT BTN END -->
+      <!-- REPORTS BTN START -->
+      <button pTooltip="Reports" tooltipPosition="bottom">
+        <i
+          class="fa-solid fa-file-lines mt-[0.5rem] text-[1.2rem] ml-[0.8rem] text-[#9431ee]"
+        ></i>
+      </button>
+      <!-- REPORTS BTN END -->
+      <!-- PENDING ORDER BTN START-->
+      <button
+        (click)="showPendingOrdersDialog()"
+        pTooltip="Pending Orders"
+        tooltipPosition="bottom"
+      >
+        <div class="relative inline-block">
+          <i
+            class="fa-regular fa-hourglass-half mt-[0.5rem] text-[1.2rem] ml-[0.8rem] text-[#9431ee]"
+          ></i>
+          <div
+            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs text-white bg-red-600 border-2 border-white rounded-full -top-2 -right-4 dark:border-gray-900"
+          >
+            {{ pendingOrdersCount.totalPendingOrders }}
+          </div>
+        </div>
+      </button>
+      <!-- PENDING ORDER BTN END -->
+    </div>
+    <!-- NAVBAR ICON BUTTONS END -->
     <ul class="navbar-nav ml-auto flex space-x-4">
       <!-- Custom Navbar Content -->
       <!-- <pos-nav-menu></pos-nav-menu> -->
@@ -59,92 +118,40 @@
       </div>
       <!-- LEFT CONTAINER END -->
       <!-- CENTER CONTAINER START-->
-      <div class="flex-1 flex flex-col">
-        <div class="border border-gray-300 rounded-lg mb-0 overflow-hidden">
-          <div class="h-[37.5rem] bg-[#FDFDFD] p-2">
-            <!-- Message SECTION START -->
-            <div
-              class="bg-transparent flex items-center justify-center mb-1"
+      <div
+        class="flex-1 flex flex-col border border-gray-300 rounded-lg overflow-hidden"
+      >
+        <div class="h-full bg-[#FDFDFD] p-2">
+          <!-- Message SECTION START -->
+          <div class="bg-transparent flex items-center justify-center mb-1">
+            <span class="text-sm font-bold text-red-600 mt-0">
+              Software License Will Be Expired After 1 Day(s). Please Pay
+              Monthly Subscription Fee To Continue Uninterpreted Services.
+            </span>
+          </div>
+          <!-- Message SECTION END -->
+          <!-- POS UPPER BUTTONS START -->
+          <div class="flex justify-center items-center gap-2">
+            <!--item search and customer DDL here-->
+          </div>
+          <!-- POS UPPER BUTTONS END -->
+          <!-- ITEM LIST SECTION START -->
+          <div class="flex flex-wrap gap-2 button-row mt-[0.6rem]">
+            <button
+              *ngFor="let item of tblItems"
+              (click)="onItemClick(item.value)"
+              [ngClass]="{
+                'bg-gradient-to-b from-blue-800 to-indigo-900 !text-white':
+                  selectedItem === item.value,
+                'bg-gradient-to-r from-cyan-500 to-blue-500 text-white':
+                  selectedItem !== item.value
+              }"
+              class="button-container py-2 font-bold !capitalize rounded"
             >
-              <span class="text-sm font-bold text-red-600 mt-0">
-                Software License Will Be Expired After 1 Day(s). Please Pay
-                Monthly Subscription Fee To Continue Uninterpreted Services.
-              </span>
-            </div>
-            <!-- Message SECTION END -->
-            <!-- POS UPPER BUTTONS START -->
-            <div class="flex justify-center items-center gap-2">
-              <button
-                class="top-button-container px-2 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-                (click)="showItemSearchDialog()"
-              >
-                <span>Item Search</span>
-              </button>
-              <button
-                class="top-button-container px-2 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-              >
-                <span>Customers</span>
-              </button>
-              <button
-                class="top-button-container px-2 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-                (click)="showPendingOrdersDialog()"
-              >
-                <span>Pending Orders ({{pendingOrdersCount.totalPendingOrders}})</span>
-              </button>
-              <button
-                class="top-button-container px-2 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-              >
-                <span>Reprint</span>
-              </button>
-            </div>
-            <!-- POS UPPER BUTTONS END -->
-            <!-- ITEM LIST SECTION START -->
-            <div class="flex flex-wrap gap-2 button-row mt-[0.6rem]">
-              <button
-                *ngFor="let item of tblItems"
-                (click)="onItemClick(item.value)"
-                [ngClass]="{
-                  'bg-gradient-to-b from-blue-800 to-indigo-900 !text-white':
-                    selectedItem === item.value,
-                  'bg-gradient-to-r from-cyan-500 to-blue-500 text-white':
-                    selectedItem !== item.value
-                }"
-                class="button-container py-2 font-bold !capitalize rounded"
-              >
-                {{ item.label }}
-              </button>
-            </div>
-            <!-- ITEM LIST SECTION END -->
+              {{ item.label }}
+            </button>
           </div>
-
-          <!-- SECTION-3 START -->
-          <div style="height: 5rem">
-            <!-- POS LOWER BUTTONS START -->
-            <div class="h-[35.5rem] bg-[#FDFDFD]">
-              <div
-                class="flex justify-center items-center gap-2"
-                style="margin-top: -1rem"
-              >
-                <button
-                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-                >
-                  <span>Split Bill</span>
-                </button>
-                <button
-                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-                >
-                  <span>Manager Access</span>
-                </button>
-                <button
-                  class="top-button-container px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold !capitalize rounded"
-                >
-                  <span>Reports</span>
-                </button>
-              </div>
-            </div>
-            <!-- POS LOWER BUTTONS END -->
-          </div>
-          <!-- SECTION-3 END -->
+          <!-- ITEM LIST SECTION END -->
         </div>
       </div>
       <!-- CENTER CONTAINER END-->
@@ -154,11 +161,14 @@
       >
         <!-- SERVICE TYPE BUTTONS START -->
         <div
-          class="w-full flex justify-between items-center h-3 gap-x-2 mt-[0.7rem]"
+          class="w-full flex justify-between items-center h-3 gap-x-2 mt-[0.5rem]"
         >
           <button
-            (click)="getOrderTakersDropdown(dineInServiceType); showTablesCoversDialog()"
-            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            (click)="
+              getOrderTakersDropdown(dineInServiceType);
+              showTablesCoversDialog()
+            "
+            class="flex-1 h-[2.2rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
             [ngClass]="{
               '!bg-gradient-to-r from-cyan-400 to-blue-500 text-white':
                 tblPosMaster.serviceTypeId === dineInServiceType,
@@ -171,7 +181,7 @@
           </button>
           <button
             (click)="getOrderTakersDropdown(takeAwayServiceType)"
-            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            class="flex-1 h-[2.2rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
             [ngClass]="{
               '!bg-gradient-to-r from-cyan-400 to-blue-500 text-white':
                 tblPosMaster.serviceTypeId === takeAwayServiceType,
@@ -184,7 +194,7 @@
           </button>
           <button
             (click)="getOrderTakersDropdown(deliveryManServiceType)"
-            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            class="flex-1 h-[2.2rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
             [ngClass]="{
               '!bg-gradient-to-r from-cyan-400 to-blue-500 text-white':
                 tblPosMaster.serviceTypeId === deliveryManServiceType,
@@ -200,28 +210,18 @@
         <!-- ORDER TAKER & KOT NUMBER TEXTBOX START -->
         <div
           class="orderTakerDDL w-full flex justify-between items-center gap-x-2"
+          style="margin-top: -0.3rem;"
         >
           <p-select
             name="ordertaker"
             [placeholder]="selectedServiceType"
             [options]="tblEmployee"
             [(ngModel)]="tblPosMaster.employeeId"
-            class="flex-1 h-[2.4rem] border-2 border-gray-200 rounded shadow-none mt-0 leading-none"
+            class="flex-1 h-[2rem] border-2 border-gray-200 rounded shadow-none mt-0 leading-[0.5]"
           >
           </p-select>
-          <p-select
-            name="mopOption"
-            placeholder="Select MOP"
-            [options]="options"
-            [(ngModel)]="mopOption"
-            class="flex-1 h-[2.4rem] border-2 border-gray-200 rounded shadow-none mt-0 leading-none"
-          >
-          </p-select>
-          <input
-            type="text"
-            placeholder="Manual KOT/Token #"
-            class="flex-1 h-[2.5rem] border-2 border-gray-200 py-2 px-2 rounded text-sm"
-          />
+          <span class="w-32">Table: </span>
+          <span class="w-32">Covers: </span>
         </div>
         <!-- ORDER TAKER & KOT NUMBER TEXTBOX END -->
         <!-- ORDER GRID START -->
@@ -234,7 +234,7 @@
             [scrollable]="true"
             [style]="{ width: '100%' }"
             [tableStyle]="{
-              'max-height': '22rem',
+              'max-height': '27rem',
               display: 'block',
               'overflow-y': 'auto',
               'scrollbar-width': 'thin'
@@ -243,27 +243,27 @@
             <ng-template pTemplate="header">
               <tr class="text-sm sticky">
                 <th
-                  class="p-1.5 sticky w-[16rem] border-2 border-solid border-black"
+                  class="p-[0.2rem] sticky w-[16rem] border-2 border-solid border-black"
                 >
                   Item Name
                 </th>
                 <th
-                  class="p-1.5 w-[4.5rem] text-center border-2 border-solid border-black"
+                  class="p-[0.2rem] w-[4.5rem] text-center border-2 border-solid border-black"
                 >
                   Qty
                 </th>
                 <th
-                  class="p-1.5 w-[3.5rem] text-center border-2 border-solid border-black"
+                  class="p-[0.2rem] w-[3.5rem] text-center border-2 border-solid border-black"
                 >
                   Rate
                 </th>
                 <th
-                  class="p-1.5 w-[3.5rem] text-center border-2 border-solid border-black"
+                  class="p-[0.2rem] w-[3.5rem] text-center border-2 border-solid border-black"
                 >
                   Amount
                 </th>
                 <th
-                  class="p-1.5 w-[3.5rem] text-center border-2 border-solid border-black"
+                  class="p-[0.2rem] w-[3.5rem] text-center border-2 border-solid border-black"
                 >
                   Action
                 </th>
@@ -306,7 +306,31 @@
         <div
           class="mt-auto bg-white pb-0 pr-2 pl-2 pt-2 shadow-md border-t border-gray-300"
         >
-          <table class="w-full border-b border-t border-gray-500">
+          <!-- 3 BUTTONS GRID START -->
+          <div class="w-full flex justify-between items-center gap-x-2 mb-2">
+            <button
+              class="flex-1 h-[2.2rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+              (click)="newOrder()"
+            >
+              <i class="fa-solid fa-plus mr-1"></i>
+              New Order
+            </button>
+            <button
+              class="flex-1 h-[2.2rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+              (click)="placeOrder()"
+            >
+              <i class="fa-solid fa-clipboard-list mr-1"></i>
+              Place Order
+            </button>
+            <button
+              class="flex-1 h-[2.2rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            >
+              <i class="fa-solid fa-cash-register mr-1"></i>
+              Payment
+            </button>
+          </div>
+          <!-- 3 BUTTONS GRID END -->
+          <table class="w-full border-b border-t border-gray-500 text-sm">
             <tr>
               <th class="w-[80%]">Sub Total</th>
               <th class="w-[20%] text-right whitespace-nowrap overflow-hidden">
@@ -315,7 +339,7 @@
             </tr>
           </table>
 
-          <table class="w-full mt-[0.1rem]">
+          <table class="w-full mt-[0.1rem] text-sm">
             <tr>
               <th class="w-[80%]">Total &#64; 16&#37; ({{ cashTaxAmount }})</th>
               <th class="w-[20%] text-right whitespace-nowrap overflow-hidden">
@@ -331,44 +355,6 @@
           </table>
         </div>
         <!-- CALCULATIONS END -->
-        <!-- 3 BUTTONS GRID START -->
-        <div
-          class="w-full flex justify-between items-center h-3 gap-x-2 mt-[0.2rem]"
-        >
-          <button
-            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-            (click)="newOrder()"
-          >
-            <i class="fa-solid fa-plus mr-1"></i>
-            New Order
-          </button>
-          <button
-            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-            (click)="placeOrder()"
-          >
-            <i class="fa-solid fa-clipboard-list mr-1"></i>
-            Place Order
-          </button>
-          <button
-            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-          >
-            <i class="fa-solid fa-rectangle-list mr-1"></i>
-            Print KOT
-          </button>
-        </div>
-        <!-- 3 BUTTONS GRID END -->
-        <!-- PAYMENT BUTTON START -->
-        <div
-          class="w-full flex justify-between items-center h-3 gap-x-2 mt-[1rem] mb-[1rem]"
-        >
-          <button
-            class="flex-1 h-[2.5rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-          >
-            <i class="fa-solid fa-cash-register mr-1"></i>
-            Payment
-          </button>
-        </div>
-        <!-- PAYMENT BUTTON END -->
       </div>
       <!-- RIGHT CONTAINER END -->
     </div>

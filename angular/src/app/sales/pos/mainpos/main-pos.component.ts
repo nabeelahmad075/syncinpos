@@ -28,6 +28,8 @@ import { TablesCoversComponent } from "../tables-covers/tables-covers.component"
   styleUrl: "./main-pos.component.css",
 })
 export class MainPosComponent extends AppComponentBase implements OnInit {
+
+  isFullscreen = false; // Track fullscreen state
   locationId: number = 14;
   categoryId: number;
   softwareDate: Date = new Date();
@@ -401,5 +403,33 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
         this.cd.detectChanges();
       })
       .add(() => abp.ui.clearBusy());
+  }
+
+  toggleFullscreen() {
+    if (!this.isFullscreen) {
+      // Enter fullscreen
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      } else if ((document.documentElement as any).mozRequestFullScreen) { // Firefox
+        (document.documentElement as any).mozRequestFullScreen();
+      } else if ((document.documentElement as any).webkitRequestFullscreen) { // Chrome, Safari
+        (document.documentElement as any).webkitRequestFullscreen();
+      } else if ((document.documentElement as any).msRequestFullscreen) { // IE/Edge
+        (document.documentElement as any).msRequestFullscreen();
+      }
+      this.isFullscreen = true;
+    } else {
+      // Exit fullscreen
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).mozCancelFullScreen) {
+        (document as any).mozCancelFullScreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      } else if ((document as any).msExitFullscreen) {
+        (document as any).msExitFullscreen();
+      }
+      this.isFullscreen = false;
+    }
   }
 }

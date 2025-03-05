@@ -1,10 +1,10 @@
 <div [@routerTransition]>
   <abp-modal-header
-    [title]="'Tables & Covers' | localize"
+    [title]="'Tables & Guests' | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
-    <div class="flex flex-wrap gap-2 button-row mt-[0.6rem]" *ngFor="let table of tablesList">
+    <!-- <div class="flex flex-wrap gap-2 button-row mt-[0.6rem]" *ngFor="let table of tablesList">
         <div>
             {{ getFloorTitle(table.value) }}
           </div>
@@ -13,11 +13,42 @@
       >
         {{ table.label }}
       </button>
+    </div> -->
+    <div class="form-row form-group flex flex-wrap items-center gap-2 sm:gap-4">
+      <div class="w-full sm:w-auto">
+        <label
+          for="covers"
+          class="block sm:inline-block font-medium mb-0 ml-[0.8rem]"
+        >
+          {{ "Guests:" | localize }}
+        </label>
+      </div>
+      <div class="w-full sm:w-1/2">
+        <input
+          class="form-control block w-full !text-[0.8rem] !h-8 py-1.5 px-2 border rounded"
+          type="number"
+          name="covers"
+          id="covers"
+        />
+      </div>
     </div>
 
-    <div class="flex flex-wrap gap-2 button-row mt-[0.6rem]">
-      <label>Covers</label>
-      <input placeholder="Enter Covers" />
+    <div *ngFor="let floor of groupedTables | keyvalue" class="mb-4">
+      <!-- Floor Title -->
+      <div class="text-lg font-bold text-blue-700 mb-2">
+        {{ floor.key }}
+      </div>
+    
+      <!-- Tables under Floor -->
+      <div class="flex flex-wrap gap-2">
+        <button 
+          *ngFor="let table of floor.value"
+          class="button-container w-24 py-2 font-bold !capitalize rounded bg-gradient-to-r from-cyan-500 to-blue-500 text-white"
+          (click)="viewTablesCovers(table.value, table.other.coversId)"
+        >
+          {{ table.label }}
+        </button>
+      </div>
     </div>
   </div>
 </div>

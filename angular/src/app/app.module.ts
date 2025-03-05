@@ -20,6 +20,7 @@ import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ListboxModule } from 'primeng/listbox';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TooltipModule } from 'primeng/tooltip';
 // layout
 import { HeaderComponent } from './layout/header.component';
 import { HeaderLeftNavbarComponent } from './layout/header-left-navbar.component';
@@ -140,7 +141,8 @@ import { TablesCoversComponent } from './sales/pos/tables-covers/tables-covers.c
         SelectModule,
         DatePickerModule,
         ListboxModule,
-        SkeletonModule
+        SkeletonModule,
+        TooltipModule
     ],
     providers: []
 })

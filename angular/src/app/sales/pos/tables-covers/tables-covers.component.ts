@@ -2,7 +2,6 @@ import {
   Component,
   Injector,
   ChangeDetectorRef,
-  ViewChild,
   OnInit,
   EventEmitter,
   Output,
@@ -10,21 +9,13 @@ import {
 import { AppComponentBase } from "@shared/app-component-base";
 import {
   SelectItemDto,
-  TableEntityDto,
   TableEntityServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import { BsModalRef } from "ngx-bootstrap/modal";
-import { LazyLoadEvent } from "primeng/api";
-import { PrimengTableHelper } from "@shared/helpers/primengTableHelper";
-import { Table } from "primeng/table";
-import { Paginator } from "primeng/paginator";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
-import moment from "moment";
 
 @Component({
   selector: "app-tables-covers",
-  // standalone: true,
-  // imports: [],
   templateUrl: "./tables-covers.component.html",
   styleUrl: "./tables-covers.component.css",
   animations: [appModuleAnimation()],
@@ -32,6 +23,7 @@ import moment from "moment";
 export class TablesCoversComponent extends AppComponentBase implements OnInit {
   
   locationId: number;
+  groupedTables: { [key: string]: SelectItemDto[] } = {}; // Grouped tables
 
   @Output() tableId = new EventEmitter<number>();
   @Output() covers = new EventEmitter<number>();
@@ -49,7 +41,6 @@ export class TablesCoversComponent extends AppComponentBase implements OnInit {
 
   ngOnInit(): void {
     this.getTables();
-    this.cdr.detectChanges();
   }
 
   getTables(floorId: number = undefined) {
@@ -58,14 +49,21 @@ export class TablesCoversComponent extends AppComponentBase implements OnInit {
       .getTableDropdown(this.locationId, floorId)
       .subscribe((result) => {
         this.tablesList = result;
+        this.groupTablesByFloor(); // Group tables after fetching
         this.cdr.detectChanges();
       })
       .add(() => abp.ui.clearBusy());
   }
 
-  getFloorTitle (tableId: number): string {
-    let floorTitle = this.tablesList.find((element) => element.value === tableId).other.floorTitle;
-    return floorTitle;
+  groupTablesByFloor() {
+    this.groupedTables = this.tablesList.reduce((acc, table) => {
+      const floorTitle = table.other.floorTitle;
+      if (!acc[floorTitle]) {
+        acc[floorTitle] = [];
+      }
+      acc[floorTitle].push(table);
+      return acc;
+    }, {} as { [key: string]: SelectItemDto[] });
   }
 
   viewTablesCovers(tableId: number, coversId: number) {

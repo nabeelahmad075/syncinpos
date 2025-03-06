@@ -168,11 +168,11 @@
               getOrderTakersDropdown(dineInServiceType);
               showTablesCoversDialog()
             "
-            class="flex-1 h-[2.2rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            class="flex-1 h-[2.2rem] justify-center font-bold py-2 px-4 rounded inline-flex items-center"
             [ngClass]="{
               '!bg-gradient-to-r from-cyan-400 to-blue-500 text-white':
                 tblPosMaster.serviceTypeId === dineInServiceType,
-              'bg-gradient-to-r from-purple-500 to-purple-900 !text-white':
+              'border-2 border-[#008000] !text-[#008000]':
                 tblPosMaster.serviceTypeId !== dineInServiceType
             }"
           >
@@ -181,11 +181,11 @@
           </button>
           <button
             (click)="getOrderTakersDropdown(takeAwayServiceType)"
-            class="flex-1 h-[2.2rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            class="flex-1 h-[2.2rem] justify-center font-bold py-2 px-4 rounded inline-flex items-center"
             [ngClass]="{
               '!bg-gradient-to-r from-cyan-400 to-blue-500 text-white':
                 tblPosMaster.serviceTypeId === takeAwayServiceType,
-              'bg-gradient-to-r from-purple-500 to-purple-900 !text-white hover:bg-gray-400':
+              'border-2 border-[#008000] !text-[#008000]':
                 tblPosMaster.serviceTypeId !== takeAwayServiceType
             }"
           >
@@ -194,11 +194,11 @@
           </button>
           <button
             (click)="getOrderTakersDropdown(deliveryManServiceType)"
-            class="flex-1 h-[2.2rem] justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            class="flex-1 h-[2.2rem] justify-center font-bold py-2 px-4 rounded inline-flex items-center"
             [ngClass]="{
               '!bg-gradient-to-r from-cyan-400 to-blue-500 text-white':
                 tblPosMaster.serviceTypeId === deliveryManServiceType,
-              'bg-gradient-to-r from-purple-500 to-purple-900 !text-white hover:bg-gray-400':
+              'border-2 border-[#008000] !text-[#008000]':
                 tblPosMaster.serviceTypeId !== deliveryManServiceType
             }"
           >

@@ -220,8 +220,10 @@
             class="flex-1 h-[2rem] border-2 border-gray-200 rounded shadow-none mt-0 leading-[0.5]"
           >
           </p-select>
-          <span class="w-32">Table: {{tblPosMaster.tableName}}</span>
-          <span class="w-32">Guests: {{tblPosMaster.coverTable}}</span>
+          <span *ngIf="tblPosMaster.serviceTypeId === dineInServiceType" class="w-32">Table: {{tblPosMaster.tableName}}</span>
+          <span *ngIf="tblPosMaster.serviceTypeId === dineInServiceType" class="w-32">Guests: {{tblPosMaster.coverTable}}</span>
+          <span *ngIf="tblPosMaster.serviceTypeId === takeAwayServiceType" class="w-[60%]">Takeaway Channel:</span>
+          <span *ngIf="tblPosMaster.serviceTypeId === deliveryManServiceType" class="w-[60%]">Delivery Channel:</span>
         </div>
         <!-- ORDER TAKER & KOT NUMBER TEXTBOX END -->
         <!-- ORDER GRID START -->

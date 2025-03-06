@@ -29,6 +29,7 @@
           type="number"
           name="covers"
           id="covers"
+          [(ngModel)]="numberOfGuests"
         />
       </div>
     </div>
@@ -44,7 +45,13 @@
         <button 
           *ngFor="let table of floor.value"
           class="button-container w-24 py-2 font-bold !capitalize rounded bg-gradient-to-r from-cyan-500 to-blue-500 text-white"
-          (click)="viewTablesCovers(table.value, table.other.coversId)"
+          (click)="viewTablesCovers(table.value)"
+          [ngClass]="{
+            '!bg-gradient-to-r from-cyan-400 to-blue-500 text-white':
+              table.value=== tableIdd,
+            'bg-gradient-to-r from-purple-500 to-purple-900 !text-white hover:bg-gray-400':
+              table.value !== tableIdd
+          }"
         >
           {{ table.label }}
         </button>

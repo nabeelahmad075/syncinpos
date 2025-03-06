@@ -21,6 +21,8 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { ListboxModule } from 'primeng/listbox';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TooltipModule } from 'primeng/tooltip';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { StepsModule } from 'primeng/steps';
 // layout
 import { HeaderComponent } from './layout/header.component';
 import { HeaderLeftNavbarComponent } from './layout/header-left-navbar.component';
@@ -142,7 +144,9 @@ import { TablesCoversComponent } from './sales/pos/tables-covers/tables-covers.c
         DatePickerModule,
         ListboxModule,
         SkeletonModule,
-        TooltipModule
+        TooltipModule,
+        FloatLabelModule,
+        StepsModule
     ],
     providers: []
 })

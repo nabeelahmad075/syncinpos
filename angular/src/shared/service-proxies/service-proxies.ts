@@ -7767,6 +7767,7 @@ export class POSServiceProxy {
      * @param netAmount (optional) 
      * @param paymentIn (optional) 
      * @param balance (optional) 
+     * @param tableName (optional) 
      * @param pOSDetails (optional) 
      * @param isDeleted (optional) 
      * @param deleterUserId (optional) 
@@ -7778,7 +7779,7 @@ export class POSServiceProxy {
      * @param id (optional) 
      * @return OK
      */
-    deleteRemovedDetails(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isInvoiced: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<void> {
+    deleteRemovedDetails(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isInvoiced: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, tableName: string | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/POS/DeleteRemovedDetails?";
         if (tenantId === null)
             throw new Error("The parameter 'tenantId' cannot be null.");
@@ -7888,6 +7889,10 @@ export class POSServiceProxy {
             throw new Error("The parameter 'balance' cannot be null.");
         else if (balance !== undefined)
             url_ += "Balance=" + encodeURIComponent("" + balance) + "&";
+        if (tableName === null)
+            throw new Error("The parameter 'tableName' cannot be null.");
+        else if (tableName !== undefined)
+            url_ += "TableName=" + encodeURIComponent("" + tableName) + "&";
         if (pOSDetails === null)
             throw new Error("The parameter 'pOSDetails' cannot be null.");
         else if (pOSDetails !== undefined)
@@ -7999,6 +8004,7 @@ export class POSServiceProxy {
      * @param netAmount (optional) 
      * @param paymentIn (optional) 
      * @param balance (optional) 
+     * @param tableName (optional) 
      * @param pOSDetails (optional) 
      * @param isDeleted (optional) 
      * @param deleterUserId (optional) 
@@ -8010,7 +8016,7 @@ export class POSServiceProxy {
      * @param id (optional) 
      * @return OK
      */
-    getNewInvoiceNo(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isInvoiced: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<number> {
+    getNewInvoiceNo(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isInvoiced: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, tableName: string | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/POS/GetNewInvoiceNo?";
         if (tenantId === null)
             throw new Error("The parameter 'tenantId' cannot be null.");
@@ -8120,6 +8126,10 @@ export class POSServiceProxy {
             throw new Error("The parameter 'balance' cannot be null.");
         else if (balance !== undefined)
             url_ += "Balance=" + encodeURIComponent("" + balance) + "&";
+        if (tableName === null)
+            throw new Error("The parameter 'tableName' cannot be null.");
+        else if (tableName !== undefined)
+            url_ += "TableName=" + encodeURIComponent("" + tableName) + "&";
         if (pOSDetails === null)
             throw new Error("The parameter 'pOSDetails' cannot be null.");
         else if (pOSDetails !== undefined)
@@ -8236,6 +8246,7 @@ export class POSServiceProxy {
      * @param netAmount (optional) 
      * @param paymentIn (optional) 
      * @param balance (optional) 
+     * @param tableName (optional) 
      * @param pOSDetails (optional) 
      * @param isDeleted (optional) 
      * @param deleterUserId (optional) 
@@ -8247,7 +8258,7 @@ export class POSServiceProxy {
      * @param id (optional) 
      * @return OK
      */
-    getNewOrderNo(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isInvoiced: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<number> {
+    getNewOrderNo(tenantId: number | undefined, invoiceNo: number | undefined, orderNo: number | undefined, invoiceDate: moment.Moment | undefined, locationId: number | undefined, customerId: number | undefined, employeeId: number | undefined, isInvoiced: boolean | undefined, printDate: moment.Moment | undefined, serviceTypeId: number | undefined, paymentMode: number | undefined, coverTable: number | undefined, tableId: number | undefined, deliveryChargesPer: number | undefined, deliveryCharges: number | undefined, serviceChargesPer: number | undefined, serviceCharges: number | undefined, bankChargesPer: number | undefined, bankCharges: number | undefined, salesTaxPer: number | undefined, salesTaxAmount: number | undefined, discountPer: number | undefined, discountAmount: number | undefined, grossAmount: number | undefined, netAmount: number | undefined, paymentIn: number | undefined, balance: number | undefined, tableName: string | undefined, pOSDetails: POSDetailDto[] | undefined, isDeleted: boolean | undefined, deleterUserId: number | undefined, deletionTime: moment.Moment | undefined, lastModificationTime: moment.Moment | undefined, lastModifierUserId: number | undefined, creationTime: moment.Moment | undefined, creatorUserId: number | undefined, id: number | undefined): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/POS/GetNewOrderNo?";
         if (tenantId === null)
             throw new Error("The parameter 'tenantId' cannot be null.");
@@ -8357,6 +8368,10 @@ export class POSServiceProxy {
             throw new Error("The parameter 'balance' cannot be null.");
         else if (balance !== undefined)
             url_ += "Balance=" + encodeURIComponent("" + balance) + "&";
+        if (tableName === null)
+            throw new Error("The parameter 'tableName' cannot be null.");
+        else if (tableName !== undefined)
+            url_ += "TableName=" + encodeURIComponent("" + tableName) + "&";
         if (pOSDetails === null)
             throw new Error("The parameter 'pOSDetails' cannot be null.");
         else if (pOSDetails !== undefined)
@@ -18724,6 +18739,7 @@ export class POSMasterDto implements IPOSMasterDto {
     netAmount: number;
     paymentIn: number;
     balance: number;
+    tableName: string | undefined;
     posDetails: POSDetailDto[] | undefined;
 
     constructor(data?: IPOSMasterDto) {
@@ -18772,6 +18788,7 @@ export class POSMasterDto implements IPOSMasterDto {
             this.netAmount = _data["netAmount"];
             this.paymentIn = _data["paymentIn"];
             this.balance = _data["balance"];
+            this.tableName = _data["tableName"];
             if (Array.isArray(_data["posDetails"])) {
                 this.posDetails = [] as any;
                 for (let item of _data["posDetails"])
@@ -18824,6 +18841,7 @@ export class POSMasterDto implements IPOSMasterDto {
         data["netAmount"] = this.netAmount;
         data["paymentIn"] = this.paymentIn;
         data["balance"] = this.balance;
+        data["tableName"] = this.tableName;
         if (Array.isArray(this.posDetails)) {
             data["posDetails"] = [];
             for (let item of this.posDetails)
@@ -18876,6 +18894,7 @@ export interface IPOSMasterDto {
     netAmount: number;
     paymentIn: number;
     balance: number;
+    tableName: string | undefined;
     posDetails: POSDetailDto[] | undefined;
 }
 

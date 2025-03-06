@@ -10,6 +10,7 @@ import {
   POSMasterDto,
   POSServiceProxy,
   SelectItemDto,
+  TableEntityServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import { SelectItem } from "@node_modules/primeng/api";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
@@ -28,7 +29,6 @@ import { TablesCoversComponent } from "../tables-covers/tables-covers.component"
   styleUrl: "./main-pos.component.css",
 })
 export class MainPosComponent extends AppComponentBase implements OnInit {
-
   isFullscreen = false; // Track fullscreen state
   locationId: number = 14;
   categoryId: number;
@@ -44,21 +44,24 @@ export class MainPosComponent extends AppComponentBase implements OnInit {
   cashTaxAmount: number = 0;
   cardAmount: number = 0;
   cardTaxAmount: number = 0;
+  tableName: string;
 
   private subscription!: Subscription;
 
   tblCategory: SelectItemDto[] = [];
   tblItems: SelectItemDto[] = [];
   tblAllItems: SelectItemDto[] = [];
+  tablesList: SelectItemDto[] = [];
   tblEmployee: SelectItem[] = [];
   tblPosMaster: POSMasterDto = new POSMasterDto();
-pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
+  pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
 
   constructor(
     injector: Injector,
     private _categoryService: ItemCategoryServiceProxy,
     private _itemService: ItemServiceProxy,
     private _orderTakerService: EmployeeServiceProxy,
+    private _tableService: TableEntityServiceProxy,
     private _posService: POSServiceProxy,
     private _modalService: BsModalService,
 
@@ -81,14 +84,10 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
         this.cd.detectChanges();
       });
   }
-  
+
   getAllItems() {
-    
     this._itemService
-      .getItemDropdown(
-        this.locationId,
-        moment(this.softwareDate)
-      )
+      .getItemDropdown(this.locationId, moment(this.softwareDate))
       .subscribe((result) => {
         this.tblAllItems = result;
         this.selectedItem = undefined;
@@ -97,7 +96,6 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
   }
 
   getItemsByCategory() {
-
     this._itemService
       .getCategoryWiseItemsList(
         this.categoryId,
@@ -111,7 +109,7 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
       });
   }
 
-  onItemClick(itemId: number) {    
+  onItemClick(itemId: number) {
     this.selectedItem = itemId;
     this.cd.detectChanges();
     if (!this.tblPosMaster.posDetails) {
@@ -191,8 +189,8 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
     this.tblPosMaster.printDate = moment(new Date());
     this.tblPosMaster.serviceTypeId = this.dineInServiceType;
     this.tblPosMaster.paymentMode = 0;
-    this.tblPosMaster.coverTable = 4;
-    this.tblPosMaster.tableId = 1;
+    this.tblPosMaster.coverTable = 0;
+    this.tblPosMaster.tableId = undefined;
     this.tblPosMaster.deliveryCharges = 0;
     this.tblPosMaster.deliveryChargesPer = 0;
     this.tblPosMaster.serviceCharges = 0;
@@ -207,6 +205,7 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
     this.tblPosMaster.netAmount = 0;
     this.tblPosMaster.paymentIn = 0;
     this.tblPosMaster.balance = 0;
+    this.tblPosMaster.tableName = "";
     this.tblPosMaster.posDetails = [];
     this.getOrderTakersDropdown(this.tblPosMaster.serviceTypeId);
     this.getCategories();
@@ -214,6 +213,7 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
     this.tblItems = [];
     this.taxCalculation();
     this.getPendingOrdersCount();
+    this.getTables();
     this.cd.detectChanges();
   }
 
@@ -338,10 +338,8 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
       },
     });
 
-    
     this.subscription = itemSearchDialog.content?.itemSelected.subscribe(
       (itemId: number) => {
-        console.log(itemId);
         // this.getAllItems();
         this.onItemClick(itemId); // Navigate to order details
       }
@@ -355,18 +353,6 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
     });
   }
 
-  // Define your options here
-  options: any[] = [
-    { label: 'Cash', value: '1' },
-    { label: 'Credit Card', value: '2' },
-    { label: 'Credit', value: '3' },
-    { label: 'Bank Transfer', value: '4' }
-  ];
-
-  // Selected value
-  mopOption: any;
-
-  
   showTablesCoversDialog(): void {
     let tableCoverDialog: BsModalRef;
     tableCoverDialog = this._modalService.show(TablesCoversComponent, {
@@ -375,13 +361,19 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
       ignoreBackdropClick: true,
       initialState: {
         locationId: this.locationId,
+        tableIdd: this.tblPosMaster.tableId,
+        numberOfGuests: this.tblPosMaster.coverTable,
       },
     });
 
     this.subscription = tableCoverDialog.content?.tableCoverSelected.subscribe(
-      (tableId: number, covers: number) => {
+      ({ tableId, covers }: { tableId: number; covers: number }) => {
         this.tblPosMaster.tableId = tableId;
         this.tblPosMaster.coverTable = covers;
+        let tableName = this.tablesList.find(
+          (t) => (t.value === this.tblPosMaster.tableId)
+        ).label;
+        this.tblPosMaster.tableName = tableName;
         this.cd.detectChanges();
       }
     );
@@ -392,6 +384,15 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
         this.subscription.unsubscribe();
       }
     });
+  }
+
+  getTables() {
+    this._tableService
+      .getTableDropdown(this.locationId, undefined)
+      .subscribe((result) => {
+        this.tablesList = result;
+        this.cd.detectChanges();
+      });
   }
 
   getPendingOrdersCount() {
@@ -410,11 +411,14 @@ pendingOrdersCount: PendingOrdersCountDto = new PendingOrdersCountDto();
       // Enter fullscreen
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
-      } else if ((document.documentElement as any).mozRequestFullScreen) { // Firefox
+      } else if ((document.documentElement as any).mozRequestFullScreen) {
+        // Firefox
         (document.documentElement as any).mozRequestFullScreen();
-      } else if ((document.documentElement as any).webkitRequestFullscreen) { // Chrome, Safari
+      } else if ((document.documentElement as any).webkitRequestFullscreen) {
+        // Chrome, Safari
         (document.documentElement as any).webkitRequestFullscreen();
-      } else if ((document.documentElement as any).msRequestFullscreen) { // IE/Edge
+      } else if ((document.documentElement as any).msRequestFullscreen) {
+        // IE/Edge
         (document.documentElement as any).msRequestFullscreen();
       }
       this.isFullscreen = true;

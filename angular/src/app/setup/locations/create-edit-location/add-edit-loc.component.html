@@ -36,7 +36,9 @@
                 required
                 placeholder="Select Region"
                 [options]="tblRegions"
-                [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
+                [styleClass]="
+                  'text-sm h-10 border border-gray-300 rounded focus:outline-none'
+                "
                 [(ngModel)]="tblLocation.regionId"
                 [filter]="true"
               >
@@ -53,7 +55,9 @@
                 required
                 placeholder="Location Type"
                 [options]="tblLocationType"
-                [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
+                [styleClass]="
+                  'text-sm h-10 border border-gray-300 rounded focus:outline-none'
+                "
                 [(ngModel)]="tblLocation.locationTypeId"
               >
               </p-select>
@@ -78,20 +82,22 @@
             />
           </div>
           <div class="form-group col-md-8 required">
-            <label for="locationName">
-              {{ "Location Name" | localize }}
-            </label>
-            <input
-              style="margin-top: -8px"
-              type="text"
-              class="form-control"
-              name="locationName"
-              id="locationName"
-              required
-              minlength="2"
-              maxlength="500"
-              [(ngModel)]="tblLocation.locationName"
-            />
+            <p-floatlabel variant="on">
+              <input
+                style="margin-top: 19px"
+                type="text"
+                class="form-control"
+                name="locationName"
+                id="locationName"
+                required
+                minlength="2"
+                maxlength="500"
+                [(ngModel)]="tblLocation.locationName"
+              />
+              <label for="locationName">
+                {{ "Location Name" | localize }}
+              </label>
+            </p-floatlabel>
           </div>
         </div>
         <div class="form-row">
@@ -232,7 +238,9 @@
               <p-select
                 name="cashControlAccount"
                 placeholder="Select Cash Control Account"
-                [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
+                [styleClass]="
+                  'text-sm h-10 border border-gray-300 rounded focus:outline-none'
+                "
                 [options]="tblTaxDetailAccounts"
                 [(ngModel)]="tblLocation.cashTaxDetailAccountId"
               >
@@ -264,7 +272,9 @@
               <p-select
                 name="creditCardControl"
                 placeholder="Select CC Control Account"
-                [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
+                [styleClass]="
+                  'text-sm h-10 border border-gray-300 rounded focus:outline-none'
+                "
                 [options]="tblTaxDetailAccounts"
                 [(ngModel)]="tblLocation.creditCardTaxDetailAccountId"
               >
@@ -296,7 +306,9 @@
               <p-select
                 name="creditControl"
                 placeholder="Select Credit Control Account"
-                [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
+                [styleClass]="
+                  'text-sm h-10 border border-gray-300 rounded focus:outline-none'
+                "
                 [options]="tblTaxDetailAccounts"
                 [(ngModel)]="tblLocation.creditTaxDetailAccountId"
               >
@@ -328,7 +340,9 @@
               <p-select
                 name="bankControl"
                 placeholder="Select Bank Control Account"
-                [styleClass]="'text-sm h-10 border border-gray-300 rounded focus:outline-none'"
+                [styleClass]="
+                  'text-sm h-10 border border-gray-300 rounded focus:outline-none'
+                "
                 [options]="tblTaxDetailAccounts"
                 [(ngModel)]="tblLocation.bankTaxDetailAccountId"
               >
@@ -631,7 +645,7 @@
             </label>
             <div class="">
               <textarea
-                style="margin-top: -8px; height: 255px;"
+                style="margin-top: -8px; height: 255px"
                 type="text"
                 class="form-control"
                 name="slipNotes"

@@ -23,10 +23,11 @@ import { appModuleAnimation } from "@shared/animations/routerTransition";
 export class TablesCoversComponent extends AppComponentBase implements OnInit {
   
   locationId: number;
+  tableIdd: number;
   groupedTables: { [key: string]: SelectItemDto[] } = {}; // Grouped tables
+  numberOfGuests: number;
 
-  @Output() tableId = new EventEmitter<number>();
-  @Output() covers = new EventEmitter<number>();
+  @Output() tableCoverSelected = new EventEmitter<{ tableId: number; covers: number }>();
 
   tablesList: SelectItemDto[] = [];
 
@@ -43,10 +44,10 @@ export class TablesCoversComponent extends AppComponentBase implements OnInit {
     this.getTables();
   }
 
-  getTables(floorId: number = undefined) {
+  getTables() {
     abp.ui.setBusy();
     this._tableService
-      .getTableDropdown(this.locationId, floorId)
+      .getTableDropdown(this.locationId, undefined)
       .subscribe((result) => {
         this.tablesList = result;
         this.groupTablesByFloor(); // Group tables after fetching
@@ -66,8 +67,13 @@ export class TablesCoversComponent extends AppComponentBase implements OnInit {
     }, {} as { [key: string]: SelectItemDto[] });
   }
 
-  viewTablesCovers(tableId: number, coversId: number) {
-    this.tableId.emit(tableId);
-    this.covers.emit(coversId);
+  viewTablesCovers(tableId: number) {
+    if (!this.numberOfGuests) {
+      this.notify.warn("Please! Enter Number Of Guests");
+      return;
+    }
+    this.tableIdd = tableId;
+    this.tableCoverSelected.emit({ tableId, covers: this.numberOfGuests });
+    this.bsModalRef.hide();
   }
 }

@@ -138,7 +138,7 @@ namespace syncinpos.Entities.Sales.POS
                                               Id = a.Id,
                                               InvoiceNo = a.InvoiceNo,
                                               KOTNo = a.OrderNo,
-                                              Table = a.TableId.ToString(),
+                                              Table = a.Table.Title.ToString(),
                                               Customer = a.Customer.Name,
                                               ReservedTime = a.InvoiceDate,
                                               Amount = a.NetAmount

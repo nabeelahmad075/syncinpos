@@ -4,6 +4,7 @@ using Abp.Organizations;
 using syncinpos.Entities.HR.Employees;
 using syncinpos.Entities.Locations;
 using syncinpos.Entities.Sales.Customers;
+using syncinpos.Entities.Setups.Tables;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,6 +31,7 @@ namespace syncinpos.Entities.Sales.POS
         public int ServiceTypeId { get; set; }
         public int? PaymentMode { get; set; }
         public int? CoverTable { get; set; }
+        public TableEntity Table { get; set; }
         public int? TableId { get; set; }
         [Column(TypeName = "decimal(10,4)")]
         public decimal DeliveryChargesPer { get; set; }

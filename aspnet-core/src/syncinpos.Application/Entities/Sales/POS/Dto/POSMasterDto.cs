@@ -42,6 +42,8 @@ namespace syncinpos.Entities.Sales.POS.Dto
         public decimal NetAmount { get; set; }
         public decimal PaymentIn { get; set; }
         public decimal Balance { get; set; }
+        [NotMapped]
+        public string TableName { get; set; }
         public ICollection<POSDetailDto> POSDetails { get; set; } = [];
     }
 }

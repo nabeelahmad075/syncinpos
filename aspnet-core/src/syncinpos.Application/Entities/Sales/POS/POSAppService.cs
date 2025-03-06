@@ -97,6 +97,7 @@ namespace syncinpos.Entities.Sales.POS
                                               PaymentMode = a.PaymentMode,
                                               CoverTable = a.CoverTable,
                                               TableId = a.TableId,
+                                              TableName = a.Table.Title,
                                               DeliveryChargesPer = a.DeliveryChargesPer,
                                               DeliveryCharges = a.DeliveryCharges,
                                               ServiceChargesPer = a.ServiceChargesPer,
